@@ -157,7 +157,7 @@
                 return (data) => {
                     const { countries } = data;
                     html.selectCountry.innerHTML = '';
-                    const opts = createHtmlOptions(countries)
+                    const opts = createHtmlOptions(countries, defaultCountry)
                         .forEach((node) => {
                             html.selectCountry.appendChild(node)
                         });
@@ -170,7 +170,7 @@
                 const selectData = window.document.createElement('select');
                 selectData.multiple = true;
                 selectData.className = 'select-data';
-                createHtmlOptions(['Confirmed Cases', 'Deaths', 'Recoveries'])
+                createHtmlOptions(['Confirmed Cases', 'Deaths', 'Recoveries'], defaultDataset)
                     .forEach((node) => {
                         selectData.appendChild(node);
                     });
@@ -186,7 +186,7 @@
                 return chart;
             }
 
-            function createHtmlOptions(arr, selected = defaultDataset) {
+            function createHtmlOptions(arr, selected) {
                 return arr.map((el, i) => {
                     const opt = window.document.createElement('option');
                     if (typeof el === 'object') {
