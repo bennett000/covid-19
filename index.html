@@ -373,6 +373,9 @@
 
             function drawCurve(series, html) {
                 JSC.Chart('chartDiv', {
+                    legend: {
+                        template: '%icon %name',
+                    },
                     series, 
                 });
             }
