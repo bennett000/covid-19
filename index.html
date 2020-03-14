@@ -18,17 +18,35 @@
                 border-color: black;
                 border-style: solid;
             }
-            .select-data {
+            .controls {
+                display: flex;
+                justify-content: center;
+                align-content: space-evenly;
+            }
+            .green {
+                background-color: #22CC77;
+            }
+            .small-text {
+                font-size: 0.85em;
+            }
+            .select-data, .select-country, input, button {
                 margin: 2px;
+                font-size: 1.3em;
+                border: 1px solid #aaa;
+                box-shadow: 0 1px 0 1px rgba(0,0,0,.04);
+                border-radius: .5em;
+                padding: .6em 1.4em .5em .8em;
+            }
+            .select-data, .select-country, input {
+                background-color: #fff;
             }
             .select-country {
-                margin: 2px;
-                height: 15em;
+                height: 11em;
             }
         </style>
     </head>
     <body>
-        <span>COVID-19
+        <span class="small-text">COVID-19
             <a href="https://github.com/CSSEGISandData/COVID-19" target="_blank" title="GitHub repository of source data maintained by John Hopkins University">John Hopkins University Source Data</a> 
             Explorer (<a href="https://github.com/bennett000/covid-19" target="_blank" title="Source code to this website">source code</a>)
         </span>
@@ -122,30 +140,35 @@
                 const container = window.document.createElement('div');
                 container.style = fullSize;
 
+                const controls = window.document.createElement('section');
+                controls.className = 'controls';
+                container.appendChild(controls);
+
                 const inputStart = window.document.createElement('input');
                 inputStart.type = 'date';
                 inputStart.value = defaultStart;
-                container.appendChild(inputStart);
+                controls.appendChild(inputStart);
 
-                const selectData = createSelectDataComponent(container);
+                const selectData = createSelectDataComponent(controls);
 
                 const selectCountry = window.document.createElement('select');
                 selectCountry.multiple = true;
                 selectCountry.className = 'select-country';
-                container.appendChild(selectCountry);
+                controls.appendChild(selectCountry);
 
                 const reloadData = window.document.createElement('button');
                 reloadData.innerHTML = 'Reload Data';
-                container.appendChild(reloadData);
+                reloadData.className = 'green';
+                controls.appendChild(reloadData);
 
-                const chart = createChartComponent(container, inputStart);
-
+                const chart = createChartComponent(container, controls);
 
                 window.document.body.appendChild(container);
 
                 return {
                     chart,
                     container,
+                    controls,
                     inputStart,
                     selectCountry,
                     selectData,
