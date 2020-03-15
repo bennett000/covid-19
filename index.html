@@ -125,10 +125,10 @@
 
             function selectData(state) {
                 startDate = new Date(state.startDate);
-                state.dataPromise.then(({ points }) => {
+                state.dataPromise.then(({ dataSets, points }) => {
                     const series = state.dataSetIndexes.reduce((s, dataSetIndex) => {
                         return points[dataSetIndex].reduce((si, country, i) => {
-                            const dp = selectDataPointByMode(state, country, i);
+                            const dp = selectDataPointByMode(state, country, i + 1, dataSets[0][i + 1]);
                             if (dp) {
                                 si.push(dp);
                             }
@@ -140,20 +140,19 @@
                 .catch(console.log.bind(console));
             }
 
-            function selectDataPointByMode(state, country, i) {
+            function selectDataPointByMode(state, country, i, confirmed) {
                 switch (state.mode) {
                     case 1:
-                        return selectDataPointByConfirmed(state, country, i, 1);
+                        return selectDataPointByConfirmed(state, country, i, confirmed, 1);
                     case 2:
-                        return selectDataPointByConfirmed(state, country, i, 100);
+                        return selectDataPointByConfirmed(state, country, i, confirmed, 100);
                     default: 
                         return selectDataPointByDate(state, country, i);
                 }
             }
 
             function selectDataPointByDate(state, country, i) {
-                if (state.countryIndexes.indexOf(i + 1) > -1) {
-                    console.log('by date');
+                if (state.countryIndexes.indexOf(i) > -1) {
                     return {
                         name: country.name,
                         points: country.points.map((p) => {
@@ -166,14 +165,16 @@
                 }
             }
 
-            function selectDataPointByConfirmed(state, country, i, min) {
-                if (state.countryIndexes.indexOf(i + 1) > -1) {
+            function selectDataPointByConfirmed(state, country, i, confirmed, min) {
+                if (state.countryIndexes.indexOf(i) > -1) {
                     let newX = 0;
                     return {
                         name: country.name,
-                        points: country.points.map((p) => {
+                        points: country.points.map((p, j) => {
                             if (p.x > startDate) {
-                                if (p.y >= min) {
+                                const y = confirmed[p.index];
+
+                                if (y >= min) {
                                     const x = newX;
                                     newX += 1;
                                     return {
@@ -470,6 +471,7 @@
                                     continue;
                                 }
                                 points.push({
+                                    index: j,
                                     x: new Date(dataSet[0][j]),
                                     y: row[j],
                                 });
@@ -485,9 +487,8 @@
             }
 
             function drawCurve(series, html, useDays) {
-                console.log('chart data', series);
                 JSC.Chart('chartDiv', {
-                    xAxis_label_text: useDays ? 'Days' : undefined,
+                    xAxis_label_text: useDays ? 'Day' : undefined,
                     xAxis: {
                         scaleType: 'time',
                         customTicks: [{
