@@ -6,13 +6,20 @@
   "author": "Michael J. Bennett <dev@michaeljbennett.info>",
   "license": "GPL-3.0",
   "private": false,
+  "dependencies": {
+    "preact": "^10.3.4",
+    "preact-router": "^3.2.1"
+  },
   "devDependencies": {
+    "@types/jest": "^25.1.4",
     "copy-webpack-plugin": "^5.1.1",
     "html-webpack-plugin": "^3.2.0",
     "husky": ">=4",
+    "jest": "^25.1.0",
     "lint-staged": ">=10",
     "prettier": "^1.19.1",
     "rimraf": "^3.0.2",
+    "ts-jest": "^25.2.1",
     "ts-loader": "^6.2.1",
     "typescript": "^3.8.2",
     "webpack": "^4.41.6",
@@ -25,11 +32,15 @@
     }
   },
   "lint-staged": {
-    "*.{js,css,md,ts}": "prettier --write --single-quote --trailing-comma es5"
+    "*.{js,css,md,ts,tsx}": "prettier --write --single-quote --trailing-comma es5"
   },
   "scripts": {
     "dev": "webpack-dev-server",
     "prebuild": "rimraf ../docs",
-    "build": "webpack"
+    "build": "webpack",
+    "test": "jest"
+  },
+  "jest": {
+    "preset": "ts-jest"
   }
 }

@@ -1,3 +1,5 @@
+import { render } from './app';
+
 declare const JSC: any;
 const fullSize = 'width: 100%; height: 400px;';
 const defaultDataset = 0;
@@ -13,6 +15,15 @@ const urls = [
 ];
 
 main();
+
+function main() {
+  const element = window.document.createElement('section');
+  if (!element) {
+    throw new Error('Could not bootstrap the application');
+  }
+  window.document.body.appendChild(element);
+  render(element);
+}
 
 function createState(html) {
   return {
@@ -56,7 +67,7 @@ function loadState(html) {
   return null;
 }
 
-function main() {
+function main1() {
   const html = createHtml();
   let state = loadState(html);
   if (!state) {

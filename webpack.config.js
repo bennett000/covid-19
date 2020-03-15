@@ -11,7 +11,7 @@ module.exports = {
   entry: './src/index.ts',
   output: {
     path: path.resolve(__dirname, TARGET),
-    filename: 'adventure-automator.js',
+    filename: 'covid-19-explorer.js',
   },
   mode: production ? 'production' : 'development',
   module: {
