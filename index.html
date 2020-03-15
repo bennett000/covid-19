@@ -55,11 +55,12 @@
             const fullSize = 'width: 100%; height: 400px;';
             const defaultDataset = 0;
             const defaultCountry = 1;
-            const defaultMode = 0;
+            const defaultMode = 2;
             const defaultStart = "2019-12-26";
             const modes = [
                 'By date',
                 'By first confirmed',
+                'By first 100 confirmed',
             ];
             const totalString = 'Total';
             const urls = [
@@ -134,7 +135,7 @@
                             return si;
                         }, s);
                     }, []);
-                    drawCurve(series, state.html);
+                    drawCurve(series, state.html, state.mode === 0 ? false : true);
                 })
                 .catch(console.log.bind(console));
             }
@@ -142,7 +143,9 @@
             function selectDataPointByMode(state, country, i) {
                 switch (state.mode) {
                     case 1:
-                        return selectDataPointByConfirmed(state, country, i);
+                        return selectDataPointByConfirmed(state, country, i, 1);
+                    case 2:
+                        return selectDataPointByConfirmed(state, country, i, 100);
                     default: 
                         return selectDataPointByDate(state, country, i);
                 }
@@ -163,14 +166,14 @@
                 }
             }
 
-            function selectDataPointByConfirmed(state, country, i) {
+            function selectDataPointByConfirmed(state, country, i, min) {
                 if (state.countryIndexes.indexOf(i + 1) > -1) {
                     let newX = 0;
                     return {
                         name: country.name,
                         points: country.points.map((p) => {
                             if (p.x > startDate) {
-                                if (p.y > 0) {
+                                if (p.y >= min) {
                                     const x = newX;
                                     newX += 1;
                                     return {
@@ -422,6 +425,9 @@
                     if (i === 0) {
                         return countryArr;
                     }
+                    if (row.length < 5) {
+                        return countryArr;
+                    }
                     if (row[0] === totalString) {
                         countryArr.push({ index: i, name: row[1] });
                         return countryArr;
@@ -478,9 +484,10 @@
                 return { countries, dataSets, points };
             }
 
-            function drawCurve(series, html) {
+            function drawCurve(series, html, useDays) {
                 console.log('chart data', series);
                 JSC.Chart('chartDiv', {
+                    xAxis_label_text: useDays ? 'Days' : undefined,
                     xAxis: {
                         scaleType: 'time',
                         customTicks: [{
