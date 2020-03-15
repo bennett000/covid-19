@@ -48,18 +48,20 @@
     <body>
         <span class="small-text">COVID-19
             <a href="https://github.com/CSSEGISandData/COVID-19" target="_blank" title="GitHub repository of source data maintained by John Hopkins University">John Hopkins University Source Data</a> 
-            Explorer (<a href="https://github.com/bennett000/covid-19" target="_blank" title="Source code to this website">source code</a>)
+            Explorer (<a href="https://github.com/bennett000/covid-19" target="_blank" title="Source code to this website">source code</a> |
+            <a href="https://github.com/bennett000/covid-19/issues" target="_blank" title="Provide feedback, suggest features, file issues, etc">feedback</a>)
         </span>
         <script src="https://code.jscharting.com/latest/jscharting.js"></script>
         <script>
             const fullSize = 'width: 100%; height: 400px;';
             const defaultDataset = 0;
             const defaultCountry = 1;
-            const defaultMode = 0;
+            const defaultMode = 2;
             const defaultStart = "2019-12-26";
             const modes = [
                 'By date',
                 'By first confirmed',
+                'By first 100 confirmed',
             ];
             const totalString = 'Total';
             const urls = [
@@ -124,33 +126,34 @@
 
             function selectData(state) {
                 startDate = new Date(state.startDate);
-                state.dataPromise.then(({ points }) => {
+                state.dataPromise.then(({ dataSets, points }) => {
                     const series = state.dataSetIndexes.reduce((s, dataSetIndex) => {
                         return points[dataSetIndex].reduce((si, country, i) => {
-                            const dp = selectDataPointByMode(state, country, i);
+                            const dp = selectDataPointByMode(state, country, i + 1, dataSets[0][i + 1]);
                             if (dp) {
                                 si.push(dp);
                             }
                             return si;
                         }, s);
                     }, []);
-                    drawCurve(series, state.html);
+                    drawCurve(series, state.html, state.mode === 0 ? false : true);
                 })
                 .catch(console.log.bind(console));
             }
 
-            function selectDataPointByMode(state, country, i) {
+            function selectDataPointByMode(state, country, i, confirmed) {
                 switch (state.mode) {
                     case 1:
-                        return selectDataPointByConfirmed(state, country, i);
+                        return selectDataPointByConfirmed(state, country, i, confirmed, 1);
+                    case 2:
+                        return selectDataPointByConfirmed(state, country, i, confirmed, 100);
                     default: 
                         return selectDataPointByDate(state, country, i);
                 }
             }
 
             function selectDataPointByDate(state, country, i) {
-                if (state.countryIndexes.indexOf(i + 1) > -1) {
-                    console.log('by date');
+                if (state.countryIndexes.indexOf(i) > -1) {
                     return {
                         name: country.name,
                         points: country.points.map((p) => {
@@ -163,14 +166,16 @@
                 }
             }
 
-            function selectDataPointByConfirmed(state, country, i) {
-                if (state.countryIndexes.indexOf(i + 1) > -1) {
+            function selectDataPointByConfirmed(state, country, i, confirmed, min) {
+                if (state.countryIndexes.indexOf(i) > -1) {
                     let newX = 0;
                     return {
                         name: country.name,
-                        points: country.points.map((p) => {
+                        points: country.points.map((p, j) => {
                             if (p.x > startDate) {
-                                if (p.y > 0) {
+                                const y = confirmed[p.index];
+
+                                if (y >= min) {
                                     const x = newX;
                                     newX += 1;
                                     return {
@@ -422,6 +427,9 @@
                     if (i === 0) {
                         return countryArr;
                     }
+                    if (row.length < 5) {
+                        return countryArr;
+                    }
                     if (row[0] === totalString) {
                         countryArr.push({ index: i, name: row[1] });
                         return countryArr;
@@ -464,6 +472,7 @@
                                     continue;
                                 }
                                 points.push({
+                                    index: j,
                                     x: new Date(dataSet[0][j]),
                                     y: row[j],
                                 });
@@ -478,9 +487,9 @@
                 return { countries, dataSets, points };
             }
 
-            function drawCurve(series, html) {
-                console.log('chart data', series);
+            function drawCurve(series, html, useDays) {
                 JSC.Chart('chartDiv', {
+                    xAxis_label_text: useDays ? 'Day' : undefined,
                     xAxis: {
                         scaleType: 'time',
                         customTicks: [{
