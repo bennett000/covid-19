@@ -396,6 +396,22 @@
 
             function drawCurve(series, html) {
                 JSC.Chart('chartDiv', {
+                    xAxis: {
+                        scaleType: 'time',
+                        customTicks: [{
+                            // A tick for every month.
+                            value: {
+                            month: "*"
+                            },
+                            label_text: "%min"
+                        },
+                        {
+                            // every month
+                            value: { week: "*" },
+                            label_text: '%min',
+                        },
+                        ]
+                    },
                     legend: {
                         template: '%icon %name',
                     },
