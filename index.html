@@ -55,7 +55,7 @@
         <script>
             const fullSize = 'width: 100%; height: 400px;';
             const defaultDataset = 0;
-            const defaultCountry = 1;
+            const defaultCountries = [1, 43, 119, 414, 426];
             const defaultMode = 2;
             const defaultStart = "2019-12-26";
             const modes = [
@@ -77,16 +77,48 @@
                     dataPromise: fetchData()
                         .then(setCountryOptions(html)),
                     dataSetIndexes: [defaultDataset],
-                    countryIndexes: [defaultCountry],
+                    countryIndexes: defaultCountries,
                     html,
                     mode: defaultMode,
                     startDate: defaultStart,
                 };
             }
+
+            function saveState(state) {
+                if (window.localStorage) {
+                    window.localStorage.setItem('state', JSON.stringify({
+                        ...state,
+                        dataPromise: undefined,
+                        html: undefined,
+                    }));
+                }
+            }
+
+            function loadState(html) {
+                if (window.localStorage) {
+                    const item = window.localStorage.getItem('state');
+                    if (item) {
+                        try {
+                            return {
+                                ...JSON.parse(item),
+                                dataPromise: fetchData()
+                                    .then(setCountryOptions(html)),
+                                html,
+                            };
+                        } catch(e) {
+                            // fail over
+                        }
+                    }
+                }
+                return null;
+            }
             
             function main() {
                 const html = createHtml();
-                const state = createState(html);
+                let state = loadState(html);
+                if (!state) {
+                    state = createState(html);
+                }
 
                 bindControls(state);
                 selectData(state);
@@ -96,26 +128,31 @@
                 state.html.reloadData.addEventListener('click', () => {
                     state.dataPromise = fetchData(setCountryOptions(state.html));
                     selectData(state);
+                    saveState(state);
                 });
 
                 const changeCountry = (e) => {
                     state.countryIndexes = selectedOptionsToArray(e.target.options);
                     selectData(state);
+                    saveState(state);
                 };
 
                 const changeData = (e) => {
                     state.dataSetIndexes = selectedOptionsToArray(e.target.options);
                     selectData(state);
+                    saveState(state);
                 };
 
                 const changeDate = (e) => {
                     state.startDate = e.target.value;
                     selectData(state);
+                    saveState(state);
                 };
 
                 const changeMode = (e) => {
                     state.mode = parseInt(e.target.value, 10);
                     selectData(state);
+                    saveState(state);
                 }
 
                 state.html.inputStart.addEventListener('change', changeDate);
@@ -250,7 +287,7 @@
                 return (data) => {
                     const { countries } = data;
                     html.selectCountry.innerHTML = '';
-                    const opts = createHtmlOptions(countries, defaultCountry)
+                    const opts = createHtmlOptions(countries, defaultCountries)
                         .forEach((node) => {
                             html.selectCountry.appendChild(node)
                         });
@@ -295,14 +332,26 @@
                     if (typeof el === 'object') {
                         opt.value = el.index;
                         opt.innerHTML = el.name;
-                        if (el.index === selected) {
-                            opt.selected = true;
+                        if (Array.isArray(selected)) {
+                            if (selected.indexOf(el.index) > -1) {
+                                opt.selected = true;
+                            }
+                        } else {
+                            if (el.index === selected) {
+                                opt.selected = true;
+                            }
                         }
                     } else {
                         opt.value = i;
                         opt.innerHTML = el;
-                        if (i === selected) {
-                            opt.selected = true;
+                        if (Array.isArray(selected)) {
+                            if (selected.indexOf(i) > -1) {
+                                opt.selected = true;
+                            }
+                        } else {
+                            if (i === selected) {
+                                opt.selected = true;
+                            }
                         }
                     }
                     return opt;
