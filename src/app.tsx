@@ -39,7 +39,8 @@ export class App extends Component<{}, AppState> {
   selectAndUpdate() {
     this.state.dataPromise
       .then(() => selectData(this.state))
-      .then(this.updateSelectState.bind(this));
+      .then(this.updateSelectState.bind(this))
+      .then(() => saveState(this.state));
   }
 
   lineGraphState(lgs: LineGraphState) {
@@ -48,7 +49,6 @@ export class App extends Component<{}, AppState> {
       lineGraphState: lgs,
     });
     this.selectAndUpdate();
-    saveState(this.state);
   }
 
   reload() {

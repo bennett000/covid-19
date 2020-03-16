@@ -1,5 +1,6 @@
 import { fetchData } from './data';
 import { AppState } from './interfaces';
+import { isNumber, isString } from '@ch1/utility';
 
 const defaultDataset = 0;
 const defaultCountries = [1, 43, 119, 414, 426];
@@ -37,8 +38,17 @@ export function loadState(): AppState | null {
     const item = window.localStorage.getItem('state');
     if (item) {
       try {
+        const parsed = JSON.parse(item);
+        if (!parsed) {
+          return null;
+        }
+        if (isSavedAppState(parsed) === false) {
+          console.log('reseting old state');
+          window.localStorage.setItem('state', '');
+          return null;
+        }
         return {
-          ...JSON.parse(item),
+          ...parsed,
           dataPromise: fetchData(),
         };
       } catch (e) {
@@ -47,4 +57,41 @@ export function loadState(): AppState | null {
     }
   }
   return null;
+}
+
+function isSavedAppState(thing: any): boolean {
+  if (!thing) {
+    return false;
+  }
+  if (Array.isArray(thing.countries) === false) {
+    return false;
+  }
+  if (Array.isArray(thing.currentSeries) === false) {
+    return false;
+  }
+  return isSavedLineGraphState(thing.lineGraphState);
+}
+
+function isSavedLineGraphState(thing: any): boolean {
+  if (!thing) {
+    return false;
+  }
+
+  if (Array.isArray(thing.dataSetIndexes) === false) {
+    return false;
+  }
+
+  if (Array.isArray(thing.countryIndexes) === false) {
+    return false;
+  }
+
+  if (isNumber(thing.mode) === false) {
+    return false;
+  }
+
+  if (isString(thing.startDate) === false) {
+    return false;
+  }
+
+  return true;
 }
