@@ -13,6 +13,7 @@ import { Button } from '../components/button';
 
 const dataSets = ['Active', 'Confirmed', 'Deaths', 'Recoveries'];
 const modes = ['By date', 'By first confirmed', 'By first 100 confirmed'];
+const scaleTypes = ['Linear', 'Logarithmic'];
 export class LineGraph extends Component<{
   countries: SelectOptionsWithIndex[];
   currentSeries: ChartSeries[];
@@ -48,16 +49,43 @@ export class LineGraph extends Component<{
     });
   }
 
+  selectScaleType(scaleType: number) {
+    this.props.onChange({
+      ...this.props.state,
+      scaleType,
+    });
+  }
+
+  useDays() {
+    if (this.props.state.mode !== 0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   render() {
     return (
       <section className={`${fullSize} ${flexCol}`}>
-        <Chart flexSize={flexItem60} series={this.props.currentSeries}></Chart>
+        <Chart
+          flexSize={flexItem60}
+          series={this.props.currentSeries}
+          scaleType={this.props.state.scaleType}
+          useDays={this.useDays()}
+        ></Chart>
         <section className={`${flex} ${flexItem20}`}>
-          <Select
-            onChange={this.selectMode.bind(this)}
-            options={modes}
-            selected={this.props.state.mode}
-          />
+          <section className={flexCol}>
+            <Select
+              onChange={this.selectMode.bind(this)}
+              options={modes}
+              selected={this.props.state.mode}
+            />
+            <Select
+              onChange={this.selectScaleType.bind(this)}
+              options={scaleTypes}
+              selected={this.props.state.scaleType}
+            />
+          </section>
           <InputDate
             onChange={this.selectDate.bind(this)}
             ymdString={this.props.state.startDate}

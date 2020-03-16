@@ -5,7 +5,12 @@ import { Component, h } from 'preact';
 import { ChartSeries } from '../interfaces';
 
 export class Chart extends Component<
-  { flexSize: string; series: ChartSeries[]; useDays?: boolean },
+  {
+    flexSize: string;
+    series: ChartSeries[];
+    scaleType: number;
+    useDays: boolean;
+  },
   { chartDiv: HTMLDivElement }
 > {
   constructor() {
@@ -26,7 +31,9 @@ export class Chart extends Component<
     JSC.Chart('chartDiv', {
       xAxis_label_text: this.props.useDays ? 'Day' : undefined,
       xAxis: {
-        scaleType: 'time',
+        scale: {
+          type: this.props.useDays ? 'auto' : 'time',
+        },
         customTicks: [
           {
             // A tick for every month.
@@ -41,6 +48,11 @@ export class Chart extends Component<
             label_text: '%min',
           },
         ],
+      },
+      yAxis: {
+        scale: {
+          type: this.props.scaleType === 0 ? 'auto' : 'logarithmic',
+        },
       },
       legend: {
         template: '%icon %name',

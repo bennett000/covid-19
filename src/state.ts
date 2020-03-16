@@ -16,6 +16,7 @@ export function createState(): AppState {
       dataSetIndexes: [defaultDataset],
       countryIndexes: defaultCountries,
       mode: defaultMode,
+      scaleType: 0,
       startDate: defaultStart,
     },
   };
