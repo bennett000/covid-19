@@ -6,7 +6,14 @@ const TARGET = './docs';
 const production = process.env.NODE_ENV === 'debug' ? false : true;
 
 module.exports = {
-  devServer: {},
+  devServer: {
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
+      'Access-Control-Allow-Headers':
+        'X-Requested-With, content-type, Authorization',
+    },
+  },
   devtool: production ? 'hidden-source-map' : 'eval-cheap-source-map',
   entry: './src/index.ts',
   output: {
