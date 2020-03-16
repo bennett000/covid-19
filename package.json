@@ -40,7 +40,7 @@
     "*.{js,css,md,ts,tsx}": "prettier --write --single-quote --trailing-comma es5"
   },
   "scripts": {
-    "prebuild": "rimraf ../docs",
+    "prebuild": "rimraf ./docs",
     "build": "webpack",
     "dev": "webpack-dev-server",
     "storybook": "start-storybook",

@@ -26,7 +26,7 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({ template: './src/index.html' }),
-    new CopyPlugin([{ from: 'assets', to: 'docs' }]),
+    new CopyPlugin([{ from: 'assets', to: '' }]),
   ],
   resolve: {
     extensions: ['.webpack.js', '.web.js', '.ts', '.tsx', '.js'],

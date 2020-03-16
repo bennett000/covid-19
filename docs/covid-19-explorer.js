@@ -59,8 +59,8 @@
       o,
       i,
       s,
-      l,
       a,
+      l,
       u = {},
       c = [],
       p = /acit|ex(?:s|g|n|p|$)|rph|grid|ows|mnc|ntw|ine[ch]|zoo|^ord/i;
@@ -68,11 +68,11 @@
       for (var n in t) e[n] = t[n];
       return e;
     }
-    function _(e) {
+    function d(e) {
       var t = e.parentNode;
       t && t.removeChild(e);
     }
-    function d(e, t, n) {
+    function _(e, t, n) {
       var r,
         o = arguments,
         i = {};
@@ -108,13 +108,13 @@
     function v(e, t) {
       (this.props = e), (this.context = t);
     }
-    function g(e, t) {
-      if (null == t) return e.__ ? g(e.__, e.__.__k.indexOf(e) + 1) : null;
+    function y(e, t) {
+      if (null == t) return e.__ ? y(e.__, e.__.__k.indexOf(e) + 1) : null;
       for (var n; t < e.__k.length; t++)
         if (null != (n = e.__k[t]) && null != n.__e) return n.__e;
-      return 'function' == typeof e.type ? g(e) : null;
+      return 'function' == typeof e.type ? y(e) : null;
     }
-    function y(e) {
+    function g(e) {
       var t, n;
       if (null != (e = e.__) && null != e.__c) {
         for (e.__e = e.__c.base = null, t = 0; t < e.__k.length; t++)
@@ -122,13 +122,13 @@
             e.__e = e.__c.base = n.__e;
             break;
           }
-        return y(e);
+        return g(e);
       }
     }
     function b(e) {
       ((!e.__d && (e.__d = !0) && o.push(e) && !i++) ||
-        l !== r.debounceRendering) &&
-        ((l = r.debounceRendering) || s)(S);
+        a !== r.debounceRendering) &&
+        ((a = r.debounceRendering) || s)(S);
     }
     function S() {
       for (var e; (i = o.length); )
@@ -150,75 +150,75 @@
                   void 0 !== s.ownerSVGElement,
                   null,
                   n,
-                  null == i ? g(o) : i
+                  null == i ? y(o) : i
                 )),
-                P(n, o),
-                r != i && y(o)));
+                A(n, o),
+                r != i && g(o)));
           });
     }
-    function x(e, t, n, r, o, i, s, l, a) {
+    function x(e, t, n, r, o, i, s, a, l) {
       var p,
         f,
-        d,
+        _,
         h,
         m,
         v,
-        y,
+        g,
         b = (n && n.__k) || c,
         S = b.length;
       if (
-        (l == u && (l = null != i ? i[0] : S ? g(n, 0) : null),
+        (a == u && (a = null != i ? i[0] : S ? y(n, 0) : null),
         (p = 0),
         (t.__k = k(t.__k, function(n) {
           if (null != n) {
             if (
               ((n.__ = t),
               (n.__b = t.__b + 1),
-              null === (d = b[p]) || (d && n.key == d.key && n.type === d.type))
+              null === (_ = b[p]) || (_ && n.key == _.key && n.type === _.type))
             )
               b[p] = void 0;
             else
               for (f = 0; f < S; f++) {
-                if ((d = b[f]) && n.key == d.key && n.type === d.type) {
+                if ((_ = b[f]) && n.key == _.key && n.type === _.type) {
                   b[f] = void 0;
                   break;
                 }
-                d = null;
+                _ = null;
               }
             if (
-              ((h = O(e, n, (d = d || u), r, o, i, s, l, a)),
+              ((h = O(e, n, (_ = _ || u), r, o, i, s, a, l)),
               (f = n.ref) &&
-                d.ref != f &&
-                (y || (y = []),
-                d.ref && y.push(d.ref, null, n),
-                y.push(f, n.__c || h, n)),
+                _.ref != f &&
+                (g || (g = []),
+                _.ref && g.push(_.ref, null, n),
+                g.push(f, n.__c || h, n)),
               null != h)
             ) {
               var c;
               if ((null == v && (v = h), void 0 !== n.__d))
                 (c = n.__d), (n.__d = void 0);
-              else if (i == d || h != l || null == h.parentNode) {
-                e: if (null == l || l.parentNode !== e)
+              else if (i == _ || h != a || null == h.parentNode) {
+                e: if (null == a || a.parentNode !== e)
                   e.appendChild(h), (c = null);
                 else {
-                  for (m = l, f = 0; (m = m.nextSibling) && f < S; f += 2)
+                  for (m = a, f = 0; (m = m.nextSibling) && f < S; f += 2)
                     if (m == h) break e;
-                  e.insertBefore(h, l), (c = l);
+                  e.insertBefore(h, a), (c = a);
                 }
                 'option' == t.type && (e.value = '');
               }
-              (l = void 0 !== c ? c : h.nextSibling),
-                'function' == typeof t.type && (t.__d = l);
-            } else l && d.__e == l && l.parentNode != e && (l = g(d));
+              (a = void 0 !== c ? c : h.nextSibling),
+                'function' == typeof t.type && (t.__d = a);
+            } else a && _.__e == a && a.parentNode != e && (a = y(_));
           }
           return p++, n;
         })),
         (t.__e = v),
         null != i && 'function' != typeof t.type)
       )
-        for (p = i.length; p--; ) null != i[p] && _(i[p]);
-      for (p = S; p--; ) null != b[p] && U(b[p], b[p]);
-      if (y) for (p = 0; p < y.length; p++) I(y[p], y[++p], y[++p]);
+        for (p = i.length; p--; ) null != i[p] && d(i[p]);
+      for (p = S; p--; ) null != b[p] && j(b[p], b[p]);
+      if (g) for (p = 0; p < g.length; p++) I(g[p], g[++p], g[++p]);
     }
     function k(e, t, n) {
       if ((null == n && (n = []), null == e || 'boolean' == typeof e))
@@ -250,7 +250,7 @@
               : n);
     }
     function w(e, t, n, r, o) {
-      var i, s, l, a, u;
+      var i, s, a, l, u;
       if (
         (o
           ? 'className' === t && (t = 'class')
@@ -262,16 +262,16 @@
         else {
           if (('string' == typeof r && ((i.cssText = ''), (r = null)), r))
             for (s in r) (n && s in n) || C(i, s, '');
-          if (n) for (l in n) (r && n[l] === r[l]) || C(i, l, n[l]);
+          if (n) for (a in n) (r && n[a] === r[a]) || C(i, a, n[a]);
         }
       else
         'o' === t[0] && 'n' === t[1]
-          ? ((a = t !== (t = t.replace(/Capture$/, ''))),
+          ? ((l = t !== (t = t.replace(/Capture$/, ''))),
             (u = t.toLowerCase()),
             (t = (u in e ? u : t).slice(2)),
             n
-              ? (r || e.addEventListener(t, D, a), ((e.l || (e.l = {}))[t] = n))
-              : e.removeEventListener(t, D, a))
+              ? (r || e.addEventListener(t, D, l), ((e.l || (e.l = {}))[t] = n))
+              : e.removeEventListener(t, D, l))
           : 'list' !== t &&
             'tagName' !== t &&
             'form' !== t &&
@@ -300,14 +300,14 @@
     function D(e) {
       this.l[e.type](r.event ? r.event(e) : e);
     }
-    function O(e, t, n, o, i, s, l, a, u) {
+    function O(e, t, n, o, i, s, a, l, u) {
       var c,
         p,
-        _,
         d,
+        _,
         h,
-        g,
         y,
+        g,
         b,
         S,
         k,
@@ -321,26 +321,26 @@
             (S = (c = C.contextType) && o[c.__c]),
             (k = c ? (S ? S.props.value : c.__) : o),
             n.__c
-              ? (y = (p = t.__c = n.__c).__ = p.__E)
+              ? (g = (p = t.__c = n.__c).__ = p.__E)
               : ('prototype' in C && C.prototype.render
                   ? (t.__c = p = new C(b, k))
                   : ((t.__c = p = new v(b, k)),
                     (p.constructor = C),
-                    (p.render = A)),
+                    (p.render = U)),
                 S && S.sub(p),
                 (p.props = b),
                 p.state || (p.state = {}),
                 (p.context = k),
                 (p.__n = o),
-                (_ = p.__d = !0),
+                (d = p.__d = !0),
                 (p.__h = [])),
             null == p.__s && (p.__s = p.state),
             null != C.getDerivedStateFromProps &&
               (p.__s == p.state && (p.__s = f({}, p.__s)),
               f(p.__s, C.getDerivedStateFromProps(b, p.__s))),
-            (d = p.props),
+            (_ = p.props),
             (h = p.state),
-            _)
+            d)
           )
             null == C.getDerivedStateFromProps &&
               null != p.componentWillMount &&
@@ -349,7 +349,7 @@
           else {
             if (
               (null == C.getDerivedStateFromProps &&
-                b !== d &&
+                b !== _ &&
                 null != p.componentWillReceiveProps &&
                 p.componentWillReceiveProps(b, k),
               !p.__e &&
@@ -363,7 +363,7 @@
                   p.__v = t,
                   t.__e = n.__e,
                   t.__k = n.__k,
-                  p.__h.length && l.push(p),
+                  p.__h.length && a.push(p),
                   c = 0;
                 c < t.__k.length;
                 c++
@@ -374,7 +374,7 @@
             null != p.componentWillUpdate && p.componentWillUpdate(b, p.__s, k),
               null != p.componentDidUpdate &&
                 p.__h.push(function() {
-                  p.componentDidUpdate(d, h, g);
+                  p.componentDidUpdate(_, h, y);
                 });
           }
           (p.context = k),
@@ -392,22 +392,22 @@
                 ? c
                 : [c]),
             null != p.getChildContext && (o = f(f({}, o), p.getChildContext())),
-            _ ||
+            d ||
               null == p.getSnapshotBeforeUpdate ||
-              (g = p.getSnapshotBeforeUpdate(d, h)),
-            x(e, t, n, o, i, s, l, a, u),
+              (y = p.getSnapshotBeforeUpdate(_, h)),
+            x(e, t, n, o, i, s, a, l, u),
             (p.base = t.__e),
-            p.__h.length && l.push(p),
-            y && (p.__E = p.__ = null),
+            p.__h.length && a.push(p),
+            g && (p.__E = p.__ = null),
             (p.__e = !1);
-        } else t.__e = j(n.__e, t, n, o, i, s, l, u);
+        } else t.__e = P(n.__e, t, n, o, i, s, a, u);
         (c = r.diffed) && c(t);
       } catch (e) {
         r.__e(e, t, n);
       }
       return t.__e;
     }
-    function P(e, t) {
+    function A(e, t) {
       r.__c && r.__c(t, e),
         e.some(function(t) {
           try {
@@ -421,22 +421,22 @@
           }
         });
     }
-    function j(e, t, n, r, o, i, s, l) {
-      var a,
+    function P(e, t, n, r, o, i, s, a) {
+      var l,
         p,
         f,
-        _,
         d,
+        _,
         h = n.props,
         m = t.props;
       if (((o = 'svg' === t.type || o), null != i))
-        for (a = 0; a < i.length; a++)
+        for (l = 0; l < i.length; l++)
           if (
-            null != (p = i[a]) &&
+            null != (p = i[l]) &&
             ((null === t.type ? 3 === p.nodeType : p.localName === t.type) ||
               e == p)
           ) {
-            (e = p), (i[a] = null);
+            (e = p), (i[l] = null);
             break;
           }
       if (null == e) {
@@ -451,15 +451,15 @@
         if (
           (null != i && (i = c.slice.call(e.childNodes)),
           (f = (h = n.props || u).dangerouslySetInnerHTML),
-          (_ = m.dangerouslySetInnerHTML),
-          !l)
+          (d = m.dangerouslySetInnerHTML),
+          !a)
         ) {
           if (h === u)
-            for (h = {}, d = 0; d < e.attributes.length; d++)
-              h[e.attributes[d].name] = e.attributes[d].value;
-          (_ || f) &&
-            ((_ && f && _.__html == f.__html) ||
-              (e.innerHTML = (_ && _.__html) || ''));
+            for (h = {}, _ = 0; _ < e.attributes.length; _++)
+              h[e.attributes[_].name] = e.attributes[_].value;
+          (d || f) &&
+            ((d && f && d.__html == f.__html) ||
+              (e.innerHTML = (d && d.__html) || ''));
         }
         (function(e, t, n, r, o) {
           var i;
@@ -470,10 +470,10 @@
               'checked' === i ||
               n[i] === t[i] ||
               w(e, i, t[i], n[i], r);
-        })(e, m, h, o, l),
+        })(e, m, h, o, a),
           (t.__k = t.props.children),
-          _ || x(e, t, n, r, 'foreignObject' !== t.type && o, i, s, u, l),
-          l ||
+          d || x(e, t, n, r, 'foreignObject' !== t.type && o, i, s, u, a),
+          a ||
             ('value' in m &&
               void 0 !== m.value &&
               m.value !== e.value &&
@@ -492,7 +492,7 @@
         r.__e(e, n);
       }
     }
-    function U(e, t, n) {
+    function j(e, t, n) {
       var o, i, s;
       if (
         (r.unmount && r.unmount(e),
@@ -509,17 +509,17 @@
           }
         o.base = o.__P = null;
       }
-      if ((o = e.__k)) for (s = 0; s < o.length; s++) o[s] && U(o[s], t, n);
-      null != i && _(i);
+      if ((o = e.__k)) for (s = 0; s < o.length; s++) o[s] && j(o[s], t, n);
+      null != i && d(i);
     }
-    function A(e, t, n) {
+    function U(e, t, n) {
       return this.constructor(e, n);
     }
     function N(e, t, n) {
       var o, i, s;
       r.__ && r.__(e, t),
-        (i = (o = n === a) ? null : (n && n.__k) || t.__k),
-        (e = d(m, null, [e])),
+        (i = (o = n === l) ? null : (n && n.__k) || t.__k),
+        (e = _(m, null, [e])),
         (s = []),
         O(
           t,
@@ -532,7 +532,7 @@
           n || u,
           o
         ),
-        P(s, e);
+        A(s, e);
     }
     (r = {
       __e: function(e, t) {
@@ -573,7 +573,7 @@
         'function' == typeof Promise
           ? Promise.prototype.then.bind(Promise.resolve())
           : setTimeout),
-      (a = u);
+      (l = u);
     var M = {};
     function E(e, t) {
       for (var n in t) e[n] = t[n];
@@ -585,8 +585,8 @@
         i = e.match(o),
         s = {};
       if (i && i[1])
-        for (var l = i[1].split('&'), a = 0; a < l.length; a++) {
-          var u = l[a].split('=');
+        for (var a = i[1].split('&'), l = 0; l < a.length; l++) {
+          var u = a[l].split('=');
           s[decodeURIComponent(u[0])] = decodeURIComponent(
             u.slice(1).join('=')
           );
@@ -595,15 +595,15 @@
       for (var c = Math.max(e.length, t.length), p = 0; p < c; p++)
         if (t[p] && ':' === t[p].charAt(0)) {
           var f = t[p].replace(/(^:|[+*?]+$)/g, ''),
-            _ = (t[p].match(/[+*?]+$/) || M)[0] || '',
-            d = ~_.indexOf('+'),
-            h = ~_.indexOf('*'),
+            d = (t[p].match(/[+*?]+$/) || M)[0] || '',
+            _ = ~d.indexOf('+'),
+            h = ~d.indexOf('*'),
             m = e[p] || '';
-          if (!m && !h && (_.indexOf('?') < 0 || d)) {
+          if (!m && !h && (d.indexOf('?') < 0 || _)) {
             r = !1;
             break;
           }
-          if (((s[f] = decodeURIComponent(m)), d || h)) {
+          if (((s[f] = decodeURIComponent(m)), _ || h)) {
             s[f] = e
               .slice(p)
               .map(decodeURIComponent)
@@ -616,10 +616,10 @@
         }
       return (!0 === n.default || !1 !== r) && s;
     }
-    function R(e, t) {
+    function G(e, t) {
       return e.rank < t.rank ? 1 : e.rank > t.rank ? -1 : e.index - t.index;
     }
-    function G(e, t) {
+    function R(e, t) {
       return (
         (e.index = t),
         (e.rank = (function(e) {
@@ -779,8 +779,8 @@
         }),
         (t.prototype.getMatchingChildren = function(e, t, n) {
           return e
-            .filter(G)
-            .sort(R)
+            .filter(R)
+            .sort(G)
             .map(function(e) {
               var r = T(t, e.props.path, e.props);
               if (r) {
@@ -811,15 +811,15 @@
             o = t.url,
             i = this.getMatchingChildren(k(n), o, !0),
             s = i[0] || null,
-            l = this.previousUrl;
+            a = this.previousUrl;
           return (
-            o !== l &&
+            o !== a &&
               ((this.previousUrl = o),
               'function' == typeof r &&
                 r({
                   router: this,
                   url: o,
-                  previous: l,
+                  previous: a,
                   active: i,
                   current: s,
                 })),
@@ -834,10 +834,10 @@
       (Y.route = V),
       (Y.Router = Y),
       (Y.Route = function(e) {
-        return d(e.component, e);
+        return _(e.component, e);
       }),
       (Y.Link = function(e) {
-        return d('a', E({ onClick: Z }, e));
+        return _('a', E({ onClick: Z }, e));
       }),
       (Y.exec = T);
     var ee = Y;
@@ -866,24 +866,24 @@
         });
       }
       render() {
-        return d('div', { className: this.props.flexSize });
+        return _('div', { className: this.props.flexSize });
       }
     }
     function ne(e) {
       return 'string' == typeof e;
     }
     function re({ onChange: e, options: t, selected: n }) {
-      return d(
+      return _(
         'select',
         { onChange: t => e(parseInt(t.target.value, 10)) },
         t.map((e, t) =>
           ne(e)
-            ? d(
+            ? _(
                 'option',
                 n === t ? { value: t, selected: !0 } : { value: t },
                 e
               )
-            : d(
+            : _(
                 'option',
                 n === t ? { value: e.index, selected: !0 } : { value: e.index },
                 e.name
@@ -892,7 +892,7 @@
       );
     }
     function oe({ onChange: e, options: t, selected: n }) {
-      return d(
+      return _(
         'select',
         {
           onChange: t =>
@@ -911,30 +911,30 @@
         t.map((e, t) =>
           ne(e)
             ? n.indexOf(t) > -1
-              ? d('option', { value: t, selected: !0 }, e)
-              : d('option', { value: t }, e)
+              ? _('option', { value: t, selected: !0 }, e)
+              : _('option', { value: t }, e)
             : n.indexOf(e.index) > -1
-            ? d('option', { value: e.index, selected: !0 }, e.name)
-            : d('option', { value: e.index }, e.name)
+            ? _('option', { value: e.index, selected: !0 }, e.name)
+            : _('option', { value: e.index }, e.name)
         )
       );
     }
     function ie({ onChange: e, ymdString: t }) {
-      return d('input', {
+      return _('input', {
         onChange: t => e(t.target.value),
         type: 'date',
         value: t,
       });
     }
     function se({ classes: e, isDisabled: t, label: n, onClick: r }) {
-      return d(
+      return _(
         'button',
         { className: e ? e.join(' ') : '', onClick: r, disabled: t },
         n
       );
     }
-    const le = ['Confirmed', 'Deaths', 'Recoveries'],
-      ae = ['By date', 'By first confirmed', 'By first 100 confirmed'];
+    const ae = ['Confirmed', 'Deaths', 'Recoveries'],
+      le = ['By date', 'By first confirmed', 'By first 100 confirmed'];
     class ue extends v {
       selectMode(e) {
         this.props.onChange(
@@ -961,33 +961,33 @@
         );
       }
       render() {
-        return d(
+        return _(
           'section',
           { className: 'full-size flex flex-col' },
-          d(te, { flexSize: 'flex-item-60', series: this.props.currentSeries }),
-          d(
+          _(te, { flexSize: 'flex-item-60', series: this.props.currentSeries }),
+          _(
             'section',
             { className: 'flex flex-item-20' },
-            d(re, {
+            _(re, {
               onChange: this.selectMode.bind(this),
-              options: ae,
+              options: le,
               selected: this.props.state.mode,
             }),
-            d(ie, {
+            _(ie, {
               onChange: this.selectDate.bind(this),
               ymdString: this.props.state.startDate,
             }),
-            d(oe, {
+            _(oe, {
               onChange: this.selectDataSets.bind(this),
-              options: le,
+              options: ae,
               selected: this.props.state.dataSetIndexes,
             }),
-            d(oe, {
+            _(oe, {
               onChange: this.selectCountries.bind(this),
               options: this.props.countries,
               selected: this.props.state.countryIndexes,
             }),
-            d(se, {
+            _(se, {
               classes: ['green'],
               label: 'Reload',
               onClick: this.props.reload,
@@ -1004,9 +1004,9 @@
     function pe() {
       return Promise.all(ce.map(e => fetch(e)))
         .then(fe)
-        .then(_e)
-        .then(he)
         .then(de)
+        .then(he)
+        .then(_e)
         .then(he)
         .then(me)
         .then(ve);
@@ -1014,7 +1014,7 @@
     function fe(e) {
       return Promise.all(e.map(e => e.text()));
     }
-    function _e(e) {
+    function de(e) {
       return e.map(e =>
         e.split('\n').map((e, t) =>
           (function e(t) {
@@ -1042,7 +1042,7 @@
         )
       );
     }
-    function de(e) {
+    function _e(e) {
       return e.map(e => {
         let t = [],
           n = 0;
@@ -1129,7 +1129,7 @@
       });
       return { countries: e, dataSets: t, points: n };
     }
-    function ge(e) {
+    function ye(e) {
       const t = new Date(e.lineGraphState.startDate);
       return e.dataPromise.then(({ countries: n, dataSets: r, points: o }) => ({
         countries: n,
@@ -1139,9 +1139,9 @@
               const s = (function(e, t, n, r, o) {
                 switch (e.lineGraphState.mode) {
                   case 1:
-                    return ye(e, t, n, r, o, 1);
+                    return ge(e, t, n, r, o, 1);
                   case 2:
-                    return ye(e, t, n, r, o, 100);
+                    return ge(e, t, n, r, o, 100);
                   default:
                     return (function(e, t, n, r) {
                       if (e.lineGraphState.countryIndexes.indexOf(r) > -1)
@@ -1160,7 +1160,7 @@
         ),
       }));
     }
-    function ye(e, t, n, r, o, i) {
+    function ge(e, t, n, r, o, i) {
       if (e.lineGraphState.countryIndexes.indexOf(n) > -1) {
         let e = 0;
         return {
@@ -1181,23 +1181,48 @@
       }
     }
     const be = [1, 43, 119, 414, 426];
-    class Se extends v {
+    function Se() {
+      if (window.localStorage) {
+        const e = window.localStorage.getItem('state');
+        if (e)
+          try {
+            const t = JSON.parse(e);
+            return t
+              ? !1 ===
+                (function(e) {
+                  if (!e) return !1;
+                  if (!1 === Array.isArray(e.countries)) return !1;
+                  if (!1 === Array.isArray(e.currentSeries)) return !1;
+                  return (function(e) {
+                    if (!e) return !1;
+                    if (!1 === Array.isArray(e.dataSetIndexes)) return !1;
+                    if (!1 === Array.isArray(e.countryIndexes)) return !1;
+                    if (
+                      !1 ===
+                      (function(e) {
+                        return 'number' == typeof e;
+                      })(e.mode)
+                    )
+                      return !1;
+                    if (!1 === ne(e.startDate)) return !1;
+                    return !0;
+                  })(e.lineGraphState);
+                })(t)
+                ? (console.log('reseting old state'),
+                  window.localStorage.setItem('state', ''),
+                  null)
+                : Object.assign(Object.assign({}, t), { dataPromise: pe() })
+              : null;
+          } catch (e) {
+            return null;
+          }
+      }
+      return null;
+    }
+    class xe extends v {
       constructor() {
         super();
-        let e = (function() {
-          if (window.localStorage) {
-            const e = window.localStorage.getItem('state');
-            if (e)
-              try {
-                return Object.assign(Object.assign({}, JSON.parse(e)), {
-                  dataPromise: pe(),
-                });
-              } catch (e) {
-                return null;
-              }
-          }
-          return null;
-        })();
+        let e = Se();
         e ||
           (e = {
             countries: [],
@@ -1223,23 +1248,29 @@
       }
       selectAndUpdate() {
         this.state.dataPromise
-          .then(() => ge(this.state))
-          .then(this.updateSelectState.bind(this));
+          .then(() => ye(this.state))
+          .then(this.updateSelectState.bind(this))
+          .then(() => {
+            return (
+              (e = this.state),
+              void (
+                window.localStorage &&
+                window.localStorage.setItem(
+                  'state',
+                  JSON.stringify(
+                    Object.assign(Object.assign({}, e), { dataPromise: void 0 })
+                  )
+                )
+              )
+            );
+            var e;
+          });
       }
       lineGraphState(e) {
-        var t;
         this.setState(
           Object.assign(Object.assign({}, this.state), { lineGraphState: e })
         ),
-          this.selectAndUpdate(),
-          (t = this.state),
-          window.localStorage &&
-            window.localStorage.setItem(
-              'state',
-              JSON.stringify(
-                Object.assign(Object.assign({}, t), { dataPromise: void 0 })
-              )
-            );
+          this.selectAndUpdate();
       }
       reload() {
         this.setState({
@@ -1247,10 +1278,10 @@
         });
       }
       render() {
-        return d(
+        return _(
           ee,
           null,
-          d(ue, {
+          _(ue, {
             path: '/',
             countries: this.state.countries,
             currentSeries: this.state.currentSeries,
@@ -1265,7 +1296,7 @@
       const e = window.document.createElement('section');
       if (((e.className = 'full-size flex flex-col'), !e))
         throw new Error('Could not bootstrap the application');
-      window.document.body.appendChild(e), (t = e), N(d(Se, null), t);
+      window.document.body.appendChild(e), (t = e), N(_(xe, null), t);
       var t;
     })();
   },
