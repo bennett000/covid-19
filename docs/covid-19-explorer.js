@@ -933,7 +933,7 @@
         n
       );
     }
-    const ae = ['Confirmed', 'Deaths', 'Recoveries'],
+    const ae = ['Active', 'Confirmed', 'Deaths', 'Recoveries'],
       le = ['By date', 'By first confirmed', 'By first 100 confirmed'];
     class ue extends v {
       selectMode(e) {
@@ -1009,7 +1009,8 @@
         .then(_e)
         .then(he)
         .then(me)
-        .then(ve);
+        .then(ve)
+        .then(ye);
     }
     function fe(e) {
       return Promise.all(e.map(e => e.text()));
@@ -1088,6 +1089,15 @@
       });
     }
     function me(e) {
+      return [
+        e[0].map((t, n) =>
+          t.map((t, r) =>
+            0 === n || r < 4 ? t : e[0][n][r] - e[1][n][r] - e[2][n][r]
+          )
+        ),
+      ].concat(e);
+    }
+    function ve(e) {
       return {
         countries: e[0].reduce(
           (e, t, n) =>
@@ -1101,7 +1111,7 @@
         dataSets: e,
       };
     }
-    function ve({ countries: e, dataSets: t }) {
+    function ye({ countries: e, dataSets: t }) {
       const n = t.map((e, t) => {
         const n = (function(e) {
             switch (e) {
@@ -1129,7 +1139,7 @@
       });
       return { countries: e, dataSets: t, points: n };
     }
-    function ye(e) {
+    function ge(e) {
       const t = new Date(e.lineGraphState.startDate);
       return e.dataPromise.then(({ countries: n, dataSets: r, points: o }) => ({
         countries: n,
@@ -1139,9 +1149,9 @@
               const s = (function(e, t, n, r, o) {
                 switch (e.lineGraphState.mode) {
                   case 1:
-                    return ge(e, t, n, r, o, 1);
+                    return be(e, t, n, r, o, 1);
                   case 2:
-                    return ge(e, t, n, r, o, 100);
+                    return be(e, t, n, r, o, 100);
                   default:
                     return (function(e, t, n, r) {
                       if (e.lineGraphState.countryIndexes.indexOf(r) > -1)
@@ -1160,7 +1170,7 @@
         ),
       }));
     }
-    function ge(e, t, n, r, o, i) {
+    function be(e, t, n, r, o, i) {
       if (e.lineGraphState.countryIndexes.indexOf(n) > -1) {
         let e = 0;
         return {
@@ -1180,8 +1190,8 @@
         };
       }
     }
-    const be = [1, 43, 119, 414, 426];
-    function Se() {
+    const Se = [1, 43, 119, 414, 426];
+    function xe() {
       if (window.localStorage) {
         const e = window.localStorage.getItem('state');
         if (e)
@@ -1219,18 +1229,18 @@
       }
       return null;
     }
-    class xe extends v {
+    class ke extends v {
       constructor() {
         super();
-        let e = Se();
+        let e = xe();
         e ||
           (e = {
             countries: [],
             currentSeries: [],
             dataPromise: pe(),
             lineGraphState: {
-              dataSetIndexes: [0],
-              countryIndexes: be,
+              dataSetIndexes: [1],
+              countryIndexes: Se,
               mode: 2,
               startDate: '2019-12-26',
             },
@@ -1248,7 +1258,7 @@
       }
       selectAndUpdate() {
         this.state.dataPromise
-          .then(() => ye(this.state))
+          .then(() => ge(this.state))
           .then(this.updateSelectState.bind(this))
           .then(() => {
             return (
@@ -1296,7 +1306,7 @@
       const e = window.document.createElement('section');
       if (((e.className = 'full-size flex flex-col'), !e))
         throw new Error('Could not bootstrap the application');
-      window.document.body.appendChild(e), (t = e), N(_(xe, null), t);
+      window.document.body.appendChild(e), (t = e), N(_(ke, null), t);
       var t;
     })();
   },

@@ -11,7 +11,7 @@ import { flex, flexCol, fullSize, flexItem20, flexItem60 } from '../constants';
 import { InputDate } from '../components/date';
 import { Button } from '../components/button';
 
-const dataSets = ['Confirmed', 'Deaths', 'Recoveries'];
+const dataSets = ['Active', 'Confirmed', 'Deaths', 'Recoveries'];
 const modes = ['By date', 'By first confirmed', 'By first 100 confirmed'];
 export class LineGraph extends Component<{
   countries: SelectOptionsWithIndex[];
