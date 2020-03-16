@@ -24,6 +24,7 @@ export function fetchData() {
       .then(sumRegions)
       // re alphabetize to integrate countries
       .then(alphabetize)
+      .then(generateActiveCases)
       .then(extractCountries)
       .then(csvToPoints)
   );
@@ -133,6 +134,27 @@ function alphabetize(dataSets: JhuCsv[]): JhuCsv[] {
 
     return [titles].concat(dataSet);
   });
+}
+
+function generateActiveCases(dataSets: JhuCsv[]): JhuCsv[] {
+  return [
+    dataSets[0].map(
+      (row, i) =>
+        row.map((cell, j) => {
+          if (i === 0) {
+            return cell;
+          }
+          if (j < 4) {
+            return cell;
+          }
+          return (
+            (dataSets[0][i][j] as number) -
+            (dataSets[1][i][j] as number) -
+            (dataSets[2][i][j] as number)
+          );
+        }) as JhuCsvRow
+    ),
+  ].concat(dataSets);
 }
 
 function extractCountries(dataSets: JhuCsv[]) {
