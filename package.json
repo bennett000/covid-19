@@ -1,0 +1,52 @@
+{
+  "name": "covid-19",
+  "version": "0.1.0",
+  "main": "index.js",
+  "repository": "git@github.com:bennett000/covid-19.git",
+  "author": "Michael J. Bennett <dev@michaeljbennett.info>",
+  "license": "GPL-3.0",
+  "private": false,
+  "dependencies": {
+    "@ch1/utility": "^0.8.0",
+    "preact": "^10.3.4",
+    "preact-router": "^3.2.1"
+  },
+  "devDependencies": {
+    "@storybook/addon-actions": "^5.3.17",
+    "@storybook/preact": "^5.3.17",
+    "@storybook/preset-typescript": "^2.1.0",
+    "@types/jest": "^25.1.4",
+    "babel-loader": "^8.0.6",
+    "copy-webpack-plugin": "^5.1.1",
+    "html-webpack-plugin": "^3.2.0",
+    "husky": ">=4",
+    "jest": "^25.1.0",
+    "lint-staged": ">=10",
+    "prettier": "^1.19.1",
+    "rimraf": "^3.0.2",
+    "ts-jest": "^25.2.1",
+    "ts-loader": "^6.2.1",
+    "typescript": "^3.8.2",
+    "webpack": "^4.41.6",
+    "webpack-cli": "^3.3.11",
+    "webpack-dev-server": "^3.10.3"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,css,md,ts,tsx}": "prettier --write --single-quote --trailing-comma es5"
+  },
+  "scripts": {
+    "prebuild": "rimraf ../docs",
+    "build": "webpack",
+    "dev": "webpack-dev-server",
+    "storybook": "start-storybook",
+    "test": "jest"
+  },
+  "jest": {
+    "preset": "ts-jest"
+  }
+}
