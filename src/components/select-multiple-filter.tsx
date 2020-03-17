@@ -6,12 +6,14 @@ import { flexCol, flex } from '../constants';
 import { isString } from '@ch1/utility';
 import { Button } from './button';
 
+type SelectMultipleFilterProps = {
+  onChange: (selected: number[]) => any;
+  options: SelectOptions;
+  selected: number[];
+};
+
 export class SelectMultipleFilter extends Component<
-  {
-    onChange: (selected: number[]) => any;
-    options: SelectOptions;
-    selected: number[];
-  },
+  SelectMultipleFilterProps,
   {
     filter: string;
     options: SelectOptions;
@@ -23,9 +25,9 @@ export class SelectMultipleFilter extends Component<
     this.state = { filter: '', options: [] };
   }
 
-  getOptions(filter: string) {
+  getOptions(props: SelectMultipleFilterProps, filter: string) {
     if (filter) {
-      return this.props.options.filter(option => {
+      return props.options.filter(option => {
         if (isString(option)) {
           if (option.toLowerCase().indexOf(filter.toLowerCase()) === 0) {
             return true;
@@ -47,7 +49,7 @@ export class SelectMultipleFilter extends Component<
     this.setState({
       ...this.state,
       filter,
-      options: this.getOptions(filter),
+      options: this.getOptions(this.props, filter),
     });
   }
 
@@ -62,7 +64,14 @@ export class SelectMultipleFilter extends Component<
   componentDidMount() {
     this.setState({
       ...this.state,
-      options: this.getOptions(this.state.filter),
+      options: this.getOptions(this.props, this.state.filter),
+    });
+  }
+
+  componentWillReceiveProps(props) {
+    this.setState({
+      ...this.state,
+      options: this.getOptions(this.props, this.state.filter),
     });
   }
 

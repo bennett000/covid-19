@@ -6,6 +6,8 @@ const defaultDataset = 1;
 const defaultCountries = [1, 43, 119, 414, 426];
 const defaultMode = 2;
 const defaultStart = '2019-12-26';
+const defaultScaleType = 0;
+const defaultShowStates = false;
 
 export function createState(): AppState {
   return {
@@ -16,7 +18,8 @@ export function createState(): AppState {
       dataSetIndexes: [defaultDataset],
       countryIndexes: defaultCountries,
       mode: defaultMode,
-      scaleType: 0,
+      scaleType: defaultScaleType,
+      showStates: defaultShowStates,
       startDate: defaultStart,
     },
   };
