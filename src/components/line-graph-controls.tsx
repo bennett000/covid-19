@@ -9,6 +9,8 @@ import {
   ChartSeries,
   LineGraphState,
 } from '../interfaces';
+import { SelectMultipleFilter } from './select-multiple-filter';
+import { isMobile } from '../utility';
 
 const dataSets = ['Active', 'Confirmed', 'Deaths', 'Recoveries'];
 const modes = ['By date', 'By first confirmed', 'By first 100 confirmed'];
@@ -84,11 +86,19 @@ export function LineGraphControls({
         options={dataSets}
         selected={state.dataSetIndexes}
       />
-      <SelectMultiple
-        onChange={selectCountries.bind(this)}
-        options={countries}
-        selected={state.countryIndexes}
-      />
+      {isMobile() ? (
+        <SelectMultiple
+          onChange={selectCountries.bind(this)}
+          options={countries}
+          selected={state.countryIndexes}
+        />
+      ) : (
+        <SelectMultipleFilter
+          onChange={selectCountries.bind(this)}
+          options={countries}
+          selected={state.countryIndexes}
+        />
+      )}
       <Button classes={['green']} label="Reload" onClick={reload}></Button>
     </section>
   );
