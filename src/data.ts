@@ -64,6 +64,7 @@ function convertToCsv(strings: string[]): JhuCsv[] {
 function sumRegions(dataSets: JhuCsv[]): JhuCsv[] {
   // must be used after alphabetizing
   return dataSets.map((dataSet: JhuCsv) => {
+    let world: JhuCsvRow = [totalString, 'World', 0, 0];
     let sum: JhuCsvRow = [];
     let count = 0;
     const resetSum = (row: JhuCsvRow) => {
@@ -77,27 +78,39 @@ function sumRegions(dataSets: JhuCsv[]): JhuCsv[] {
       }
     };
 
-    return dataSet.concat(
-      dataSet.reduce((totals: JhuCsv, row, i, arr) => {
-        if (i === 0) {
-          return totals;
+    const incrementWorld = (row: JhuCsvRow) => {
+      for (let i = 4; i < row.length; i += 1) {
+        if ((world as number[])[i] === undefined) {
+          world.push(0);
         }
-        if (i === 1) {
+        (world as number[])[i] += (row as number[])[i];
+      }
+    };
+
+    return dataSet.concat(
+      dataSet
+        .reduce((totals: JhuCsv, row, i, arr) => {
+          if (i === 0) {
+            return totals;
+          }
+          incrementWorld(row);
+          if (i === 1) {
+            resetSum(row);
+            return totals;
+          }
+          if (arr[i - 1][1] === row[1]) {
+            count += 1;
+            incrementSum(row);
+            return totals;
+          }
+          if (count > 1) {
+            totals.push(sum);
+          }
+          count = 0;
           resetSum(row);
           return totals;
-        }
-        if (arr[i - 1][1] === row[1]) {
-          count += 1;
-          incrementSum(row);
-          return totals;
-        }
-        if (count > 1) {
-          totals.push(sum);
-        }
-        count = 0;
-        resetSum(row);
-        return totals;
-      }, [])
+        }, [])
+        .concat([world])
     );
   });
 }

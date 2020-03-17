@@ -18,7 +18,7 @@ module.exports = {
   entry: './src/index.ts',
   output: {
     path: path.resolve(__dirname, TARGET),
-    filename: 'covid-19-explorer.js',
+    filename: 'covid-19-explorer.[contenthash].js',
   },
   mode: production ? 'production' : 'development',
   module: {
