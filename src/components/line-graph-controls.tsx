@@ -3,20 +3,22 @@ import { Select } from '../components/select';
 import { SelectMultiple } from '../components/select-multiple';
 import { InputDate } from '../components/date';
 import { Button } from '../components/button';
-import { flex, flexCol, flexItem20 } from '../constants';
+import { flex, flexCol, flexItem20, totalString } from '../constants';
 import {
   SelectOptionsWithIndex,
   ChartSeries,
   LineGraphState,
 } from '../interfaces';
+import { SelectMultipleFilter } from './select-multiple-filter';
+import { isMobile } from '../utility';
 
 const dataSets = ['Active', 'Confirmed', 'Deaths', 'Recoveries'];
 const modes = ['By date', 'By first confirmed', 'By first 100 confirmed'];
 const scaleTypes = ['Linear', 'Logarithmic'];
+const showStates = ['Show States', 'Hide States'];
 
 export function LineGraphControls({
   countries,
-  currentSeries,
   onChange,
   reload,
   state,
@@ -27,67 +29,101 @@ export function LineGraphControls({
   reload: () => any;
   state: LineGraphState;
 }) {
+  console.log('redraw', state.showStates);
   function selectMode(mode: number) {
-    this.props.onChange({
-      ...this.props.state,
+    onChange({
+      ...state,
       mode,
     });
   }
 
   function selectDate(ymdString: string) {
-    this.props.onChange({
-      ...this.props.state,
+    onChange({
+      ...state,
       startDate: ymdString,
     });
   }
 
   function selectDataSets(dataSetIndexes: number[]) {
-    this.props.onChange({
-      ...this.props.state,
+    onChange({
+      ...state,
       dataSetIndexes,
     });
   }
 
   function selectCountries(countryIndexes: number[]) {
-    this.props.onChange({
-      ...this.props.state,
+    onChange({
+      ...state,
       countryIndexes,
     });
   }
 
   function selectScaleType(scaleType: number) {
-    this.props.onChange({
-      ...this.props.state,
+    onChange({
+      ...state,
       scaleType,
+    });
+  }
+
+  function selectShowStates(showOrHide: number) {
+    onChange({
+      ...state,
+      showStates: showOrHide === 0 ? false : true,
     });
   }
 
   return (
     <section className={`${flex} ${flexItem20}`}>
       <section className={flexCol}>
+        <Select onChange={selectMode} options={modes} selected={state.mode} />
         <Select
-          onChange={selectMode.bind(this)}
-          options={modes}
-          selected={state.mode}
-        />
-        <Select
-          onChange={selectScaleType.bind(this)}
+          onChange={selectScaleType}
           options={scaleTypes}
           selected={state.scaleType}
         />
+        <InputDate onChange={selectDate} ymdString={state.startDate} />
       </section>
-      <InputDate onChange={selectDate.bind(this)} ymdString={state.startDate} />
       <SelectMultiple
-        onChange={selectDataSets.bind(this)}
+        onChange={selectDataSets}
         options={dataSets}
         selected={state.dataSetIndexes}
       />
-      <SelectMultiple
-        onChange={selectCountries.bind(this)}
-        options={countries}
-        selected={state.countryIndexes}
-      />
-      <Button classes={['green']} label="Reload" onClick={reload}></Button>
+      {isMobile() ? (
+        <SelectMultiple
+          onChange={selectCountries}
+          options={countries.filter(filterStates(this.props.state.showStates))}
+          selected={state.countryIndexes}
+        />
+      ) : (
+        <SelectMultipleFilter
+          onChange={selectCountries}
+          options={countries.filter(filterStates(this.props.state.showStates))}
+          selected={state.countryIndexes}
+        />
+      )}
+      <div className={flexCol}>
+        <Select
+          onChange={selectShowStates}
+          options={showStates}
+          selected={state.showStates ? 1 : 0}
+        />
+        <Button classes={['green']} label="Reload" onClick={reload}></Button>
+      </div>
     </section>
   );
+}
+
+function filterStates(doFilter: boolean) {
+  return (item: SelectOptionsWithIndex) => {
+    if (doFilter === false) {
+      return true;
+    }
+    if (item.name.indexOf(',') > -1) {
+      if (item.name.indexOf(`, ${totalString}`) > -1) {
+        return true;
+      }
+      return false;
+    }
+    return true;
+  };
 }

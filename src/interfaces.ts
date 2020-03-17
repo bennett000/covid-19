@@ -27,6 +27,7 @@ export interface LineGraphState {
   countryIndexes: number[];
   mode: number;
   scaleType: number;
+  showStates: boolean;
   startDate: string;
 }
 
