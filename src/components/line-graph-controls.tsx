@@ -16,7 +16,6 @@ const scaleTypes = ['Linear', 'Logarithmic'];
 
 export function LineGraphControls({
   countries,
-  currentSeries,
   onChange,
   reload,
   state,
@@ -28,36 +27,36 @@ export function LineGraphControls({
   state: LineGraphState;
 }) {
   function selectMode(mode: number) {
-    this.props.onChange({
-      ...this.props.state,
+    onChange({
+      ...state,
       mode,
     });
   }
 
   function selectDate(ymdString: string) {
-    this.props.onChange({
-      ...this.props.state,
+    onChange({
+      ...state,
       startDate: ymdString,
     });
   }
 
   function selectDataSets(dataSetIndexes: number[]) {
-    this.props.onChange({
-      ...this.props.state,
+    onChange({
+      ...state,
       dataSetIndexes,
     });
   }
 
   function selectCountries(countryIndexes: number[]) {
-    this.props.onChange({
-      ...this.props.state,
+    onChange({
+      ...state,
       countryIndexes,
     });
   }
 
   function selectScaleType(scaleType: number) {
-    this.props.onChange({
-      ...this.props.state,
+    onChange({
+      ...state,
       scaleType,
     });
   }
@@ -75,8 +74,11 @@ export function LineGraphControls({
           options={scaleTypes}
           selected={state.scaleType}
         />
+        <InputDate
+          onChange={selectDate.bind(this)}
+          ymdString={state.startDate}
+        />
       </section>
-      <InputDate onChange={selectDate.bind(this)} ymdString={state.startDate} />
       <SelectMultiple
         onChange={selectDataSets.bind(this)}
         options={dataSets}
