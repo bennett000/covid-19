@@ -44,6 +44,9 @@ function convertToCsv(strings: string[]): JhuCsv[] {
             return el;
           }
           if (i === 1) {
+            if (el === '"Korea; South"') {
+              return 'Korea, South';
+            }
             return el;
           }
           if (rowIndex === 0) {
@@ -179,10 +182,20 @@ function extractCountries(dataSets: JhuCsv[]) {
       if (row.length < 5) {
         return countryArr;
       }
-      const name = (row as string[])[0]
-        ? (row as string[])[1] + ', ' + (row as string[])[0]
-        : (row as string[])[1];
-      countryArr.push({ index: i, name });
+      let state = (row as string[])[0];
+      if (state && (row as string[])[1] === 'US') {
+        if (state.indexOf(';') === -1) {
+          const name = state
+            ? (row as string[])[1] + ', ' + (row as string[])[0]
+            : (row as string[])[1];
+          countryArr.push({ index: i, name });
+        }
+      } else {
+        const name = state
+          ? (row as string[])[1] + ', ' + (row as string[])[0]
+          : (row as string[])[1];
+        countryArr.push({ index: i, name });
+      }
       return countryArr;
     },
     []
