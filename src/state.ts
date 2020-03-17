@@ -3,7 +3,7 @@ import { AppState } from './interfaces';
 import { isNumber, isString } from '@ch1/utility';
 
 const defaultDataset = 1;
-const defaultCountries = [1, 43, 119, 414, 426];
+const defaultCountries = [46, 130, 134, 141, 449];
 const defaultMode = 2;
 const defaultStart = '2019-12-26';
 const defaultScaleType = 0;

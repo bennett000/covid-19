@@ -45,6 +45,7 @@ function convertToCsv(strings: string[]): JhuCsv[] {
           }
           if (i === 1) {
             if (el === '"Korea; South"') {
+              console.log('korea', el);
               return 'Korea, South';
             }
             return el;

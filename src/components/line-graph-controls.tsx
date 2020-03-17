@@ -29,7 +29,6 @@ export function LineGraphControls({
   reload: () => any;
   state: LineGraphState;
 }) {
-  console.log('redraw', state.showStates);
   function selectMode(mode: number) {
     onChange({
       ...state,
