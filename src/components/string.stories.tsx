@@ -7,3 +7,11 @@ export default { component: String, title: 'String' };
 export const withLabel = () => (
   <InputString onChange={action('change')} value={'initial value'} />
 );
+
+export const withPlaceholder = () => (
+  <InputString
+    onChange={action('change')}
+    placeholder={'write stuff'}
+    value={'initial value'}
+  />
+);

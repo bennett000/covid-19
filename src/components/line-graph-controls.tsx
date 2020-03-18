@@ -29,7 +29,6 @@ export function LineGraphControls({
   reload: () => any;
   state: LineGraphState;
 }) {
-  console.log('redraw', state.showStates);
   function selectMode(mode: number) {
     onChange({
       ...state,
@@ -52,9 +51,22 @@ export function LineGraphControls({
   }
 
   function selectCountries(countryIndexes: number[]) {
+    const newCountry = state.countryIndexes.slice(0);
+    countryIndexes.forEach(el => {
+      if (newCountry.indexOf(el) === -1) {
+        newCountry.push(el);
+      }
+    });
     onChange({
       ...state,
-      countryIndexes,
+      countryIndexes: newCountry,
+    });
+  }
+
+  function clearCountries() {
+    onChange({
+      ...state,
+      countryIndexes: [],
     });
   }
 
@@ -97,6 +109,7 @@ export function LineGraphControls({
       ) : (
         <SelectMultipleFilter
           onChange={selectCountries}
+          onClear={clearCountries}
           options={countries.filter(filterStates(this.props.state.showStates))}
           selected={state.countryIndexes}
         />

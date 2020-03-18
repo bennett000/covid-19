@@ -8,6 +8,7 @@ import { Button } from './button';
 
 type SelectMultipleFilterProps = {
   onChange: (selected: number[]) => any;
+  onClear: () => any;
   options: SelectOptions;
   selected: number[];
 };
@@ -59,6 +60,7 @@ export class SelectMultipleFilter extends Component<
       filter: '',
       options: this.props.options,
     });
+    this.props.onClear();
   }
 
   componentDidMount() {
@@ -82,6 +84,7 @@ export class SelectMultipleFilter extends Component<
           <InputString
             listenKeyUp={true}
             onChange={this.updateFilter.bind(this)}
+            placeholder="filter"
             value={this.state.filter}
           />
           <Button label="✗" onClick={this.clearFilter.bind(this)}></Button>
