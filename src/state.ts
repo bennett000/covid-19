@@ -2,7 +2,7 @@ import { fetchData } from './data';
 import { AppState } from './interfaces';
 import { isNumber, isString } from '@ch1/utility';
 
-const defaultDataset = 1;
+const defaultDataset = 0;
 const defaultCountries = [1, 43, 119, 414, 426];
 const defaultMode = 2;
 const defaultStart = '2019-12-26';

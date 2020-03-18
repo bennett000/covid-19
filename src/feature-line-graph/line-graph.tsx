@@ -41,6 +41,11 @@ export class LineGraph extends Component<
   }
 
   render() {
+    const classes =
+      this.state.isConfigOpen === false &&
+      this.props.state.countryIndexes.length === 0
+        ? ['green']
+        : [];
     return (
       <section className={`${fullSize} ${flexCol}`}>
         <Chart
@@ -50,6 +55,7 @@ export class LineGraph extends Component<
           useDays={this.useDays()}
         ></Chart>
         <ButtonToggle
+          classes={classes}
           labelTrue="✗"
           labelFalse="⚙️"
           onClick={this.toggleConfig.bind(this)}

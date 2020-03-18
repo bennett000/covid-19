@@ -16,6 +16,7 @@ import {
   LineGraphState,
 } from '../interfaces';
 import { SelectMultipleFilter } from './select-multiple-filter';
+import { noop } from '@ch1/utility';
 
 const dataSets = ['Active', 'Confirmed', 'Deaths', 'Recoveries'];
 const modes = ['By date', 'By first confirmed', 'By first 100 confirmed'];
@@ -55,23 +56,30 @@ export function LineGraphControls({
     });
   }
 
-  function selectCountries(countryIndexes: number[]) {
-    const newCountry = state.countryIndexes.slice(0);
-    countryIndexes.forEach(el => {
-      if (newCountry.indexOf(el) === -1) {
-        newCountry.push(el);
-      }
-    });
-    onChange({
-      ...state,
-      countryIndexes: newCountry,
-    });
-  }
-
   function clearCountries() {
     onChange({
       ...state,
       countryIndexes: [],
+    });
+  }
+
+  function selectCountry(country: number) {
+    if (state.countryIndexes.indexOf(country) === -1) {
+      onChange({
+        ...state,
+        countryIndexes: state.countryIndexes.concat([country]),
+      });
+      return;
+    }
+    const newCountry = state.countryIndexes.filter(item => {
+      if (item === country) {
+        return false;
+      }
+      return true;
+    });
+    onChange({
+      ...state,
+      countryIndexes: newCountry,
     });
   }
 
@@ -107,8 +115,9 @@ export function LineGraphControls({
       />
       <SelectMultipleFilter
         classes={state.countryIndexes.length === 0 ? [highlight] : []}
-        onChange={selectCountries}
+        onChange={noop as any}
         onClear={clearCountries}
+        onDeselect={selectCountry}
         options={countries.filter(filterStates(this.props.state.showStates))}
         selected={state.countryIndexes}
       />
@@ -118,7 +127,7 @@ export function LineGraphControls({
           options={showStates}
           selected={state.showStates ? 1 : 0}
         />
-        <Button classes={['green']} label="Reload" onClick={reload}></Button>
+        <Button label="Reload" onClick={reload}></Button>
       </div>
     </section>
   );
