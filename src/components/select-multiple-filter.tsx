@@ -8,6 +8,7 @@ import { Button } from './button';
 import { isMobile } from '../utility';
 
 type SelectMultipleFilterProps = {
+  classes?: string[];
   onChange: (selected: number[]) => any;
   onClear: () => any;
   options: SelectOptions;
@@ -79,8 +80,12 @@ export class SelectMultipleFilter extends Component<
   }
 
   render() {
+    const givenClasses = this.props.classes ? this.props.classes.join(' ') : '';
+    const className = givenClasses.length
+      ? `${givenClasses} ${flexCol}`
+      : flexCol;
     return (
-      <div className={flexCol}>
+      <div className={className}>
         <div className={flex}>
           {isMobile() ? (
             ''

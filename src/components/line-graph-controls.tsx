@@ -3,7 +3,13 @@ import { Select } from '../components/select';
 import { SelectMultiple } from '../components/select-multiple';
 import { InputDate } from '../components/date';
 import { Button } from '../components/button';
-import { flex, flexCol, flexItem20, totalString } from '../constants';
+import {
+  flex,
+  flexCol,
+  flexItem20,
+  totalString,
+  highlight,
+} from '../constants';
 import {
   SelectOptionsWithIndex,
   ChartSeries,
@@ -100,6 +106,7 @@ export function LineGraphControls({
         selected={state.dataSetIndexes}
       />
       <SelectMultipleFilter
+        classes={state.countryIndexes.length === 0 ? [highlight] : []}
         onChange={selectCountries}
         onClear={clearCountries}
         options={countries.filter(filterStates(this.props.state.showStates))}
