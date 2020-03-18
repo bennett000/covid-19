@@ -118,7 +118,7 @@ export function LineGraphControls({
           options={showStates}
           selected={state.showStates ? 1 : 0}
         />
-        <Button classes={['green']} label="Reload" onClick={reload}></Button>
+        <Button label="Reload" onClick={reload}></Button>
       </div>
     </section>
   );
