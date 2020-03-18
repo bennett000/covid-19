@@ -18,12 +18,13 @@ export interface ChartSeries {
 export interface AppState {
   countries: SelectOptionsWithIndex[];
   currentSeries: ChartSeries[];
-  dataPromise: Promise<JhuParsedData>;
+  dataPromise: Promise<JhuIntegratedData>;
   lineGraphState: LineGraphState;
 }
 
 export interface LineGraphState {
   dataSetIndexes: number[];
+  byMetric: number;
   countryIndexes: number[];
   mode: number;
   scaleType: number;
@@ -38,4 +39,10 @@ export interface JhuParsedData {
   countries: SelectOptionsWithIndex[];
   dataSets: JhuCsv[];
   points: ChartSeries[][];
+}
+
+export interface JhuIntegratedData {
+  countries: SelectOptionsWithIndex[];
+  dataSets: JhuCsv[];
+  points: ChartSeries[][][];
 }
