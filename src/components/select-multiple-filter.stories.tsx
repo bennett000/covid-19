@@ -14,6 +14,7 @@ export const withFilter = () => (
   <SelectMultipleFilter
     onChange={action('change')}
     onClear={action('clear')}
+    onDeselect={action('deselect')}
     options={qbf.split(' ')}
     selected={[]}
   />

@@ -11,6 +11,7 @@ type SelectMultipleFilterProps = {
   classes?: string[];
   onChange: (selected: number[]) => any;
   onClear: () => any;
+  onDeselect: (index: number) => any;
   options: SelectOptions;
   selected: number[];
 };
@@ -72,10 +73,10 @@ export class SelectMultipleFilter extends Component<
     });
   }
 
-  componentWillReceiveProps(props) {
+  componentWillReceiveProps(props: SelectMultipleFilterProps) {
     this.setState({
       ...this.state,
-      options: this.getOptions(this.props, this.state.filter),
+      options: this.getOptions(props, this.state.filter),
     });
   }
 
@@ -84,6 +85,14 @@ export class SelectMultipleFilter extends Component<
     const className = givenClasses.length
       ? `${givenClasses} ${flexCol}`
       : flexCol;
+
+    const onChange = (selected: number[]) => {
+      this.props.onChange(selected);
+    };
+
+    const onDeselect = (index: number) => {
+      this.props.onDeselect(index);
+    };
     return (
       <div className={className}>
         <div className={flex}>
@@ -100,7 +109,8 @@ export class SelectMultipleFilter extends Component<
           <Button label="✗" onClick={this.clearFilter.bind(this)}></Button>
         </div>
         <SelectMultiple
-          onChange={this.props.onChange.bind(this)}
+          onChange={onChange}
+          onClick={onDeselect}
           options={this.state.options}
           selected={this.props.selected}
         />
