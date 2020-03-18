@@ -33,12 +33,12 @@ export class SelectMultipleFilter extends Component<
     if (filter) {
       return props.options.filter(option => {
         if (isString(option)) {
-          if (option.toLowerCase().indexOf(filter.toLowerCase()) === 0) {
+          if (option.toLowerCase().indexOf(filter.toLowerCase()) > -1) {
             return true;
           }
           return false;
         } else {
-          if (option.name.toLowerCase().indexOf(filter.toLowerCase()) === 0) {
+          if (option.name.toLowerCase().indexOf(filter.toLowerCase()) > -1) {
             return true;
           }
           return false;
