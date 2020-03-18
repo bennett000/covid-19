@@ -4,10 +4,18 @@ import {
   SelectOptionsWithIndex,
   ChartPoint,
   ChartSeries,
-  JhuParsedData,
   AppState,
+  JhuIntegratedData,
 } from './interfaces';
 import { totalString } from './constants';
+import rawPopulationData from 'country-json/src/country-by-population.json';
+
+const populationDictionary: {
+  [key: string]: number;
+} = rawPopulationData.reduce((p, node) => {
+  p[node.country] = parseInt(node.population, 10);
+  return p;
+}, {});
 
 const urls = [
   'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Confirmed.csv',
@@ -21,6 +29,7 @@ export function fetchData() {
       .then(unwrapResponses)
       .then(convertToCsv)
       .then(alphabetize)
+      .then(tap)
       .then(sumRegions)
       // re alphabetize to integrate countries
       .then(alphabetize)
@@ -28,6 +37,65 @@ export function fetchData() {
       .then(extractCountries)
       .then(csvToPoints)
   );
+}
+
+function getPopulation(country: string): number {
+  let population = populationDictionary[country];
+  if (population) {
+    return population;
+  }
+  population = populationDictionary[mapJhuCountryToPop[country]];
+  if (population) {
+    return population;
+  }
+  population = manuallySourcePop[country];
+  if (population) {
+    return population;
+  }
+  return 1;
+}
+
+function tap(thing) {
+  const jhuCountries = thing[0].map(row => row[1] as string);
+  (window as any).compareNations = (
+    json: { country: string; population: string }[]
+  ) => {
+    const popCountries = json.map(p => p.country);
+
+    console.log(
+      '{\n' +
+        jhuCountries
+          .map(jc => {
+            const country = mapJhuCountryToPop[jc]
+              ? mapJhuCountryToPop[jc]
+              : jc;
+            let popIndex = popCountries.indexOf(country);
+            if (popIndex === -1) {
+              const fallback = manuallySourcePop[jc];
+              if (fallback) {
+                return null;
+              }
+            }
+            if (popIndex === -1) {
+              return `'${jc}'`;
+            }
+            // console.log(jc, json[popIndex].population);
+            return null;
+          })
+          .filter(Boolean)
+          .reduce((deDuped, el) => {
+            if (deDuped.indexOf(el) === -1) {
+              deDuped.push(el);
+            }
+            return deDuped;
+          }, [])
+          .join(",\n'': ") +
+        '}'
+    );
+  };
+  (window as any).dataSet = thing[0];
+
+  return thing;
 }
 
 function unwrapResponses(responses: Response[]) {
@@ -45,7 +113,7 @@ function convertToCsv(strings: string[]): JhuCsv[] {
           }
           if (i === 1) {
             if (el === '"Korea; South"') {
-              return 'Korea, South';
+              return 'South Korea';
             }
             return el;
           }
@@ -210,16 +278,19 @@ function csvToPoints({
 }: {
   countries: SelectOptionsWithIndex[];
   dataSets: JhuCsv[];
-}): JhuParsedData {
+}): JhuIntegratedData {
   const points = dataSets.map((dataSet, dataSetIndex) => {
     const chartType = getChartTypeFromIndex(dataSetIndex);
-    const series: ChartSeries[] = [];
+    const seriesValue: ChartSeries[] = [];
+    const seriesPercent: ChartSeries[] = [];
     for (let i = 1; i < dataSet.length; i += 1) {
       let name = '';
-      let points: ChartPoint[] = [];
+      let valuePoints: ChartPoint[] = [];
+      let percentPoints: ChartPoint[] = [];
       let row = dataSet[i];
 
       for (let j = 0; j < row.length; j += 1) {
+        const pop = getPopulation((row as string[])[1]);
         if (j === 1) {
           name = chartType + ' ' + row[1] + ', ' + row[0];
         }
@@ -227,19 +298,28 @@ function csvToPoints({
           if (!row[j] || row[j] !== row[j]) {
             continue;
           }
-          points.push({
+          valuePoints.push({
             index: j,
             x: new Date(dataSet[0][j]),
             y: (row as number[])[j],
           });
+          percentPoints.push({
+            index: j,
+            x: new Date(dataSet[0][j]),
+            y: ((row as number[])[j] / pop) * 100,
+          });
         }
       }
-      series.push({
+      seriesValue.push({
         name,
-        points,
+        points: valuePoints,
+      });
+      seriesPercent.push({
+        name,
+        points: percentPoints,
       });
     }
-    return series;
+    return [seriesValue, seriesPercent];
   });
   return { countries, dataSets, points };
 }
@@ -262,19 +342,22 @@ export function selectData(state: AppState) {
   return state.dataPromise.then(({ countries, dataSets, points }) => {
     const series = state.lineGraphState.dataSetIndexes.reduce(
       (s, dataSetIndex) => {
-        return points[dataSetIndex].reduce((si, country, i) => {
-          const dp = selectDataPointByMode(
-            state,
-            country,
-            i + 1,
-            dataSets[0][i + 1],
-            startDate
-          );
-          if (dp) {
-            si.push(dp);
-          }
-          return si;
-        }, s);
+        return points[dataSetIndex][state.lineGraphState.byMetric].reduce(
+          (si, country, i) => {
+            const dp = selectDataPointByMode(
+              state,
+              country,
+              i + 1,
+              dataSets[0][i + 1],
+              startDate
+            );
+            if (dp) {
+              si.push(dp);
+            }
+            return si;
+          },
+          s
+        );
       },
       []
     );
@@ -367,3 +450,29 @@ function selectDataPointByConfirmed(
     };
   }
 }
+
+const mapJhuCountryToPop = Object.freeze({
+  'Congo (Kinshasa)': 'The Democratic Republic of Congo',
+  "Cote d'Ivoire": 'Ivory Coast',
+  Czechia: 'Czech Republic',
+  Eswatini: 'Swaziland',
+  'Holy See': 'Holy See (Vatican City State)',
+  'Republic of the Congo': 'Congo',
+  Russia: 'Russian Federation',
+  'Sri Lanka': 'SriLanka',
+  'The Bahamas': 'Bahamas',
+  'The Gambia': 'Gambia',
+  US: 'United States',
+});
+
+// manually source via internet march 17 2020
+const manuallySourcePop = Object.freeze({
+  'Congo (Brazzaville)': 1800000,
+  'Cruise Ship': 700,
+  Guernsey: 67052,
+  Jersey: 97857,
+  Kosovo: 1831000,
+  Montenegro: 613219,
+  Serbia: 7022000,
+  'Taiwan*': 23780000,
+});

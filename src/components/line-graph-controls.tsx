@@ -22,6 +22,7 @@ const dataSets = ['Active', 'Confirmed', 'Deaths', 'Recoveries'];
 const modes = ['By date', 'By first confirmed', 'By first 100 confirmed'];
 const scaleTypes = ['Linear', 'Logarithmic'];
 const showStates = ['Show States', 'Hide States'];
+const metrics = ['By Value', 'Percent'];
 
 export function LineGraphControls({
   countries,
@@ -97,6 +98,13 @@ export function LineGraphControls({
     });
   }
 
+  function selectMetric(metric: number) {
+    onChange({
+      ...state,
+      byMetric: metric,
+    });
+  }
+
   return (
     <section className={`${flex} ${flexItem20}`}>
       <section className={flexCol}>
@@ -126,6 +134,11 @@ export function LineGraphControls({
           onChange={selectShowStates}
           options={showStates}
           selected={state.showStates ? 1 : 0}
+        />
+        <Select
+          onChange={selectMetric}
+          options={metrics}
+          selected={state.byMetric}
         />
         <Button label="Reload" onClick={reload}></Button>
       </div>

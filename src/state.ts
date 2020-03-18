@@ -16,6 +16,7 @@ export function createState(): AppState {
     dataPromise: fetchData(),
     lineGraphState: {
       dataSetIndexes: [defaultDataset],
+      byMetric: 0,
       countryIndexes: defaultCountries,
       mode: defaultMode,
       scaleType: defaultScaleType,
@@ -81,7 +82,7 @@ function isSavedLineGraphState(thing: any): boolean {
     return false;
   }
 
-  if (Array.isArray(thing.dataSetIndexes) === false) {
+  if (isNumber(thing.byMetric) === false) {
     return false;
   }
 
@@ -89,7 +90,15 @@ function isSavedLineGraphState(thing: any): boolean {
     return false;
   }
 
+  if (Array.isArray(thing.dataSetIndexes) === false) {
+    return false;
+  }
+
   if (isNumber(thing.mode) === false) {
+    return false;
+  }
+
+  if (isNumber(thing.showStates) === false) {
     return false;
   }
 
