@@ -5,11 +5,13 @@ export function InputString({
   classes,
   listenKeyUp,
   onChange,
+  placeholder,
   value,
 }: {
   classes?: string[];
   listenKeyUp?: boolean;
   onChange: (str: string) => any;
+  placeholder?: string;
   value: string;
 }) {
   const classString = classes ? classes.join(' ') : '';
@@ -21,6 +23,7 @@ export function InputString({
       className={classString}
       onChange={change}
       onKeyUp={keyUp}
+      placeholder={placeholder || ''}
       type="text"
       value={value}
     />

@@ -5,9 +5,12 @@ import { SelectMultiple } from './select-multiple';
 import { flexCol, flex } from '../constants';
 import { isString } from '@ch1/utility';
 import { Button } from './button';
+import { isMobile } from '../utility';
 
 type SelectMultipleFilterProps = {
+  classes?: string[];
   onChange: (selected: number[]) => any;
+  onClear: () => any;
   options: SelectOptions;
   selected: number[];
 };
@@ -59,6 +62,7 @@ export class SelectMultipleFilter extends Component<
       filter: '',
       options: this.props.options,
     });
+    this.props.onClear();
   }
 
   componentDidMount() {
@@ -76,14 +80,23 @@ export class SelectMultipleFilter extends Component<
   }
 
   render() {
+    const givenClasses = this.props.classes ? this.props.classes.join(' ') : '';
+    const className = givenClasses.length
+      ? `${givenClasses} ${flexCol}`
+      : flexCol;
     return (
-      <div className={flexCol}>
+      <div className={className}>
         <div className={flex}>
-          <InputString
-            listenKeyUp={true}
-            onChange={this.updateFilter.bind(this)}
-            value={this.state.filter}
-          />
+          {isMobile() ? (
+            ''
+          ) : (
+            <InputString
+              listenKeyUp={true}
+              onChange={this.updateFilter.bind(this)}
+              placeholder="filter"
+              value={this.state.filter}
+            />
+          )}
           <Button label="✗" onClick={this.clearFilter.bind(this)}></Button>
         </div>
         <SelectMultiple

@@ -13,6 +13,7 @@ const qbf =
 export const withFilter = () => (
   <SelectMultipleFilter
     onChange={action('change')}
+    onClear={action('clear')}
     options={qbf.split(' ')}
     selected={[]}
   />
