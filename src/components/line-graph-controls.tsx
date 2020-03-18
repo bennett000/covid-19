@@ -10,7 +10,6 @@ import {
   LineGraphState,
 } from '../interfaces';
 import { SelectMultipleFilter } from './select-multiple-filter';
-import { isMobile } from '../utility';
 
 const dataSets = ['Active', 'Confirmed', 'Deaths', 'Recoveries'];
 const modes = ['By date', 'By first confirmed', 'By first 100 confirmed'];
@@ -100,20 +99,12 @@ export function LineGraphControls({
         options={dataSets}
         selected={state.dataSetIndexes}
       />
-      {isMobile() ? (
-        <SelectMultiple
-          onChange={selectCountries}
-          options={countries.filter(filterStates(this.props.state.showStates))}
-          selected={state.countryIndexes}
-        />
-      ) : (
-        <SelectMultipleFilter
-          onChange={selectCountries}
-          onClear={clearCountries}
-          options={countries.filter(filterStates(this.props.state.showStates))}
-          selected={state.countryIndexes}
-        />
-      )}
+      <SelectMultipleFilter
+        onChange={selectCountries}
+        onClear={clearCountries}
+        options={countries.filter(filterStates(this.props.state.showStates))}
+        selected={state.countryIndexes}
+      />
       <div className={flexCol}>
         <Select
           onChange={selectShowStates}

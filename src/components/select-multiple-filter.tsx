@@ -5,6 +5,7 @@ import { SelectMultiple } from './select-multiple';
 import { flexCol, flex } from '../constants';
 import { isString } from '@ch1/utility';
 import { Button } from './button';
+import { isMobile } from '../utility';
 
 type SelectMultipleFilterProps = {
   onChange: (selected: number[]) => any;
@@ -81,12 +82,16 @@ export class SelectMultipleFilter extends Component<
     return (
       <div className={flexCol}>
         <div className={flex}>
-          <InputString
-            listenKeyUp={true}
-            onChange={this.updateFilter.bind(this)}
-            placeholder="filter"
-            value={this.state.filter}
-          />
+          {isMobile() ? (
+            ''
+          ) : (
+            <InputString
+              listenKeyUp={true}
+              onChange={this.updateFilter.bind(this)}
+              placeholder="filter"
+              value={this.state.filter}
+            />
+          )}
           <Button label="✗" onClick={this.clearFilter.bind(this)}></Button>
         </div>
         <SelectMultiple
