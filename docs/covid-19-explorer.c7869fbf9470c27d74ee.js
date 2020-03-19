@@ -584,7 +584,7 @@
       for (var e in n) t[e] = n[e];
       return t;
     }
-    function G(t, n, e) {
+    function E(t, n, e) {
       var o,
         a = /(?:\?([^#]*))?(#.*)?$/,
         i = t.match(a),
@@ -621,7 +621,7 @@
         }
       return (!0 === e.default || !1 !== o) && r;
     }
-    function E(t, n) {
+    function G(t, n) {
       return t.rank < n.rank ? 1 : t.rank > n.rank ? -1 : t.index - n.index;
     }
     function L(t, n) {
@@ -648,8 +648,8 @@
         : 5;
     }
     var R = null,
-      K = [],
       F = [],
+      K = [],
       W = {};
     function V() {
       var t;
@@ -671,7 +671,7 @@
         void 0 === n && (n = !1),
         'string' != typeof t && t.url && ((n = t.replace), (t = t.url)),
         (function(t) {
-          for (var n = K.length; n--; ) if (K[n].canRoute(t)) return !0;
+          for (var n = F.length; n--; ) if (F[n].canRoute(t)) return !0;
           return !1;
         })(t) &&
           (function(t, n) {
@@ -686,9 +686,9 @@
       );
     }
     function $(t) {
-      for (var n = !1, e = 0; e < K.length; e++)
-        !0 === K[e].routeTo(t) && (n = !0);
-      for (var o = F.length; o--; ) F[o](t);
+      for (var n = !1, e = 0; e < F.length; e++)
+        !0 === F[e].routeTo(t) && (n = !0);
+      for (var o = K.length; o--; ) K[o](t);
       return n;
     }
     function J(t) {
@@ -749,8 +749,7 @@
         (n.prototype.shouldComponentUpdate = function(t) {
           return (
             !0 !== t.static ||
-            t.url !== this.props.url ||
-            t.onChange !== this.props.onChange
+            t.url !== this.props.url || t.onChange !== this.props.onChange
           );
         }),
         (n.prototype.canRoute = function(t) {
@@ -763,7 +762,7 @@
           return this.updating || this.forceUpdate(), n;
         }),
         (n.prototype.componentWillMount = function() {
-          K.push(this), (this.updating = !0);
+          F.push(this), (this.updating = !0);
         }),
         (n.prototype.componentDidMount = function() {
           var t = this;
@@ -775,7 +774,7 @@
         }),
         (n.prototype.componentWillUnmount = function() {
           'function' == typeof this.unlisten && this.unlisten(),
-            K.splice(K.indexOf(this), 1);
+            F.splice(F.indexOf(this), 1);
         }),
         (n.prototype.componentWillUpdate = function() {
           this.updating = !0;
@@ -786,9 +785,9 @@
         (n.prototype.getMatchingChildren = function(t, n, e) {
           return t
             .filter(L)
-            .sort(E)
+            .sort(G)
             .map(function(t) {
-              var o = G(n, t.props.path, t.props);
+              var o = E(n, t.props.path, t.props);
               if (o) {
                 if (!1 !== e) {
                   var a = { url: n, matches: o };
@@ -835,7 +834,7 @@
         n
       );
     })(_);
-    (X.subscribers = F),
+    (X.subscribers = K),
       (X.getCurrentUrl = V),
       (X.route = H),
       (X.Router = X),
@@ -845,7 +844,7 @@
       (X.Link = function(t) {
         return h('a', U({ onClick: q }, t));
       }),
-      (X.exec = G);
+      (X.exec = E);
     var tt = X;
     class nt extends _ {
       constructor() {
@@ -976,7 +975,25 @@
         value: a,
       });
     }
-    class dt extends _ {
+    function dt() {
+      let t = !1;
+      return (
+        (function(n) {
+          (/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino/i.test(
+            n
+          ) ||
+            /1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i.test(
+              n.substr(0, 4)
+            )) &&
+            (t = !0);
+        })(navigator.userAgent || navigator.vendor || window.opera),
+        t
+      );
+    }
+    function yt(...t) {
+      console.log('COVID-19', ...t);
+    }
+    class ht extends _ {
       constructor() {
         super(), (this.state = { filter: '', options: [] });
       }
@@ -1021,28 +1038,17 @@
         );
       }
       render() {
-        const t = this.props.classes ? this.props.classes.join(' ') : '';
+        const t = this.props.classes ? this.props.classes.join(' ') : '',
+          n = t => {
+            this.props.onChange(t);
+          };
         return h(
           'div',
           { className: t.length ? `${t} ${et}` : et },
           h(
             'div',
             { className: 'flex' },
-            (function() {
-              let t = !1;
-              return (
-                (function(n) {
-                  (/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino/i.test(
-                    n
-                  ) ||
-                    /1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i.test(
-                      n.substr(0, 4)
-                    )) &&
-                    (t = !0);
-                })(navigator.userAgent || navigator.vendor || window.opera),
-                t
-              );
-            })()
+            dt()
               ? ''
               : h(ct, {
                   listenKeyUp: !0,
@@ -1052,25 +1058,29 @@
                 }),
             h(pt, { label: '✗', onClick: this.clearFilter.bind(this) })
           ),
-          h(lt, {
-            onChange: t => {
-              this.props.onChange(t);
-            },
-            onClick: t => {
-              this.props.onDeselect(t);
-            },
-            options: this.state.options,
-            selected: this.props.selected,
-          })
+          dt()
+            ? h(lt, {
+                onChange: n,
+                options: this.state.options,
+                selected: this.props.selected,
+              })
+            : h(lt, {
+                onChange: n,
+                onClick: t => {
+                  this.props.onDeselect(t);
+                },
+                options: this.state.options,
+                selected: this.props.selected,
+              })
         );
       }
     }
-    const yt = ['Active', 'Confirmed', 'Deaths', 'Recoveries'],
-      ht = ['By date', 'By first confirmed', 'By first 100 confirmed'],
-      ft = ['Linear', 'Logarithmic'],
-      mt = ['Show States', 'Hide States'],
-      _t = ['By Value', 'Percent'];
-    function gt({ countries: t, onChange: n, reload: e, state: o }) {
+    const ft = ['Active', 'Confirmed', 'Deaths', 'Recoveries'],
+      mt = ['By date', 'By first confirmed', 'By first 100 confirmed'],
+      _t = ['Linear', 'Logarithmic'],
+      gt = ['Show States', 'Hide States'],
+      bt = ['By Value', 'Percent'];
+    function vt({ countries: t, onChange: n, reload: e, state: o }) {
       return h(
         'section',
         { className: 'flex flex-item-20' },
@@ -1081,14 +1091,14 @@
             onChange: function(t) {
               n(Object.assign(Object.assign({}, o), { mode: t }));
             },
-            options: ht,
+            options: mt,
             selected: o.mode,
           }),
           h(ut, {
             onChange: function(t) {
               n(Object.assign(Object.assign({}, o), { scaleType: t }));
             },
-            options: ft,
+            options: _t,
             selected: o.scaleType,
           }),
           h(st, {
@@ -1102,10 +1112,10 @@
           onChange: function(t) {
             n(Object.assign(Object.assign({}, o), { dataSetIndexes: t }));
           },
-          options: yt,
+          options: ft,
           selected: o.dataSetIndexes,
         }),
-        h(dt, {
+        h(ht, {
           classes: 0 === o.countryIndexes.length ? ['highlight'] : [],
           onChange: it,
           onClear: function() {
@@ -1125,8 +1135,7 @@
             ((a = this.props.state.showStates),
             t =>
               !1 === a ||
-              !(t.name.indexOf(',') > -1) ||
-              t.name.indexOf(', Total') > -1)
+              !(t.name.indexOf(',') > -1) || t.name.indexOf(', Total') > -1)
           ),
           selected: o.countryIndexes,
         }),
@@ -1137,14 +1146,14 @@
             onChange: function(t) {
               n(Object.assign(Object.assign({}, o), { showStates: 0 !== t }));
             },
-            options: mt,
+            options: gt,
             selected: o.showStates ? 1 : 0,
           }),
           h(ut, {
             onChange: function(t) {
               n(Object.assign(Object.assign({}, o), { byMetric: t }));
             },
-            options: _t,
+            options: bt,
             selected: o.byMetric,
           }),
           h(pt, { label: 'Reload', onClick: e })
@@ -1152,7 +1161,7 @@
       );
       var a;
     }
-    function bt({
+    function St({
       classes: t,
       isDisabled: n,
       labelFalse: e,
@@ -1167,7 +1176,7 @@
         onClick: () => a(!i),
       });
     }
-    class vt extends _ {
+    class Ct extends _ {
       constructor() {
         super(), (this.state = { isConfigOpen: !1 });
       }
@@ -1194,15 +1203,15 @@
             scaleType: this.props.state.scaleType,
             useDays: this.useDays(),
           }),
-          h(bt, {
+          h(St, {
             classes: t,
-            labelTrue: '✗',
-            labelFalse: '⚙️',
+            labelTrue: '✗ Enlarge Chart',
+            labelFalse: '⚙️ Configure Chart',
             onClick: this.toggleConfig.bind(this),
             state: this.state.isConfigOpen,
           }),
           this.state.isConfigOpen
-            ? h(gt, {
+            ? h(vt, {
                 countries: this.props.countries,
                 currentSeries: this.props.currentSeries,
                 onChange: this.props.onChange,
@@ -1213,8 +1222,8 @@
         );
       }
     }
-    var St = e(0);
-    const Ct = Object.freeze({
+    var kt = e(0);
+    const wt = Object.freeze({
         AL: 'Alabama',
         AK: 'Alaska',
         AS: 'American Samoa',
@@ -1275,7 +1284,7 @@
         WI: 'Wisconsin',
         WY: 'Wyoming',
       }),
-      kt = Object.freeze({
+      xt = Object.freeze({
         'Congo (Kinshasa)': 'The Democratic Republic of Congo',
         "Cote d'Ivoire": 'Ivory Coast',
         Czechia: 'Czech Republic',
@@ -1288,7 +1297,7 @@
         'The Gambia': 'Gambia',
         US: 'United States',
       }),
-      wt = Object.freeze({
+      It = Object.freeze({
         'Congo (Brazzaville)': 18e5,
         'Cruise Ship': 700,
         Guernsey: 67052,
@@ -1298,33 +1307,33 @@
         Serbia: 7022e3,
         'Taiwan*': 2378e4,
       }),
-      xt = (St || []).reduce(
+      Ot = (kt || []).reduce(
         (t, n) => ((t[n.country] = parseInt(n.population, 10)), t),
         {}
       ),
-      It = [
+      Mt = [
         'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Confirmed.csv',
         'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Deaths.csv',
         'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Recovered.csv',
       ];
-    function Ot() {
-      return Promise.all(It.map(t => fetch(t)))
-        .then(At)
-        .then(Pt)
+    function At() {
+      return Promise.all(Mt.map(t => fetch(t)))
+        .then(Dt)
         .then(Ut)
         .then(Gt)
-        .then(Et)
         .then(Lt)
-        .then(Bt);
-    }
-    function Mt(t) {
-      let n = xt[t];
-      return n || ((n = xt[kt[t]]), n || ((n = wt[t]), n || 1));
-    }
-    function At(t) {
-      return Promise.all(t.map(t => t.text()));
+        .then(Bt)
+        .then(zt)
+        .then(Rt);
     }
     function Nt(t) {
+      let n = Ot[t];
+      return n || ((n = Ot[xt[t]]), n || ((n = It[t]), n || 1));
+    }
+    function Dt(t) {
+      return Promise.all(t.map(t => t.text()));
+    }
+    function jt(t) {
       const n = t.split(''),
         e = { buffer: '', isEscape: !1, isInQuote: !1 },
         o = () => {
@@ -1352,7 +1361,7 @@
         []
       );
     }
-    function Dt(t) {
+    function Pt(t) {
       const n = t[1],
         [e, o] = (function(t) {
           if (t.indexOf(',') > -1) {
@@ -1368,7 +1377,7 @@
         timeSeries: t.slice(4).map(t => parseInt(t, 10)),
       };
     }
-    function jt(t) {
+    function Tt(t) {
       const n = t.split('\n');
       return [
         (function(t) {
@@ -1379,14 +1388,14 @@
         })(n[0]),
         n
           .slice(1)
-          .map(Nt)
-          .map(Dt),
+          .map(jt)
+          .map(Pt),
       ];
     }
-    function Pt(t) {
-      return t.map(jt);
+    function Ut(t) {
+      return t.map(Tt);
     }
-    function Tt(t) {
+    function Et(t) {
       const n = {};
       return (
         t.forEach(
@@ -1399,21 +1408,25 @@
                 }),
                   (t[e] = o);
               };
-              if ((e('World'), n.state))
+              if (
+                (e('World'),
+                n.state &&
+                  !n.locale &&
+                  ('US' === n.country
+                    ? e(`${n.country}.${n.state}`)
+                    : e(n.country)),
+                n.locale)
+              )
                 if ('US' === n.country) {
-                  const t = Ct[n.state];
-                  e(t ? `${n.country}.${t}` : n.country);
-                } else e(n.country);
-              if (n.locale && 'US' === n.country) {
-                const t = Ct[n.state];
-                t
-                  ? e(`${n.country}.${t}`)
-                  : console.log(
-                      'US state ',
-                      n.state,
-                      `(${n.locale}) not found in map`
-                    );
-              }
+                  const t = wt[n.state];
+                  t
+                    ? (e(`${n.country}.${t}`), e(n.country))
+                    : yt(
+                        'US state ',
+                        n.state,
+                        `(${n.locale}) not found in map`
+                      );
+                } else yt('Non US locale', n.country, n.state, n.locale);
             };
           })(n)
         ),
@@ -1440,13 +1453,13 @@
         })(n, t)
       );
     }
-    function Ut(t) {
+    function Gt(t) {
       return t.map(t => {
         const [n, e] = t;
-        return [n, Tt(e)];
+        return [n, Et(e)];
       });
     }
-    function Gt(t) {
+    function Lt(t) {
       return t.map(([t, n]) => [
         t,
         n.sort((t, n) =>
@@ -1466,7 +1479,7 @@
         ),
       ]);
     }
-    function Et(t) {
+    function Bt(t) {
       return [
         [
           t[0][0],
@@ -1481,7 +1494,7 @@
         ],
       ].concat(t);
     }
-    function Lt(t) {
+    function zt(t) {
       return {
         countries: t[0][1]
           .reduce((t, n, e) => {
@@ -1493,7 +1506,7 @@
         dataSets: t,
       };
     }
-    function Bt({ countries: t, dataSets: n }) {
+    function Rt({ countries: t, dataSets: n }) {
       const e = n.map(([t, n], e) => {
         const o = (function(t) {
             switch (t) {
@@ -1515,13 +1528,14 @@
             l = n[e],
             s = o + ' ' + l.country + (l.state ? `, ${l.state}` : '');
           for (let n = 0; n < l.timeSeries.length; n += 1) {
-            const e = Mt(l.country);
+            const e = Nt(l.country);
             r.push({ index: n, x: new Date(t[n]), y: l.timeSeries[n] }),
-              u.push({
-                index: n,
-                x: new Date(t[n]),
-                y: (l.timeSeries[n] / e) * 100,
-              });
+              (l.state && 'Total' !== l.state) ||
+                u.push({
+                  index: n,
+                  x: new Date(t[n]),
+                  y: (l.timeSeries[n] / e) * 100,
+                });
           }
           a.push({ name: s, points: r }), i.push({ name: s, points: u });
         }
@@ -1529,7 +1543,7 @@
       });
       return { countries: t, dataSets: n, points: e };
     }
-    function zt(t) {
+    function Ft(t) {
       const n = new Date(t.lineGraphState.startDate);
       return t.dataPromise.then(({ countries: e, dataSets: o, points: a }) => ({
         countries: e,
@@ -1539,9 +1553,9 @@
               const r = (function(t, n, e, o, a) {
                 switch (t.lineGraphState.mode) {
                   case 1:
-                    return Rt(t, n, e, o, a, 1);
+                    return Kt(t, n, e, o, a, 1);
                   case 2:
-                    return Rt(t, n, e, o, a, 100);
+                    return Kt(t, n, e, o, a, 100);
                   default:
                     return (function(t, n, e, o) {
                       if (t.lineGraphState.countryIndexes.indexOf(o) > -1)
@@ -1560,7 +1574,7 @@
         ),
       }));
     }
-    function Rt(t, n, e, o, a, i) {
+    function Kt(t, n, e, o, a, i) {
       if (t.lineGraphState.countryIndexes.indexOf(e) > -1) {
         let t = 0;
         return {
@@ -1580,8 +1594,8 @@
         };
       }
     }
-    const Kt = [1, 43, 119, 414, 426];
-    function Ft() {
+    const Wt = [];
+    function Vt() {
       if (window.localStorage) {
         const t = window.localStorage.getItem('state');
         if (t)
@@ -1599,41 +1613,46 @@
                     if (!1 === Array.isArray(t.countryIndexes)) return !1;
                     if (!1 === Array.isArray(t.dataSetIndexes)) return !1;
                     if (!1 === ot(t.mode)) return !1;
-                    if (!1 === ot(t.showStates)) return !1;
+                    if ('boolean' != typeof t.showStates) return !1;
                     if (!1 === at(t.startDate)) return !1;
                     return !0;
                   })(t.lineGraphState);
                 })(n)
-                ? (console.log('reseting old state'),
+                ? (yt('Upgrade: Wiping old state'),
                   window.localStorage.setItem('state', ''),
                   null)
-                : Object.assign(Object.assign({}, n), { dataPromise: Ot() })
+                : Object.assign(Object.assign({}, n), { dataPromise: At() })
               : null;
           } catch (t) {
-            return null;
+            return (
+              yt('Failed to parse saved state, resetting localStorage'),
+              window.localStorage.setItem('state', ''),
+              null
+            );
           }
       }
       return null;
     }
-    class Wt extends _ {
+    class Ht extends _ {
       constructor() {
         super();
-        let t = Ft();
+        let t = Vt();
         t ||
+          (yt('No existing state'),
           (t = {
             countries: [],
             currentSeries: [],
-            dataPromise: Ot(),
+            dataPromise: At(),
             lineGraphState: {
               dataSetIndexes: [0],
               byMetric: 0,
-              countryIndexes: Kt,
+              countryIndexes: Wt,
               mode: 2,
               scaleType: 0,
               showStates: !1,
               startDate: '2019-12-26',
             },
-          }),
+          })),
           (this.state = t),
           this.selectAndUpdate();
       }
@@ -1647,7 +1666,7 @@
       }
       selectAndUpdate() {
         this.state.dataPromise
-          .then(() => zt(this.state))
+          .then(() => Ft(this.state))
           .then(this.updateSelectState.bind(this))
           .then(() => {
             return (
@@ -1673,14 +1692,14 @@
       }
       reload() {
         this.setState({
-          dataPromise: Ot().then(t => (this.selectAndUpdate(), t)),
+          dataPromise: At().then(t => (this.selectAndUpdate(), t)),
         });
       }
       render() {
         return h(
           tt,
           null,
-          h(vt, {
+          h(Ct, {
             path: '/',
             countries: this.state.countries,
             currentSeries: this.state.currentSeries,
@@ -1695,7 +1714,7 @@
       const t = window.document.createElement('section');
       if (((t.className = `full-size ${et}`), !t))
         throw new Error('Could not bootstrap the application');
-      window.document.body.appendChild(t), (n = t), P(h(Wt, null), n);
+      window.document.body.appendChild(t), (n = t), P(h(Ht, null), n);
       var n;
     })();
   },
