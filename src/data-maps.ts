@@ -60,12 +60,22 @@ export const usStates = Object.freeze({
   WY: 'Wyoming',
 });
 
+// Current active cases / per cap
+// Peak active cases / per cap
+// Deaths / per cap
+// Fatality Rate
+// GDP
+// Population Density
+// Time since first confirmed
+// Time since first 100 confirmed
+
 export const mapJhuCountryToPop = Object.freeze({
   'Congo (Kinshasa)': 'The Democratic Republic of Congo',
   "Cote d'Ivoire": 'Ivory Coast',
   Czechia: 'Czech Republic',
   Eswatini: 'Swaziland',
   'Holy See': 'Holy See (Vatican City State)',
+  'Korea, South': 'South Korea',
   'Republic of the Congo': 'Congo',
   Russia: 'Russian Federation',
   'Sri Lanka': 'SriLanka',

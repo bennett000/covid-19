@@ -648,8 +648,8 @@
         : 5;
     }
     var R = null,
-      F = [],
       K = [],
+      F = [],
       W = {};
     function V() {
       var t;
@@ -671,7 +671,7 @@
         void 0 === n && (n = !1),
         'string' != typeof t && t.url && ((n = t.replace), (t = t.url)),
         (function(t) {
-          for (var n = F.length; n--; ) if (F[n].canRoute(t)) return !0;
+          for (var n = K.length; n--; ) if (K[n].canRoute(t)) return !0;
           return !1;
         })(t) &&
           (function(t, n) {
@@ -686,9 +686,9 @@
       );
     }
     function $(t) {
-      for (var n = !1, e = 0; e < F.length; e++)
-        !0 === F[e].routeTo(t) && (n = !0);
-      for (var o = K.length; o--; ) K[o](t);
+      for (var n = !1, e = 0; e < K.length; e++)
+        !0 === K[e].routeTo(t) && (n = !0);
+      for (var o = F.length; o--; ) F[o](t);
       return n;
     }
     function J(t) {
@@ -762,7 +762,7 @@
           return this.updating || this.forceUpdate(), n;
         }),
         (n.prototype.componentWillMount = function() {
-          F.push(this), (this.updating = !0);
+          K.push(this), (this.updating = !0);
         }),
         (n.prototype.componentDidMount = function() {
           var t = this;
@@ -774,7 +774,7 @@
         }),
         (n.prototype.componentWillUnmount = function() {
           'function' == typeof this.unlisten && this.unlisten(),
-            F.splice(F.indexOf(this), 1);
+            K.splice(K.indexOf(this), 1);
         }),
         (n.prototype.componentWillUpdate = function() {
           this.updating = !0;
@@ -834,7 +834,7 @@
         n
       );
     })(_);
-    (X.subscribers = K),
+    (X.subscribers = F),
       (X.getCurrentUrl = V),
       (X.route = H),
       (X.Router = X),
@@ -1290,6 +1290,7 @@
         Czechia: 'Czech Republic',
         Eswatini: 'Swaziland',
         'Holy See': 'Holy See (Vatican City State)',
+        'Korea, South': 'South Korea',
         'Republic of the Congo': 'Congo',
         Russia: 'Russian Federation',
         'Sri Lanka': 'SriLanka',
@@ -1543,7 +1544,7 @@
       });
       return { countries: t, dataSets: n, points: e };
     }
-    function Ft(t) {
+    function Kt(t) {
       const n = new Date(t.lineGraphState.startDate);
       return t.dataPromise.then(({ countries: e, dataSets: o, points: a }) => ({
         countries: e,
@@ -1553,9 +1554,9 @@
               const r = (function(t, n, e, o, a) {
                 switch (t.lineGraphState.mode) {
                   case 1:
-                    return Kt(t, n, e, o, a, 1);
+                    return Ft(t, n, e, o, a, 1);
                   case 2:
-                    return Kt(t, n, e, o, a, 100);
+                    return Ft(t, n, e, o, a, 100);
                   default:
                     return (function(t, n, e, o) {
                       if (t.lineGraphState.countryIndexes.indexOf(o) > -1)
@@ -1574,7 +1575,7 @@
         ),
       }));
     }
-    function Kt(t, n, e, o, a, i) {
+    function Ft(t, n, e, o, a, i) {
       if (t.lineGraphState.countryIndexes.indexOf(e) > -1) {
         let t = 0;
         return {
@@ -1666,7 +1667,7 @@
       }
       selectAndUpdate() {
         this.state.dataPromise
-          .then(() => Ft(this.state))
+          .then(() => Kt(this.state))
           .then(this.updateSelectState.bind(this))
           .then(() => {
             return (
