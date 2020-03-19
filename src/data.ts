@@ -12,6 +12,7 @@ import { totalString, worldString, usaString } from './constants';
 import rawPopulationData from 'country-json/src/country-by-population.json';
 import { Dictionary, objReduce } from '@ch1/utility';
 import { mapJhuCountryToPop, manuallySourcePop, usStates } from './data-maps';
+import { log } from './utility';
 
 const populationDictionary: {
   [key: string]: number;
@@ -194,7 +195,7 @@ export function sumRegion(dictionary: Dictionary<number[]>) {
         if (stateName) {
           addTimeSeries(`${ts.country}.${stateName}`);
         } else {
-          console.log('US state ', ts.state, `(${ts.locale}) not found in map`);
+          log('US state ', ts.state, `(${ts.locale}) not found in map`);
         }
       }
     }

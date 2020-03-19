@@ -13,3 +13,7 @@ export function isMobile() {
   })(navigator.userAgent || navigator.vendor || (window as any).opera);
   return check;
 }
+
+export function log(...args: any[]) {
+  console.log('COVID-19', ...args);
+}

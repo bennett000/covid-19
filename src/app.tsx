@@ -9,6 +9,7 @@ import {
   LineGraphState,
 } from './interfaces';
 import { selectData, fetchData } from './data';
+import { log } from './utility';
 
 export class App extends Component<{}, AppState> {
   constructor() {
@@ -16,6 +17,7 @@ export class App extends Component<{}, AppState> {
 
     let state = loadState();
     if (!state) {
+      log('No existing state');
       state = createState();
     }
     this.state = state;
