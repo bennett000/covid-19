@@ -176,14 +176,9 @@ export function sumRegion(dictionary: Dictionary<number[]>) {
 
     addTimeSeries(worldString);
 
-    if (ts.state) {
+    if (ts.state && !ts.locale) {
       if (ts.country === usaString) {
-        const stateName = usStates[ts.state];
-        if (stateName) {
-          addTimeSeries(`${ts.country}.${stateName}`);
-        } else {
-          addTimeSeries(ts.country);
-        }
+        addTimeSeries(`${ts.country}.${ts.state}`);
       } else {
         addTimeSeries(ts.country);
       }
@@ -194,9 +189,12 @@ export function sumRegion(dictionary: Dictionary<number[]>) {
         const stateName = usStates[ts.state];
         if (stateName) {
           addTimeSeries(`${ts.country}.${stateName}`);
+          addTimeSeries(ts.country);
         } else {
           log('US state ', ts.state, `(${ts.locale}) not found in map`);
         }
+      } else {
+        log('Non US locale', ts.country, ts.state, ts.locale);
       }
     }
   };

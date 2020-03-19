@@ -222,12 +222,6 @@ describe('data functions', () => {
           state: 'Ohio',
           timeSeries: [1, 2, 3],
         },
-        {
-          country: 'US',
-          locale: "Cook's County",
-          state: 'Ohio',
-          timeSeries: [4, 5, 6],
-        },
       ]);
     });
   });
