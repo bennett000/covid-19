@@ -1,18 +1,21 @@
 import {
-  JhuCsv,
-  JhuCsvRow,
   SelectOptionsWithIndex,
   ChartPoint,
   ChartSeries,
   AppState,
   JhuIntegratedData,
+  JhuTimeSeries,
+  JhuTimeSeriesHeader,
+  JhuSet,
 } from './interfaces';
-import { totalString } from './constants';
+import { totalString, worldString, usaString } from './constants';
 import rawPopulationData from 'country-json/src/country-by-population.json';
+import { Dictionary, objReduce } from '@ch1/utility';
+import { mapJhuCountryToPop, manuallySourcePop, usStates } from './data-maps';
 
 const populationDictionary: {
   [key: string]: number;
-} = rawPopulationData.reduce((p, node) => {
+} = (rawPopulationData || []).reduce((p, node) => {
   p[node.country] = parseInt(node.population, 10);
   return p;
 }, {});
@@ -24,19 +27,14 @@ const urls = [
 ];
 
 export function fetchData() {
-  return (
-    Promise.all(urls.map(url => fetch(url)))
-      .then(unwrapResponses)
-      .then(convertToCsv)
-      .then(alphabetize)
-      .then(tap)
-      .then(sumRegions)
-      // re alphabetize to integrate countries
-      .then(alphabetize)
-      .then(generateActiveCases)
-      .then(extractCountries)
-      .then(csvToPoints)
-  );
+  return Promise.all(urls.map(url => fetch(url)))
+    .then(unwrapResponses)
+    .then(convertAllCsvToStructured)
+    .then(sumAllRegions)
+    .then(alphabetize)
+    .then(generateActiveCases)
+    .then(extractCountries)
+    .then(csvToPoints);
 }
 
 function getPopulation(country: string): number {
@@ -55,219 +53,266 @@ function getPopulation(country: string): number {
   return 1;
 }
 
-function tap(thing) {
-  const jhuCountries = thing[0].map(row => row[1] as string);
-  (window as any).compareNations = (
-    json: { country: string; population: string }[]
-  ) => {
-    const popCountries = json.map(p => p.country);
-
-    console.log(
-      '{\n' +
-        jhuCountries
-          .map(jc => {
-            const country = mapJhuCountryToPop[jc]
-              ? mapJhuCountryToPop[jc]
-              : jc;
-            let popIndex = popCountries.indexOf(country);
-            if (popIndex === -1) {
-              const fallback = manuallySourcePop[jc];
-              if (fallback) {
-                return null;
-              }
-            }
-            if (popIndex === -1) {
-              return `'${jc}'`;
-            }
-            // console.log(jc, json[popIndex].population);
-            return null;
-          })
-          .filter(Boolean)
-          .reduce((deDuped, el) => {
-            if (deDuped.indexOf(el) === -1) {
-              deDuped.push(el);
-            }
-            return deDuped;
-          }, [])
-          .join(",\n'': ") +
-        '}'
-    );
-  };
-  (window as any).dataSet = thing[0];
-
-  return thing;
-}
-
 function unwrapResponses(responses: Response[]) {
   return Promise.all(responses.map(response => response.text()));
 }
 
-function convertToCsv(strings: string[]): JhuCsv[] {
-  return strings.map(s =>
-    s.split('\n').map((row, rowIndex) =>
-      replaceCommasInQuotes(row)
-        .split(',')
-        .map((el: string, i: number) => {
-          if (i === 0) {
-            return el;
-          }
-          if (i === 1) {
-            if (el === '"Korea; South"') {
-              return 'South Korea';
-            }
-            return el;
-          }
-          if (rowIndex === 0) {
-            if (i > 3) {
-              return new Date(el);
-            }
-            return el;
-          }
-          if (i > 3) {
-            return parseInt(el, 10);
-          }
-          return el;
-        })
-    )
-  );
-}
+export function csvRowStringToArray(csvRow: string): string[] {
+  const chars = csvRow.split('');
 
-function sumRegions(dataSets: JhuCsv[]): JhuCsv[] {
-  // must be used after alphabetizing
-  return dataSets.map((dataSet: JhuCsv) => {
-    let world: JhuCsvRow = [totalString, 'World', 0, 0];
-    let sum: JhuCsvRow = [];
-    let count = 0;
-    const resetSum = (row: JhuCsvRow) => {
-      sum = row.slice(0);
-      sum[0] = totalString;
-    };
+  const state = {
+    buffer: '',
+    isEscape: false,
+    isInQuote: false,
+  };
 
-    const incrementSum = (row: JhuCsvRow) => {
-      for (let i = 4; i < row.length; i += 1) {
-        (sum as number[])[i] += (row as number[])[i];
-      }
-    };
-
-    const incrementWorld = (row: JhuCsvRow) => {
-      for (let i = 4; i < row.length; i += 1) {
-        if ((world as number[])[i] === undefined) {
-          world.push(0);
-        }
-        (world as number[])[i] += (row as number[])[i];
-      }
-    };
-
-    return dataSet.concat(
-      dataSet
-        .reduce((totals: JhuCsv, row, i, arr) => {
-          if (i === 0) {
-            return totals;
-          }
-          incrementWorld(row);
-          if (i === 1) {
-            resetSum(row);
-            return totals;
-          }
-          if (arr[i - 1][1] === row[1]) {
-            count += 1;
-            incrementSum(row);
-            return totals;
-          }
-          if (count > 1) {
-            totals.push(sum);
-          }
-          count = 0;
-          resetSum(row);
-          return totals;
-        }, [])
-        .concat([world])
-    );
-  });
-}
-
-function replaceCommasInQuotes(input: string) {
-  if (/"[A-Za-z0-9\s\.']+(,)/.test(input)) {
-    if (input.charAt(0) === ',') {
-      const index = input.indexOf(',', 1);
-      return input.substr(0, index) + ';' + input.substr(index + 1);
+  const toggleQuoteState = () => {
+    if (state.isInQuote) {
+      state.isInQuote = false;
+    } else {
+      state.isInQuote = true;
     }
-    return replaceCommasInQuotes(input.replace(',', ';'));
+  };
+
+  const toggleEscape = () => {
+    if (state.isEscape) {
+      state.isEscape = false;
+    } else {
+      state.isEscape = true;
+    }
+  };
+
+  return chars.reduce((arr: any[], el: string, i: number, c: string[]) => {
+    if (el === '"') {
+      if (state.isEscape) {
+        state.buffer += el;
+        toggleEscape();
+      } else {
+        toggleQuoteState();
+      }
+      return arr;
+    }
+    if (el === '\\') {
+      if (state.isEscape) {
+        state.buffer += el;
+        toggleEscape();
+      } else {
+        toggleEscape();
+      }
+      return arr;
+    }
+    if (el === ',') {
+      if (state.isInQuote) {
+        state.buffer += el;
+      } else {
+        arr.push(state.buffer);
+        state.buffer = '';
+      }
+      return arr;
+    }
+    state.buffer += el;
+    if (i === c.length - 1) {
+      arr.push(state.buffer);
+      state.buffer = '';
+    }
+    return arr;
+  }, []);
+}
+
+export function stateToLocaleState(string: string) {
+  if (string.indexOf(',') > -1) {
+    const split = string.split(',').filter(Boolean);
+    return [split[0].trim(), split[1].trim()];
+  } else {
+    return ['', string];
   }
-  return input;
 }
 
-function alphabetize(dataSets: JhuCsv[]): JhuCsv[] {
-  return dataSets.map(dataSet => {
-    const titles = dataSet.shift();
-    dataSet.sort((a, b) => {
-      if (a[1] < b[1]) {
-        return -1;
-      }
-      if (a[1] > b[1]) {
-        return 1;
-      }
-      if (a[0] < b[0]) {
-        return -1;
-      }
-      if (a[0] > b[0]) {
-        return 1;
-      }
-      return 0;
-    });
-
-    return [titles].concat(dataSet);
-  });
+export function csvRowStringToJhuTimeSeriesHeadaer(
+  rowString: string
+): JhuTimeSeriesHeader {
+  const cells = rowString.split(',');
+  return cells.slice(4).map(item => new Date(item));
 }
 
-function generateActiveCases(dataSets: JhuCsv[]): JhuCsv[] {
+export function convertRowToTimeSeries(row: string[]): JhuTimeSeries {
+  const country = row[1];
+  const [locale, state] = stateToLocaleState(row[0]);
+  return {
+    country,
+    locale,
+    state,
+    timeSeries: row.slice(4).map(item => parseInt(item, 10)),
+  };
+}
+
+export function convertStringArrayToStructured(rowString: string): JhuSet {
+  const rows = rowString.split('\n');
+  const header = csvRowStringToJhuTimeSeriesHeadaer(rows[0]);
   return [
-    dataSets[0].map(
-      (row, i) =>
-        row.map((cell, j) => {
-          if (i === 0) {
-            return cell;
-          }
-          if (j < 4) {
-            return cell;
-          }
-          return (
-            (dataSets[0][i][j] as number) -
-            (dataSets[1][i][j] as number) -
-            (dataSets[2][i][j] as number)
-          );
-        }) as JhuCsvRow
-    ),
-  ].concat(dataSets);
+    header,
+    rows
+      .slice(1)
+      .map(csvRowStringToArray)
+      .map(convertRowToTimeSeries),
+  ];
 }
 
-function extractCountries(dataSets: JhuCsv[]) {
-  const countries = dataSets[0].reduce(
-    (countryArr: SelectOptionsWithIndex[], row, i) => {
-      if (i === 0) {
-        return countryArr;
-      }
-      if (row.length < 5) {
-        return countryArr;
-      }
-      let state = (row as string[])[0];
-      if (state && (row as string[])[1] === 'US') {
-        if (state.indexOf(';') === -1) {
-          const name = state
-            ? (row as string[])[1] + ', ' + (row as string[])[0]
-            : (row as string[])[1];
-          countryArr.push({ index: i, name });
+function convertAllCsvToStructured(strings: string[]) {
+  return strings.map(convertStringArrayToStructured);
+}
+
+export function sumRegion(dictionary: Dictionary<number[]>) {
+  return (ts: JhuTimeSeries) => {
+    const addTimeSeries = (key: string) => {
+      const currentTs =
+        dictionary[key] || new Array(ts.timeSeries.length).fill(0);
+      ts.timeSeries.forEach((cell, i) => {
+        currentTs[i] += cell;
+      });
+      dictionary[key] = currentTs;
+    };
+
+    addTimeSeries(worldString);
+
+    if (ts.state) {
+      if (ts.country === usaString) {
+        const stateName = usStates[ts.state];
+        if (stateName) {
+          addTimeSeries(`${ts.country}.${stateName}`);
+        } else {
+          addTimeSeries(ts.country);
         }
       } else {
-        const name = state
-          ? (row as string[])[1] + ', ' + (row as string[])[0]
-          : (row as string[])[1];
-        countryArr.push({ index: i, name });
+        addTimeSeries(ts.country);
       }
-      return countryArr;
+    }
+
+    if (ts.locale) {
+      if (ts.country === usaString) {
+        const stateName = usStates[ts.state];
+        if (stateName) {
+          addTimeSeries(`${ts.country}.${stateName}`);
+        } else {
+          console.log('US state ', ts.state, `(${ts.locale}) not found in map`);
+        }
+      }
+    }
+  };
+}
+
+export function sumDataSetRegions(
+  timeSeries: JhuTimeSeries[]
+): JhuTimeSeries[] {
+  const dictionary: Dictionary<number[]> = {};
+  timeSeries.forEach(sumRegion(dictionary));
+
+  return totalsDictionaryToTimeSeries(dictionary, timeSeries);
+}
+
+export function totalsDictionaryToTimeSeries(
+  dictionary: Dictionary<number[]>,
+  timeSeries: JhuTimeSeries[]
+) {
+  return objReduce(
+    dictionary,
+    (s: JhuTimeSeries[], totalSeries, key) => {
+      const parts = key.split('.').filter(Boolean);
+      if (parts.length < 1) {
+        return s;
+      }
+      s.push({
+        country: parts[0],
+        locale: '',
+        state: parts[1] || totalString,
+        timeSeries: totalSeries,
+      });
+      return s;
     },
     []
+  ).concat(
+    timeSeries.filter(el => {
+      if (el.country === usaString) {
+        if (el.state || el.locale) {
+          return false;
+        }
+      }
+      return true;
+    })
   );
+}
+
+export function sumAllRegions(dataSets: JhuSet[]): JhuSet[] {
+  // must be used after alphabetizing
+  return dataSets.map(ds => {
+    const [header, dataSet] = ds;
+    return [header, sumDataSetRegions(dataSet)];
+  });
+}
+
+function alphabetize(dataSets: JhuSet[]): JhuSet[] {
+  return dataSets.map(([header, timeSeries]) => {
+    return [
+      header,
+      timeSeries.sort((a, b) => {
+        if (a.country < b.country) {
+          return -1;
+        }
+        if (a.country > b.country) {
+          return 1;
+        }
+        if (a.state < b.state) {
+          return -1;
+        }
+        if (a.state > b.state) {
+          return 1;
+        }
+        if (a.locale < b.locale) {
+          return -1;
+        }
+        if (a.locale > b.locale) {
+          return 1;
+        }
+        return 0;
+      }),
+    ];
+  });
+}
+
+export function generateActiveCases(dataSets: JhuSet[]): JhuSet[] {
+  const activeSet: JhuSet[] = [
+    [
+      dataSets[0][0],
+      dataSets[0][1].map((ts, i) => {
+        return {
+          country: ts.country,
+          locale: ts.locale,
+          state: ts.state,
+          timeSeries: ts.timeSeries.map((confirmed, j) => {
+            return (
+              confirmed -
+              dataSets[1][1][i].timeSeries[j] -
+              dataSets[2][1][i].timeSeries[j]
+            );
+          }),
+        };
+      }),
+    ],
+  ];
+  return activeSet.concat(dataSets);
+}
+
+function extractCountries(dataSets: JhuSet[]) {
+  const countries = dataSets[0][1]
+    .reduce((countryArr: SelectOptionsWithIndex[], row, i) => {
+      if (row.locale) {
+        return null;
+      }
+      const name = row.state ? row.country + ', ' + row.state : row.country;
+      countryArr.push({ index: i, name });
+      return countryArr;
+    }, [])
+    .filter(Boolean);
 
   return { countries, dataSets };
 }
@@ -277,38 +322,31 @@ function csvToPoints({
   dataSets,
 }: {
   countries: SelectOptionsWithIndex[];
-  dataSets: JhuCsv[];
+  dataSets: JhuSet[];
 }): JhuIntegratedData {
-  const points = dataSets.map((dataSet, dataSetIndex) => {
+  const points = dataSets.map(([header, dataSet], dataSetIndex) => {
     const chartType = getChartTypeFromIndex(dataSetIndex);
     const seriesValue: ChartSeries[] = [];
     const seriesPercent: ChartSeries[] = [];
     for (let i = 1; i < dataSet.length; i += 1) {
-      let name = '';
       let valuePoints: ChartPoint[] = [];
       let percentPoints: ChartPoint[] = [];
       let row = dataSet[i];
+      let name =
+        chartType + ' ' + row.country + (row.state ? `, ${row.state}` : '');
 
-      for (let j = 0; j < row.length; j += 1) {
-        const pop = getPopulation((row as string[])[1]);
-        if (j === 1) {
-          name = chartType + ' ' + row[1] + ', ' + row[0];
-        }
-        if (j > 3) {
-          if (!row[j] || row[j] !== row[j]) {
-            continue;
-          }
-          valuePoints.push({
-            index: j,
-            x: new Date(dataSet[0][j]),
-            y: (row as number[])[j],
-          });
-          percentPoints.push({
-            index: j,
-            x: new Date(dataSet[0][j]),
-            y: ((row as number[])[j] / pop) * 100,
-          });
-        }
+      for (let j = 0; j < row.timeSeries.length; j += 1) {
+        const pop = getPopulation(row.country);
+        valuePoints.push({
+          index: j,
+          x: new Date(header[j]),
+          y: row.timeSeries[j],
+        });
+        percentPoints.push({
+          index: j,
+          x: new Date(header[j]),
+          y: (row.timeSeries[j] / pop) * 100,
+        });
       }
       seriesValue.push({
         name,
@@ -348,7 +386,7 @@ export function selectData(state: AppState) {
               state,
               country,
               i + 1,
-              dataSets[0][i + 1],
+              dataSets[0][1][i + 1],
               startDate
             );
             if (dp) {
@@ -369,7 +407,7 @@ function selectDataPointByMode(
   state: AppState,
   country: ChartSeries,
   i: number,
-  confirmed: JhuCsvRow,
+  confirmed: JhuTimeSeries,
   startDate: Date
 ) {
   switch (state.lineGraphState.mode) {
@@ -421,7 +459,7 @@ function selectDataPointByConfirmed(
   state: AppState,
   country: ChartSeries,
   i: number,
-  confirmed: JhuCsvRow,
+  confirmed: JhuTimeSeries,
   startDate: Date,
   min: number
 ) {
@@ -432,7 +470,7 @@ function selectDataPointByConfirmed(
       points: country.points
         .map((p, j) => {
           if (p.x > startDate) {
-            const y = confirmed[p.index];
+            const y = confirmed.timeSeries[p.index];
 
             if (y >= min) {
               const x = newX;
@@ -450,29 +488,3 @@ function selectDataPointByConfirmed(
     };
   }
 }
-
-const mapJhuCountryToPop = Object.freeze({
-  'Congo (Kinshasa)': 'The Democratic Republic of Congo',
-  "Cote d'Ivoire": 'Ivory Coast',
-  Czechia: 'Czech Republic',
-  Eswatini: 'Swaziland',
-  'Holy See': 'Holy See (Vatican City State)',
-  'Republic of the Congo': 'Congo',
-  Russia: 'Russian Federation',
-  'Sri Lanka': 'SriLanka',
-  'The Bahamas': 'Bahamas',
-  'The Gambia': 'Gambia',
-  US: 'United States',
-});
-
-// manually source via internet march 17 2020
-const manuallySourcePop = Object.freeze({
-  'Congo (Brazzaville)': 1800000,
-  'Cruise Ship': 700,
-  Guernsey: 67052,
-  Jersey: 97857,
-  Kosovo: 1831000,
-  Montenegro: 613219,
-  Serbia: 7022000,
-  'Taiwan*': 23780000,
-});

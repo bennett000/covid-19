@@ -31,18 +31,18 @@ export interface LineGraphState {
   showStates: boolean;
   startDate: string;
 }
-
-export type JhuCsvRow = (number | string | Date)[];
-export type JhuCsv = JhuCsvRow[];
-
-export interface JhuParsedData {
-  countries: SelectOptionsWithIndex[];
-  dataSets: JhuCsv[];
-  points: ChartSeries[][];
+export interface JhuTimeSeries {
+  country: string;
+  locale: string;
+  state: string;
+  timeSeries: number[];
 }
+
+export type JhuTimeSeriesHeader = Date[];
+export type JhuSet = [JhuTimeSeriesHeader, JhuTimeSeries[]];
 
 export interface JhuIntegratedData {
   countries: SelectOptionsWithIndex[];
-  dataSets: JhuCsv[];
+  dataSets: JhuSet[];
   points: ChartSeries[][][];
 }
