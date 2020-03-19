@@ -108,12 +108,20 @@ export class SelectMultipleFilter extends Component<
           )}
           <Button label="✗" onClick={this.clearFilter.bind(this)}></Button>
         </div>
-        <SelectMultiple
-          onChange={onChange}
-          onClick={onDeselect}
-          options={this.state.options}
-          selected={this.props.selected}
-        />
+        {isMobile() ? (
+          <SelectMultiple
+            onChange={onChange}
+            options={this.state.options}
+            selected={this.props.selected}
+          />
+        ) : (
+          <SelectMultiple
+            onChange={onChange}
+            onClick={onDeselect}
+            options={this.state.options}
+            selected={this.props.selected}
+          />
+        )}
       </div>
     );
   }
