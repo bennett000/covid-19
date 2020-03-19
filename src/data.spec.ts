@@ -165,6 +165,24 @@ describe('data functions', () => {
       expect(dict['US.Ohio']).toEqual([1, 2, 3]);
     });
 
+    it(`produces a state and national total for the US`, () => {
+      const dict = {};
+      sumRegion(dict)({
+        country: 'US',
+        locale: "Cook's County",
+        state: 'OH',
+        timeSeries: [1, 1, 1],
+      });
+      sumRegion(dict)({
+        country: 'US',
+        locale: 'Grand County',
+        state: 'OH',
+        timeSeries: [0, 1, 2],
+      });
+      expect(dict['US.Ohio']).toEqual([1, 2, 3]);
+      expect(dict['US']).toEqual([1, 2, 3]);
+    });
+
     it(`ignores invalid US states`, () => {
       const dict = {};
       sumRegion(dict)({
