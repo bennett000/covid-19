@@ -179,6 +179,7 @@ export function sumRegion(dictionary: Dictionary<number[]>) {
     if (ts.state && !ts.locale) {
       if (ts.country === usaString) {
         addTimeSeries(`${ts.country}.${ts.state}`);
+        addTimeSeries(ts.country);
       } else {
         addTimeSeries(ts.country);
       }
