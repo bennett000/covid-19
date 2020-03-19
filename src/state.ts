@@ -1,9 +1,10 @@
 import { fetchData } from './data';
 import { AppState } from './interfaces';
 import { isNumber, isString } from '@ch1/utility';
+import { log } from './utility';
 
 const defaultDataset = 0;
-const defaultCountries = [1, 43, 119, 414, 426];
+const defaultCountries = [];
 const defaultMode = 2;
 const defaultStart = '2019-12-26';
 const defaultScaleType = 0;
@@ -48,7 +49,7 @@ export function loadState(): AppState | null {
           return null;
         }
         if (isSavedAppState(parsed) === false) {
-          console.log('reseting old state');
+          log('Upgrade: Wiping old state');
           window.localStorage.setItem('state', '');
           return null;
         }
@@ -57,6 +58,8 @@ export function loadState(): AppState | null {
           dataPromise: fetchData(),
         };
       } catch (e) {
+        log('Failed to parse saved state, resetting localStorage');
+        window.localStorage.setItem('state', '');
         return null;
       }
     }
@@ -98,7 +101,7 @@ function isSavedLineGraphState(thing: any): boolean {
     return false;
   }
 
-  if (isNumber(thing.showStates) === false) {
+  if (typeof thing.showStates !== 'boolean') {
     return false;
   }
 

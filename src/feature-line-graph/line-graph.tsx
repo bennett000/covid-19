@@ -56,8 +56,8 @@ export class LineGraph extends Component<
         ></Chart>
         <ButtonToggle
           classes={classes}
-          labelTrue="✗"
-          labelFalse="⚙️"
+          labelTrue="✗ Enlarge Chart"
+          labelFalse="⚙️ Configure Chart"
           onClick={this.toggleConfig.bind(this)}
           state={this.state.isConfigOpen}
         />
