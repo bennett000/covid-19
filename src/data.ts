@@ -341,6 +341,12 @@ function csvToPoints({
           x: new Date(header[j]),
           y: row.timeSeries[j],
         });
+        if (row.state) {
+          if (row.state !== totalString) {
+            // we do not have state population data yet
+            continue;
+          }
+        }
         percentPoints.push({
           index: j,
           x: new Date(header[j]),
