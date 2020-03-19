@@ -1413,7 +1413,7 @@
                 n.state &&
                   !n.locale &&
                   ('US' === n.country
-                    ? e(`${n.country}.${n.state}`)
+                    ? (e(`${n.country}.${n.state}`), e(n.country))
                     : e(n.country)),
                 n.locale)
               )
