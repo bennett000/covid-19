@@ -10,8 +10,12 @@ import {
 } from './interfaces';
 import { selectData, fetchData } from './data';
 import { log } from './utility';
+import { Dictionary } from '@ch1/utility';
 
-export class App extends Component<{}, AppState> {
+export class App extends Component<
+  { cache: Dictionary<ChartSeries>; reset: () => any },
+  AppState
+> {
   constructor() {
     super();
 
@@ -40,7 +44,7 @@ export class App extends Component<{}, AppState> {
 
   selectAndUpdate() {
     this.state.dataPromise
-      .then(() => selectData(this.state))
+      .then(() => selectData(this.props.cache, this.state))
       .then(this.updateSelectState.bind(this))
       .then(() => saveState(this.state));
   }
@@ -54,6 +58,7 @@ export class App extends Component<{}, AppState> {
   }
 
   reload() {
+    this.props.reset();
     this.setState({
       dataPromise: fetchData().then(d => {
         this.selectAndUpdate();
@@ -79,5 +84,6 @@ export class App extends Component<{}, AppState> {
 }
 
 export function render(root: HTMLElement) {
-  preactRender(<App />, root);
+  let cache: Dictionary<ChartSeries> = {};
+  preactRender(<App cache={cache} reset={() => (cache = {})} />, root);
 }

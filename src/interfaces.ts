@@ -31,18 +31,33 @@ export interface LineGraphState {
   showStates: boolean;
   startDate: string;
 }
-export interface JhuTimeSeries {
+
+export interface Location {
   country: string;
   locale: string;
+  population: number;
+  populationDensity: null | number;
   state: string;
+}
+export interface JhuTimeSeries extends Location {
   timeSeries: number[];
 }
 
 export type JhuTimeSeriesHeader = Date[];
 export type JhuSet = [JhuTimeSeriesHeader, JhuTimeSeries[]];
 
+export interface TimeSeriesCount {
+  active: number;
+  confirmed: number;
+  deaths: number;
+  recoveries: number;
+}
+export interface TimeSeries extends Location {
+  dates: Date[];
+  counts: TimeSeriesCount[];
+}
+
 export interface JhuIntegratedData {
   countries: SelectOptionsWithIndex[];
-  dataSets: JhuSet[];
-  points: ChartSeries[][][];
+  timeSeries: TimeSeries[];
 }
