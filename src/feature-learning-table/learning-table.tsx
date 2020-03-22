@@ -141,7 +141,9 @@ export class LearningTable extends Component<
   }
 
   render() {
-    const tbody = window.document.body.clientHeight * 0.82;
+    const tbody =
+      window.document.body.clientHeight *
+      (this.state.isConfigOpen ? 0.6 : 0.82);
     const width = `width: ${100 / (this.props.state.columns.length || 1)}%;`;
     return (
       <section className={`${fullSize} ${flexCol}`}>
