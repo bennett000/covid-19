@@ -893,23 +893,23 @@
       }),
       it = [
         '#e01010',
-        '#e30ed6',
         '#067ff1',
         '#5adc13',
         '#14f8e5',
+        '#e30ed6',
         '#ff6600',
         '#ece019',
-        '#7446f8',
+        '#590596',
       ],
       at = [
-        '#e01010',
-        '#e3c1e1',
+        '#f09090',
         '#add0f1',
         '#b5dc9f',
         '#b7f8f3',
+        '#e3c1e1',
         '#ffc6a0',
         '#ece79c',
-        '#c1aef8',
+        '#9e8dce',
       ];
     function rt(t) {
       return 'boolean' == typeof t;
@@ -1944,53 +1944,56 @@
       }
     }
     function nn(t, n) {
-      return n.dataPromise.then(({ countries: e, timeSeries: o }) => ({
-        countries: e,
-        series: o.reduce(
-          (e, o, i) =>
-            n.lineGraphState.countryIndexes.indexOf(o.index()) > -1
-              ? (function(t, n, e, o, i) {
-                  switch (n.lineGraphState.mode) {
-                    case 1:
-                      return en(t, n, e, o, i, 1);
-                    case 2:
-                      return en(t, n, e, o, i, 100);
-                    default:
-                      return (function(t, n, e, o, i) {
-                        const a = new Date(n.lineGraphState.startDate);
-                        return (
-                          n.lineGraphState.dataSetIndexes.forEach(t => {
-                            const r =
-                                t > 3 ? at[i % at.length] : it[i % it.length],
-                              s = on(t),
-                              u = {
-                                color: r,
-                                line: { color: r },
-                                name: tn(t) + ' ' + o.countryName(),
-                                points: [],
-                              };
-                            (u.points = o.counts().reduce((t, e, i) => {
-                              if (o.dates()[i] && o.dates()[i] > a) {
-                                const a = an(
-                                  n.lineGraphState.byMetric,
-                                  e[s],
-                                  o.population()
-                                );
-                                a && t.push({ x: o.dates()[i], y: a });
-                              }
-                              return t;
-                            }, [])),
-                              e.push(u);
-                          }),
-                          e
-                        );
-                      })(0, n, e, o, i);
-                  }
-                })(t, n, e, o, i)
-              : e,
-          []
-        ),
-      }));
+      return n.dataPromise.then(({ countries: e, timeSeries: o }) => {
+        let i = 0;
+        return {
+          countries: e,
+          series: o.reduce(
+            (e, o) =>
+              n.lineGraphState.countryIndexes.indexOf(o.index()) > -1
+                ? (function(t, n, e, o, i) {
+                    switch (n.lineGraphState.mode) {
+                      case 1:
+                        return en(t, n, e, o, i, 1);
+                      case 2:
+                        return en(t, n, e, o, i, 100);
+                      default:
+                        return (function(t, n, e, o, i) {
+                          const a = new Date(n.lineGraphState.startDate);
+                          return (
+                            n.lineGraphState.dataSetIndexes.forEach(t => {
+                              const r =
+                                  t > 3 ? at[i % at.length] : it[i % it.length],
+                                s = on(t),
+                                u = {
+                                  color: r,
+                                  line: { color: r },
+                                  name: tn(t) + ' ' + o.countryName(),
+                                  points: [],
+                                };
+                              (u.points = o.counts().reduce((t, e, i) => {
+                                if (o.dates()[i] && o.dates()[i] > a) {
+                                  const a = an(
+                                    n.lineGraphState.byMetric,
+                                    e[s],
+                                    o.population()
+                                  );
+                                  a && t.push({ x: o.dates()[i], y: a });
+                                }
+                                return t;
+                              }, [])),
+                                e.push(u);
+                            }),
+                            e
+                          );
+                        })(0, n, e, o, i);
+                    }
+                  })(t, n, e, o, i++)
+                : e,
+            []
+          ),
+        };
+      });
     }
     function en(t, n, e, o, i, a) {
       const r = new Date(n.lineGraphState.startDate);

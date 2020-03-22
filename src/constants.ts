@@ -25,22 +25,22 @@ export const reverseDeathProjectionDefaults = Object.freeze({
 
 export const basePalette = [
   '#e01010',
-  '#e30ed6',
   '#067ff1',
   '#5adc13',
   '#14f8e5',
+  '#e30ed6',
   '#ff6600',
   '#ece019',
-  '#7446f8',
+  '#590596',
 ];
 
 export const projectionPalette = [
-  '#e01010',
-  '#e3c1e1',
+  '#f09090',
   '#add0f1',
   '#b5dc9f',
   '#b7f8f3',
+  '#e3c1e1',
   '#ffc6a0',
   '#ece79c',
-  '#c1aef8',
+  '#9e8dce',
 ];
