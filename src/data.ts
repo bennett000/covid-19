@@ -465,11 +465,12 @@ function getChartTypeFromIndex(index: number) {
 
 export function selectData(cache: Dictionary<ChartSeries>, state: AppState) {
   return state.dataPromise.then(({ countries, timeSeries }) => {
+    let selectedIndex = 0;
     return {
       countries,
-      series: timeSeries.reduce((cs: ChartSeries[], ts, index) => {
+      series: timeSeries.reduce((cs: ChartSeries[], ts) => {
         if (state.lineGraphState.countryIndexes.indexOf(ts.index()) > -1) {
-          return selectDataByMode(cache, state, cs, ts, index);
+          return selectDataByMode(cache, state, cs, ts, selectedIndex++);
         }
         return cs;
       }, []),
