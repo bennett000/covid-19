@@ -96,8 +96,13 @@ export const mapJhuCountryToPop = Object.freeze({
 
 // manually source via internet march 17 2020
 export const manuallySourcePop = Object.freeze({
+  'Bahamas, The': 395361, // march 22 2020
+  'Cabo Verde': 546388, // march 22 2020
   'Congo (Brazzaville)': 1800000,
+  'Congo (Kinshasa)': 81340000, // march 22 2020
   'Cruise Ship': 700,
+  Fiji: 905502, // march 22 2020
+  'Gambia, The': 2101000, // march 22 2020
   Guernsey: 67052,
   Jersey: 97857,
   Kosovo: 1831000,
@@ -107,6 +112,17 @@ export const manuallySourcePop = Object.freeze({
 });
 
 export const manuallySourceStatePop = Object.freeze({
+  // manually source via internet march 22 2020 (https://en.wikipedia.org/wiki/States_and_territories_of_Australia)
+  Australia: Object.freeze({
+    'Australian Capital Territory': 426709,
+    'New South Wales': 8089526,
+    'Northern Territory': 245869,
+    Queensland: 5095100,
+    'South Australia': 1751693,
+    Tasmania: 534281,
+    Victoria: 6594804,
+    'Western Australia': 2621680,
+  }),
   // manually source via internet march 22 2020 (https://worldpopulationreview.com/canadian-provinces/)
   Canada: Object.freeze({
     Alberta: 4345737,
@@ -159,6 +175,41 @@ export const manuallySourceStatePop = Object.freeze({
     Yunnan: 45966239,
     Zhejiang: 54426891,
   }),
+  // manually source via internet march 22 2020
+  Denmark: Object.freeze({
+    Denmark: 5603000,
+    'Faroe Islands': 49290,
+    Greenland: 56171,
+  }),
+  // manually source via internet march 22 2020
+  France: Object.freeze({
+    France: 66990000,
+    'French Guiana': 290691,
+    'French Polynesia': 283007,
+    Guadeloupe: 395700,
+    Mayotte: 270372,
+    'New Caledonia': 280460,
+    Reunion: 859959,
+    'Saint Barthelemy': 9131,
+    'St Martin': 32125,
+  }),
+  // manually source via internet march 22 2020
+  Netherlands: Object.freeze({
+    Aruba: 105264,
+    Curacao: 161014,
+    Netherlands: 17180000,
+    'Sint Maarten': 41109,
+  }),
+  // manually source via internet march 22 2020
+  'United Kingdom': Object.freeze({
+    'United Kingdom': 66440000,
+    Bermuda: 65441,
+    'Cayman Islands': 61559,
+    'Channel Islands': 3703,
+    Gibraltar: 34571,
+    'Isle of Man': 84287,
+    Montserrat: 5900,
+  }),
   // manually source via internet march 22 2020 (https://github.com/jakevdp/data-USstates/blob/master/state-population.csv)
   US: Object.freeze({
     AL: 4833722,
@@ -172,6 +223,7 @@ export const manuallySourceStatePop = Object.freeze({
     DC: 646449,
     FL: 19552860,
     GA: 9992167,
+    GU: 164229, // manually sourced
     HI: 1404054,
     ID: 1612136,
     IL: 12882135,
@@ -208,6 +260,7 @@ export const manuallySourceStatePop = Object.freeze({
     UT: 2900872,
     VT: 626630,
     VA: 8260405,
+    VI: 107268, // manually sourced
     WA: 6971406,
     WV: 1854304,
     WI: 5742713,
