@@ -227,7 +227,7 @@
         null != a && 'function' != typeof n.type)
       )
         for (p = a.length; p--; ) null != a[p] && d(a[p]);
-      for (p = v; p--; ) null != S[p] && N(S[p], S[p]);
+      for (p = v; p--; ) null != S[p] && M(S[p], S[p]);
       if (_) for (p = 0; p < _.length; p++) P(_[p], _[++p], _[++p]);
     }
     function k(t, n, e) {
@@ -336,7 +336,7 @@
                   ? (n.__c = p = new O(S, k))
                   : ((n.__c = p = new g(S, k)),
                     (p.constructor = O),
-                    (p.render = D)),
+                    (p.render = N)),
                 v && v.sub(p),
                 (p.props = S),
                 p.state || (p.state = {}),
@@ -410,7 +410,7 @@
             p.__h.length && s.push(p),
             _ && (p.__E = p.__ = null),
             (p.__e = !1);
-        } else n.__e = M(e.__e, n, e, i, a, r, s, l);
+        } else n.__e = D(e.__e, n, e, i, a, r, s, l);
         (c = o.diffed) && c(n);
       } catch (t) {
         o.__e(t, n, e);
@@ -431,7 +431,7 @@
           }
         });
     }
-    function M(t, n, e, o, i, a, r, s) {
+    function D(t, n, e, o, i, a, r, s) {
       var u,
         p,
         y,
@@ -502,7 +502,7 @@
         o.__e(t, e);
       }
     }
-    function N(t, n, e) {
+    function M(t, n, e) {
       var i, a, r;
       if (
         (o.unmount && o.unmount(t),
@@ -519,10 +519,10 @@
           }
         i.base = i.__P = null;
       }
-      if ((i = t.__k)) for (r = 0; r < i.length; r++) i[r] && N(i[r], n, e);
+      if ((i = t.__k)) for (r = 0; r < i.length; r++) i[r] && M(i[r], n, e);
       null != a && d(a);
     }
-    function D(t, n, e) {
+    function N(t, n, e) {
       return this.constructor(t, e);
     }
     function B(t, n, e) {
@@ -601,7 +601,7 @@
             l.slice(1).join('=')
           );
         }
-      (t = E(t.replace(i, ''))), (n = E(n || ''));
+      (t = z(t.replace(i, ''))), (n = z(n || ''));
       for (var c = Math.max(t.length, n.length), p = 0; p < c; p++)
         if (n[p] && ':' === n[p].charAt(0)) {
           var y = n[p].replace(/(^:|[+*?]+$)/g, ''),
@@ -626,28 +626,28 @@
         }
       return (!0 === e.default || !1 !== o) && r;
     }
-    function U(t, n) {
+    function R(t, n) {
       return t.rank < n.rank ? 1 : t.rank > n.rank ? -1 : t.index - n.index;
     }
-    function R(t, n) {
+    function U(t, n) {
       return (
         (t.index = n),
         (t.rank = (function(t) {
           return t.props.default
             ? 0
             : ((n = t.props.path),
-              E(n)
-                .map(z)
+              z(n)
+                .map(E)
                 .join(''));
           var n;
         })(t)),
         t.props
       );
     }
-    function E(t) {
+    function z(t) {
       return t.replace(/(^\/+|\/+$)/g, '').split('/');
     }
-    function z(t) {
+    function E(t) {
       return ':' == t.charAt(0)
         ? 1 + '*+?'.indexOf(t.charAt(t.length - 1)) || 4
         : 5;
@@ -789,8 +789,8 @@
         }),
         (n.prototype.getMatchingChildren = function(t, n, e) {
           return t
-            .filter(R)
-            .sort(U)
+            .filter(U)
+            .sort(R)
             .map(function(t) {
               var o = G(n, t.props.path, t.props);
               if (o) {
@@ -884,26 +884,52 @@
         return h('div', { className: this.props.flexSize });
       }
     }
-    const et = 'flex flex-col';
-    function ot(t) {
+    const et = 'flex flex-col',
+      ot = Object.freeze({
+        daysFromInfectionToDeath: 17.3,
+        doublingTime: 6.18,
+        fatalityRate: 0.0087,
+        minDeaths: 10,
+      }),
+      it = [
+        '#e01010',
+        '#e30ed6',
+        '#067ff1',
+        '#5adc13',
+        '#14f8e5',
+        '#ff6600',
+        '#ece019',
+        '#7446f8',
+      ],
+      at = [
+        '#e01010',
+        '#e3c1e1',
+        '#add0f1',
+        '#b5dc9f',
+        '#b7f8f3',
+        '#ffc6a0',
+        '#ece79c',
+        '#c1aef8',
+      ];
+    function rt(t) {
       return 'boolean' == typeof t;
     }
-    function it(t) {
+    function st(t) {
       return 'number' == typeof t;
     }
-    function at(t) {
+    function ut(t) {
       return 'string' == typeof t;
     }
-    function rt() {}
-    function st(t, n, e) {
+    function lt() {}
+    function ct(t, n, e) {
       return Object.keys(t).reduce((e, o, i) => n(e, t[o], o, i, t), e);
     }
-    function ut({ onChange: t, options: n, selected: e }) {
+    function pt({ onChange: t, options: n, selected: e }) {
       return h(
         'select',
         { onChange: n => t(parseInt(n.target.value, 10)) },
         n.map((t, n) =>
-          at(t)
+          ut(t)
             ? h(
                 'option',
                 e === n ? { value: n, selected: !0 } : { value: n },
@@ -917,8 +943,8 @@
         )
       );
     }
-    function lt({ onChange: t, onClick: n, options: e, selected: o }) {
-      n = n || rt;
+    function yt({ onChange: t, onClick: n, options: e, selected: o }) {
+      n = n || lt;
       const i = t => n(parseInt(t.target.value, 10));
       return h(
         'select',
@@ -938,7 +964,7 @@
         },
         e.map((t, n) => {
           const e = n + (1e5 * Math.random()).toString(16);
-          return at(t)
+          return ut(t)
             ? o.indexOf(n) > -1
               ? h('option', { key: e, onClick: i, value: n, selected: !0 }, t)
               : h('option', { key: e, onClick: i, value: n }, t)
@@ -952,21 +978,21 @@
         })
       );
     }
-    function ct({ onChange: t, ymdString: n }) {
+    function dt({ onChange: t, ymdString: n }) {
       return h('input', {
         onChange: n => t(n.target.value),
         type: 'date',
         value: n,
       });
     }
-    function pt({ classes: t, isDisabled: n, label: e, onClick: o }) {
+    function ht({ classes: t, isDisabled: n, label: e, onClick: o }) {
       return h(
         'button',
         { className: t ? t.join(' ') : '', onClick: o, disabled: n },
         e
       );
     }
-    function yt({
+    function ft({
       classes: t,
       listenKeyUp: n,
       onChange: e,
@@ -977,13 +1003,13 @@
       return h('input', {
         className: t ? t.join(' ') : '',
         onChange: a,
-        onKeyUp: n ? a : rt,
+        onKeyUp: n ? a : lt,
         placeholder: o || '',
         type: 'text',
         value: i,
       });
     }
-    function dt() {
+    function mt() {
       let t = !1;
       return (
         (function(n) {
@@ -998,17 +1024,17 @@
         t
       );
     }
-    function ht(...t) {
+    function gt(...t) {
       console.log('COVID-19', ...t);
     }
-    class ft extends g {
+    class bt extends g {
       constructor() {
         super(), (this.state = { filter: '', options: [] });
       }
       getOptions(t, n) {
         return n
           ? t.options.filter(t =>
-              at(t)
+              ut(t)
                 ? t.toLowerCase().indexOf(n.toLowerCase()) > -1
                 : t.name.toLowerCase().indexOf(n.toLowerCase()) > -1
             )
@@ -1056,23 +1082,23 @@
           h(
             'div',
             { className: 'flex' },
-            dt()
+            mt()
               ? ''
-              : h(yt, {
+              : h(ft, {
                   listenKeyUp: !0,
                   onChange: this.updateFilter.bind(this),
                   placeholder: 'filter',
                   value: this.state.filter,
                 }),
-            h(pt, { label: '✗', onClick: this.clearFilter.bind(this) })
+            h(ht, { label: '✗', onClick: this.clearFilter.bind(this) })
           ),
-          dt()
-            ? h(lt, {
+          mt()
+            ? h(yt, {
                 onChange: n,
                 options: this.state.options,
                 selected: this.props.selected,
               })
-            : h(lt, {
+            : h(yt, {
                 onChange: n,
                 onClick: t => {
                   this.props.onDeselect(t);
@@ -1083,49 +1109,55 @@
         );
       }
     }
-    const mt = ['Active', 'Confirmed', 'Deaths', 'Recoveries'],
-      gt = ['By date', 'By first confirmed', 'By first 100 confirmed'],
-      bt = ['Linear', 'Logarithmic'],
-      _t = ['Show States', 'Hide States'],
-      St = ['By Value', 'Percent'];
-    function vt({ countries: t, onChange: n, reload: e, state: o }) {
+    const _t = [
+        'Active',
+        'Confirmed',
+        'Deaths',
+        'Recoveries',
+        'Projection: By Reverse Death',
+      ],
+      St = ['By date', 'By first confirmed', 'By first 100 confirmed'],
+      vt = ['Linear', 'Logarithmic'],
+      Ct = ['Show States', 'Hide States'],
+      kt = ['By Value', 'Percent'];
+    function Ot({ countries: t, onChange: n, reload: e, state: o }) {
       return h(
         'section',
         { className: 'flex flex-item-20' },
         h(
           'section',
           { className: et },
-          h(ut, {
+          h(pt, {
             onChange: function(t) {
               n(Object.assign(Object.assign({}, o), { mode: t }));
             },
-            options: gt,
+            options: St,
             selected: o.mode,
           }),
-          h(ut, {
+          h(pt, {
             onChange: function(t) {
               n(Object.assign(Object.assign({}, o), { scaleType: t }));
             },
-            options: bt,
+            options: vt,
             selected: o.scaleType,
           }),
-          h(ct, {
+          h(dt, {
             onChange: function(t) {
               n(Object.assign(Object.assign({}, o), { startDate: t }));
             },
             ymdString: o.startDate,
           })
         ),
-        h(lt, {
+        h(yt, {
           onChange: function(t) {
             n(Object.assign(Object.assign({}, o), { dataSetIndexes: t }));
           },
-          options: mt,
+          options: _t,
           selected: o.dataSetIndexes,
         }),
-        h(ft, {
+        h(bt, {
           classes: 0 === o.countryIndexes.length ? ['highlight'] : [],
-          onChange: rt,
+          onChange: lt,
           onClear: function() {
             n(Object.assign(Object.assign({}, o), { countryIndexes: [] }));
           },
@@ -1150,26 +1182,26 @@
         h(
           'div',
           { className: et },
-          h(ut, {
+          h(pt, {
             onChange: function(t) {
               n(Object.assign(Object.assign({}, o), { showStates: 0 !== t }));
             },
-            options: _t,
+            options: Ct,
             selected: o.showStates ? 1 : 0,
           }),
-          h(ut, {
+          h(pt, {
             onChange: function(t) {
               n(Object.assign(Object.assign({}, o), { byMetric: t }));
             },
-            options: St,
+            options: kt,
             selected: o.byMetric,
           }),
-          h(pt, { label: 'Reload', onClick: e })
+          h(ht, { label: 'Reload', onClick: e })
         )
       );
       var i;
     }
-    function Ct({
+    function wt({
       classes: t,
       isDisabled: n,
       labelFalse: e,
@@ -1177,14 +1209,14 @@
       onClick: i,
       state: a,
     }) {
-      return h(pt, {
+      return h(ht, {
         classes: t,
         isDisabled: n,
         label: a ? o : e,
         onClick: () => i(!a),
       });
     }
-    class kt extends g {
+    class xt extends g {
       constructor() {
         super(), (this.state = { isConfigOpen: !1 });
       }
@@ -1220,17 +1252,17 @@
           h(
             'section',
             { className: 'flex' },
-            h(Ct, {
+            h(wt, {
               classes: t,
               labelTrue: '✗ Enlarge Chart',
               labelFalse: '⚙️ Configure Chart',
               onClick: this.toggleConfig.bind(this),
               state: this.state.isConfigOpen,
             }),
-            h(pt, { classes: t, label: 'Table', onClick: () => W('/table') })
+            h(ht, { classes: t, label: 'Table', onClick: () => W('/table') })
           ),
           this.state.isConfigOpen
-            ? h(vt, {
+            ? h(Ot, {
                 countries: this.props.countries,
                 currentSeries: this.props.currentSeries,
                 onChange: this.props.onChange,
@@ -1241,9 +1273,9 @@
         );
       }
     }
-    var Ot = e(0),
-      wt = e(1);
-    const xt = Object.freeze({
+    var It = e(0),
+      At = e(1);
+    const Dt = Object.freeze({
         AL: 'Alabama',
         AK: 'Alaska',
         AS: 'American Samoa',
@@ -1304,10 +1336,10 @@
         WI: 'Wisconsin',
         WY: 'Wyoming',
       }),
-      It = Object.freeze(
-        Object.keys(xt).reduce((t, n) => ((t[xt[n]] = n), t), {})
+      Pt = Object.freeze(
+        Object.keys(Dt).reduce((t, n) => ((t[Dt[n]] = n), t), {})
       ),
-      At = Object.freeze({
+      Mt = Object.freeze({
         'Congo (Kinshasa)': 'The Democratic Republic of Congo',
         "Cote d'Ivoire": 'Ivory Coast',
         Czechia: 'Czech Republic',
@@ -1321,7 +1353,7 @@
         'The Gambia': 'Gambia',
         US: 'United States',
       }),
-      Mt = Object.freeze({
+      Nt = Object.freeze({
         'Bahamas, The': 395361,
         'Cabo Verde': 546388,
         'Congo (Brazzaville)': 18e5,
@@ -1336,7 +1368,7 @@
         Serbia: 7022e3,
         'Taiwan*': 2378e4,
       }),
-      Pt = Object.freeze({
+      Bt = Object.freeze({
         Australia: Object.freeze({
           'Australian Capital Territory': 426709,
           'New South Wales': 8089526,
@@ -1485,12 +1517,12 @@
           PR: 3615086,
         }),
       });
-    class Nt {
+    class jt {
       constructor(t) {
         this.data = t;
       }
       static create(t) {
-        return new Nt(t);
+        return new jt(t);
       }
       lastValue(t) {
         return this.data.counts.length < 1
@@ -1563,9 +1595,9 @@
         return this.data.state;
       }
     }
-    class Dt extends Array {
+    class Tt extends Array {
       static create() {
-        return new Dt();
+        return new Tt();
       }
       constructor() {
         super();
@@ -1577,7 +1609,7 @@
         );
       }
       clone() {
-        const t = Dt.create();
+        const t = Tt.create();
         return this.forEach(n => t.push(n)), t;
       }
       sortByActive(t = !0) {
@@ -1631,59 +1663,60 @@
         this.sortByProp('lastRecoveriesPercent', t);
       }
     }
-    const Bt = (Ot || []).reduce(
+    const Gt = (It || []).reduce(
         (t, n) => ((t[n.country] = parseInt(n.population, 10)), t),
         {}
       ),
-      jt = (wt || []).reduce(
+      Rt = (At || []).reduce(
         (t, n) => (
           (t[n.country] = null === n.density ? null : parseInt(n.density, 10)),
           t
         ),
         {}
       ),
-      Tt = [
+      Ut = [
         'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Confirmed.csv',
         'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Deaths.csv',
         'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Recovered.csv',
       ];
-    function Gt() {
-      return Promise.all(Tt.map(t => fetch(t)))
-        .then(Et)
-        .then(Kt)
-        .then(Ht)
-        .then(Jt)
-        .then($t)
+    function zt() {
+      return Promise.all(Ut.map(t => fetch(t)))
+        .then(Ft)
         .then(Wt)
-        .then(qt);
+        .then($t)
+        .then(Yt)
+        .then(Qt)
+        .then(Zt)
+        .then(qt)
+        .then(Xt);
     }
-    function Ut(t, n, e) {
+    function Et(t, n, e) {
       if (e) return 0;
       if (n)
         return (function(t, n, e) {
           if (e) return 0;
-          if (Pt[t])
+          if (Bt[t])
             if ('US' === t) {
-              const e = It[n];
+              const e = Pt[n];
               if (e) {
                 const n = 'D.C.' === e ? 'DC' : e;
-                if (Pt[t][n]) return Pt[t][n];
+                if (Bt[t][n]) return Bt[t][n];
               }
-            } else if (Pt[t][n]) return Pt[t][n];
+            } else if (Bt[t][n]) return Bt[t][n];
           return 0;
         })(t, n, e);
-      let o = Bt[t];
-      return o || ((o = Bt[At[t]]), o || ((o = Mt[t]), o || 0));
+      let o = Gt[t];
+      return o || ((o = Gt[Mt[t]]), o || ((o = Nt[t]), o || 0));
     }
-    function Rt(t, n, e) {
+    function Lt(t, n, e) {
       if (n || e) return 0;
-      let o = jt[t];
-      return o || ((o = jt[At[t]]), o || 0);
+      let o = Rt[t];
+      return o || ((o = Rt[Mt[t]]), o || 0);
     }
-    function Et(t) {
+    function Ft(t) {
       return Promise.all(t.map(t => t.text()));
     }
-    function zt(t) {
+    function Kt(t) {
       const n = t.split(''),
         e = { buffer: '', isEscape: !1, isInQuote: !1 },
         o = () => {
@@ -1711,7 +1744,7 @@
         []
       );
     }
-    function Lt(t) {
+    function Vt(t) {
       const n = t[1],
         [e, o] = (function(t) {
           if (t.indexOf(',') > -1) {
@@ -1723,13 +1756,13 @@
       return {
         country: n,
         locale: e,
-        population: Ut(n, o, e),
-        populationDensity: Rt(n, o, e),
+        population: Et(n, o, e),
+        populationDensity: Lt(n, o, e),
         state: o,
         timeSeries: t.slice(4).map(t => parseInt(t, 10)),
       };
     }
-    function Ft(t) {
+    function Ht(t) {
       const n = t.split('\n');
       return [
         (function(t) {
@@ -1740,15 +1773,15 @@
         })(n[0]),
         n
           .slice(1)
-          .map(zt)
+          .map(Kt)
           .filter(t => t.length)
-          .map(Lt),
+          .map(Vt),
       ];
     }
-    function Kt(t) {
-      return t.map(Ft);
+    function Wt(t) {
+      return t.map(Ht);
     }
-    function Vt(t) {
+    function Jt(t) {
       const n = {};
       return (
         t.forEach(
@@ -1771,20 +1804,20 @@
                 n.locale)
               )
                 if ('US' === n.country) {
-                  const t = xt[n.state];
+                  const t = Dt[n.state];
                   t
                     ? (e(`${n.country}.${t}`), e(n.country))
-                    : ht(
+                    : gt(
                         'US state ',
                         n.state,
                         `(${n.locale}) not found in map`
                       );
-                } else ht('Non US locale', n.country, n.state, n.locale);
+                } else gt('Non US locale', n.country, n.state, n.locale);
             };
           })(n)
         ),
         (function(t, n) {
-          return st(
+          return ct(
             t,
             (t, n, e) => {
               const o = e.split('.').filter(Boolean);
@@ -1793,8 +1826,8 @@
                   t.push({
                     country: o[0],
                     locale: '',
-                    population: Ut(o[0], o[1]),
-                    populationDensity: Rt(o[0], o[1]),
+                    population: Et(o[0], o[1]),
+                    populationDensity: Lt(o[0], o[1]),
                     state: o[1] || 'Total',
                     timeSeries: n,
                   }),
@@ -1808,26 +1841,23 @@
         })(n, t)
       );
     }
-    function Ht(t) {
+    function $t(t) {
       return t.map(t => {
         const [n, e] = t;
-        return [n, Vt(e)];
+        return [n, Jt(e)];
       });
     }
-    function Wt(t) {
+    function qt(t) {
       return t.sortByCountry(), t;
     }
-    function Jt(t) {
+    function Yt(t) {
       return [
         [
           t[0][0],
           t[0][1].map((n, e) => ({
             country: n.country,
             locale: n.locale,
-            population:
-              'World' === n.country
-                ? st(Bt, (t, n) => (n != n ? t : t + n), 0)
-                : n.population,
+            population: 'World' === n.country ? rn() : n.population,
             populationDensity: n.populationDensity,
             state: n.state,
             timeSeries: n.timeSeries.map(
@@ -1837,13 +1867,34 @@
         ],
       ].concat(t);
     }
-    function $t(t) {
+    function Qt(t) {
+      const n = [
+        [
+          t[0][0],
+          t[0][1].map((n, e) => ({
+            country: n.country,
+            locale: n.locale,
+            population: 'World' === n.country ? rn() : n.population,
+            populationDensity: n.populationDensity,
+            state: n.state,
+            timeSeries: n.timeSeries.map((n, o) => {
+              if (t[2][1][e].timeSeries[o] < ot.minDeaths) return 0;
+              const i = t[2][1][e].timeSeries[o] / ot.fatalityRate,
+                a = ot.daysFromInfectionToDeath / ot.doublingTime;
+              return i * Math.pow(2, a);
+            }),
+          })),
+        ],
+      ];
+      return t.concat(n);
+    }
+    function Zt(t) {
       const n = t[0][0],
-        e = Dt.create();
+        e = Tt.create();
       return (
         t[0][1].forEach((o, i) => {
           e.push(
-            Nt.create({
+            jt.create({
               country: o.country,
               index: i,
               dates: n,
@@ -1856,6 +1907,7 @@
                 confirmed: t[1][1][i].timeSeries[e],
                 deaths: t[2][1][i].timeSeries[e],
                 recoveries: t[3][1][i].timeSeries[e],
+                projectionReverseDeath: t[4][1][i].timeSeries[e],
               })),
             })
           );
@@ -1863,7 +1915,7 @@
         e
       );
     }
-    function qt(t) {
+    function Xt(t) {
       return {
         countries: t
           .reduce((t, n, e) => {
@@ -1875,7 +1927,7 @@
         timeSeries: t,
       };
     }
-    function Yt(t) {
+    function tn(t) {
       switch (t) {
         case 0:
           return '😷';
@@ -1883,81 +1935,90 @@
           return '✔';
         case 2:
           return '☠';
+        case 3:
+          return '😊';
+        case 4:
+          return '🤔';
         default:
           return '😊';
       }
     }
-    function Qt(t, n) {
+    function nn(t, n) {
       return n.dataPromise.then(({ countries: e, timeSeries: o }) => ({
         countries: e,
         series: o.reduce(
-          (e, o) =>
+          (e, o, i) =>
             n.lineGraphState.countryIndexes.indexOf(o.index()) > -1
-              ? (function(t, n, e, o) {
+              ? (function(t, n, e, o, i) {
                   switch (n.lineGraphState.mode) {
                     case 1:
-                      return Zt(t, n, e, o, 1);
+                      return en(t, n, e, o, i, 1);
                     case 2:
-                      return Zt(t, n, e, o, 100);
+                      return en(t, n, e, o, i, 100);
                     default:
-                      return (function(t, n, e, o) {
-                        const i = new Date(n.lineGraphState.startDate);
+                      return (function(t, n, e, o, i) {
+                        const a = new Date(n.lineGraphState.startDate);
                         return (
                           n.lineGraphState.dataSetIndexes.forEach(t => {
-                            const a = Xt(t),
-                              r = {
-                                name: Yt(t) + ' ' + o.countryName(),
+                            const r =
+                                t > 3 ? at[i % at.length] : it[i % it.length],
+                              s = on(t),
+                              u = {
+                                color: r,
+                                line: { color: r },
+                                name: tn(t) + ' ' + o.countryName(),
                                 points: [],
                               };
-                            (r.points = o.counts().reduce((t, e, r) => {
-                              if (o.dates()[r] && o.dates()[r] > i) {
-                                const i = tn(
+                            (u.points = o.counts().reduce((t, e, i) => {
+                              if (o.dates()[i] && o.dates()[i] > a) {
+                                const a = an(
                                   n.lineGraphState.byMetric,
-                                  e[a],
+                                  e[s],
                                   o.population()
                                 );
-                                i && t.push({ x: o.dates()[r], y: i });
+                                a && t.push({ x: o.dates()[i], y: a });
                               }
                               return t;
                             }, [])),
-                              e.push(r);
+                              e.push(u);
                           }),
                           e
                         );
-                      })(0, n, e, o);
+                      })(0, n, e, o, i);
                   }
-                })(t, n, e, o)
+                })(t, n, e, o, i)
               : e,
           []
         ),
       }));
     }
-    function Zt(t, n, e, o, i) {
-      const a = new Date(n.lineGraphState.startDate);
+    function en(t, n, e, o, i, a) {
+      const r = new Date(n.lineGraphState.startDate);
       return (
         n.lineGraphState.dataSetIndexes.forEach(t => {
-          const r = Xt(t),
-            s = { name: Yt(t) + ' ' + o.countryName(), points: [] };
-          let u = 0;
-          (s.points = o.counts().reduce((t, e, s) => {
-            if (o.dates()[s] && o.dates()[s] > a && e.confirmed >= i) {
-              tn(n.lineGraphState.byMetric, e[r], o.population()) &&
-                t.push({
-                  x: u++,
-                  y:
-                    0 === n.lineGraphState.byMetric
-                      ? e[r]
-                      : e[r] / o.population(),
-                });
+          const s = on(t),
+            u = t > 3 ? at[i % at.length] : it[i % it.length];
+          console.log(t, u);
+          const l = {
+            color: u,
+            line: { color: u },
+            name: tn(t) + ' ' + o.countryName(),
+            points: [],
+          };
+          let c = 0;
+          (l.points = o.counts().reduce((t, e, i) => {
+            if (o.dates()[i] && o.dates()[i] > r && e.confirmed >= a) {
+              const i = an(n.lineGraphState.byMetric, e[s], o.population());
+              i && t.push({ x: c, y: i }), (c += 1);
             }
             return t;
           }, [])),
-            e.push(s);
+            e.push(l);
         }),
         e
       );
     }
-    function Xt(t) {
+    function on(t) {
       switch (t) {
         case 0:
           return 'active';
@@ -1965,15 +2026,22 @@
           return 'confirmed';
         case 2:
           return 'deaths';
+        case 3:
+          return 'recoveries';
+        case 4:
+          return 'projectionReverseDeath';
         default:
           return 'recoveries';
       }
     }
-    function tn(t, n, e) {
+    function an(t, n, e) {
       return 0 === t ? n : e ? n / e : 0;
     }
-    const nn = [];
-    function en() {
+    function rn() {
+      return ct(Gt, (t, n) => (n != n ? t : t + n), 0);
+    }
+    const sn = [];
+    function un() {
       if (window.localStorage) {
         const t = window.localStorage.getItem('state');
         if (t)
@@ -1989,12 +2057,12 @@
                     !1 ===
                     (function(t) {
                       if (!t) return !1;
-                      if (!1 === it(t.byMetric)) return !1;
+                      if (!1 === st(t.byMetric)) return !1;
                       if (!1 === Array.isArray(t.countryIndexes)) return !1;
                       if (!1 === Array.isArray(t.dataSetIndexes)) return !1;
-                      if (!1 === it(t.mode)) return !1;
+                      if (!1 === st(t.mode)) return !1;
                       if ('boolean' != typeof t.showStates) return !1;
-                      if (!1 === at(t.startDate)) return !1;
+                      if (!1 === ut(t.startDate)) return !1;
                       return !0;
                     })(t.lineGraphState)
                   )
@@ -2002,31 +2070,31 @@
                   return (function(t) {
                     if (!t) return !1;
                     if (!1 === Array.isArray(t.columns)) return !1;
-                    if (!1 === ot(t.showAll)) return !1;
-                    if (!1 === ot(t.sortByActive)) return !1;
-                    if (!1 === ot(t.sortByActivePercent)) return !1;
-                    if (!1 === ot(t.sortByConfirmed)) return !1;
-                    if (!1 === ot(t.sortByConfirmedPercent)) return !1;
-                    if (!1 === ot(t.sortByDeaths)) return !1;
-                    if (!1 === ot(t.sortByDeathsPercent)) return !1;
-                    if (!1 === ot(t.sortByRecoveries)) return !1;
-                    if (!1 === ot(t.sortByRecoveriesPercent)) return !1;
-                    if (!1 === ot(t.sortByPopulation)) return !1;
-                    if (!1 === ot(t.sortByPopulationDensity)) return !1;
+                    if (!1 === rt(t.showAll)) return !1;
+                    if (!1 === rt(t.sortByActive)) return !1;
+                    if (!1 === rt(t.sortByActivePercent)) return !1;
+                    if (!1 === rt(t.sortByConfirmed)) return !1;
+                    if (!1 === rt(t.sortByConfirmedPercent)) return !1;
+                    if (!1 === rt(t.sortByDeaths)) return !1;
+                    if (!1 === rt(t.sortByDeathsPercent)) return !1;
+                    if (!1 === rt(t.sortByRecoveries)) return !1;
+                    if (!1 === rt(t.sortByRecoveriesPercent)) return !1;
+                    if (!1 === rt(t.sortByPopulation)) return !1;
+                    if (!1 === rt(t.sortByPopulationDensity)) return !1;
                     return !0;
                   })(t.tableState);
                 })(n)
-                ? (ht('Upgrade: Wiping old state'),
+                ? (gt('Upgrade: Wiping old state'),
                   window.localStorage.setItem('state', ''),
                   null)
                 : Object.assign(Object.assign({}, n), {
-                    dataPromise: Gt(),
-                    data: Dt.create(),
+                    dataPromise: zt(),
+                    data: Tt.create(),
                   })
               : null;
           } catch (t) {
             return (
-              ht('Failed to parse saved state, resetting localStorage'),
+              gt('Failed to parse saved state, resetting localStorage'),
               window.localStorage.setItem('state', ''),
               null
             );
@@ -2034,7 +2102,7 @@
       }
       return null;
     }
-    const on = [
+    const ln = [
       { label: 'Region', sort: 'sortByCountry' },
       { label: 'Active', sort: 'sortByActive' },
       { label: 'Active %', sort: 'sortByActivePercent' },
@@ -2048,7 +2116,7 @@
       { label: 'Population', sort: 'sortByPopulation' },
       { label: 'Population Density', sort: 'sortByPopulationDensity' },
     ];
-    class an extends g {
+    class cn extends g {
       constructor() {
         super(), (this.state = { isConfigOpen: !1 });
       }
@@ -2128,7 +2196,7 @@
                 h(
                   'tr',
                   null,
-                  on.map((t, e) =>
+                  ln.map((t, e) =>
                     0 === e || this.props.state.columns.indexOf(e) > -1
                       ? h(
                           'th',
@@ -2241,25 +2309,25 @@
             h(
               'section',
               { className: 'flex' },
-              h(Ct, {
+              h(wt, {
                 labelTrue: '✗ Enlarge Table',
                 labelFalse: '⚙️ Configure Table',
                 onClick: this.toggleConfig.bind(this),
                 state: this.state.isConfigOpen,
               }),
-              h(pt, { label: 'Chart', onClick: () => W('/') })
+              h(ht, { label: 'Chart', onClick: () => W('/') })
             ),
             this.state.isConfigOpen
               ? h(
                   'section',
                   { className: 'flex' },
-                  h(lt, {
-                    onChange: rt,
+                  h(yt, {
+                    onChange: lt,
                     onClick: t => this.onChangeColumns(t + 1),
-                    options: on.map(t => t.label).slice(1),
+                    options: ln.map(t => t.label).slice(1),
                     selected: this.props.state.columns.map(t => t - 1),
                   }),
-                  h(ut, {
+                  h(pt, {
                     onChange: this.toggleShowAll.bind(this),
                     options: ['Show All', 'Only Selected'],
                     selected: this.props.state.showAll ? 0 : 1,
@@ -2270,7 +2338,7 @@
         );
       }
     }
-    function rn() {
+    function pn() {
       return h(
         'header',
         { class: 'small-text' },
@@ -2309,22 +2377,22 @@
         ')'
       );
     }
-    class sn extends g {
+    class yn extends g {
       constructor() {
         super();
-        let t = en();
+        let t = un();
         t ||
-          (ht('No existing state'),
+          (gt('No existing state'),
           (t = {
             countries: [],
             currentSeries: [],
-            data: Dt.create(),
-            dataPromise: Gt(),
+            data: Tt.create(),
+            dataPromise: zt(),
             routePath: '/',
             lineGraphState: {
               dataSetIndexes: [0],
               byMetric: 0,
-              countryIndexes: nn,
+              countryIndexes: sn,
               mode: 2,
               scaleType: 0,
               showStates: !1,
@@ -2363,7 +2431,7 @@
               this.setState(
                 Object.assign(Object.assign({}, this.state), { data: t })
               ),
-              Qt(this.props.cache, this.state)
+              nn(this.props.cache, this.state)
             )
           )
           .then(this.updateSelectState.bind(this))
@@ -2401,7 +2469,7 @@
       reload() {
         this.props.reset(),
           this.setState({
-            dataPromise: Gt().then(t => (this.selectAndUpdate(), t)),
+            dataPromise: zt().then(t => (this.selectAndUpdate(), t)),
           });
       }
       selectCountry(t) {
@@ -2436,11 +2504,11 @@
         return h(
           'div',
           { className: `full-size ${et}` },
-          h(rn, null),
+          h(pn, null),
           h(
             tt,
             null,
-            h(kt, {
+            h(xt, {
               path: '/',
               countries: this.state.countries,
               currentSeries: this.state.currentSeries,
@@ -2449,7 +2517,7 @@
               reload: this.reload.bind(this),
               state: this.state.lineGraphState,
             }),
-            h(an, {
+            h(cn, {
               countryIndexes: this.state.lineGraphState.countryIndexes,
               key: '1',
               onChange: this.tableState.bind(this),
@@ -2469,7 +2537,7 @@
       window.document.body.appendChild(t),
         (function(t) {
           let n = {};
-          B(h(sn, { cache: n, reset: () => (n = {}) }), t);
+          B(h(yn, { cache: n, reset: () => (n = {}) }), t);
         })(t);
     })();
   },
