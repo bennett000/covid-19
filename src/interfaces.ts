@@ -35,6 +35,7 @@ export interface AppState {
   currentSeries: ChartSeries[];
   data: ITimeSeriesArray;
   dataPromise: Promise<JhuIntegratedData>;
+  countryIndexes: number[];
   lineGraphState: LineGraphState;
   tableState: TableState;
   routePath: string;
@@ -43,7 +44,8 @@ export interface AppState {
 export interface LineGraphState {
   dataSetIndexes: number[];
   byMetric: number;
-  countryIndexes: number[];
+  countryFilter: string;
+  isConfigOpen: boolean;
   mode: number;
   scaleType: number;
   showStates: boolean;
@@ -52,6 +54,7 @@ export interface LineGraphState {
 
 export interface TableState {
   columns: number[];
+  isConfigOpen: boolean;
   showAll: boolean;
   sortByActive: boolean;
   sortByActivePercent: boolean;

@@ -9,36 +9,35 @@ import { isMobile } from '../utility';
 
 type SelectMultipleFilterProps = {
   classes?: string[];
+  filter: string;
   onChange: (selected: number[]) => any;
   onClear: () => any;
   onDeselect: (index: number) => any;
+  onUpdateFilter: () => any;
   options: SelectOptions;
   selected: number[];
 };
 
-export class SelectMultipleFilter extends Component<
-  SelectMultipleFilterProps,
-  {
-    filter: string;
-    options: SelectOptions;
-  }
-> {
+export class SelectMultipleFilter extends Component<SelectMultipleFilterProps> {
   constructor() {
     super();
-
-    this.state = { filter: '', options: [] };
   }
 
-  getOptions(props: SelectMultipleFilterProps, filter: string) {
-    if (filter) {
-      return props.options.filter(option => {
+  getOptions() {
+    if (this.props.filter) {
+      return this.props.options.filter(option => {
         if (isString(option)) {
-          if (option.toLowerCase().indexOf(filter.toLowerCase()) > -1) {
+          if (
+            option.toLowerCase().indexOf(this.props.filter.toLowerCase()) > -1
+          ) {
             return true;
           }
           return false;
         } else {
-          if (option.name.toLowerCase().indexOf(filter.toLowerCase()) > -1) {
+          if (
+            option.name.toLowerCase().indexOf(this.props.filter.toLowerCase()) >
+            -1
+          ) {
             return true;
           }
           return false;
@@ -47,37 +46,6 @@ export class SelectMultipleFilter extends Component<
     } else {
       return this.props.options;
     }
-  }
-
-  updateFilter(filter: string) {
-    this.setState({
-      ...this.state,
-      filter,
-      options: this.getOptions(this.props, filter),
-    });
-  }
-
-  clearFilter() {
-    this.setState({
-      ...this.state,
-      filter: '',
-      options: this.props.options,
-    });
-    this.props.onClear();
-  }
-
-  componentDidMount() {
-    this.setState({
-      ...this.state,
-      options: this.getOptions(this.props, this.state.filter),
-    });
-  }
-
-  componentWillReceiveProps(props: SelectMultipleFilterProps) {
-    this.setState({
-      ...this.state,
-      options: this.getOptions(props, this.state.filter),
-    });
   }
 
   render() {
@@ -101,24 +69,24 @@ export class SelectMultipleFilter extends Component<
           ) : (
             <InputString
               listenKeyUp={true}
-              onChange={this.updateFilter.bind(this)}
+              onChange={this.props.onUpdateFilter.bind(this)}
               placeholder="filter"
-              value={this.state.filter}
+              value={this.props.filter}
             />
           )}
-          <Button label="✗" onClick={this.clearFilter.bind(this)}></Button>
+          <Button label="✗" onClick={this.props.onClear}></Button>
         </div>
         {isMobile() ? (
           <SelectMultiple
             onChange={onChange}
-            options={this.state.options}
+            options={this.getOptions()}
             selected={this.props.selected}
           />
         ) : (
           <SelectMultiple
             onChange={onChange}
             onClick={onDeselect}
-            options={this.state.options}
+            options={this.getOptions()}
             selected={this.props.selected}
           />
         )}

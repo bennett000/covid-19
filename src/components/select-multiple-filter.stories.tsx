@@ -1,5 +1,5 @@
 import { h } from 'preact';
-import { action } from '@storybook/addon-actions';
+import { action, actions } from '@storybook/addon-actions';
 import { SelectMultipleFilter } from './select-multiple-filter';
 
 export default {
@@ -12,8 +12,10 @@ const qbf =
 
 export const withFilter = () => (
   <SelectMultipleFilter
+    filter=""
     onChange={action('change')}
     onClear={action('clear')}
+    onUpdateFilter={action('update-filter')}
     onDeselect={action('deselect')}
     options={qbf.split(' ')}
     selected={[]}

@@ -68,21 +68,16 @@ const header = [
   },
 ];
 
-export class LearningTable extends Component<
-  {
-    countryIndexes: number[];
-    onChange: (lgs: TableState) => any;
-    selectCountry: (countryIndex: number) => any;
-    state: TableState;
-    timeSeries: ITimeSeriesArray;
-  },
-  {
-    isConfigOpen: boolean;
-  }
-> {
+export class LearningTable extends Component<{
+  countryIndexes: number[];
+  onChange: (lgs: TableState) => any;
+  selectCountry: (countryIndex: number) => any;
+  state: TableState;
+  timeSeries: ITimeSeriesArray;
+}> {
   constructor() {
     super();
-    this.state = { isConfigOpen: false };
+    this.state = {};
   }
 
   formatNumber(value: number) {
@@ -99,15 +94,15 @@ export class LearningTable extends Component<
 
   clickHeader(t: { label: string; sort: string }) {
     this.props.timeSeries[t.sort](this.state[t.sort]);
-    this.setState({
-      ...this.state,
+    this.props.onChange({
+      ...this.props.state,
       [t.sort]: this.state[t.sort] ? false : true,
     });
   }
 
   toggleConfig(v: boolean) {
-    this.setState({
-      ...this.state,
+    this.props.onChange({
+      ...this.props.state,
       isConfigOpen: v,
     });
   }
@@ -143,14 +138,16 @@ export class LearningTable extends Component<
   render() {
     const tbody =
       window.document.body.clientHeight *
-      (this.state.isConfigOpen ? 0.6 : 0.82);
+      (this.props.state.isConfigOpen ? 0.6 : 0.82);
     const width = `width: ${100 / (this.props.state.columns.length || 1)}%;`;
     return (
       <section className={`${fullSize} ${flexCol}`}>
-        <section className={this.state.isConfigOpen ? flexItem60 : flexItem95}>
+        <section
+          className={this.props.state.isConfigOpen ? flexItem60 : flexItem95}
+        >
           <table
             style={`height: ${
-              this.state.isConfigOpen ? 83 : 90
+              this.props.state.isConfigOpen ? 83 : 90
             }%; width: 100%;`}
           >
             <thead>
@@ -282,11 +279,11 @@ export class LearningTable extends Component<
               labelTrue="✗ Enlarge Table"
               labelFalse="⚙️ Configure Table"
               onClick={this.toggleConfig.bind(this)}
-              state={this.state.isConfigOpen}
+              state={this.props.state.isConfigOpen}
             />
             <Button label="Chart" onClick={() => route('/')} />
           </section>
-          {this.state.isConfigOpen ? (
+          {this.props.state.isConfigOpen ? (
             <section className={flex}>
               <SelectMultiple
                 onChange={noop as any}

@@ -36,10 +36,14 @@ export function LineGraphControls({
   reload,
   state,
 }: {
+  clearCountries: () => any;
   countries: SelectOptionsWithIndex[];
+  countryIndexes: number[];
   currentSeries: ChartSeries[];
   onChange: (lgs: LineGraphState) => any;
+  onUpdateCountryFilter: (filter: string) => any;
   reload: () => any;
+  selectCountry: (country: number) => any;
   state: LineGraphState;
 }) {
   function selectMode(mode: number) {
@@ -60,33 +64,6 @@ export function LineGraphControls({
     onChange({
       ...state,
       dataSetIndexes,
-    });
-  }
-
-  function clearCountries() {
-    onChange({
-      ...state,
-      countryIndexes: [],
-    });
-  }
-
-  function selectCountry(country: number) {
-    if (state.countryIndexes.indexOf(country) === -1) {
-      onChange({
-        ...state,
-        countryIndexes: state.countryIndexes.concat([country]),
-      });
-      return;
-    }
-    const newCountry = state.countryIndexes.filter(item => {
-      if (item === country) {
-        return false;
-      }
-      return true;
-    });
-    onChange({
-      ...state,
-      countryIndexes: newCountry,
     });
   }
 
@@ -128,12 +105,14 @@ export function LineGraphControls({
         selected={state.dataSetIndexes}
       />
       <SelectMultipleFilter
-        classes={state.countryIndexes.length === 0 ? [highlight] : []}
+        classes={this.props.countryIndexes.length === 0 ? [highlight] : []}
+        filter={this.props.state.countryFilter}
+        onUpdateFilter={this.props.onUpdateCountryFilter}
         onChange={noop as any}
-        onClear={clearCountries}
-        onDeselect={selectCountry}
+        onClear={this.props.clearCountries}
+        onDeselect={this.props.selectCountry}
         options={countries.filter(filterStates(this.props.state.showStates))}
-        selected={state.countryIndexes}
+        selected={this.props.countryIndexes}
       />
       <div className={flexCol}>
         <Select

@@ -17,11 +17,13 @@ export function createState(): AppState {
     currentSeries: [],
     data: TimeSeriesArray.create(),
     dataPromise: fetchData(),
+    countryIndexes: defaultCountries,
     routePath: '/',
     lineGraphState: {
       dataSetIndexes: [defaultDataset],
       byMetric: 0,
-      countryIndexes: defaultCountries,
+      countryFilter: '',
+      isConfigOpen: false,
       mode: defaultMode,
       scaleType: defaultScaleType,
       showStates: defaultShowStates,
@@ -29,6 +31,7 @@ export function createState(): AppState {
     },
     tableState: {
       columns: [1, 3, 5, 7, 9],
+      isConfigOpen: false,
       showAll: true,
       sortByActive: false,
       sortByActivePercent: false,
@@ -99,6 +102,11 @@ function isSavedAppState(thing: any): boolean {
   if (isSavedLineGraphState(thing.lineGraphState) === false) {
     return false;
   }
+
+  if (Array.isArray(thing.countryIndexes) === false) {
+    return false;
+  }
+
   return isSavedTableState(thing.tableState);
 }
 
@@ -107,11 +115,15 @@ function isSavedLineGraphState(thing: any): boolean {
     return false;
   }
 
+  if (isBoolean(thing.isConfigOpen) === false) {
+    return false;
+  }
+
   if (isNumber(thing.byMetric) === false) {
     return false;
   }
 
-  if (Array.isArray(thing.countryIndexes) === false) {
+  if (isString(thing.countryFilter) === false) {
     return false;
   }
 
@@ -139,6 +151,9 @@ function isSavedTableState(thing: any): boolean {
     return false;
   }
   if (Array.isArray(thing.columns) === false) {
+    return false;
+  }
+  if (isBoolean(thing.isConfigOpen) === false) {
     return false;
   }
   if (isBoolean(thing.showAll) === false) {
