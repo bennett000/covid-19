@@ -308,7 +308,8 @@ export function generateActiveCases(dataSets: JhuSet[]): JhuSet[] {
         return {
           country: ts.country,
           locale: ts.locale,
-          population: ts.population,
+          population:
+            ts.country === worldString ? worldPopulation() : ts.population,
           populationDensity: ts.populationDensity,
           state: ts.state,
           timeSeries: ts.timeSeries.map((confirmed, j) => {
@@ -486,4 +487,17 @@ function selectDataByDate(
   });
 
   return cs;
+}
+
+function worldPopulation(): number {
+  return objReduce(
+    populationDictionary,
+    (total, next) => {
+      if (next !== next) {
+        return total;
+      }
+      return total + next;
+    },
+    0
+  );
 }
