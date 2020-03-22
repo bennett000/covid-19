@@ -1,3 +1,4 @@
+export const border = 'border';
 export const fullSize = 'full-size';
 export const flex = 'flex';
 export const flexCol = 'flex flex-col';
@@ -6,6 +7,10 @@ export const flexItem20 = 'flex-item-20';
 export const flexItem60 = 'flex-item-60';
 export const flexItem95 = 'flex-item-95';
 export const highlight = 'highlight';
+export const padding = 'padding';
+export const rowEven = 'row-even';
+export const rowOdd = 'row-odd';
+export const rowHighlight = 'row-highlight';
 
 export const totalString = 'Total';
 export const usaString = 'US';

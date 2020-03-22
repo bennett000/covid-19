@@ -76,6 +76,31 @@ export class App extends Component<
     });
   }
 
+  selectCountry(countryIndex: number) {
+    if (this.state.lineGraphState.countryIndexes.indexOf(countryIndex) > -1) {
+      this.setState({
+        ...this.state,
+        lineGraphState: {
+          ...this.state.lineGraphState,
+          countryIndexes: this.state.lineGraphState.countryIndexes.filter(
+            i => i !== countryIndex
+          ),
+        },
+      });
+    } else {
+      this.setState({
+        ...this.state,
+        lineGraphState: {
+          ...this.state.lineGraphState,
+          countryIndexes: this.state.lineGraphState.countryIndexes.concat([
+            countryIndex,
+          ]),
+        },
+      });
+    }
+    this.selectAndUpdate();
+  }
+
   render() {
     return (
       <div className={`${fullSize} ${flexCol}`}>
@@ -91,8 +116,10 @@ export class App extends Component<
             state={this.state.lineGraphState}
           ></LineGraph>
           <LearningTable
+            countryIndexes={this.state.lineGraphState.countryIndexes}
             key="1"
             path={'/table'}
+            selectCountry={this.selectCountry.bind(this)}
             timeSeries={this.state.data}
           ></LearningTable>
         </Router>

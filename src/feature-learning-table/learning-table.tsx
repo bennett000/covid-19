@@ -2,6 +2,16 @@ import { Component, h } from 'preact';
 import { route } from 'preact-router';
 import { Button } from '../components/button';
 import { ITimeSeriesArray } from '../interfaces';
+import {
+  rowEven,
+  rowOdd,
+  rowHighlight,
+  fullSize,
+  flex,
+  flexCol,
+  flexItem95,
+  flexItem5,
+} from '../constants';
 
 const header = [
   {
@@ -56,6 +66,8 @@ const header = [
 
 export class LearningTable extends Component<
   {
+    countryIndexes: number[];
+    selectCountry: (countryIndex: number) => any;
     timeSeries: ITimeSeriesArray;
   },
   {
@@ -108,42 +120,78 @@ export class LearningTable extends Component<
   }
 
   render() {
+    const width = `width: ${100 / header.length}%;`;
     return (
-      <section>
-        <Button label="Chart" onClick={() => route('/')} />
-        <table>
-          <tr>
-            {header.map(t => (
-              <th onClick={() => this.clickHeader(t)}>{t.label}</th>
-            ))}
-          </tr>
-          {this.props.timeSeries.map(ts => {
-            if (ts.counts().length < 1) {
-              return '';
-            }
-            const name = ts.country() + (ts.state() ? ', ' + ts.state() : '');
-            return (
+      <section className={`${fullSize} ${flexCol}`}>
+        <section className={flexItem95}>
+          <table style="height: 90%;">
+            <thead>
               <tr>
-                <td>{name}</td>
-                <td>{this.formatNumber(ts.lastActive())}</td>
-                <td>{this.formatDecimal(ts.lastActivePercent(), 3)}</td>
-                <td>{this.formatNumber(ts.lastConfirmed())}</td>
-                <td>{this.formatDecimal(ts.lastConfirmedPercent(), 3)}</td>
-                <td>{this.formatNumber(ts.lastDeaths())}</td>
-                <td>{this.formatDecimal(ts.lastDeathsPercent(), 4)}</td>
-                <td>{this.formatNumber(ts.lastRecoveries())}</td>
-                <td>{this.formatDecimal(ts.lastRecoveriesPercent(), 3)}</td>
-                <td>{this.formatDecimal(ts.lastMortality(), 2)}</td>
-                <td>{this.formatNumber(ts.population())}</td>
-                <td>
-                  {this.formatNumber(
-                    ts.populationDensity() === null ? 0 : ts.populationDensity()
-                  ) + '/km2'}
-                </td>
+                {header.map(t => (
+                  <th style={width} onClick={() => this.clickHeader(t)}>
+                    {t.label}
+                  </th>
+                ))}
               </tr>
-            );
-          })}
-        </table>
+            </thead>
+            <tbody style="height: 100%; overflow: auto;">
+              {this.props.timeSeries.map((ts, i) => {
+                if (ts.counts().length < 1) {
+                  return '';
+                }
+                const name =
+                  ts.country() + (ts.state() ? ', ' + ts.state() : '');
+                const rowParity = i % 2 === 0 ? rowEven : rowOdd;
+                const rowClass =
+                  this.props.countryIndexes.indexOf(i) > -1
+                    ? rowHighlight + ' ' + rowParity
+                    : rowParity;
+                return (
+                  <tr
+                    className={rowClass}
+                    onClick={() => this.props.selectCountry(i)}
+                  >
+                    <td style={width}>{name}</td>
+                    <td style={width}>{this.formatNumber(ts.lastActive())}</td>
+                    <td style={width}>
+                      {this.formatDecimal(ts.lastActivePercent(), 3)}
+                    </td>
+                    <td style={width}>
+                      {this.formatNumber(ts.lastConfirmed())}
+                    </td>
+                    <td style={width}>
+                      {this.formatDecimal(ts.lastConfirmedPercent(), 3)}
+                    </td>
+                    <td style={width}>{this.formatNumber(ts.lastDeaths())}</td>
+                    <td style={width}>
+                      {this.formatDecimal(ts.lastDeathsPercent(), 4)}
+                    </td>
+                    <td style={width}>
+                      {this.formatNumber(ts.lastRecoveries())}
+                    </td>
+                    <td style={width}>
+                      {this.formatDecimal(ts.lastRecoveriesPercent(), 3)}
+                    </td>
+                    <td style={width}>
+                      {this.formatDecimal(ts.lastMortality(), 2)}
+                    </td>
+                    <td style={width}>{this.formatNumber(ts.population())}</td>
+                    <td style={width}>
+                      {this.formatNumber(
+                        ts.populationDensity() === null
+                          ? 0
+                          : ts.populationDensity()
+                      ) + '/km2'}
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </section>
+        <section className={flexItem5}>
+          <Button label="Chart" onClick={() => route('/')} />
+        </section>
       </section>
     );
   }
