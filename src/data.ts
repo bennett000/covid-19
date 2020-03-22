@@ -17,6 +17,7 @@ import {
   mapJhuCountryToPop,
   manuallySourcePop,
   usStates,
+  usStateCodeByName,
   manuallySourceStatePop,
 } from './data-maps';
 import { log } from './utility';
@@ -87,8 +88,18 @@ function getStatePopulation(country: string, state?: string, locale?: string) {
     return 0;
   }
   if (manuallySourceStatePop[country]) {
-    if (manuallySourceStatePop[country][state]) {
-      return manuallySourceStatePop[country][state];
+    if (country === 'US') {
+      const rawStateCode = usStateCodeByName[state];
+      if (rawStateCode) {
+        const stateCode = rawStateCode === 'D.C.' ? 'DC' : rawStateCode;
+        if (manuallySourceStatePop[country][stateCode]) {
+          return manuallySourceStatePop[country][stateCode];
+        }
+      }
+    } else {
+      if (manuallySourceStatePop[country][state]) {
+        return manuallySourceStatePop[country][state];
+      }
     }
   }
   return 0;
