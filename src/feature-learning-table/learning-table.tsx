@@ -7,11 +7,14 @@ import {
   rowOdd,
   rowHighlight,
   fullSize,
-  flex,
   flexCol,
   flexItem95,
-  flexItem5,
+  flex,
+  flexItem60,
 } from '../constants';
+import { ButtonToggle } from '../components/button-toggle';
+import { SelectMultiple } from '../components/select-multiple';
+import { noop } from '@ch1/utility';
 
 const header = [
   {
@@ -71,6 +74,8 @@ export class LearningTable extends Component<
     timeSeries: ITimeSeriesArray;
   },
   {
+    columns: number[];
+    isConfigOpen: boolean;
     sortByActive: boolean;
     sortByActivePercent: boolean;
     sortByConfirmed: boolean;
@@ -86,6 +91,8 @@ export class LearningTable extends Component<
   constructor() {
     super();
     this.state = {
+      columns: [1, 3, 5, 7, 9],
+      isConfigOpen: false,
       sortByActive: true,
       sortByActivePercent: true,
       sortByConfirmed: true,
@@ -119,19 +126,51 @@ export class LearningTable extends Component<
     });
   }
 
+  toggleConfig(v: boolean) {
+    this.setState({
+      ...this.state,
+      isConfigOpen: v,
+    });
+  }
+
+  onChangeColumns(column: number) {
+    if (this.state.columns.indexOf(column) === -1) {
+      if (this.state.columns.length < 7) {
+        this.setState({
+          ...this.state,
+          columns: this.state.columns.concat([column]),
+        });
+      } else {
+        this.setState({
+          ...this.state,
+          columns: this.state.columns.slice(0),
+        });
+      }
+    } else {
+      this.setState({
+        ...this.state,
+        columns: this.state.columns.filter(i => i !== column),
+      });
+    }
+  }
+
   render() {
-    const width = `width: ${100 / header.length}%;`;
+    const width = `width: ${100 / (this.state.columns.length || 1)}%;`;
     return (
       <section className={`${fullSize} ${flexCol}`}>
-        <section className={flexItem95}>
-          <table style="height: 90%;">
+        <section className={this.state.isConfigOpen ? flexItem60 : flexItem95}>
+          <table style={`height: ${this.state.isConfigOpen ? 83 : 90}%;`}>
             <thead>
               <tr>
-                {header.map(t => (
-                  <th style={width} onClick={() => this.clickHeader(t)}>
-                    {t.label}
-                  </th>
-                ))}
+                {header.map((t, i) =>
+                  i === 0 || this.state.columns.indexOf(i) > -1 ? (
+                    <th style={width} onClick={() => this.clickHeader(t)}>
+                      {t.label}
+                    </th>
+                  ) : (
+                    ''
+                  )
+                )}
               </tr>
             </thead>
             <tbody style="height: 100%; overflow: auto;">
@@ -152,45 +191,115 @@ export class LearningTable extends Component<
                     onClick={() => this.props.selectCountry(i)}
                   >
                     <td style={width}>{name}</td>
-                    <td style={width}>{this.formatNumber(ts.lastActive())}</td>
-                    <td style={width}>
-                      {this.formatDecimal(ts.lastActivePercent(), 3)}
-                    </td>
-                    <td style={width}>
-                      {this.formatNumber(ts.lastConfirmed())}
-                    </td>
-                    <td style={width}>
-                      {this.formatDecimal(ts.lastConfirmedPercent(), 3)}
-                    </td>
-                    <td style={width}>{this.formatNumber(ts.lastDeaths())}</td>
-                    <td style={width}>
-                      {this.formatDecimal(ts.lastDeathsPercent(), 4)}
-                    </td>
-                    <td style={width}>
-                      {this.formatNumber(ts.lastRecoveries())}
-                    </td>
-                    <td style={width}>
-                      {this.formatDecimal(ts.lastRecoveriesPercent(), 3)}
-                    </td>
-                    <td style={width}>
-                      {this.formatDecimal(ts.lastMortality(), 2)}
-                    </td>
-                    <td style={width}>{this.formatNumber(ts.population())}</td>
-                    <td style={width}>
-                      {this.formatNumber(
-                        ts.populationDensity() === null
-                          ? 0
-                          : ts.populationDensity()
-                      ) + '/km2'}
-                    </td>
+                    {this.state.columns.indexOf(1) > -1 ? (
+                      <td style={width}>
+                        {this.formatNumber(ts.lastActive())}
+                      </td>
+                    ) : (
+                      ''
+                    )}
+                    {this.state.columns.indexOf(2) > -1 ? (
+                      <td style={width}>
+                        {this.formatDecimal(ts.lastActivePercent(), 3)}
+                      </td>
+                    ) : (
+                      ''
+                    )}
+                    {this.state.columns.indexOf(3) > -1 ? (
+                      <td style={width}>
+                        {this.formatNumber(ts.lastConfirmed())}
+                      </td>
+                    ) : (
+                      ''
+                    )}
+                    {this.state.columns.indexOf(4) > -1 ? (
+                      <td style={width}>
+                        {this.formatDecimal(ts.lastConfirmedPercent(), 3)}
+                      </td>
+                    ) : (
+                      ''
+                    )}
+                    {this.state.columns.indexOf(5) > -1 ? (
+                      <td style={width}>
+                        {this.formatNumber(ts.lastDeaths())}
+                      </td>
+                    ) : (
+                      ''
+                    )}
+                    {this.state.columns.indexOf(6) > -1 ? (
+                      <td style={width}>
+                        {this.formatDecimal(ts.lastDeathsPercent(), 4)}
+                      </td>
+                    ) : (
+                      ''
+                    )}
+                    {this.state.columns.indexOf(7) > -1 ? (
+                      <td style={width}>
+                        {this.formatNumber(ts.lastRecoveries())}
+                      </td>
+                    ) : (
+                      ''
+                    )}
+                    {this.state.columns.indexOf(8) > -1 ? (
+                      <td style={width}>
+                        {this.formatDecimal(ts.lastRecoveriesPercent(), 3)}
+                      </td>
+                    ) : (
+                      ''
+                    )}
+                    {this.state.columns.indexOf(9) > -1 ? (
+                      <td style={width}>
+                        {this.formatDecimal(ts.lastMortality(), 2)}
+                      </td>
+                    ) : (
+                      ''
+                    )}
+                    {this.state.columns.indexOf(10) > -1 ? (
+                      <td style={width}>
+                        {this.formatNumber(ts.population())}
+                      </td>
+                    ) : (
+                      ''
+                    )}
+                    {this.state.columns.indexOf(11) > -1 ? (
+                      <td style={width}>
+                        {this.formatNumber(
+                          ts.populationDensity() === null
+                            ? 0
+                            : ts.populationDensity()
+                        ) + '/km2'}
+                      </td>
+                    ) : (
+                      ''
+                    )}
                   </tr>
                 );
               })}
             </tbody>
           </table>
         </section>
-        <section className={flexItem5}>
-          <Button label="Chart" onClick={() => route('/')} />
+        <section>
+          <section className={flex}>
+            <ButtonToggle
+              labelTrue="✗ Enlarge Table"
+              labelFalse="⚙️ Configure Table"
+              onClick={this.toggleConfig.bind(this)}
+              state={this.state.isConfigOpen}
+            />
+            <Button label="Chart" onClick={() => route('/')} />
+          </section>
+          {this.state.isConfigOpen ? (
+            <section>
+              <SelectMultiple
+                onChange={noop as any}
+                onClick={v => this.onChangeColumns(v + 1)}
+                options={header.map(item => item.label).slice(1)}
+                selected={this.state.columns.map(c => c - 1)}
+              ></SelectMultiple>
+            </section>
+          ) : (
+            ''
+          )}
         </section>
       </section>
     );
