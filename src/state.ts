@@ -1,6 +1,6 @@
 import { fetchData } from './data';
 import { AppState } from './interfaces';
-import { isNumber, isString } from '@ch1/utility';
+import { isNumber, isString, isBoolean } from '@ch1/utility';
 import { log } from './utility';
 import { TimeSeriesArray } from './time-series';
 
@@ -26,6 +26,20 @@ export function createState(): AppState {
       scaleType: defaultScaleType,
       showStates: defaultShowStates,
       startDate: defaultStart,
+    },
+    tableState: {
+      columns: [1, 3, 5, 7, 9],
+      showAll: true,
+      sortByActive: false,
+      sortByActivePercent: false,
+      sortByConfirmed: false,
+      sortByConfirmedPercent: false,
+      sortByDeaths: false,
+      sortByDeathsPercent: false,
+      sortByRecoveries: false,
+      sortByRecoveriesPercent: false,
+      sortByPopulation: false,
+      sortByPopulationDensity: false,
     },
   };
 }
@@ -82,7 +96,10 @@ function isSavedAppState(thing: any): boolean {
   if (Array.isArray(thing.currentSeries) === false) {
     return false;
   }
-  return isSavedLineGraphState(thing.lineGraphState);
+  if (isSavedLineGraphState(thing.lineGraphState) === false) {
+    return false;
+  }
+  return isSavedTableState(thing.tableState);
 }
 
 function isSavedLineGraphState(thing: any): boolean {
@@ -114,5 +131,48 @@ function isSavedLineGraphState(thing: any): boolean {
     return false;
   }
 
+  return true;
+}
+
+function isSavedTableState(thing: any): boolean {
+  if (!thing) {
+    return false;
+  }
+  if (Array.isArray(thing.columns) === false) {
+    return false;
+  }
+  if (isBoolean(thing.showAll) === false) {
+    return false;
+  }
+  if (isBoolean(thing.sortByActive) === false) {
+    return false;
+  }
+  if (isBoolean(thing.sortByActivePercent) === false) {
+    return false;
+  }
+  if (isBoolean(thing.sortByConfirmed) === false) {
+    return false;
+  }
+  if (isBoolean(thing.sortByConfirmedPercent) === false) {
+    return false;
+  }
+  if (isBoolean(thing.sortByDeaths) === false) {
+    return false;
+  }
+  if (isBoolean(thing.sortByDeathsPercent) === false) {
+    return false;
+  }
+  if (isBoolean(thing.sortByRecoveries) === false) {
+    return false;
+  }
+  if (isBoolean(thing.sortByRecoveriesPercent) === false) {
+    return false;
+  }
+  if (isBoolean(thing.sortByPopulation) === false) {
+    return false;
+  }
+  if (isBoolean(thing.sortByPopulationDensity) === false) {
+    return false;
+  }
   return true;
 }

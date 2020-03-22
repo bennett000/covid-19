@@ -7,6 +7,7 @@ import {
   ChartSeries,
   SelectOptionsWithIndex,
   LineGraphState,
+  TableState,
 } from './interfaces';
 import { selectData, fetchData } from './data';
 import { log } from './utility';
@@ -66,6 +67,14 @@ export class App extends Component<
     this.selectAndUpdate();
   }
 
+  tableState(tableState: TableState) {
+    this.setState({
+      ...this.state,
+      tableState,
+    });
+    this.selectAndUpdate();
+  }
+
   reload() {
     this.props.reset();
     this.setState({
@@ -118,7 +127,9 @@ export class App extends Component<
           <LearningTable
             countryIndexes={this.state.lineGraphState.countryIndexes}
             key="1"
+            onChange={this.tableState.bind(this)}
             path={'/table'}
+            state={this.state.tableState}
             selectCountry={this.selectCountry.bind(this)}
             timeSeries={this.state.data}
           ></LearningTable>

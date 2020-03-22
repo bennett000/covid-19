@@ -1,7 +1,7 @@
 import { Component, h } from 'preact';
 import { route } from 'preact-router';
 import { Button } from '../components/button';
-import { ITimeSeriesArray } from '../interfaces';
+import { ITimeSeriesArray, TableState } from '../interfaces';
 import {
   rowEven,
   rowOdd,
@@ -71,42 +71,18 @@ const header = [
 export class LearningTable extends Component<
   {
     countryIndexes: number[];
+    onChange: (lgs: TableState) => any;
     selectCountry: (countryIndex: number) => any;
+    state: TableState;
     timeSeries: ITimeSeriesArray;
   },
   {
-    columns: number[];
     isConfigOpen: boolean;
-    showAll: boolean;
-    sortByActive: boolean;
-    sortByActivePercent: boolean;
-    sortByConfirmed: boolean;
-    sortByConfirmedPercent: boolean;
-    sortByDeaths: boolean;
-    sortByDeathsPercent: boolean;
-    sortByRecoveries: boolean;
-    sortByRecoveriesPercent: boolean;
-    sortByPopulation: boolean;
-    SortByPopulationDensity: boolean;
   }
 > {
   constructor() {
     super();
-    this.state = {
-      columns: [1, 3, 5, 7, 9],
-      isConfigOpen: false,
-      showAll: true,
-      sortByActive: true,
-      sortByActivePercent: true,
-      sortByConfirmed: true,
-      sortByConfirmedPercent: true,
-      sortByDeaths: true,
-      sortByDeathsPercent: true,
-      sortByRecoveries: true,
-      sortByRecoveriesPercent: true,
-      sortByPopulation: true,
-      SortByPopulationDensity: true,
-    };
+    this.state = { isConfigOpen: false };
   }
 
   formatNumber(value: number) {
@@ -137,35 +113,35 @@ export class LearningTable extends Component<
   }
 
   toggleShowAll() {
-    this.setState({
-      ...this.state,
-      showAll: this.state.showAll ? false : true,
+    this.props.onChange({
+      ...this.props.state,
+      showAll: this.props.state.showAll ? false : true,
     });
   }
 
   onChangeColumns(column: number) {
-    if (this.state.columns.indexOf(column) === -1) {
-      if (this.state.columns.length < 7) {
-        this.setState({
-          ...this.state,
-          columns: this.state.columns.concat([column]),
+    if (this.props.state.columns.indexOf(column) === -1) {
+      if (this.props.state.columns.length < 7) {
+        this.props.onChange({
+          ...this.props.state,
+          columns: this.props.state.columns.concat([column]),
         });
       } else {
-        this.setState({
-          ...this.state,
-          columns: this.state.columns.slice(0),
+        this.props.onChange({
+          ...this.props.state,
+          columns: this.props.state.columns.slice(0),
         });
       }
     } else {
-      this.setState({
-        ...this.state,
-        columns: this.state.columns.filter(i => i !== column),
+      this.props.onChange({
+        ...this.props.state,
+        columns: this.props.state.columns.filter(i => i !== column),
       });
     }
   }
 
   render() {
-    const width = `width: ${100 / (this.state.columns.length || 1)}%;`;
+    const width = `width: ${100 / (this.props.state.columns.length || 1)}%;`;
     return (
       <section className={`${fullSize} ${flexCol}`}>
         <section className={this.state.isConfigOpen ? flexItem60 : flexItem95}>
@@ -177,7 +153,7 @@ export class LearningTable extends Component<
             <thead>
               <tr>
                 {header.map((t, i) =>
-                  i === 0 || this.state.columns.indexOf(i) > -1 ? (
+                  i === 0 || this.props.state.columns.indexOf(i) > -1 ? (
                     <th style={width} onClick={() => this.clickHeader(t)}>
                       {t.label}
                     </th>
@@ -192,7 +168,7 @@ export class LearningTable extends Component<
                 if (ts.counts().length < 1) {
                   return '';
                 }
-                if (this.state.showAll === false) {
+                if (this.props.state.showAll === false) {
                   if (this.props.countryIndexes.indexOf(i) === -1) {
                     return '';
                   }
@@ -210,77 +186,77 @@ export class LearningTable extends Component<
                     onClick={() => this.props.selectCountry(i)}
                   >
                     <td style={width}>{name}</td>
-                    {this.state.columns.indexOf(1) > -1 ? (
+                    {this.props.state.columns.indexOf(1) > -1 ? (
                       <td style={width}>
                         {this.formatNumber(ts.lastActive())}
                       </td>
                     ) : (
                       ''
                     )}
-                    {this.state.columns.indexOf(2) > -1 ? (
+                    {this.props.state.columns.indexOf(2) > -1 ? (
                       <td style={width}>
                         {this.formatDecimal(ts.lastActivePercent(), 3)}
                       </td>
                     ) : (
                       ''
                     )}
-                    {this.state.columns.indexOf(3) > -1 ? (
+                    {this.props.state.columns.indexOf(3) > -1 ? (
                       <td style={width}>
                         {this.formatNumber(ts.lastConfirmed())}
                       </td>
                     ) : (
                       ''
                     )}
-                    {this.state.columns.indexOf(4) > -1 ? (
+                    {this.props.state.columns.indexOf(4) > -1 ? (
                       <td style={width}>
                         {this.formatDecimal(ts.lastConfirmedPercent(), 3)}
                       </td>
                     ) : (
                       ''
                     )}
-                    {this.state.columns.indexOf(5) > -1 ? (
+                    {this.props.state.columns.indexOf(5) > -1 ? (
                       <td style={width}>
                         {this.formatNumber(ts.lastDeaths())}
                       </td>
                     ) : (
                       ''
                     )}
-                    {this.state.columns.indexOf(6) > -1 ? (
+                    {this.props.state.columns.indexOf(6) > -1 ? (
                       <td style={width}>
                         {this.formatDecimal(ts.lastDeathsPercent(), 4)}
                       </td>
                     ) : (
                       ''
                     )}
-                    {this.state.columns.indexOf(7) > -1 ? (
+                    {this.props.state.columns.indexOf(7) > -1 ? (
                       <td style={width}>
                         {this.formatNumber(ts.lastRecoveries())}
                       </td>
                     ) : (
                       ''
                     )}
-                    {this.state.columns.indexOf(8) > -1 ? (
+                    {this.props.state.columns.indexOf(8) > -1 ? (
                       <td style={width}>
                         {this.formatDecimal(ts.lastRecoveriesPercent(), 3)}
                       </td>
                     ) : (
                       ''
                     )}
-                    {this.state.columns.indexOf(9) > -1 ? (
+                    {this.props.state.columns.indexOf(9) > -1 ? (
                       <td style={width}>
                         {this.formatDecimal(ts.lastMortality(), 2)}
                       </td>
                     ) : (
                       ''
                     )}
-                    {this.state.columns.indexOf(10) > -1 ? (
+                    {this.props.state.columns.indexOf(10) > -1 ? (
                       <td style={width}>
                         {this.formatNumber(ts.population())}
                       </td>
                     ) : (
                       ''
                     )}
-                    {this.state.columns.indexOf(11) > -1 ? (
+                    {this.props.state.columns.indexOf(11) > -1 ? (
                       <td style={width}>
                         {this.formatNumber(
                           ts.populationDensity() === null
@@ -313,12 +289,12 @@ export class LearningTable extends Component<
                 onChange={noop as any}
                 onClick={v => this.onChangeColumns(v + 1)}
                 options={header.map(item => item.label).slice(1)}
-                selected={this.state.columns.map(c => c - 1)}
+                selected={this.props.state.columns.map(c => c - 1)}
               ></SelectMultiple>
               <Select
                 onChange={this.toggleShowAll.bind(this)}
                 options={['Show All', 'Only Selected']}
-                selected={this.state.showAll ? 0 : 1}
+                selected={this.props.state.showAll ? 0 : 1}
               ></Select>
             </section>
           ) : (

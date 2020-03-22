@@ -35,6 +35,7 @@ export interface AppState {
   data: ITimeSeriesArray;
   dataPromise: Promise<JhuIntegratedData>;
   lineGraphState: LineGraphState;
+  tableState: TableState;
   routePath: string;
 }
 
@@ -46,6 +47,21 @@ export interface LineGraphState {
   scaleType: number;
   showStates: boolean;
   startDate: string;
+}
+
+export interface TableState {
+  columns: number[];
+  showAll: boolean;
+  sortByActive: boolean;
+  sortByActivePercent: boolean;
+  sortByConfirmed: boolean;
+  sortByConfirmedPercent: boolean;
+  sortByDeaths: boolean;
+  sortByDeathsPercent: boolean;
+  sortByRecoveries: boolean;
+  sortByRecoveriesPercent: boolean;
+  sortByPopulation: boolean;
+  sortByPopulationDensity: boolean;
 }
 
 export interface Location {
