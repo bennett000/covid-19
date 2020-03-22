@@ -1,3 +1,4 @@
+import { route } from 'preact-router';
 import { Component, h } from 'preact';
 import {
   LineGraphState,
@@ -5,9 +6,10 @@ import {
   SelectOptionsWithIndex,
 } from '../interfaces';
 import { Chart } from '../components/chart';
-import { flexCol, fullSize, flexItem60, flexItem95 } from '../constants';
+import { flexCol, fullSize, flexItem60, flexItem95, flex } from '../constants';
 import { LineGraphControls } from '../components/line-graph-controls';
 import { ButtonToggle } from '../components/button-toggle';
+import { Button } from '../components/button';
 
 export class LineGraph extends Component<
   {
@@ -25,6 +27,18 @@ export class LineGraph extends Component<
     super();
     this.state = { isConfigOpen: false };
   }
+
+  componentWillMount() {
+    this.setState({
+      ...this.state,
+    });
+    setTimeout(() => {
+      this.setState({
+        ...this.state,
+      });
+    }, 0);
+  }
+
   useDays() {
     if (this.props.state.mode !== 0) {
       return true;
@@ -54,13 +68,20 @@ export class LineGraph extends Component<
           scaleType={this.props.state.scaleType}
           useDays={this.useDays()}
         ></Chart>
-        <ButtonToggle
-          classes={classes}
-          labelTrue="✗ Enlarge Chart"
-          labelFalse="⚙️ Configure Chart"
-          onClick={this.toggleConfig.bind(this)}
-          state={this.state.isConfigOpen}
-        />
+        <section className={flex}>
+          <ButtonToggle
+            classes={classes}
+            labelTrue="✗ Enlarge Chart"
+            labelFalse="⚙️ Configure Chart"
+            onClick={this.toggleConfig.bind(this)}
+            state={this.state.isConfigOpen}
+          />
+          <Button
+            classes={classes}
+            label="Table"
+            onClick={() => route('/table')}
+          ></Button>
+        </section>
         {this.state.isConfigOpen ? (
           <LineGraphControls
             countries={this.props.countries}

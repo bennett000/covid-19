@@ -67,6 +67,8 @@ describe('data functions', () => {
       ).toEqual({
         country: 'bar',
         locale: '',
+        population: 0,
+        populationDensity: 0,
         state: 'foo',
         timeSeries: [35, 40],
       });
@@ -78,6 +80,8 @@ describe('data functions', () => {
       ).toEqual({
         country: 'bar',
         locale: 'foo',
+        population: 0,
+        populationDensity: 0,
         state: 'ON',
         timeSeries: [35, 40],
       });
@@ -96,6 +100,8 @@ describe('data functions', () => {
       ).toEqual({
         country: 'bar',
         locale: "foo's county",
+        population: 0,
+        populationDensity: 0,
         state: 'ON',
         timeSeries: [35, 40],
       });
@@ -108,12 +114,16 @@ describe('data functions', () => {
       sumRegion(dict)({
         country: 'foo',
         locale: '',
+        population: 0,
+        populationDensity: 0,
         state: '',
         timeSeries: [1, 1, 1],
       });
       sumRegion(dict)({
         country: 'foo',
         locale: '',
+        population: 0,
+        populationDensity: 0,
         state: '',
         timeSeries: [0, 1, 2],
       });
@@ -125,6 +135,8 @@ describe('data functions', () => {
       sumRegion(dict)({
         country: 'foo',
         locale: '',
+        population: 0,
+        populationDensity: 0,
         state: '',
         timeSeries: [1, 1, 1],
       });
@@ -136,12 +148,16 @@ describe('data functions', () => {
       sumRegion(dict)({
         country: 'foo',
         locale: '',
+        population: 0,
+        populationDensity: 0,
         state: 'bar',
         timeSeries: [1, 1, 1],
       });
       sumRegion(dict)({
         country: 'foo',
         locale: '',
+        population: 0,
+        populationDensity: 0,
         state: 'baz',
         timeSeries: [0, 1, 2],
       });
@@ -153,12 +169,16 @@ describe('data functions', () => {
       sumRegion(dict)({
         country: 'US',
         locale: "Cook's County",
+        population: 0,
+        populationDensity: 0,
         state: 'OH',
         timeSeries: [1, 1, 1],
       });
       sumRegion(dict)({
         country: 'US',
         locale: 'Grand County',
+        population: 0,
+        populationDensity: 0,
         state: 'OH',
         timeSeries: [0, 1, 2],
       });
@@ -170,12 +190,16 @@ describe('data functions', () => {
       sumRegion(dict)({
         country: 'US',
         locale: "Cook's County",
+        population: 0,
+        populationDensity: 0,
         state: 'OH',
         timeSeries: [1, 1, 1],
       });
       sumRegion(dict)({
         country: 'US',
         locale: 'Grand County',
+        population: 0,
+        populationDensity: 0,
         state: 'OH',
         timeSeries: [0, 1, 2],
       });
@@ -188,18 +212,24 @@ describe('data functions', () => {
       sumRegion(dict)({
         country: 'US',
         locale: "Cook's County",
+        population: 0,
+        populationDensity: 0,
         state: 'OH',
         timeSeries: [1, 1, 1],
       });
       sumRegion(dict)({
         country: 'US',
         locale: 'Grand County',
+        population: 0,
+        populationDensity: 0,
         state: 'OH',
         timeSeries: [0, 1, 2],
       });
       sumRegion(dict)({
         country: 'US',
         locale: 'Grand County',
+        population: 0,
+        populationDensity: 0,
         state: 'foo',
         timeSeries: [0, 1, 2],
       });
@@ -222,6 +252,8 @@ describe('data functions', () => {
             {
               country: 'US',
               locale: "Cook's County",
+              population: 0,
+              populationDensity: 0,
               state: 'Ohio',
               timeSeries: [4, 5, 6],
             },
@@ -231,12 +263,16 @@ describe('data functions', () => {
         {
           country: 'US',
           locale: '',
+          population: 0,
+          populationDensity: 0,
           state: totalString,
           timeSeries: [7, 8, 9],
         },
         {
           country: 'US',
           locale: '',
+          population: 0,
+          populationDensity: 0,
           state: 'Ohio',
           timeSeries: [1, 2, 3],
         },
@@ -251,6 +287,8 @@ describe('data functions', () => {
         {
           country: 'foo',
           locale: 'baz',
+          population: 0,
+          populationDensity: 0,
           state: 'bar',
           timeSeries: [10, 30, 20],
         },
@@ -259,6 +297,8 @@ describe('data functions', () => {
         {
           country: 'foo',
           locale: 'baz',
+          population: 0,
+          populationDensity: 0,
           state: 'bar',
           timeSeries: [3, 5, 9],
         },
@@ -267,6 +307,8 @@ describe('data functions', () => {
         {
           country: 'foo',
           locale: 'baz',
+          population: 0,
+          populationDensity: 0,
           state: 'bar',
           timeSeries: [1, 3, 5],
         },
@@ -275,6 +317,8 @@ describe('data functions', () => {
         {
           country: 'foo',
           locale: 'baz',
+          population: 0,
+          populationDensity: 0,
           state: 'bar',
           timeSeries: [6, 22, 6],
         },

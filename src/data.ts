@@ -1,23 +1,33 @@
 import {
   SelectOptionsWithIndex,
-  ChartPoint,
   ChartSeries,
   AppState,
-  JhuIntegratedData,
   JhuTimeSeries,
   JhuTimeSeriesHeader,
   JhuSet,
+  ITimeSeries,
+  TimeSeriesType,
+  ITimeSeriesArray,
 } from './interfaces';
 import { totalString, worldString, usaString } from './constants';
 import rawPopulationData from 'country-json/src/country-by-population.json';
+import rawPopulationDensityData from 'country-json/src/country-by-population-density.json';
 import { Dictionary, objReduce } from '@ch1/utility';
 import { mapJhuCountryToPop, manuallySourcePop, usStates } from './data-maps';
 import { log } from './utility';
+import { TimeSeries, TimeSeriesArray } from './time-series';
 
 const populationDictionary: {
   [key: string]: number;
 } = (rawPopulationData || []).reduce((p, node) => {
   p[node.country] = parseInt(node.population, 10);
+  return p;
+}, {});
+
+const populationDensityDictionary: {
+  [key: string]: number;
+} = (rawPopulationDensityData || []).reduce((p, node) => {
+  p[node.country] = node.density === null ? null : parseInt(node.density, 10);
   return p;
 }, {});
 
@@ -27,18 +37,28 @@ const urls = [
   'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Recovered.csv',
 ];
 
-export function fetchData() {
+export function fetchData(): Promise<{
+  countries: SelectOptionsWithIndex[];
+  timeSeries: ITimeSeriesArray;
+}> {
   return Promise.all(urls.map(url => fetch(url)))
     .then(unwrapResponses)
     .then(convertAllCsvToStructured)
     .then(sumAllRegions)
-    .then(alphabetize)
     .then(generateActiveCases)
-    .then(extractCountries)
-    .then(csvToPoints);
+    .then(mergeDataSets)
+    .then(alphabetize)
+    .then(extractCountries);
 }
 
-function getPopulation(country: string): number {
+function getPopulation(
+  country: string,
+  state?: string,
+  locale?: string
+): number {
+  if (state || locale) {
+    return 0;
+  }
   let population = populationDictionary[country];
   if (population) {
     return population;
@@ -51,7 +71,26 @@ function getPopulation(country: string): number {
   if (population) {
     return population;
   }
-  return 1;
+  return 0;
+}
+
+function getPopulationDensity(
+  country: string,
+  state?: string,
+  locale?: string
+): number {
+  if (state || locale) {
+    return 0;
+  }
+  let populationDensity = populationDensityDictionary[country];
+  if (populationDensity) {
+    return populationDensity;
+  }
+  populationDensity = populationDensityDictionary[mapJhuCountryToPop[country]];
+  if (populationDensity) {
+    return populationDensity;
+  }
+  return 0;
 }
 
 function unwrapResponses(responses: Response[]) {
@@ -139,9 +178,13 @@ export function csvRowStringToJhuTimeSeriesHeadaer(
 export function convertRowToTimeSeries(row: string[]): JhuTimeSeries {
   const country = row[1];
   const [locale, state] = stateToLocaleState(row[0]);
+  const population = getPopulation(country, state, locale);
+  const populationDensity = getPopulationDensity(country, state, locale);
   return {
     country,
     locale,
+    population,
+    populationDensity,
     state,
     timeSeries: row.slice(4).map(item => parseInt(item, 10)),
   };
@@ -155,6 +198,7 @@ export function convertStringArrayToStructured(rowString: string): JhuSet {
     rows
       .slice(1)
       .map(csvRowStringToArray)
+      .filter(row => row.length)
       .map(convertRowToTimeSeries),
   ];
 }
@@ -224,6 +268,8 @@ export function totalsDictionaryToTimeSeries(
       s.push({
         country: parts[0],
         locale: '',
+        population: getPopulation(parts[0], parts[1]),
+        populationDensity: getPopulationDensity(parts[0], parts[1]),
         state: parts[1] || totalString,
         timeSeries: totalSeries,
       });
@@ -243,40 +289,15 @@ export function totalsDictionaryToTimeSeries(
 }
 
 export function sumAllRegions(dataSets: JhuSet[]): JhuSet[] {
-  // must be used after alphabetizing
   return dataSets.map(ds => {
     const [header, dataSet] = ds;
     return [header, sumDataSetRegions(dataSet)];
   });
 }
 
-function alphabetize(dataSets: JhuSet[]): JhuSet[] {
-  return dataSets.map(([header, timeSeries]) => {
-    return [
-      header,
-      timeSeries.sort((a, b) => {
-        if (a.country < b.country) {
-          return -1;
-        }
-        if (a.country > b.country) {
-          return 1;
-        }
-        if (a.state < b.state) {
-          return -1;
-        }
-        if (a.state > b.state) {
-          return 1;
-        }
-        if (a.locale < b.locale) {
-          return -1;
-        }
-        if (a.locale > b.locale) {
-          return 1;
-        }
-        return 0;
-      }),
-    ];
-  });
+function alphabetize(timeSeries: ITimeSeriesArray): ITimeSeriesArray {
+  timeSeries.sortByCountry();
+  return timeSeries;
 }
 
 export function generateActiveCases(dataSets: JhuSet[]): JhuSet[] {
@@ -287,6 +308,9 @@ export function generateActiveCases(dataSets: JhuSet[]): JhuSet[] {
         return {
           country: ts.country,
           locale: ts.locale,
+          population:
+            ts.country === worldString ? worldPopulation() : ts.population,
+          populationDensity: ts.populationDensity,
           state: ts.state,
           timeSeries: ts.timeSeries.map((confirmed, j) => {
             return (
@@ -302,70 +326,45 @@ export function generateActiveCases(dataSets: JhuSet[]): JhuSet[] {
   return activeSet.concat(dataSets);
 }
 
-function extractCountries(dataSets: JhuSet[]) {
-  const countries = dataSets[0][1]
+export function mergeDataSets(dataSets: JhuSet[]): ITimeSeriesArray {
+  const dates = dataSets[0][0];
+  const its = TimeSeriesArray.create();
+  dataSets[0][1].forEach((row, rowIndex) => {
+    its.push(
+      TimeSeries.create({
+        country: row.country,
+        dates,
+        locale: row.locale,
+        population: row.population,
+        populationDensity: row.populationDensity,
+        state: row.state,
+        counts: row.timeSeries.map((number, timeSeriesIndex) => {
+          return {
+            active: dataSets[0][1][rowIndex].timeSeries[timeSeriesIndex],
+            confirmed: dataSets[1][1][rowIndex].timeSeries[timeSeriesIndex],
+            deaths: dataSets[2][1][rowIndex].timeSeries[timeSeriesIndex],
+            recoveries: dataSets[3][1][rowIndex].timeSeries[timeSeriesIndex],
+          };
+        }),
+      })
+    );
+  });
+  return its;
+}
+
+function extractCountries(timeSeries: ITimeSeriesArray) {
+  const countries = timeSeries
     .reduce((countryArr: SelectOptionsWithIndex[], row, i) => {
-      if (row.locale) {
-        return null;
+      if (row.locale()) {
+        return countryArr;
       }
-      const name = row.state ? row.country + ', ' + row.state : row.country;
+      const name = row.countryName();
       countryArr.push({ index: i, name });
       return countryArr;
     }, [])
     .filter(Boolean);
 
-  return { countries, dataSets };
-}
-
-function csvToPoints({
-  countries,
-  dataSets,
-}: {
-  countries: SelectOptionsWithIndex[];
-  dataSets: JhuSet[];
-}): JhuIntegratedData {
-  const points = dataSets.map(([header, dataSet], dataSetIndex) => {
-    const chartType = getChartTypeFromIndex(dataSetIndex);
-    const seriesValue: ChartSeries[] = [];
-    const seriesPercent: ChartSeries[] = [];
-    for (let i = 1; i < dataSet.length; i += 1) {
-      let valuePoints: ChartPoint[] = [];
-      let percentPoints: ChartPoint[] = [];
-      let row = dataSet[i];
-      let name =
-        chartType + ' ' + row.country + (row.state ? `, ${row.state}` : '');
-
-      for (let j = 0; j < row.timeSeries.length; j += 1) {
-        const pop = getPopulation(row.country);
-        valuePoints.push({
-          index: j,
-          x: new Date(header[j]),
-          y: row.timeSeries[j],
-        });
-        if (row.state) {
-          if (row.state !== totalString) {
-            // we do not have state population data yet
-            continue;
-          }
-        }
-        percentPoints.push({
-          index: j,
-          x: new Date(header[j]),
-          y: (row.timeSeries[j] / pop) * 100,
-        });
-      }
-      seriesValue.push({
-        name,
-        points: valuePoints,
-      });
-      seriesPercent.push({
-        name,
-        points: percentPoints,
-      });
-    }
-    return [seriesValue, seriesPercent];
-  });
-  return { countries, dataSets, points };
+  return { countries, timeSeries };
 }
 
 function getChartTypeFromIndex(index: number) {
@@ -381,116 +380,124 @@ function getChartTypeFromIndex(index: number) {
   }
 }
 
-export function selectData(state: AppState) {
-  const startDate = new Date(state.lineGraphState.startDate);
-  return state.dataPromise.then(({ countries, dataSets, points }) => {
-    const series = state.lineGraphState.dataSetIndexes.reduce(
-      (s, dataSetIndex) => {
-        return points[dataSetIndex][state.lineGraphState.byMetric].reduce(
-          (si, country, i) => {
-            const dp = selectDataPointByMode(
-              state,
-              country,
-              i + 1,
-              dataSets[0][1][i + 1],
-              startDate
-            );
-            if (dp) {
-              si.push(dp);
-            }
-            return si;
-          },
-          s
-        );
-      },
-      []
-    );
-    return { countries, series };
+export function selectData(cache: Dictionary<ChartSeries>, state: AppState) {
+  return state.dataPromise.then(({ countries, timeSeries }) => {
+    return {
+      countries,
+      series: timeSeries.reduce((cs: ChartSeries[], ts, countryIndex) => {
+        if (state.lineGraphState.countryIndexes.indexOf(countryIndex) > -1) {
+          return selectDataByMode(cache, state, cs, ts);
+        }
+        return cs;
+      }, []),
+    };
   });
 }
 
-function selectDataPointByMode(
+function selectDataByMode(
+  cache: Dictionary<ChartSeries>,
   state: AppState,
-  country: ChartSeries,
-  i: number,
-  confirmed: JhuTimeSeries,
-  startDate: Date
-) {
+  cs: ChartSeries[],
+  ts: ITimeSeries
+): ChartSeries[] {
   switch (state.lineGraphState.mode) {
     case 1:
-      return selectDataPointByConfirmed(
-        state,
-        country,
-        i,
-        confirmed,
-        startDate,
-        1
-      );
+      return selectDataByConfirmed(cache, state, cs, ts, 1);
     case 2:
-      return selectDataPointByConfirmed(
-        state,
-        country,
-        i,
-        confirmed,
-        startDate,
-        100
-      );
+      return selectDataByConfirmed(cache, state, cs, ts, 100);
     default:
-      return selectDataPointByDate(state, country, startDate, i);
+      return selectDataByDate(cache, state, cs, ts);
   }
 }
 
-function selectDataPointByDate(
+function selectDataByConfirmed(
+  cache: Dictionary<ChartSeries>,
   state: AppState,
-  country: ChartSeries,
-  startDate: Date,
-  i: number
+  cs: ChartSeries[],
+  ts: ITimeSeries,
+  count: number
 ) {
-  if (state.lineGraphState.countryIndexes.indexOf(i) > -1) {
-    return {
-      name: country.name,
-      points: country.points
-        .map(p => {
-          if (p.x > startDate) {
-            return p;
-          }
-          return null;
-        })
-        .filter(Boolean),
+  const startDate = new Date(state.lineGraphState.startDate);
+
+  state.lineGraphState.dataSetIndexes.forEach(index => {
+    const field = getFieldFromIndex(index);
+    const chart = {
+      name: getChartTypeFromIndex(index) + ' ' + ts.countryName(),
+      points: [],
     };
+    let fromDay0 = 0;
+    chart.points = ts.counts().reduce((ps, c, i) => {
+      if (ts.dates()[i] && ts.dates()[i] > startDate && c.confirmed >= count) {
+        ps.push({
+          x: fromDay0++,
+          y:
+            state.lineGraphState.byMetric === 0
+              ? c[field]
+              : c[field] / ts.population(),
+        });
+      }
+      return ps;
+    }, []);
+    cs.push(chart);
+  });
+
+  return cs;
+}
+
+function getFieldFromIndex(index: number): TimeSeriesType {
+  switch (index) {
+    case 0:
+      return 'active';
+    case 1:
+      return 'confirmed';
+    case 2:
+      return 'deaths';
+    default:
+      return 'recoveries';
   }
 }
 
-function selectDataPointByConfirmed(
+function selectDataByDate(
+  cache: Dictionary<ChartSeries>,
   state: AppState,
-  country: ChartSeries,
-  i: number,
-  confirmed: JhuTimeSeries,
-  startDate: Date,
-  min: number
+  cs: ChartSeries[],
+  ts: ITimeSeries
 ) {
-  if (state.lineGraphState.countryIndexes.indexOf(i) > -1) {
-    let newX = 0;
-    return {
-      name: country.name,
-      points: country.points
-        .map((p, j) => {
-          if (p.x > startDate) {
-            const y = confirmed.timeSeries[p.index];
+  const startDate = new Date(state.lineGraphState.startDate);
 
-            if (y >= min) {
-              const x = newX;
-              newX += 1;
-              return {
-                x,
-                y: p.y,
-              };
-            }
-            return null;
-          }
-          return null;
-        })
-        .filter(Boolean),
+  state.lineGraphState.dataSetIndexes.forEach(index => {
+    const field = getFieldFromIndex(index);
+    const chart = {
+      name: getChartTypeFromIndex(index) + ' ' + ts.countryName(),
+      points: [],
     };
-  }
+    chart.points = ts.counts().reduce((ps, c, i) => {
+      if (ts.dates()[i] && ts.dates()[i] > startDate) {
+        ps.push({
+          x: ts.dates()[i],
+          y:
+            state.lineGraphState.byMetric === 0
+              ? c[field]
+              : c[field] / ts.population(),
+        });
+      }
+      return ps;
+    }, []);
+    cs.push(chart);
+  });
+
+  return cs;
+}
+
+function worldPopulation(): number {
+  return objReduce(
+    populationDictionary,
+    (total, next) => {
+      if (next !== next) {
+        return total;
+      }
+      return total + next;
+    },
+    0
+  );
 }

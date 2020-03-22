@@ -13,6 +13,7 @@ module.exports = {
       'Access-Control-Allow-Headers':
         'X-Requested-With, content-type, Authorization',
     },
+    historyApiFallback: true,
   },
   devtool: production ? 'hidden-source-map' : 'eval-cheap-source-map',
   entry: './src/index.ts',
