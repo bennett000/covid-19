@@ -2,6 +2,7 @@ import { fetchData } from './data';
 import { AppState } from './interfaces';
 import { isNumber, isString } from '@ch1/utility';
 import { log } from './utility';
+import { TimeSeriesArray } from './time-series';
 
 const defaultDataset = 0;
 const defaultCountries = [];
@@ -14,7 +15,9 @@ export function createState(): AppState {
   return {
     countries: [],
     currentSeries: [],
+    data: TimeSeriesArray.create(),
     dataPromise: fetchData(),
+    routePath: '/',
     lineGraphState: {
       dataSetIndexes: [defaultDataset],
       byMetric: 0,
@@ -33,6 +36,7 @@ export function saveState(state: AppState) {
       'state',
       JSON.stringify({
         ...state,
+        data: undefined,
         dataPromise: undefined,
       })
     );
@@ -56,6 +60,7 @@ export function loadState(): AppState | null {
         return {
           ...parsed,
           dataPromise: fetchData(),
+          data: TimeSeriesArray.create(),
         };
       } catch (e) {
         log('Failed to parse saved state, resetting localStorage');

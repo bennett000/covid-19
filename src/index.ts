@@ -5,7 +5,7 @@ main();
 
 function main() {
   const element = window.document.createElement('section');
-  element.className = `${fullSize} ${flexCol}`;
+  element.className = `${fullSize}`;
   if (!element) {
     throw new Error('Could not bootstrap the application');
   }

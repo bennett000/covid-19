@@ -1,13 +1,13 @@
 import {
   SelectOptionsWithIndex,
-  ChartPoint,
   ChartSeries,
   AppState,
-  JhuIntegratedData,
   JhuTimeSeries,
   JhuTimeSeriesHeader,
   JhuSet,
-  TimeSeries,
+  ITimeSeries,
+  TimeSeriesType,
+  ITimeSeriesArray,
 } from './interfaces';
 import { totalString, worldString, usaString } from './constants';
 import rawPopulationData from 'country-json/src/country-by-population.json';
@@ -15,6 +15,7 @@ import rawPopulationDensityData from 'country-json/src/country-by-population-den
 import { Dictionary, objReduce } from '@ch1/utility';
 import { mapJhuCountryToPop, manuallySourcePop, usStates } from './data-maps';
 import { log } from './utility';
+import { TimeSeries, TimeSeriesArray } from './time-series';
 
 const populationDictionary: {
   [key: string]: number;
@@ -38,7 +39,7 @@ const urls = [
 
 export function fetchData(): Promise<{
   countries: SelectOptionsWithIndex[];
-  timeSeries: TimeSeries[];
+  timeSeries: ITimeSeriesArray;
 }> {
   return Promise.all(urls.map(url => fetch(url)))
     .then(unwrapResponses)
@@ -201,6 +202,7 @@ export function convertStringArrayToStructured(rowString: string): JhuSet {
     rows
       .slice(1)
       .map(csvRowStringToArray)
+      .filter(row => row.length)
       .map(convertRowToTimeSeries),
   ];
 }
@@ -291,35 +293,15 @@ export function totalsDictionaryToTimeSeries(
 }
 
 export function sumAllRegions(dataSets: JhuSet[]): JhuSet[] {
-  // must be used after alphabetizing
   return dataSets.map(ds => {
     const [header, dataSet] = ds;
     return [header, sumDataSetRegions(dataSet)];
   });
 }
 
-function alphabetize(timeSeries: TimeSeries[]): TimeSeries[] {
-  return timeSeries.sort((a, b) => {
-    if (a.country < b.country) {
-      return -1;
-    }
-    if (a.country > b.country) {
-      return 1;
-    }
-    if (a.state < b.state) {
-      return -1;
-    }
-    if (a.state > b.state) {
-      return 1;
-    }
-    if (a.locale < b.locale) {
-      return -1;
-    }
-    if (a.locale > b.locale) {
-      return 1;
-    }
-    return 0;
-  });
+function alphabetize(timeSeries: ITimeSeriesArray): ITimeSeriesArray {
+  timeSeries.sortByCountry();
+  return timeSeries;
 }
 
 export function generateActiveCases(dataSets: JhuSet[]): JhuSet[] {
@@ -347,89 +329,43 @@ export function generateActiveCases(dataSets: JhuSet[]): JhuSet[] {
   return activeSet.concat(dataSets);
 }
 
-export function mergeDataSets(dataSets: JhuSet[]): TimeSeries[] {
+export function mergeDataSets(dataSets: JhuSet[]): ITimeSeriesArray {
   const dates = dataSets[0][0];
-  return dataSets[0][1].map((row, rowIndex) => {
-    return {
-      country: row.country,
-      dates,
-      locale: row.locale,
-      population: row.population,
-      populationDensity: row.populationDensity,
-      state: row.state,
-      counts: row.timeSeries.map((number, timeSeriesIndex) => {
-        return {
-          active: dataSets[0][1][rowIndex].timeSeries[timeSeriesIndex],
-          confirmed: dataSets[1][1][rowIndex].timeSeries[timeSeriesIndex],
-          deaths: dataSets[2][1][rowIndex].timeSeries[timeSeriesIndex],
-          recoveries: dataSets[3][1][rowIndex].timeSeries[timeSeriesIndex],
-        };
-      }),
-    };
+  const its = TimeSeriesArray.create();
+  dataSets[0][1].forEach((row, rowIndex) => {
+    its.push(
+      TimeSeries.create({
+        country: row.country,
+        dates,
+        locale: row.locale,
+        population: row.population,
+        populationDensity: row.populationDensity,
+        state: row.state,
+        counts: row.timeSeries.map((number, timeSeriesIndex) => {
+          return {
+            active: dataSets[0][1][rowIndex].timeSeries[timeSeriesIndex],
+            confirmed: dataSets[1][1][rowIndex].timeSeries[timeSeriesIndex],
+            deaths: dataSets[2][1][rowIndex].timeSeries[timeSeriesIndex],
+            recoveries: dataSets[3][1][rowIndex].timeSeries[timeSeriesIndex],
+          };
+        }),
+      })
+    );
   });
+  return its;
 }
 
-function extractCountries(timeSeries: TimeSeries[]) {
+function extractCountries(timeSeries: ITimeSeriesArray) {
   const countries = timeSeries
     .reduce((countryArr: SelectOptionsWithIndex[], row, i) => {
-      if (row.locale) {
-        return null;
+      if (row.locale()) {
+        return countryArr;
       }
-      const name = row.state ? row.country + ', ' + row.state : row.country;
+      const name = row.countryName();
       countryArr.push({ index: i, name });
       return countryArr;
     }, [])
     .filter(Boolean);
-
-  return { countries, timeSeries };
-}
-
-function csvToPoints({
-  countries,
-  timeSeries,
-}: {
-  countries: SelectOptionsWithIndex[];
-  timeSeries: TimeSeries[];
-}): JhuIntegratedData {
-  const points = timeSeries.reduce(
-    (ps: ChartSeries[][][], row) => {
-      const baseName = row.country + (row.state ? `, ${row.state}` : '');
-      const aName = `${getChartTypeFromIndex(0)} ${baseName}`;
-      const cName = `${getChartTypeFromIndex(1)} ${baseName}`;
-      const dName = `${getChartTypeFromIndex(2)} ${baseName}`;
-      const rName = `${getChartTypeFromIndex(3)} ${baseName}`;
-
-      const cells = row.counts.reduce(
-        (cs, count, i) => {
-          cs[0].push([count.active, count.active / row.population]);
-          cs[1].push([count.confirmed, count.confirmed / row.population]);
-          cs[2].push([count.deaths, count.deaths / row.population]);
-          cs[3].push([count.recoveries, count.recoveries / row.population]);
-          return ps;
-        },
-        [[], [], [], []]
-      );
-
-      ps[0].push([
-        { name: aName, points: cells[0][0] },
-        { name: aName, points: cells[0][1] },
-      ]);
-      ps[1].push([
-        { name: cName, points: cells[1][0] },
-        { name: cName, points: cells[1][1] },
-      ]);
-      ps[2].push([
-        { name: dName, points: cells[2][0] },
-        { name: dName, points: cells[2][1] },
-      ]);
-      ps[3].push([
-        { name: rName, points: cells[3][0] },
-        { name: rName, points: cells[3][1] },
-      ]);
-      return ps;
-    },
-    [[], [], [], []]
-  );
 
   return { countries, timeSeries };
 }
@@ -465,7 +401,7 @@ function selectDataByMode(
   cache: Dictionary<ChartSeries>,
   state: AppState,
   cs: ChartSeries[],
-  ts: TimeSeries
+  ts: ITimeSeries
 ): ChartSeries[] {
   switch (state.lineGraphState.mode) {
     case 1:
@@ -481,7 +417,7 @@ function selectDataByConfirmed(
   cache: Dictionary<ChartSeries>,
   state: AppState,
   cs: ChartSeries[],
-  ts: TimeSeries,
+  ts: ITimeSeries,
   count: number
 ) {
   const startDate = new Date(state.lineGraphState.startDate);
@@ -489,21 +425,18 @@ function selectDataByConfirmed(
   state.lineGraphState.dataSetIndexes.forEach(index => {
     const field = getFieldFromIndex(index);
     const chart = {
-      name:
-        getChartTypeFromIndex(index) +
-        ' ' +
-        (ts.state ? ts.country + ', ' + ts.state : ts.country),
+      name: getChartTypeFromIndex(index) + ' ' + ts.countryName(),
       points: [],
     };
     let fromDay0 = 0;
-    chart.points = ts.counts.reduce((ps, c, i) => {
-      if (ts.dates[i] && ts.dates[i] > startDate && c.confirmed >= count) {
+    chart.points = ts.counts().reduce((ps, c, i) => {
+      if (ts.dates()[i] && ts.dates()[i] > startDate && c.confirmed >= count) {
         ps.push({
           x: fromDay0++,
           y:
             state.lineGraphState.byMetric === 0
               ? c[field]
-              : c[field] / ts.population,
+              : c[field] / ts.population(),
         });
       }
       return ps;
@@ -514,9 +447,7 @@ function selectDataByConfirmed(
   return cs;
 }
 
-function getFieldFromIndex(
-  index: number
-): 'active' | 'confirmed' | 'deaths' | 'recoveries' {
+function getFieldFromIndex(index: number): TimeSeriesType {
   switch (index) {
     case 0:
       return 'active';
@@ -533,27 +464,24 @@ function selectDataByDate(
   cache: Dictionary<ChartSeries>,
   state: AppState,
   cs: ChartSeries[],
-  ts: TimeSeries
+  ts: ITimeSeries
 ) {
   const startDate = new Date(state.lineGraphState.startDate);
 
   state.lineGraphState.dataSetIndexes.forEach(index => {
     const field = getFieldFromIndex(index);
     const chart = {
-      name:
-        getChartTypeFromIndex(index) +
-        ' ' +
-        (ts.state ? ts.country + ', ' + ts.state : ts.country),
+      name: getChartTypeFromIndex(index) + ' ' + ts.countryName(),
       points: [],
     };
-    chart.points = ts.counts.reduce((ps, c, i) => {
-      if (ts.dates[i] && ts.dates[i] > startDate) {
+    chart.points = ts.counts().reduce((ps, c, i) => {
+      if (ts.dates()[i] && ts.dates()[i] > startDate) {
         ps.push({
-          x: ts.dates[i],
+          x: ts.dates()[i],
           y:
             state.lineGraphState.byMetric === 0
               ? c[field]
-              : c[field] / ts.population,
+              : c[field] / ts.population(),
         });
       }
       return ps;

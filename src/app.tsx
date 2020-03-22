@@ -11,6 +11,9 @@ import {
 import { selectData, fetchData } from './data';
 import { log } from './utility';
 import { Dictionary } from '@ch1/utility';
+import { LearningTable } from './feature-learning-table/learning-table';
+import { Header } from './components/header';
+import { fullSize, flexCol } from './constants';
 
 export class App extends Component<
   { cache: Dictionary<ChartSeries>; reset: () => any },
@@ -44,7 +47,13 @@ export class App extends Component<
 
   selectAndUpdate() {
     this.state.dataPromise
-      .then(() => selectData(this.props.cache, this.state))
+      .then(({ timeSeries }) => {
+        this.setState({
+          ...this.state,
+          data: timeSeries,
+        });
+        return selectData(this.props.cache, this.state);
+      })
       .then(this.updateSelectState.bind(this))
       .then(() => saveState(this.state));
   }
@@ -69,16 +78,25 @@ export class App extends Component<
 
   render() {
     return (
-      <Router>
-        <LineGraph
-          path={'/'}
-          countries={this.state.countries}
-          currentSeries={this.state.currentSeries}
-          onChange={this.lineGraphState.bind(this)}
-          reload={this.reload.bind(this)}
-          state={this.state.lineGraphState}
-        ></LineGraph>
-      </Router>
+      <div className={`${fullSize} ${flexCol}`}>
+        <Header />
+        <Router>
+          <LineGraph
+            path={'/'}
+            countries={this.state.countries}
+            currentSeries={this.state.currentSeries}
+            onChange={this.lineGraphState.bind(this)}
+            key="0"
+            reload={this.reload.bind(this)}
+            state={this.state.lineGraphState}
+          ></LineGraph>
+          <LearningTable
+            key="1"
+            path={'/table'}
+            timeSeries={this.state.data}
+          ></LearningTable>
+        </Router>
+      </div>
     );
   }
 }
