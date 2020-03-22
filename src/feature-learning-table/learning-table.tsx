@@ -15,6 +15,7 @@ import {
 import { ButtonToggle } from '../components/button-toggle';
 import { SelectMultiple } from '../components/select-multiple';
 import { noop } from '@ch1/utility';
+import { Select } from '../components/select';
 
 const header = [
   {
@@ -76,6 +77,7 @@ export class LearningTable extends Component<
   {
     columns: number[];
     isConfigOpen: boolean;
+    showAll: boolean;
     sortByActive: boolean;
     sortByActivePercent: boolean;
     sortByConfirmed: boolean;
@@ -93,6 +95,7 @@ export class LearningTable extends Component<
     this.state = {
       columns: [1, 3, 5, 7, 9],
       isConfigOpen: false,
+      showAll: true,
       sortByActive: true,
       sortByActivePercent: true,
       sortByConfirmed: true,
@@ -133,6 +136,13 @@ export class LearningTable extends Component<
     });
   }
 
+  toggleShowAll() {
+    this.setState({
+      ...this.state,
+      showAll: this.state.showAll ? false : true,
+    });
+  }
+
   onChangeColumns(column: number) {
     if (this.state.columns.indexOf(column) === -1) {
       if (this.state.columns.length < 7) {
@@ -159,7 +169,11 @@ export class LearningTable extends Component<
     return (
       <section className={`${fullSize} ${flexCol}`}>
         <section className={this.state.isConfigOpen ? flexItem60 : flexItem95}>
-          <table style={`height: ${this.state.isConfigOpen ? 83 : 90}%;`}>
+          <table
+            style={`height: ${
+              this.state.isConfigOpen ? 83 : 90
+            }%; width: 100%;`}
+          >
             <thead>
               <tr>
                 {header.map((t, i) =>
@@ -177,6 +191,11 @@ export class LearningTable extends Component<
               {this.props.timeSeries.map((ts, i) => {
                 if (ts.counts().length < 1) {
                   return '';
+                }
+                if (this.state.showAll === false) {
+                  if (this.props.countryIndexes.indexOf(i) === -1) {
+                    return '';
+                  }
                 }
                 const name =
                   ts.country() + (ts.state() ? ', ' + ts.state() : '');
@@ -289,13 +308,18 @@ export class LearningTable extends Component<
             <Button label="Chart" onClick={() => route('/')} />
           </section>
           {this.state.isConfigOpen ? (
-            <section>
+            <section className={flex}>
               <SelectMultiple
                 onChange={noop as any}
                 onClick={v => this.onChangeColumns(v + 1)}
                 options={header.map(item => item.label).slice(1)}
                 selected={this.state.columns.map(c => c - 1)}
               ></SelectMultiple>
+              <Select
+                onChange={this.toggleShowAll.bind(this)}
+                options={['Show All', 'Only Selected']}
+                selected={this.state.showAll ? 0 : 1}
+              ></Select>
             </section>
           ) : (
             ''
