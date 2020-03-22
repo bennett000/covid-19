@@ -84,6 +84,7 @@ export interface TimeSeriesCount {
   confirmed: number;
   deaths: number;
   recoveries: number;
+  projectionReverseDeath: number;
 }
 
 export interface LocationSeries extends Location {
@@ -124,4 +125,9 @@ export interface JhuIntegratedData {
   timeSeries: ITimeSeriesArray;
 }
 
-export type TimeSeriesType = 'active' | 'confirmed' | 'deaths' | 'recoveries';
+export type TimeSeriesType =
+  | 'active'
+  | 'confirmed'
+  | 'deaths'
+  | 'recoveries'
+  | 'projectionReverseDeath';

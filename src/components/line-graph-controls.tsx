@@ -18,7 +18,13 @@ import {
 import { SelectMultipleFilter } from './select-multiple-filter';
 import { noop } from '@ch1/utility';
 
-const dataSets = ['Active', 'Confirmed', 'Deaths', 'Recoveries'];
+const dataSets = [
+  'Active',
+  'Confirmed',
+  'Deaths',
+  'Recoveries',
+  'Projection: By Reverse Death',
+];
 const modes = ['By date', 'By first confirmed', 'By first 100 confirmed'];
 const scaleTypes = ['Linear', 'Logarithmic'];
 const showStates = ['Show States', 'Hide States'];

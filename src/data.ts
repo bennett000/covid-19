@@ -9,7 +9,12 @@ import {
   TimeSeriesType,
   ITimeSeriesArray,
 } from './interfaces';
-import { totalString, worldString, usaString } from './constants';
+import {
+  reverseDeathProjectionDefaults,
+  totalString,
+  worldString,
+  usaString,
+} from './constants';
 import rawPopulationData from 'country-json/src/country-by-population.json';
 import rawPopulationDensityData from 'country-json/src/country-by-population-density.json';
 import { Dictionary, objReduce } from '@ch1/utility';
@@ -52,6 +57,7 @@ export function fetchData(): Promise<{
     .then(convertAllCsvToStructured)
     .then(sumAllRegions)
     .then(generateActiveCases)
+    .then(generateReverseDeathProjection)
     .then(mergeDataSets)
     .then(alphabetize)
     .then(extractCountries);
@@ -357,6 +363,43 @@ export function generateActiveCases(dataSets: JhuSet[]): JhuSet[] {
   return activeSet.concat(dataSets);
 }
 
+export function generateReverseDeathProjection(dataSets: JhuSet[]): JhuSet[] {
+  const activeSet: JhuSet[] = [
+    [
+      dataSets[0][0],
+      dataSets[0][1].map((ts, i) => {
+        return {
+          country: ts.country,
+          locale: ts.locale,
+          population:
+            ts.country === worldString ? worldPopulation() : ts.population,
+          populationDensity: ts.populationDensity,
+          state: ts.state,
+          timeSeries: ts.timeSeries.map((confirmed, j) => {
+            if (
+              dataSets[2][1][i].timeSeries[j] <
+              reverseDeathProjectionDefaults.minDeaths
+            ) {
+              return 0;
+            }
+            // projection is based on https://medium.com/@tomaspueyo/coronavirus-act-today-or-people-will-die-f4d3d9cd99ca
+            // https://docs.google.com/spreadsheets/d/1R25ygRLahhSNP2N-lnas_9a9aRWGCtAt3_sCYDoRyAU/edit#gid=0
+            const deaths = dataSets[2][1][i].timeSeries[j];
+            const numberOfCasesCausingDeath =
+              deaths / reverseDeathProjectionDefaults.fatalityRate;
+            const numberOfDoubles =
+              reverseDeathProjectionDefaults.daysFromInfectionToDeath /
+              reverseDeathProjectionDefaults.doublingTime;
+
+            return numberOfCasesCausingDeath * Math.pow(2, numberOfDoubles);
+          }),
+        };
+      }),
+    ],
+  ];
+  return dataSets.concat(activeSet);
+}
+
 export function mergeDataSets(dataSets: JhuSet[]): ITimeSeriesArray {
   const dates = dataSets[0][0];
   const its = TimeSeriesArray.create();
@@ -376,6 +419,8 @@ export function mergeDataSets(dataSets: JhuSet[]): ITimeSeriesArray {
             confirmed: dataSets[1][1][rowIndex].timeSeries[timeSeriesIndex],
             deaths: dataSets[2][1][rowIndex].timeSeries[timeSeriesIndex],
             recoveries: dataSets[3][1][rowIndex].timeSeries[timeSeriesIndex],
+            projectionReverseDeath:
+              dataSets[4][1][rowIndex].timeSeries[timeSeriesIndex],
           };
         }),
       })
@@ -407,6 +452,10 @@ function getChartTypeFromIndex(index: number) {
       return '✔';
     case 2:
       return '☠';
+    case 3:
+      return '😊';
+    case 4:
+      return '🤔';
     default:
       return '😊';
   }
@@ -453,7 +502,9 @@ function selectDataByConfirmed(
 
   state.lineGraphState.dataSetIndexes.forEach(index => {
     const field = getFieldFromIndex(index);
+    const line = index > 3 ? { opacity: 0.5, width: 0.5 } : undefined;
     const chart = {
+      line,
       name: getChartTypeFromIndex(index) + ' ' + ts.countryName(),
       points: [],
     };
@@ -491,6 +542,10 @@ function getFieldFromIndex(index: number): TimeSeriesType {
       return 'confirmed';
     case 2:
       return 'deaths';
+    case 3:
+      return 'recoveries';
+    case 4:
+      return 'projectionReverseDeath';
     default:
       return 'recoveries';
   }

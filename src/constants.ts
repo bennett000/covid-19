@@ -15,3 +15,10 @@ export const rowHighlight = 'row-highlight';
 export const totalString = 'Total';
 export const usaString = 'US';
 export const worldString = 'World';
+
+export const reverseDeathProjectionDefaults = Object.freeze({
+  daysFromInfectionToDeath: 17.3,
+  doublingTime: 6.18,
+  fatalityRate: 0.87,
+  minDeaths: 10,
+});
