@@ -90,10 +90,6 @@ function getPopulationDensity(
   if (populationDensity) {
     return populationDensity;
   }
-  populationDensity = manuallySourcePop[country];
-  if (populationDensity) {
-    return populationDensity;
-  }
   return 0;
 }
 
