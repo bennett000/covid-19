@@ -364,6 +364,7 @@ export function mergeDataSets(dataSets: JhuSet[]): ITimeSeriesArray {
     its.push(
       TimeSeries.create({
         country: row.country,
+        index: rowIndex,
         dates,
         locale: row.locale,
         population: row.population,
@@ -390,7 +391,7 @@ function extractCountries(timeSeries: ITimeSeriesArray) {
         return countryArr;
       }
       const name = row.countryName();
-      countryArr.push({ index: i, name });
+      countryArr.push({ index: row.index(), name });
       return countryArr;
     }, [])
     .filter(Boolean);
@@ -415,8 +416,8 @@ export function selectData(cache: Dictionary<ChartSeries>, state: AppState) {
   return state.dataPromise.then(({ countries, timeSeries }) => {
     return {
       countries,
-      series: timeSeries.reduce((cs: ChartSeries[], ts, countryIndex) => {
-        if (state.lineGraphState.countryIndexes.indexOf(countryIndex) > -1) {
+      series: timeSeries.reduce((cs: ChartSeries[], ts) => {
+        if (state.lineGraphState.countryIndexes.indexOf(ts.index()) > -1) {
           return selectDataByMode(cache, state, cs, ts);
         }
         return cs;

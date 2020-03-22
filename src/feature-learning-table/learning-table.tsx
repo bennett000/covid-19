@@ -172,7 +172,7 @@ export class LearningTable extends Component<
                   return '';
                 }
                 if (this.props.state.showAll === false) {
-                  if (this.props.countryIndexes.indexOf(i) === -1) {
+                  if (this.props.countryIndexes.indexOf(ts.index()) === -1) {
                     return '';
                   }
                 }
@@ -180,13 +180,13 @@ export class LearningTable extends Component<
                   ts.country() + (ts.state() ? ', ' + ts.state() : '');
                 const rowParity = i % 2 === 0 ? rowEven : rowOdd;
                 const rowClass =
-                  this.props.countryIndexes.indexOf(i) > -1
+                  this.props.countryIndexes.indexOf(ts.index()) > -1
                     ? rowHighlight + ' ' + rowParity
                     : rowParity;
                 return (
                   <tr
                     className={rowClass}
-                    onClick={() => this.props.selectCountry(i)}
+                    onClick={() => this.props.selectCountry(ts.index())}
                   >
                     <td style={width}>{name}</td>
                     {this.props.state.columns.indexOf(1) > -1 ? (
