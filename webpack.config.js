@@ -26,7 +26,14 @@ module.exports = {
     rules: [{ test: /\.tsx?$/, use: 'ts-loader' }],
   },
   plugins: [
-    new HtmlWebpackPlugin({ template: './src/index.html' }),
+    new HtmlWebpackPlugin({
+      filename: 'index.html',
+      template: './src/index.html',
+    }),
+    new HtmlWebpackPlugin({
+      filename: '404.html',
+      template: './src/index.html',
+    }),
     new CopyPlugin([{ from: 'assets', to: '' }]),
   ],
   resolve: {
