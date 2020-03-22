@@ -14,6 +14,8 @@ import {
   totalString,
   worldString,
   usaString,
+  projectionPalette,
+  basePalette,
 } from './constants';
 import rawPopulationData from 'country-json/src/country-by-population.json';
 import rawPopulationDensityData from 'country-json/src/country-by-population-density.json';
@@ -465,9 +467,9 @@ export function selectData(cache: Dictionary<ChartSeries>, state: AppState) {
   return state.dataPromise.then(({ countries, timeSeries }) => {
     return {
       countries,
-      series: timeSeries.reduce((cs: ChartSeries[], ts) => {
+      series: timeSeries.reduce((cs: ChartSeries[], ts, index) => {
         if (state.lineGraphState.countryIndexes.indexOf(ts.index()) > -1) {
-          return selectDataByMode(cache, state, cs, ts);
+          return selectDataByMode(cache, state, cs, ts, index);
         }
         return cs;
       }, []),
@@ -479,15 +481,16 @@ function selectDataByMode(
   cache: Dictionary<ChartSeries>,
   state: AppState,
   cs: ChartSeries[],
-  ts: ITimeSeries
+  ts: ITimeSeries,
+  index: number
 ): ChartSeries[] {
   switch (state.lineGraphState.mode) {
     case 1:
-      return selectDataByConfirmed(cache, state, cs, ts, 1);
+      return selectDataByConfirmed(cache, state, cs, ts, index, 1);
     case 2:
-      return selectDataByConfirmed(cache, state, cs, ts, 100);
+      return selectDataByConfirmed(cache, state, cs, ts, index, 100);
     default:
-      return selectDataByDate(cache, state, cs, ts);
+      return selectDataByDate(cache, state, cs, ts, index);
   }
 }
 
@@ -496,16 +499,23 @@ function selectDataByConfirmed(
   state: AppState,
   cs: ChartSeries[],
   ts: ITimeSeries,
+  index: number,
   count: number
 ) {
   const startDate = new Date(state.lineGraphState.startDate);
 
-  state.lineGraphState.dataSetIndexes.forEach(index => {
-    const field = getFieldFromIndex(index);
-    const line = index > 3 ? { opacity: 0.5, width: 0.5 } : undefined;
+  state.lineGraphState.dataSetIndexes.forEach(dataSetIndex => {
+    const field = getFieldFromIndex(dataSetIndex);
+    const colour =
+      dataSetIndex > 3
+        ? projectionPalette[index % projectionPalette.length]
+        : basePalette[index % basePalette.length];
+    console.log(dataSetIndex, colour);
+    const line = { color: colour };
     const chart = {
+      color: colour,
       line,
-      name: getChartTypeFromIndex(index) + ' ' + ts.countryName(),
+      name: getChartTypeFromIndex(dataSetIndex) + ' ' + ts.countryName(),
       points: [],
     };
     let fromDay0 = 0;
@@ -518,13 +528,11 @@ function selectDataByConfirmed(
         );
         if (y) {
           ps.push({
-            x: fromDay0++,
-            y:
-              state.lineGraphState.byMetric === 0
-                ? c[field]
-                : c[field] / ts.population(),
+            x: fromDay0,
+            y,
           });
         }
+        fromDay0 += 1;
       }
       return ps;
     }, []);
@@ -555,14 +563,22 @@ function selectDataByDate(
   cache: Dictionary<ChartSeries>,
   state: AppState,
   cs: ChartSeries[],
-  ts: ITimeSeries
+  ts: ITimeSeries,
+  index: number
 ) {
   const startDate = new Date(state.lineGraphState.startDate);
 
-  state.lineGraphState.dataSetIndexes.forEach(index => {
-    const field = getFieldFromIndex(index);
+  state.lineGraphState.dataSetIndexes.forEach(dataSetIndex => {
+    const colour =
+      dataSetIndex > 3
+        ? projectionPalette[index % projectionPalette.length]
+        : basePalette[index % basePalette.length];
+
+    const field = getFieldFromIndex(dataSetIndex);
     const chart = {
-      name: getChartTypeFromIndex(index) + ' ' + ts.countryName(),
+      color: colour,
+      line: { color: colour },
+      name: getChartTypeFromIndex(dataSetIndex) + ' ' + ts.countryName(),
       points: [],
     };
     chart.points = ts.counts().reduce((ps, c, i) => {
