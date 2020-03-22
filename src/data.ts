@@ -428,13 +428,20 @@ function selectDataByConfirmed(
     let fromDay0 = 0;
     chart.points = ts.counts().reduce((ps, c, i) => {
       if (ts.dates()[i] && ts.dates()[i] > startDate && c.confirmed >= count) {
-        ps.push({
-          x: fromDay0++,
-          y:
-            state.lineGraphState.byMetric === 0
-              ? c[field]
-              : c[field] / ts.population(),
-        });
+        const y = getY(
+          state.lineGraphState.byMetric,
+          c[field],
+          ts.population()
+        );
+        if (y) {
+          ps.push({
+            x: fromDay0++,
+            y:
+              state.lineGraphState.byMetric === 0
+                ? c[field]
+                : c[field] / ts.population(),
+          });
+        }
       }
       return ps;
     }, []);
@@ -473,13 +480,17 @@ function selectDataByDate(
     };
     chart.points = ts.counts().reduce((ps, c, i) => {
       if (ts.dates()[i] && ts.dates()[i] > startDate) {
-        ps.push({
-          x: ts.dates()[i],
-          y:
-            state.lineGraphState.byMetric === 0
-              ? c[field]
-              : c[field] / ts.population(),
-        });
+        const y = getY(
+          state.lineGraphState.byMetric,
+          c[field],
+          ts.population()
+        );
+        if (y) {
+          ps.push({
+            x: ts.dates()[i],
+            y,
+          });
+        }
       }
       return ps;
     }, []);
@@ -487,6 +498,18 @@ function selectDataByDate(
   });
 
   return cs;
+}
+
+function getY(byMetric: number, value: number, population: number): number {
+  if (byMetric === 0) {
+    return value;
+  } else {
+    if (population) {
+      return value / population;
+    } else {
+      return 0;
+    }
+  }
 }
 
 function worldPopulation(): number {
