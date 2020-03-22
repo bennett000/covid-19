@@ -11,32 +11,26 @@ import { LineGraphControls } from '../components/line-graph-controls';
 import { ButtonToggle } from '../components/button-toggle';
 import { Button } from '../components/button';
 
-export class LineGraph extends Component<
-  {
-    countries: SelectOptionsWithIndex[];
-    currentSeries: ChartSeries[];
-    onChange: (lgs: LineGraphState) => any;
-    reload: () => any;
-    state: LineGraphState;
-  },
-  {
-    isConfigOpen: boolean;
-  }
-> {
+export class LineGraph extends Component<{
+  clearCountries: () => any;
+  countries: SelectOptionsWithIndex[];
+  countryIndexes: number[];
+  currentSeries: ChartSeries[];
+  onChange: (lgs: LineGraphState) => any;
+  reload: () => any;
+  selectCountry: (country: number) => any;
+  state: LineGraphState;
+}> {
   constructor() {
     super();
-    this.state = { isConfigOpen: false };
+    this.state = {};
   }
 
-  componentWillMount() {
+  componentDidMount() {
+    // force chart to redraw
     this.setState({
       ...this.state,
     });
-    setTimeout(() => {
-      this.setState({
-        ...this.state,
-      });
-    }, 0);
   }
 
   useDays() {
@@ -48,22 +42,29 @@ export class LineGraph extends Component<
   }
 
   toggleConfig(v: boolean) {
-    this.setState({
-      ...this.state,
+    this.props.onChange({
+      ...this.props.state,
       isConfigOpen: v,
+    });
+  }
+
+  setCountryFilter(filter: string) {
+    this.props.onChange({
+      ...this.props.state,
+      countryFilter: filter,
     });
   }
 
   render() {
     const classes =
-      this.state.isConfigOpen === false &&
-      this.props.state.countryIndexes.length === 0
+      this.props.state.isConfigOpen === false &&
+      this.props.countryIndexes.length === 0
         ? ['green']
         : [];
     return (
       <section className={`${fullSize} ${flexCol}`}>
         <Chart
-          flexSize={this.state.isConfigOpen ? flexItem60 : flexItem95}
+          flexSize={this.props.state.isConfigOpen ? flexItem60 : flexItem95}
           series={this.props.currentSeries}
           scaleType={this.props.state.scaleType}
           useDays={this.useDays()}
@@ -74,7 +75,7 @@ export class LineGraph extends Component<
             labelTrue="✗ Enlarge Chart"
             labelFalse="⚙️ Configure Chart"
             onClick={this.toggleConfig.bind(this)}
-            state={this.state.isConfigOpen}
+            state={this.props.state.isConfigOpen}
           />
           <Button
             classes={classes}
@@ -82,12 +83,16 @@ export class LineGraph extends Component<
             onClick={() => route('/table')}
           ></Button>
         </section>
-        {this.state.isConfigOpen ? (
+        {this.props.state.isConfigOpen ? (
           <LineGraphControls
+            onUpdateCountryFilter={this.setCountryFilter.bind(this)}
+            clearCountries={this.props.clearCountries}
+            countryIndexes={this.props.countryIndexes}
             countries={this.props.countries}
             currentSeries={this.props.currentSeries}
             onChange={this.props.onChange}
             reload={this.props.reload}
+            selectCountry={this.props.selectCountry}
             state={this.props.state}
           />
         ) : (

@@ -469,7 +469,7 @@ export function selectData(cache: Dictionary<ChartSeries>, state: AppState) {
     return {
       countries,
       series: timeSeries.reduce((cs: ChartSeries[], ts) => {
-        if (state.lineGraphState.countryIndexes.indexOf(ts.index()) > -1) {
+        if (state.countryIndexes.indexOf(ts.index()) > -1) {
           return selectDataByMode(cache, state, cs, ts, selectedIndex++);
         }
         return cs;
@@ -511,7 +511,6 @@ function selectDataByConfirmed(
       dataSetIndex > 3
         ? projectionPalette[index % projectionPalette.length]
         : basePalette[index % basePalette.length];
-    console.log(dataSetIndex, colour);
     const line = { color: colour };
     const chart = {
       color: colour,

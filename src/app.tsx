@@ -78,6 +78,7 @@ export class App extends Component<
   reload() {
     this.props.reset();
     this.setState({
+      ...this.state,
       dataPromise: fetchData().then(d => {
         this.selectAndUpdate();
         return d;
@@ -85,26 +86,27 @@ export class App extends Component<
     });
   }
 
+  clearCountries() {
+    console.log('clear countries');
+    this.setState({
+      ...this.state,
+      countryIndexes: [],
+    });
+    this.selectAndUpdate();
+  }
+
   selectCountry(countryIndex: number) {
-    if (this.state.lineGraphState.countryIndexes.indexOf(countryIndex) > -1) {
+    if (this.state.countryIndexes.indexOf(countryIndex) > -1) {
       this.setState({
         ...this.state,
-        lineGraphState: {
-          ...this.state.lineGraphState,
-          countryIndexes: this.state.lineGraphState.countryIndexes.filter(
-            i => i !== countryIndex
-          ),
-        },
+        countryIndexes: this.state.countryIndexes.filter(
+          i => i !== countryIndex
+        ),
       });
     } else {
       this.setState({
         ...this.state,
-        lineGraphState: {
-          ...this.state.lineGraphState,
-          countryIndexes: this.state.lineGraphState.countryIndexes.concat([
-            countryIndex,
-          ]),
-        },
+        countryIndexes: this.state.countryIndexes.concat([countryIndex]),
       });
     }
     this.selectAndUpdate();
@@ -117,15 +119,18 @@ export class App extends Component<
         <Router>
           <LineGraph
             path={'/'}
+            clearCountries={this.clearCountries.bind(this)}
             countries={this.state.countries}
+            countryIndexes={this.state.countryIndexes}
             currentSeries={this.state.currentSeries}
             onChange={this.lineGraphState.bind(this)}
             key="0"
             reload={this.reload.bind(this)}
+            selectCountry={this.selectCountry.bind(this)}
             state={this.state.lineGraphState}
           ></LineGraph>
           <LearningTable
-            countryIndexes={this.state.lineGraphState.countryIndexes}
+            countryIndexes={this.state.countryIndexes}
             key="1"
             onChange={this.tableState.bind(this)}
             path={'/table'}
