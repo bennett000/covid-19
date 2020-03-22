@@ -141,6 +141,9 @@ export class LearningTable extends Component<
   }
 
   render() {
+    const tbody =
+      window.document.body.clientHeight *
+      (this.state.isConfigOpen ? 0.6 : 0.82);
     const width = `width: ${100 / (this.props.state.columns.length || 1)}%;`;
     return (
       <section className={`${fullSize} ${flexCol}`}>
@@ -163,13 +166,13 @@ export class LearningTable extends Component<
                 )}
               </tr>
             </thead>
-            <tbody style="height: 100%; overflow: auto;">
+            <tbody style={`overflow: auto; max-height: ${tbody}px;`}>
               {this.props.timeSeries.map((ts, i) => {
                 if (ts.counts().length < 1) {
                   return '';
                 }
                 if (this.props.state.showAll === false) {
-                  if (this.props.countryIndexes.indexOf(i) === -1) {
+                  if (this.props.countryIndexes.indexOf(ts.index()) === -1) {
                     return '';
                   }
                 }
@@ -177,13 +180,13 @@ export class LearningTable extends Component<
                   ts.country() + (ts.state() ? ', ' + ts.state() : '');
                 const rowParity = i % 2 === 0 ? rowEven : rowOdd;
                 const rowClass =
-                  this.props.countryIndexes.indexOf(i) > -1
+                  this.props.countryIndexes.indexOf(ts.index()) > -1
                     ? rowHighlight + ' ' + rowParity
                     : rowParity;
                 return (
                   <tr
                     className={rowClass}
-                    onClick={() => this.props.selectCountry(i)}
+                    onClick={() => this.props.selectCountry(ts.index())}
                   >
                     <td style={width}>{name}</td>
                     {this.props.state.columns.indexOf(1) > -1 ? (

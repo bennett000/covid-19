@@ -271,7 +271,7 @@ describe('data functions', () => {
         {
           country: 'US',
           locale: '',
-          population: 0,
+          population: 11570808,
           populationDensity: 0,
           state: 'Ohio',
           timeSeries: [1, 2, 3],

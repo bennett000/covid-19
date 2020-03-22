@@ -34,6 +34,9 @@ export class TimeSeries implements ITimeSeries {
     );
   }
 
+  index() {
+    return this.data.index;
+  }
   lastActive() {
     return this.lastValue('active');
   }
@@ -111,6 +114,12 @@ export class TimeSeriesArray extends Array implements ITimeSeriesArray {
       }
       return 0;
     });
+  }
+
+  clone() {
+    const ns = TimeSeriesArray.create();
+    this.forEach(el => ns.push(el));
+    return ns;
   }
 
   sortByActive(asc = true) {

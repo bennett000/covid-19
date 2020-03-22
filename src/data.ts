@@ -13,7 +13,13 @@ import { totalString, worldString, usaString } from './constants';
 import rawPopulationData from 'country-json/src/country-by-population.json';
 import rawPopulationDensityData from 'country-json/src/country-by-population-density.json';
 import { Dictionary, objReduce } from '@ch1/utility';
-import { mapJhuCountryToPop, manuallySourcePop, usStates } from './data-maps';
+import {
+  mapJhuCountryToPop,
+  manuallySourcePop,
+  usStates,
+  usStateCodeByName,
+  manuallySourceStatePop,
+} from './data-maps';
 import { log } from './utility';
 import { TimeSeries, TimeSeriesArray } from './time-series';
 
@@ -56,8 +62,11 @@ function getPopulation(
   state?: string,
   locale?: string
 ): number {
-  if (state || locale) {
+  if (locale) {
     return 0;
+  }
+  if (state) {
+    return getStatePopulation(country, state, locale);
   }
   let population = populationDictionary[country];
   if (population) {
@@ -70,6 +79,28 @@ function getPopulation(
   population = manuallySourcePop[country];
   if (population) {
     return population;
+  }
+  return 0;
+}
+
+function getStatePopulation(country: string, state?: string, locale?: string) {
+  if (locale) {
+    return 0;
+  }
+  if (manuallySourceStatePop[country]) {
+    if (country === 'US') {
+      const rawStateCode = usStateCodeByName[state];
+      if (rawStateCode) {
+        const stateCode = rawStateCode === 'D.C.' ? 'DC' : rawStateCode;
+        if (manuallySourceStatePop[country][stateCode]) {
+          return manuallySourceStatePop[country][stateCode];
+        }
+      }
+    } else {
+      if (manuallySourceStatePop[country][state]) {
+        return manuallySourceStatePop[country][state];
+      }
+    }
   }
   return 0;
 }
@@ -333,6 +364,7 @@ export function mergeDataSets(dataSets: JhuSet[]): ITimeSeriesArray {
     its.push(
       TimeSeries.create({
         country: row.country,
+        index: rowIndex,
         dates,
         locale: row.locale,
         population: row.population,
@@ -359,7 +391,7 @@ function extractCountries(timeSeries: ITimeSeriesArray) {
         return countryArr;
       }
       const name = row.countryName();
-      countryArr.push({ index: i, name });
+      countryArr.push({ index: row.index(), name });
       return countryArr;
     }, [])
     .filter(Boolean);
@@ -384,8 +416,8 @@ export function selectData(cache: Dictionary<ChartSeries>, state: AppState) {
   return state.dataPromise.then(({ countries, timeSeries }) => {
     return {
       countries,
-      series: timeSeries.reduce((cs: ChartSeries[], ts, countryIndex) => {
-        if (state.lineGraphState.countryIndexes.indexOf(countryIndex) > -1) {
+      series: timeSeries.reduce((cs: ChartSeries[], ts) => {
+        if (state.lineGraphState.countryIndexes.indexOf(ts.index()) > -1) {
           return selectDataByMode(cache, state, cs, ts);
         }
         return cs;
@@ -428,13 +460,20 @@ function selectDataByConfirmed(
     let fromDay0 = 0;
     chart.points = ts.counts().reduce((ps, c, i) => {
       if (ts.dates()[i] && ts.dates()[i] > startDate && c.confirmed >= count) {
-        ps.push({
-          x: fromDay0++,
-          y:
-            state.lineGraphState.byMetric === 0
-              ? c[field]
-              : c[field] / ts.population(),
-        });
+        const y = getY(
+          state.lineGraphState.byMetric,
+          c[field],
+          ts.population()
+        );
+        if (y) {
+          ps.push({
+            x: fromDay0++,
+            y:
+              state.lineGraphState.byMetric === 0
+                ? c[field]
+                : c[field] / ts.population(),
+          });
+        }
       }
       return ps;
     }, []);
@@ -473,13 +512,17 @@ function selectDataByDate(
     };
     chart.points = ts.counts().reduce((ps, c, i) => {
       if (ts.dates()[i] && ts.dates()[i] > startDate) {
-        ps.push({
-          x: ts.dates()[i],
-          y:
-            state.lineGraphState.byMetric === 0
-              ? c[field]
-              : c[field] / ts.population(),
-        });
+        const y = getY(
+          state.lineGraphState.byMetric,
+          c[field],
+          ts.population()
+        );
+        if (y) {
+          ps.push({
+            x: ts.dates()[i],
+            y,
+          });
+        }
       }
       return ps;
     }, []);
@@ -487,6 +530,18 @@ function selectDataByDate(
   });
 
   return cs;
+}
+
+function getY(byMetric: number, value: number, population: number): number {
+  if (byMetric === 0) {
+    return value;
+  } else {
+    if (population) {
+      return value / population;
+    } else {
+      return 0;
+    }
+  }
 }
 
 function worldPopulation(): number {
