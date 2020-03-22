@@ -141,6 +141,7 @@ export class LearningTable extends Component<
   }
 
   render() {
+    const tbody = window.document.body.clientHeight * 0.82;
     const width = `width: ${100 / (this.props.state.columns.length || 1)}%;`;
     return (
       <section className={`${fullSize} ${flexCol}`}>
@@ -163,7 +164,7 @@ export class LearningTable extends Component<
                 )}
               </tr>
             </thead>
-            <tbody style="height: 100%; overflow: auto;">
+            <tbody style={`overflow: auto; max-height: ${tbody}px;`}>
               {this.props.timeSeries.map((ts, i) => {
                 if (ts.counts().length < 1) {
                   return '';
