@@ -95,3 +95,22 @@ export const manuallySourcePop = Object.freeze({
   Serbia: 7022000,
   'Taiwan*': 23780000,
 });
+
+// manually source via internet march 22 2020
+export const manuallySourceStatePop = Object.freeze({
+  Canada: Object.freeze({
+    Alberta: 4345737,
+    'British Columbia': 5020302,
+    Ontario: 14446515,
+    Manitoba: 1360396,
+    'New Brunswick': 772094,
+    'Newfoundland and Labrador': 523790,
+    'Northwest Territories': 44598,
+    'Nova Scotia': 965382,
+    'Prince Edward Island': 154748,
+    Quebec: 8433301,
+    Saskatchewan: 1168423,
+    Yukon: 40369,
+    Nunavut: 38787,
+  }),
+});

@@ -13,7 +13,12 @@ import { totalString, worldString, usaString } from './constants';
 import rawPopulationData from 'country-json/src/country-by-population.json';
 import rawPopulationDensityData from 'country-json/src/country-by-population-density.json';
 import { Dictionary, objReduce } from '@ch1/utility';
-import { mapJhuCountryToPop, manuallySourcePop, usStates } from './data-maps';
+import {
+  mapJhuCountryToPop,
+  manuallySourcePop,
+  usStates,
+  manuallySourceStatePop,
+} from './data-maps';
 import { log } from './utility';
 import { TimeSeries, TimeSeriesArray } from './time-series';
 
@@ -56,8 +61,11 @@ function getPopulation(
   state?: string,
   locale?: string
 ): number {
-  if (state || locale) {
+  if (locale) {
     return 0;
+  }
+  if (state) {
+    return getStatePopulation(country, state, locale);
   }
   let population = populationDictionary[country];
   if (population) {
@@ -70,6 +78,18 @@ function getPopulation(
   population = manuallySourcePop[country];
   if (population) {
     return population;
+  }
+  return 0;
+}
+
+function getStatePopulation(country: string, state?: string, locale?: string) {
+  if (locale) {
+    return 0;
+  }
+  if (manuallySourceStatePop[country]) {
+    if (manuallySourceStatePop[country][state]) {
+      return manuallySourceStatePop[country][state];
+    }
   }
   return 0;
 }
