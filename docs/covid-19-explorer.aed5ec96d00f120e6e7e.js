@@ -754,7 +754,8 @@
         (n.prototype.shouldComponentUpdate = function(t) {
           return (
             !0 !== t.static ||
-            t.url !== this.props.url || t.onChange !== this.props.onChange
+            t.url !== this.props.url ||
+            t.onChange !== this.props.onChange
           );
         }),
         (n.prototype.canRoute = function(t) {
@@ -1138,7 +1139,8 @@
             ((a = this.props.state.showStates),
             t =>
               !1 === a ||
-              !(t.name.indexOf(',') > -1) || t.name.indexOf(', Total') > -1)
+              !(t.name.indexOf(',') > -1) ||
+              t.name.indexOf(', Total') > -1)
           ),
           selected: this.props.countryIndexes,
         }),
@@ -2251,7 +2253,7 @@
       }
     }
     function un(t, n, e) {
-      return 0 === t ? n : e ? n / e : 0;
+      return 0 === t ? n : e ? (n / e) * 100 : 0;
     }
     function ln() {
       return pt(Et, (t, n) => (n != n ? t : t + n), 0);
