@@ -134,3 +134,9 @@ export type TimeSeriesType =
   | 'deaths'
   | 'recoveries'
   | 'projectionReverseDeath';
+
+export interface MenuProp {
+  labels: string[];
+  onClick(selected: number): any;
+  selected: number;
+}

@@ -1,4 +1,4 @@
-// Unlike every other source file in this project this file is
+// Unlike almost every other source file in this project this file is
 // MIT licensed as `JSC` is proprietary
 declare const JSC: any;
 import { Component, h } from 'preact';

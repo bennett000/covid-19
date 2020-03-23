@@ -1,7 +1,5 @@
 import { Component, h } from 'preact';
-import { route } from 'preact-router';
-import { Button } from '../components/button';
-import { ITimeSeriesArray, TableState } from '../interfaces';
+import { ITimeSeriesArray, TableState, MenuProp } from '../interfaces';
 import {
   rowEven,
   rowOdd,
@@ -16,6 +14,7 @@ import { ButtonToggle } from '../components/button-toggle';
 import { SelectMultiple } from '../components/select-multiple';
 import { noop } from '@ch1/utility';
 import { Select } from '../components/select';
+import { Menu } from '../components/menu';
 
 const header = [
   {
@@ -70,6 +69,7 @@ const header = [
 
 export class LearningTable extends Component<{
   countryIndexes: number[];
+  menu: MenuProp;
   onChange: (lgs: TableState) => any;
   selectCountry: (countryIndex: number) => any;
   state: TableState;
@@ -281,7 +281,7 @@ export class LearningTable extends Component<{
               onClick={this.toggleConfig.bind(this)}
               state={this.props.state.isConfigOpen}
             />
-            <Button label="Chart" onClick={() => route('/')} />
+            <Menu config={this.props.menu}></Menu>
           </section>
           {this.props.state.isConfigOpen ? (
             <section className={flex}>
