@@ -608,7 +608,7 @@ function getY(byMetric: number, value: number, population: number): number {
     return value;
   } else {
     if (population) {
-      return (value / population) * 100;
+      return value / population;
     } else {
       return 0;
     }

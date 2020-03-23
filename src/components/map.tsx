@@ -6,8 +6,7 @@ import { fullSize } from '../constants';
 
 export class ChartMap extends Component<
   {
-    colours: string[];
-    ranges: { min: number; max: number; interval: number };
+    ranges: { color: string; value: number[] }[];
     series: any;
     toolTip: string;
   },
@@ -29,6 +28,7 @@ export class ChartMap extends Component<
 
   componentDidUpdate() {
     JSC.Chart('chartMapDiv', {
+      debug: true,
       type: 'map',
       defaultPoint: {
         tooltip: this.props.toolTip,
@@ -36,7 +36,6 @@ export class ChartMap extends Component<
       },
       palette: {
         pointValue: p => p.options('z'),
-        colors: this.props.colours,
         ranges: this.props.ranges,
       },
       series: this.props.series,

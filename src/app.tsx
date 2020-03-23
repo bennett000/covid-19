@@ -108,7 +108,6 @@ export class App extends Component<
   }
 
   clearCountries() {
-    console.log('clear countries');
     this.setState({
       ...this.state,
       countryIndexes: [],
