@@ -44,3 +44,47 @@ export const projectionPalette = [
   '#ece79c',
   '#9e8dce',
 ];
+
+export const activeRanges = [
+  { value: [0, 1], color: '#FFFFFF' },
+  { value: [0, 100], color: '#fff5f5' },
+  { value: [100, 500], color: '#ffdcdc' },
+  { value: [500, 1500], color: '#ffa0a0' },
+  { value: [1500, 5000], color: '#ff7373' },
+  { value: [5000, 15000], color: '#ff4b4b' },
+  { value: [15000, 30000], color: '#ff1919' },
+  { value: [30000, 5000000000], color: '#c60000' },
+];
+
+export const confirmedRanges = [
+  { value: [0, 1], color: '#FFFFFF' },
+  { value: [0, 100], color: '#fff5f5' },
+  { value: [100, 500], color: '#ffdcdc' },
+  { value: [500, 2000], color: '#ffa0a0' },
+  { value: [2000, 10000], color: '#ff7373' },
+  { value: [10000, 25000], color: '#ff4b4b' },
+  { value: [25000, 60000], color: '#ff1919' },
+  { value: [60000, 5000000000], color: '#c60000' },
+];
+
+export const deathRanges = [
+  { value: [0, 1], color: '#FFFFFF' },
+  { value: [0, 50], color: '#fff5f5' },
+  { value: [50, 150], color: '#ffdcdc' },
+  { value: [150, 500], color: '#ffa0a0' },
+  { value: [500, 1500], color: '#ff7373' },
+  { value: [1500, 10000], color: '#ff4b4b' },
+  { value: [10000, 50000], color: '#ff1919' },
+  { value: [50000, 5000000000], color: '#c60000' },
+];
+
+export const recoveryRanges = [
+  { value: [0, 1], color: '#FFFFFF' },
+  { value: [1, 100], color: '#f0fff0' },
+  { value: [100, 1000], color: '#dcffdc' },
+  { value: [1000, 10000], color: '#beffbe' },
+  { value: [10000, 25000], color: '#a0ffa0' },
+  { value: [25000, 100000], color: '#78ff78' },
+  { value: [100000, 500000], color: '#41ff41' },
+  { value: [500000, 5000000000], color: '#009900' },
+];
