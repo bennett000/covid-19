@@ -93,10 +93,10 @@ export class LearningTable extends Component<{
   }
 
   clickHeader(t: { label: string; sort: string }) {
-    this.props.timeSeries[t.sort](this.state[t.sort]);
+    this.props.timeSeries[t.sort](this.props.state[t.sort]);
     this.props.onChange({
       ...this.props.state,
-      [t.sort]: this.state[t.sort] ? false : true,
+      [t.sort]: this.props.state[t.sort] ? false : true,
     });
   }
 

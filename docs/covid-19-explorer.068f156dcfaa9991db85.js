@@ -2349,10 +2349,10 @@
         return this.formatDecimal(t, n) + '%';
       }
       clickHeader(t) {
-        this.props.timeSeries[t.sort](this.state[t.sort]),
+        this.props.timeSeries[t.sort](this.props.state[t.sort]),
           this.props.onChange(
             Object.assign(Object.assign({}, this.props.state), {
-              [t.sort]: !this.state[t.sort],
+              [t.sort]: !this.props.state[t.sort],
             })
           );
       }
