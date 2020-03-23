@@ -1,42 +1,42 @@
 !(function(t) {
-  var n = {};
-  function e(o) {
-    if (n[o]) return n[o].exports;
-    var a = (n[o] = { i: o, l: !1, exports: {} });
-    return t[o].call(a.exports, a, a.exports, e), (a.l = !0), a.exports;
+  var e = {};
+  function n(a) {
+    if (e[a]) return e[a].exports;
+    var o = (e[a] = { i: a, l: !1, exports: {} });
+    return t[a].call(o.exports, o, o.exports, n), (o.l = !0), o.exports;
   }
-  (e.m = t),
-    (e.c = n),
-    (e.d = function(t, n, o) {
-      e.o(t, n) || Object.defineProperty(t, n, { enumerable: !0, get: o });
+  (n.m = t),
+    (n.c = e),
+    (n.d = function(t, e, a) {
+      n.o(t, e) || Object.defineProperty(t, e, { enumerable: !0, get: a });
     }),
-    (e.r = function(t) {
+    (n.r = function(t) {
       'undefined' != typeof Symbol &&
         Symbol.toStringTag &&
         Object.defineProperty(t, Symbol.toStringTag, { value: 'Module' }),
         Object.defineProperty(t, '__esModule', { value: !0 });
     }),
-    (e.t = function(t, n) {
-      if ((1 & n && (t = e(t)), 8 & n)) return t;
-      if (4 & n && 'object' == typeof t && t && t.__esModule) return t;
-      var o = Object.create(null);
+    (n.t = function(t, e) {
+      if ((1 & e && (t = n(t)), 8 & e)) return t;
+      if (4 & e && 'object' == typeof t && t && t.__esModule) return t;
+      var a = Object.create(null);
       if (
-        (e.r(o),
-        Object.defineProperty(o, 'default', { enumerable: !0, value: t }),
-        2 & n && 'string' != typeof t)
+        (n.r(a),
+        Object.defineProperty(a, 'default', { enumerable: !0, value: t }),
+        2 & e && 'string' != typeof t)
       )
-        for (var a in t)
-          e.d(
-            o,
+        for (var o in t)
+          n.d(
             a,
-            function(n) {
-              return t[n];
-            }.bind(null, a)
+            o,
+            function(e) {
+              return t[e];
+            }.bind(null, o)
           );
-      return o;
+      return a;
     }),
-    (e.n = function(t) {
-      var n =
+    (n.n = function(t) {
+      var e =
         t && t.__esModule
           ? function() {
               return t.default;
@@ -44,13 +44,13 @@
           : function() {
               return t;
             };
-      return e.d(n, 'a', n), n;
+      return n.d(e, 'a', e), e;
     }),
-    (e.o = function(t, n) {
-      return Object.prototype.hasOwnProperty.call(t, n);
+    (n.o = function(t, e) {
+      return Object.prototype.hasOwnProperty.call(t, e);
     }),
-    (e.p = ''),
-    e((e.s = 2));
+    (n.p = ''),
+    n((n.s = 2));
 })([
   function(t) {
     t.exports = JSON.parse(
@@ -62,11 +62,11 @@
       '[{"country":"Afghanistan","density":"46.8"},{"country":"Albania","density":"101.23"},{"country":"Algeria","density":"16.46"},{"country":"American Samoa","density":"275.83"},{"country":"Andorra","density":"168.55"},{"country":"Angola","density":"17.22"},{"country":"Anguilla","density":null},{"country":"Antarctica","density":null},{"country":"Antigua and Barbuda","density":"204.51"},{"country":"Argentina","density":"15.14"},{"country":"Armenia","density":"104.55"},{"country":"Aruba","density":"571.73"},{"country":"Australia","density":"3.01"},{"country":"Austria","density":"102.83"},{"country":"Azerbaijan","density":"113.92"},{"country":"Bahamas","density":null},{"country":"Bahrain","density":"1"},{"country":"Bangladesh","density":"1"},{"country":"Barbados","density":"661.96"},{"country":"Belarus","density":"46.65"},{"country":"Belgium","density":"369.72"},{"country":"Belize","density":"14.55"},{"country":"Benin","density":"91.55"},{"country":"Bermuda","density":"1"},{"country":"Bhutan","density":"19.78"},{"country":"Bolivia","density":"9.85"},{"country":"Bosnia and Herzegovina","density":"75.08"},{"country":"Botswana","density":"3.57"},{"country":"Bouvet Island","density":null},{"country":"Brazil","density":"23.97"},{"country":"British Indian Ocean Territory","density":null},{"country":"Brunei","density":null},{"country":"Bulgaria","density":"66.92"},{"country":"Burkina Faso","density":"61.9"},{"country":"Burundi","density":"395.74"},{"country":"Cambodia","density":"85.74"},{"country":"Cameroon","density":"47.08"},{"country":"Canada","density":"3.87"},{"country":"Cape Verde","density":null},{"country":"Cayman Islands","density":"243.48"},{"country":"Central African Republic","density":"7.41"},{"country":"Chad","density":"10.19"},{"country":"Chile","density":"23.7"},{"country":"China","density":"144.58"},{"country":"Christmas Island","density":null},{"country":"Cocos (Keeling) Islands","density":null},{"country":"Colombia","density":"43.55"},{"country":"Comoros","density":"394.9"},{"country":"Congo","density":null},{"country":"Cook Islands","density":null},{"country":"Costa Rica","density":"95.42"},{"country":"Croatia","density":"76"},{"country":"Cuba","density":"105.84"},{"country":"Cyprus","density":"123.5"},{"country":"Czech Republic","density":"136.24"},{"country":"Denmark","density":"132.31"},{"country":"Djibouti","density":"37.66"},{"country":"Dominica","density":"96"},{"country":"Dominican Republic","density":"215.31"},{"country":"East Timor","density":null},{"country":"Ecuador","density":"63.37"},{"country":"Egypt","density":null},{"country":"El Salvador","density":"306.01"},{"country":"England","density":null},{"country":"Equatorial Guinea","density":"26.99"},{"country":"Eritrea","density":"62.7"},{"country":"Estonia","density":"31.25"},{"country":"Ethiopia","density":"94.1"},{"country":"Falkland Islands","density":null},{"country":"Faroe Islands","density":null},{"country":"Fiji Islands","density":null},{"country":"Finland","density":"17.9"},{"country":"France","density":"120.59"},{"country":"French Guiana","density":null},{"country":"French Polynesia","density":"75.64"},{"country":"French Southern territories","density":null},{"country":"Gabon","density":"6.49"},{"country":"Gambia","density":null},{"country":"Georgia","density":"78.32"},{"country":"Germany","density":"231.31"},{"country":"Ghana","density":"113.85"},{"country":"Gibraltar","density":null},{"country":"Greece","density":"85.59"},{"country":"Greenland","density":"0.14"},{"country":"Grenada","density":"311.46"},{"country":"Guadeloupe","density":null},{"country":"Guam","density":"305.79"},{"country":"Guatemala","density":"144.35"},{"country":"Guinea","density":"47.8"},{"country":"Guinea-Bissau","density":"60.61"},{"country":"Guyana","density":"4.06"},{"country":"Haiti","density":"374.36"},{"country":"Heard Island and McDonald Islands","density":null},{"country":"Holy See (Vatican City State)","density":null},{"country":"Honduras","density":"72.37"},{"country":"Hong Kong","density":null},{"country":"Hungary","density":"109.33"},{"country":"Iceland","density":"3.22"},{"country":"India","density":"421.14"},{"country":"Indonesia","density":"124"},{"country":"Iran","density":null},{"country":"Iraq","density":"76.94"},{"country":"Ireland","density":"66.7"},{"country":"Israel","density":"372.43"},{"country":"Italy","density":"203.41"},{"country":"Ivory Coast","density":"63.89"},{"country":"Jamaica","density":"250.69"},{"country":"Japan","density":"349.29"},{"country":"Jordan","density":"72.75"},{"country":"Kazakhstan","density":null},{"country":"Kenya","density":"77.93"},{"country":"Kiribati","density":"126.36"},{"country":"Kuwait","density":"189.03"},{"country":"Kyrgyzstan","density":null},{"country":"Laos","density":null},{"country":"Latvia","density":"32.38"},{"country":"Lebanon","density":"436.7"},{"country":"Lesotho","density":"68.33"},{"country":"Liberia","density":"44.58"},{"country":"Libyan Arab Jamahiriya","density":null},{"country":"Liechtenstein","density":"230.78"},{"country":"Lithuania","density":"47.17"},{"country":"Luxembourg","density":"209.73"},{"country":"Macao","density":null},{"country":"North Macedonia","density":null},{"country":"Madagascar","density":"39.4"},{"country":"Malawi","density":"173.55"},{"country":"Malaysia","density":"90.45"},{"country":"Maldives","density":"1"},{"country":"Mali","density":"12.54"},{"country":"Malta","density":"1"},{"country":"Marshall Islands","density":"292.41"},{"country":"Martinique","density":null},{"country":"Mauritania","density":"3.77"},{"country":"Mauritius","density":"638.57"},{"country":"Mayotte","density":null},{"country":"Mexico","density":"62.93"},{"country":"Micronesia, Federated States of","density":null},{"country":"Moldova","density":"124.02"},{"country":"Monaco","density":"18"},{"country":"Mongolia","density":"1.83"},{"country":"Montserrat","density":null},{"country":"Morocco","density":"73.96"},{"country":"Mozambique","density":"32.85"},{"country":"Myanmar","density":"81.52"},{"country":"Namibia","density":"2.8"},{"country":"Nauru","density":null},{"country":"Nepal","density":"193.91"},{"country":"Netherlands","density":"498.35"},{"country":"Netherlands Antilles","density":null},{"country":"New Caledonia","density":"14.33"},{"country":"New Zealand","density":"16.98"},{"country":"Nicaragua","density":"50.53"},{"country":"Niger","density":"14.08"},{"country":"Nigeria","density":"190.62"},{"country":"Niue","density":null},{"country":"Norfolk Island","density":null},{"country":"North Korea","density":null},{"country":"Northern Ireland","density":null},{"country":"Northern Mariana Islands","density":"117.08"},{"country":"Norway","density":"13.92"},{"country":"Oman","density":"11.74"},{"country":"Pakistan","density":"236.28"},{"country":"Palau","density":"45.47"},{"country":"Palestine","density":null},{"country":"Panama","density":"51.98"},{"country":"Papua New Guinea","density":"16.17"},{"country":"Paraguay","density":"17.12"},{"country":"Peru","density":"23.73"},{"country":"Philippines","density":"329.99"},{"country":"Pitcairn","density":null},{"country":"Poland","density":"125.83"},{"country":"Portugal","density":"114.2"},{"country":"Puerto Rico","density":"407.56"},{"country":"Qatar","density":"186.79"},{"country":"Reunion","density":null},{"country":"Romania","density":"86.79"},{"country":"Russian Federation","density":"8.76"},{"country":"Rwanda","density":"477.36"},{"country":"Saint Helena","density":null},{"country":"Saint Kitts and Nevis","density":null},{"country":"Saint Lucia","density":null},{"country":"Saint Pierre and Miquelon","density":null},{"country":"Saint Vincent and the Grenadines","density":null},{"country":"Samoa","density":"67.27"},{"country":"San Marino","density":"524.13"},{"country":"Sao Tome and Principe","density":"201.03"},{"country":"Saudi Arabia","density":"13.41"},{"country":"Scotland","density":null},{"country":"Senegal","density":"73.41"},{"country":"Seychelles","density":"193.85"},{"country":"Sierra Leone","density":"84.4"},{"country":"Singapore","density":"7"},{"country":"Slovakia","density":null},{"country":"Slovenia","density":"102.31"},{"country":"Solomon Islands","density":"20.05"},{"country":"Somalia","density":"16.73"},{"country":"South Africa","density":"43.68"},{"country":"South Georgia and the South Sandwich Islands","density":null},{"country":"South Korea","density":null},{"country":"South Sudan","density":"0"},{"country":"Spain","density":"93.52"},{"country":"SriLanka","density":null},{"country":"Sudan","density":"20.73"},{"country":"Suriname","density":"3.46"},{"country":"Svalbard and Jan Mayen","density":null},{"country":"Swaziland","density":"72.65"},{"country":"Sweden","density":"23.55"},{"country":"Switzerland","density":"204.51"},{"country":"Syria","density":null},{"country":"Tajikistan","density":"58.64"},{"country":"Tanzania","density":"55.6"},{"country":"Thailand","density":"131.16"},{"country":"The Democratic Republic of Congo","density":null},{"country":"Togo","density":"125.34"},{"country":"Tokelau","density":null},{"country":"Tonga","density":"146.28"},{"country":"Trinidad and Tobago","density":"261.43"},{"country":"Tunisia","density":"70.07"},{"country":"Turkey","density":"97.36"},{"country":"Turkmenistan","density":"11.15"},{"country":"Turks and Caicos Islands","density":"34.84"},{"country":"Tuvalu","density":"329.2"},{"country":"Uganda","density":"188.07"},{"country":"Ukraine","density":"78.52"},{"country":"United Arab Emirates","density":"111.8"},{"country":"United Kingdom","density":"264.94"},{"country":"United States","density":"34.56"},{"country":"United States Minor Outlying Islands","density":null},{"country":"Uruguay","density":"19.47"},{"country":"Uzbekistan","density":"71.09"},{"country":"Vanuatu","density":"20.74"},{"country":"Venezuela","density":null},{"country":"Vietnam","density":"289.32"},{"country":"Virgin Islands, British","density":null},{"country":"Virgin Islands, U.S.","density":null},{"country":"Wales","density":null},{"country":"Wallis and Futuna","density":null},{"country":"Western Sahara","density":null},{"country":"Yemen","density":null},{"country":"Yugoslavia","density":null},{"country":"Zambia","density":"19.56"},{"country":"Zimbabwe","density":"36.58"}]'
     );
   },
-  function(t, n, e) {
+  function(t, e, n) {
     'use strict';
-    e.r(n);
-    var o,
-      a,
+    n.r(e);
+    var a,
+      o,
       i,
       r,
       s,
@@ -74,34 +74,34 @@
       l = {},
       c = [],
       p = /acit|ex(?:s|g|n|p|$)|rph|grid|ows|mnc|ntw|ine[ch]|zoo|^ord/i;
-    function y(t, n) {
-      for (var e in n) t[e] = n[e];
+    function y(t, e) {
+      for (var n in e) t[n] = e[n];
       return t;
     }
     function d(t) {
-      var n = t.parentNode;
-      n && n.removeChild(t);
+      var e = t.parentNode;
+      e && e.removeChild(t);
     }
-    function h(t, n, e) {
-      var o,
-        a = arguments,
+    function h(t, e, n) {
+      var a,
+        o = arguments,
         i = {};
-      for (o in n) 'key' !== o && 'ref' !== o && (i[o] = n[o]);
+      for (a in e) 'key' !== a && 'ref' !== a && (i[a] = e[a]);
       if (arguments.length > 3)
-        for (e = [e], o = 3; o < arguments.length; o++) e.push(a[o]);
+        for (n = [n], a = 3; a < arguments.length; a++) n.push(o[a]);
       if (
-        (null != e && (i.children = e),
+        (null != n && (i.children = n),
         'function' == typeof t && null != t.defaultProps)
       )
-        for (o in t.defaultProps) void 0 === i[o] && (i[o] = t.defaultProps[o]);
-      return f(t, i, n && n.key, n && n.ref);
+        for (a in t.defaultProps) void 0 === i[a] && (i[a] = t.defaultProps[a]);
+      return f(t, i, e && e.key, e && e.ref);
     }
-    function f(t, n, e, a) {
+    function f(t, e, n, o) {
       var i = {
         type: t,
-        props: n,
-        key: e,
-        ref: a,
+        props: e,
+        key: n,
+        ref: o,
         __k: null,
         __: null,
         __b: 0,
@@ -110,63 +110,63 @@
         __c: null,
         constructor: void 0,
       };
-      return o.vnode && o.vnode(i), i;
+      return a.vnode && a.vnode(i), i;
     }
     function m(t) {
       return t.children;
     }
-    function g(t, n) {
-      (this.props = t), (this.context = n);
+    function g(t, e) {
+      (this.props = t), (this.context = e);
     }
-    function b(t, n) {
-      if (null == n) return t.__ ? b(t.__, t.__.__k.indexOf(t) + 1) : null;
-      for (var e; n < t.__k.length; n++)
-        if (null != (e = t.__k[n]) && null != e.__e) return e.__e;
+    function b(t, e) {
+      if (null == e) return t.__ ? b(t.__, t.__.__k.indexOf(t) + 1) : null;
+      for (var n; e < t.__k.length; e++)
+        if (null != (n = t.__k[e]) && null != n.__e) return n.__e;
       return 'function' == typeof t.type ? b(t) : null;
     }
     function S(t) {
-      var n, e;
+      var e, n;
       if (null != (t = t.__) && null != t.__c) {
-        for (t.__e = t.__c.base = null, n = 0; n < t.__k.length; n++)
-          if (null != (e = t.__k[n]) && null != e.__e) {
-            t.__e = t.__c.base = e.__e;
+        for (t.__e = t.__c.base = null, e = 0; e < t.__k.length; e++)
+          if (null != (n = t.__k[e]) && null != n.__e) {
+            t.__e = t.__c.base = n.__e;
             break;
           }
         return S(t);
       }
     }
     function C(t) {
-      ((!t.__d && (t.__d = !0) && a.push(t) && !i++) ||
-        s !== o.debounceRendering) &&
-        ((s = o.debounceRendering) || r)(_);
+      ((!t.__d && (t.__d = !0) && o.push(t) && !i++) ||
+        s !== a.debounceRendering) &&
+        ((s = a.debounceRendering) || r)(v);
     }
-    function _() {
-      for (var t; (i = a.length); )
-        (t = a.sort(function(t, n) {
-          return t.__v.__b - n.__v.__b;
+    function v() {
+      for (var t; (i = o.length); )
+        (t = o.sort(function(t, e) {
+          return t.__v.__b - e.__v.__b;
         })),
-          (a = []),
+          (o = []),
           t.some(function(t) {
-            var n, e, o, a, i, r;
+            var e, n, a, o, i, r;
             t.__d &&
-              ((i = (a = (n = t).__v).__e),
-              (r = n.__P) &&
-                ((e = []),
-                (o = O(
+              ((i = (o = (e = t).__v).__e),
+              (r = e.__P) &&
+                ((n = []),
+                (a = I(
                   r,
-                  a,
-                  y({}, a),
-                  n.__n,
+                  o,
+                  y({}, o),
+                  e.__n,
                   void 0 !== r.ownerSVGElement,
                   null,
-                  e,
-                  null == i ? b(a) : i
+                  n,
+                  null == i ? b(o) : i
                 )),
-                w(e, a),
-                o != i && S(a)));
+                M(n, o),
+                a != i && S(o)));
           });
     }
-    function v(t, n, e, o, a, i, r, s, u) {
+    function A(t, e, n, a, o, i, r, s, u) {
       var p,
         y,
         h,
@@ -174,71 +174,71 @@
         m,
         g,
         S,
-        C = (e && e.__k) || c,
-        _ = C.length;
+        C = (n && n.__k) || c,
+        v = C.length;
       if (
-        (s == l && (s = null != i ? i[0] : _ ? b(e, 0) : null),
+        (s == l && (s = null != i ? i[0] : v ? b(n, 0) : null),
         (p = 0),
-        (n.__k = I(n.__k, function(e) {
-          if (null != e) {
+        (e.__k = _(e.__k, function(n) {
+          if (null != n) {
             if (
-              ((e.__ = n),
-              (e.__b = n.__b + 1),
-              null === (h = C[p]) || (h && e.key == h.key && e.type === h.type))
+              ((n.__ = e),
+              (n.__b = e.__b + 1),
+              null === (h = C[p]) || (h && n.key == h.key && n.type === h.type))
             )
               C[p] = void 0;
             else
-              for (y = 0; y < _; y++) {
-                if ((h = C[y]) && e.key == h.key && e.type === h.type) {
+              for (y = 0; y < v; y++) {
+                if ((h = C[y]) && n.key == h.key && n.type === h.type) {
                   C[y] = void 0;
                   break;
                 }
                 h = null;
               }
             if (
-              ((f = O(t, e, (h = h || l), o, a, i, r, s, u)),
-              (y = e.ref) &&
+              ((f = I(t, n, (h = h || l), a, o, i, r, s, u)),
+              (y = n.ref) &&
                 h.ref != y &&
                 (S || (S = []),
-                h.ref && S.push(h.ref, null, e),
-                S.push(y, e.__c || f, e)),
+                h.ref && S.push(h.ref, null, n),
+                S.push(y, n.__c || f, n)),
               null != f)
             ) {
               var c;
-              if ((null == g && (g = f), void 0 !== e.__d))
-                (c = e.__d), (e.__d = void 0);
+              if ((null == g && (g = f), void 0 !== n.__d))
+                (c = n.__d), (n.__d = void 0);
               else if (i == h || f != s || null == f.parentNode) {
                 t: if (null == s || s.parentNode !== t)
                   t.appendChild(f), (c = null);
                 else {
-                  for (m = s, y = 0; (m = m.nextSibling) && y < _; y += 2)
+                  for (m = s, y = 0; (m = m.nextSibling) && y < v; y += 2)
                     if (m == f) break t;
                   t.insertBefore(f, s), (c = s);
                 }
-                'option' == n.type && (t.value = '');
+                'option' == e.type && (t.value = '');
               }
               (s = void 0 !== c ? c : f.nextSibling),
-                'function' == typeof n.type && (n.__d = s);
+                'function' == typeof e.type && (e.__d = s);
             } else s && h.__e == s && s.parentNode != t && (s = b(h));
           }
-          return p++, e;
+          return p++, n;
         })),
-        (n.__e = g),
-        null != i && 'function' != typeof n.type)
+        (e.__e = g),
+        null != i && 'function' != typeof e.type)
       )
         for (p = i.length; p--; ) null != i[p] && d(i[p]);
-      for (p = _; p--; ) null != C[p] && D(C[p], C[p]);
+      for (p = v; p--; ) null != C[p] && B(C[p], C[p]);
       if (S) for (p = 0; p < S.length; p++) P(S[p], S[++p], S[++p]);
     }
-    function I(t, n, e) {
-      if ((null == e && (e = []), null == t || 'boolean' == typeof t))
-        n && e.push(n(null));
+    function _(t, e, n) {
+      if ((null == n && (n = []), null == t || 'boolean' == typeof t))
+        e && n.push(e(null));
       else if (Array.isArray(t))
-        for (var o = 0; o < t.length; o++) I(t[o], n, e);
+        for (var a = 0; a < t.length; a++) _(t[a], e, n);
       else
-        e.push(
-          n
-            ? n(
+        n.push(
+          e
+            ? e(
                 'string' == typeof t || 'number' == typeof t
                   ? f(null, t, null, null)
                   : null != t.__e || null != t.__c
@@ -247,70 +247,70 @@
               )
             : t
         );
-      return e;
+      return n;
     }
-    function A(t, n, e) {
-      '-' === n[0]
-        ? t.setProperty(n, e)
-        : (t[n] =
-            'number' == typeof e && !1 === p.test(n)
-              ? e + 'px'
-              : null == e
+    function N(t, e, n) {
+      '-' === e[0]
+        ? t.setProperty(e, n)
+        : (t[e] =
+            'number' == typeof n && !1 === p.test(e)
+              ? n + 'px'
+              : null == n
               ? ''
-              : e);
+              : n);
     }
-    function M(t, n, e, o, a) {
+    function O(t, e, n, a, o) {
       var i, r, s, u, l;
       if (
-        (a
-          ? 'className' === n && (n = 'class')
-          : 'class' === n && (n = 'className'),
-        'key' === n || 'children' === n)
+        (o
+          ? 'className' === e && (e = 'class')
+          : 'class' === e && (e = 'className'),
+        'key' === e || 'children' === e)
       );
-      else if ('style' === n)
-        if (((i = t.style), 'string' == typeof e)) i.cssText = e;
+      else if ('style' === e)
+        if (((i = t.style), 'string' == typeof n)) i.cssText = n;
         else {
-          if (('string' == typeof o && ((i.cssText = ''), (o = null)), o))
-            for (r in o) (e && r in e) || A(i, r, '');
-          if (e) for (s in e) (o && e[s] === o[s]) || A(i, s, e[s]);
+          if (('string' == typeof a && ((i.cssText = ''), (a = null)), a))
+            for (r in a) (n && r in n) || N(i, r, '');
+          if (n) for (s in n) (a && n[s] === a[s]) || N(i, s, n[s]);
         }
       else
-        'o' === n[0] && 'n' === n[1]
-          ? ((u = n !== (n = n.replace(/Capture$/, ''))),
-            (l = n.toLowerCase()),
-            (n = (l in t ? l : n).slice(2)),
-            e
-              ? (o || t.addEventListener(n, k, u), ((t.l || (t.l = {}))[n] = e))
-              : t.removeEventListener(n, k, u))
-          : 'list' !== n &&
-            'tagName' !== n &&
-            'form' !== n &&
-            'type' !== n &&
-            'size' !== n &&
-            !a &&
-            n in t
-          ? (t[n] = null == e ? '' : e)
-          : 'function' != typeof e &&
-            'dangerouslySetInnerHTML' !== n &&
-            (n !== (n = n.replace(/^xlink:?/, ''))
-              ? null == e || !1 === e
+        'o' === e[0] && 'n' === e[1]
+          ? ((u = e !== (e = e.replace(/Capture$/, ''))),
+            (l = e.toLowerCase()),
+            (e = (l in t ? l : e).slice(2)),
+            n
+              ? (a || t.addEventListener(e, k, u), ((t.l || (t.l = {}))[e] = n))
+              : t.removeEventListener(e, k, u))
+          : 'list' !== e &&
+            'tagName' !== e &&
+            'form' !== e &&
+            'type' !== e &&
+            'size' !== e &&
+            !o &&
+            e in t
+          ? (t[e] = null == n ? '' : n)
+          : 'function' != typeof n &&
+            'dangerouslySetInnerHTML' !== e &&
+            (e !== (e = e.replace(/^xlink:?/, ''))
+              ? null == n || !1 === n
                 ? t.removeAttributeNS(
                     'http://www.w3.org/1999/xlink',
-                    n.toLowerCase()
+                    e.toLowerCase()
                   )
                 : t.setAttributeNS(
                     'http://www.w3.org/1999/xlink',
-                    n.toLowerCase(),
-                    e
+                    e.toLowerCase(),
+                    n
                   )
-              : null == e || (!1 === e && !/^ar/.test(n))
-              ? t.removeAttribute(n)
-              : t.setAttribute(n, e));
+              : null == n || (!1 === n && !/^ar/.test(e))
+              ? t.removeAttribute(e)
+              : t.setAttribute(e, n));
     }
     function k(t) {
-      this.l[t.type](o.event ? o.event(t) : t);
+      this.l[t.type](a.event ? a.event(t) : t);
     }
-    function O(t, n, e, a, i, r, s, u, l) {
+    function I(t, e, n, o, i, r, s, u, l) {
       var c,
         p,
         d,
@@ -319,148 +319,148 @@
         b,
         S,
         C,
+        v,
         _,
-        I,
-        A = n.type;
-      if (void 0 !== n.constructor) return null;
-      (c = o.__b) && c(n);
+        N = e.type;
+      if (void 0 !== e.constructor) return null;
+      (c = a.__b) && c(e);
       try {
-        t: if ('function' == typeof A) {
+        t: if ('function' == typeof N) {
           if (
-            ((C = n.props),
-            (_ = (c = A.contextType) && a[c.__c]),
-            (I = c ? (_ ? _.props.value : c.__) : a),
-            e.__c
-              ? (S = (p = n.__c = e.__c).__ = p.__E)
-              : ('prototype' in A && A.prototype.render
-                  ? (n.__c = p = new A(C, I))
-                  : ((n.__c = p = new g(C, I)),
-                    (p.constructor = A),
-                    (p.render = x)),
-                _ && _.sub(p),
+            ((C = e.props),
+            (v = (c = N.contextType) && o[c.__c]),
+            (_ = c ? (v ? v.props.value : c.__) : o),
+            n.__c
+              ? (S = (p = e.__c = n.__c).__ = p.__E)
+              : ('prototype' in N && N.prototype.render
+                  ? (e.__c = p = new N(C, _))
+                  : ((e.__c = p = new g(C, _)),
+                    (p.constructor = N),
+                    (p.render = T)),
+                v && v.sub(p),
                 (p.props = C),
                 p.state || (p.state = {}),
-                (p.context = I),
-                (p.__n = a),
+                (p.context = _),
+                (p.__n = o),
                 (d = p.__d = !0),
                 (p.__h = [])),
             null == p.__s && (p.__s = p.state),
-            null != A.getDerivedStateFromProps &&
+            null != N.getDerivedStateFromProps &&
               (p.__s == p.state && (p.__s = y({}, p.__s)),
-              y(p.__s, A.getDerivedStateFromProps(C, p.__s))),
+              y(p.__s, N.getDerivedStateFromProps(C, p.__s))),
             (h = p.props),
             (f = p.state),
             d)
           )
-            null == A.getDerivedStateFromProps &&
+            null == N.getDerivedStateFromProps &&
               null != p.componentWillMount &&
               p.componentWillMount(),
               null != p.componentDidMount && p.__h.push(p.componentDidMount);
           else {
             if (
-              (null == A.getDerivedStateFromProps &&
+              (null == N.getDerivedStateFromProps &&
                 C !== h &&
                 null != p.componentWillReceiveProps &&
-                p.componentWillReceiveProps(C, I),
+                p.componentWillReceiveProps(C, _),
               !p.__e &&
                 null != p.shouldComponentUpdate &&
-                !1 === p.shouldComponentUpdate(C, p.__s, I))
+                !1 === p.shouldComponentUpdate(C, p.__s, _))
             ) {
               for (
                 p.props = C,
                   p.state = p.__s,
                   p.__d = !1,
-                  p.__v = n,
-                  n.__e = e.__e,
-                  n.__k = e.__k,
+                  p.__v = e,
+                  e.__e = n.__e,
+                  e.__k = n.__k,
                   p.__h.length && s.push(p),
                   c = 0;
-                c < n.__k.length;
+                c < e.__k.length;
                 c++
               )
-                n.__k[c] && (n.__k[c].__ = n);
+                e.__k[c] && (e.__k[c].__ = e);
               break t;
             }
-            null != p.componentWillUpdate && p.componentWillUpdate(C, p.__s, I),
+            null != p.componentWillUpdate && p.componentWillUpdate(C, p.__s, _),
               null != p.componentDidUpdate &&
                 p.__h.push(function() {
                   p.componentDidUpdate(h, f, b);
                 });
           }
-          (p.context = I),
+          (p.context = _),
             (p.props = C),
             (p.state = p.__s),
-            (c = o.__r) && c(n),
+            (c = a.__r) && c(e),
             (p.__d = !1),
-            (p.__v = n),
+            (p.__v = e),
             (p.__P = t),
             (c = p.render(p.props, p.state, p.context)),
-            (n.__k =
+            (e.__k =
               null != c && c.type == m && null == c.key
                 ? c.props.children
                 : Array.isArray(c)
                 ? c
                 : [c]),
-            null != p.getChildContext && (a = y(y({}, a), p.getChildContext())),
+            null != p.getChildContext && (o = y(y({}, o), p.getChildContext())),
             d ||
               null == p.getSnapshotBeforeUpdate ||
               (b = p.getSnapshotBeforeUpdate(h, f)),
-            v(t, n, e, a, i, r, s, u, l),
-            (p.base = n.__e),
+            A(t, e, n, o, i, r, s, u, l),
+            (p.base = e.__e),
             p.__h.length && s.push(p),
             S && (p.__E = p.__ = null),
             (p.__e = !1);
-        } else n.__e = N(e.__e, n, e, a, i, r, s, l);
-        (c = o.diffed) && c(n);
+        } else e.__e = w(n.__e, e, n, o, i, r, s, l);
+        (c = a.diffed) && c(e);
       } catch (t) {
-        o.__e(t, n, e);
+        a.__e(t, e, n);
       }
-      return n.__e;
+      return e.__e;
     }
-    function w(t, n) {
-      o.__c && o.__c(n, t),
-        t.some(function(n) {
+    function M(t, e) {
+      a.__c && a.__c(e, t),
+        t.some(function(e) {
           try {
-            (t = n.__h),
-              (n.__h = []),
+            (t = e.__h),
+              (e.__h = []),
               t.some(function(t) {
-                t.call(n);
+                t.call(e);
               });
           } catch (t) {
-            o.__e(t, n.__v);
+            a.__e(t, e.__v);
           }
         });
     }
-    function N(t, n, e, o, a, i, r, s) {
+    function w(t, e, n, a, o, i, r, s) {
       var u,
         p,
         y,
         d,
         h,
-        f = e.props,
-        m = n.props;
-      if (((a = 'svg' === n.type || a), null != i))
+        f = n.props,
+        m = e.props;
+      if (((o = 'svg' === e.type || o), null != i))
         for (u = 0; u < i.length; u++)
           if (
             null != (p = i[u]) &&
-            ((null === n.type ? 3 === p.nodeType : p.localName === n.type) ||
+            ((null === e.type ? 3 === p.nodeType : p.localName === e.type) ||
               t == p)
           ) {
             (t = p), (i[u] = null);
             break;
           }
       if (null == t) {
-        if (null === n.type) return document.createTextNode(m);
-        (t = a
-          ? document.createElementNS('http://www.w3.org/2000/svg', n.type)
-          : document.createElement(n.type, m.is && { is: m.is })),
+        if (null === e.type) return document.createTextNode(m);
+        (t = o
+          ? document.createElementNS('http://www.w3.org/2000/svg', e.type)
+          : document.createElement(e.type, m.is && { is: m.is })),
           (i = null);
       }
-      if (null === n.type) f !== m && t.data != m && (t.data = m);
-      else if (n !== e) {
+      if (null === e.type) f !== m && t.data != m && (t.data = m);
+      else if (e !== n) {
         if (
           (null != i && (i = c.slice.call(t.childNodes)),
-          (y = (f = e.props || l).dangerouslySetInnerHTML),
+          (y = (f = n.props || l).dangerouslySetInnerHTML),
           (d = m.dangerouslySetInnerHTML),
           !s)
         ) {
@@ -471,18 +471,18 @@
             ((d && y && d.__html == y.__html) ||
               (t.innerHTML = (d && d.__html) || ''));
         }
-        (function(t, n, e, o, a) {
+        (function(t, e, n, a, o) {
           var i;
-          for (i in e) i in n || M(t, i, null, e[i], o);
-          for (i in n)
-            (a && 'function' != typeof n[i]) ||
+          for (i in n) i in e || O(t, i, null, n[i], a);
+          for (i in e)
+            (o && 'function' != typeof e[i]) ||
               'value' === i ||
               'checked' === i ||
-              e[i] === n[i] ||
-              M(t, i, n[i], e[i], o);
-        })(t, m, f, a, s),
-          (n.__k = n.props.children),
-          d || v(t, n, e, o, 'foreignObject' !== n.type && a, i, r, l, s),
+              n[i] === e[i] ||
+              O(t, i, e[i], n[i], a);
+        })(t, m, f, o, s),
+          (e.__k = e.props.children),
+          d || A(t, e, n, a, 'foreignObject' !== e.type && o, i, r, l, s),
           s ||
             ('value' in m &&
               void 0 !== m.value &&
@@ -495,104 +495,104 @@
       }
       return t;
     }
-    function P(t, n, e) {
+    function P(t, e, n) {
       try {
-        'function' == typeof t ? t(n) : (t.current = n);
+        'function' == typeof t ? t(e) : (t.current = e);
       } catch (t) {
-        o.__e(t, e);
+        a.__e(t, n);
       }
     }
-    function D(t, n, e) {
-      var a, i, r;
+    function B(t, e, n) {
+      var o, i, r;
       if (
-        (o.unmount && o.unmount(t),
-        (a = t.ref) && ((a.current && a.current !== t.__e) || P(a, null, n)),
-        e || 'function' == typeof t.type || (e = null != (i = t.__e)),
+        (a.unmount && a.unmount(t),
+        (o = t.ref) && ((o.current && o.current !== t.__e) || P(o, null, e)),
+        n || 'function' == typeof t.type || (n = null != (i = t.__e)),
         (t.__e = t.__d = void 0),
-        null != (a = t.__c))
+        null != (o = t.__c))
       ) {
-        if (a.componentWillUnmount)
+        if (o.componentWillUnmount)
           try {
-            a.componentWillUnmount();
+            o.componentWillUnmount();
           } catch (t) {
-            o.__e(t, n);
+            a.__e(t, e);
           }
-        a.base = a.__P = null;
+        o.base = o.__P = null;
       }
-      if ((a = t.__k)) for (r = 0; r < a.length; r++) a[r] && D(a[r], n, e);
+      if ((o = t.__k)) for (r = 0; r < o.length; r++) o[r] && B(o[r], e, n);
       null != i && d(i);
     }
-    function x(t, n, e) {
-      return this.constructor(t, e);
+    function T(t, e, n) {
+      return this.constructor(t, n);
     }
-    function B(t, n, e) {
-      var a, i, r;
-      o.__ && o.__(t, n),
-        (i = (a = e === u) ? null : (e && e.__k) || n.__k),
+    function D(t, e, n) {
+      var o, i, r;
+      a.__ && a.__(t, e),
+        (i = (o = n === u) ? null : (n && n.__k) || e.__k),
         (t = h(m, null, [t])),
         (r = []),
-        O(
-          n,
-          ((a ? n : e || n).__k = t),
+        I(
+          e,
+          ((o ? e : n || e).__k = t),
           i || l,
           l,
-          void 0 !== n.ownerSVGElement,
-          e && !a ? [e] : i ? null : c.slice.call(n.childNodes),
+          void 0 !== e.ownerSVGElement,
+          n && !o ? [n] : i ? null : c.slice.call(e.childNodes),
           r,
-          e || l,
-          a
+          n || l,
+          o
         ),
-        w(r, t);
+        M(r, t);
     }
-    (o = {
-      __e: function(t, n) {
-        for (var e, o; (n = n.__); )
-          if ((e = n.__c) && !e.__)
+    (a = {
+      __e: function(t, e) {
+        for (var n, a; (e = e.__); )
+          if ((n = e.__c) && !n.__)
             try {
               if (
-                (e.constructor &&
-                  null != e.constructor.getDerivedStateFromError &&
-                  ((o = !0),
-                  e.setState(e.constructor.getDerivedStateFromError(t))),
-                null != e.componentDidCatch &&
-                  ((o = !0), e.componentDidCatch(t)),
-                o)
+                (n.constructor &&
+                  null != n.constructor.getDerivedStateFromError &&
+                  ((a = !0),
+                  n.setState(n.constructor.getDerivedStateFromError(t))),
+                null != n.componentDidCatch &&
+                  ((a = !0), n.componentDidCatch(t)),
+                a)
               )
-                return C((e.__E = e));
-            } catch (n) {
-              t = n;
+                return C((n.__E = n));
+            } catch (e) {
+              t = e;
             }
         throw t;
       },
     }),
-      (g.prototype.setState = function(t, n) {
-        var e;
-        (e =
+      (g.prototype.setState = function(t, e) {
+        var n;
+        (n =
           this.__s !== this.state ? this.__s : (this.__s = y({}, this.state))),
-          'function' == typeof t && (t = t(e, this.props)),
-          t && y(e, t),
-          null != t && this.__v && (n && this.__h.push(n), C(this));
+          'function' == typeof t && (t = t(n, this.props)),
+          t && y(n, t),
+          null != t && this.__v && (e && this.__h.push(e), C(this));
       }),
       (g.prototype.forceUpdate = function(t) {
         this.__v && ((this.__e = !0), t && this.__h.push(t), C(this));
       }),
       (g.prototype.render = m),
-      (a = []),
+      (o = []),
       (i = 0),
       (r =
         'function' == typeof Promise
           ? Promise.prototype.then.bind(Promise.resolve())
           : setTimeout),
       (u = l);
-    var T = {};
-    function G(t, n) {
-      for (var e in n) t[e] = n[e];
+    var x = {};
+    function E(t, e) {
+      for (var n in e) t[n] = e[n];
       return t;
     }
-    function j(t, n, e) {
-      var o,
-        a = /(?:\?([^#]*))?(#.*)?$/,
-        i = t.match(a),
+    function G(t, e, n) {
+      var a,
+        o = /(?:\?([^#]*))?(#.*)?$/,
+        i = t.match(o),
         r = {};
       if (i && i[1])
         for (var s = i[1].split('&'), u = 0; u < s.length; u++) {
@@ -601,16 +601,16 @@
             l.slice(1).join('=')
           );
         }
-      (t = E(t.replace(a, ''))), (n = E(n || ''));
-      for (var c = Math.max(t.length, n.length), p = 0; p < c; p++)
-        if (n[p] && ':' === n[p].charAt(0)) {
-          var y = n[p].replace(/(^:|[+*?]+$)/g, ''),
-            d = (n[p].match(/[+*?]+$/) || T)[0] || '',
+      (t = R(t.replace(o, ''))), (e = R(e || ''));
+      for (var c = Math.max(t.length, e.length), p = 0; p < c; p++)
+        if (e[p] && ':' === e[p].charAt(0)) {
+          var y = e[p].replace(/(^:|[+*?]+$)/g, ''),
+            d = (e[p].match(/[+*?]+$/) || x)[0] || '',
             h = ~d.indexOf('+'),
             f = ~d.indexOf('*'),
             m = t[p] || '';
           if (!m && !f && (d.indexOf('?') < 0 || h)) {
-            o = !1;
+            a = !1;
             break;
           }
           if (((r[y] = decodeURIComponent(m)), h || f)) {
@@ -620,43 +620,43 @@
               .join('/');
             break;
           }
-        } else if (n[p] !== t[p]) {
-          o = !1;
+        } else if (e[p] !== t[p]) {
+          a = !1;
           break;
         }
-      return (!0 === e.default || !1 !== o) && r;
+      return (!0 === n.default || !1 !== a) && r;
     }
-    function R(t, n) {
-      return t.rank < n.rank ? 1 : t.rank > n.rank ? -1 : t.index - n.index;
+    function j(t, e) {
+      return t.rank < e.rank ? 1 : t.rank > e.rank ? -1 : t.index - e.index;
     }
-    function U(t, n) {
+    function F(t, e) {
       return (
-        (t.index = n),
+        (t.index = e),
         (t.rank = (function(t) {
           return t.props.default
             ? 0
-            : ((n = t.props.path),
-              E(n)
-                .map(L)
+            : ((e = t.props.path),
+              R(e)
+                .map(U)
                 .join(''));
-          var n;
+          var e;
         })(t)),
         t.props
       );
     }
-    function E(t) {
+    function R(t) {
       return t.replace(/(^\/+|\/+$)/g, '').split('/');
     }
-    function L(t) {
+    function U(t) {
       return ':' == t.charAt(0)
         ? 1 + '*+?'.indexOf(t.charAt(t.length - 1)) || 4
         : 5;
     }
     var z = null,
-      F = [],
+      L = [],
       K = [],
-      V = {};
-    function H() {
+      H = {};
+    function V() {
       var t;
       return (
         '' +
@@ -667,47 +667,47 @@
             ? z.getCurrentLocation()
             : 'undefined' != typeof location
             ? location
-            : V).pathname || '') +
+            : H).pathname || '') +
         (t.search || '')
       );
     }
-    function W(t, n) {
+    function J(t, e) {
       return (
-        void 0 === n && (n = !1),
-        'string' != typeof t && t.url && ((n = t.replace), (t = t.url)),
+        void 0 === e && (e = !1),
+        'string' != typeof t && t.url && ((e = t.replace), (t = t.url)),
         (function(t) {
-          for (var n = F.length; n--; ) if (F[n].canRoute(t)) return !0;
+          for (var e = L.length; e--; ) if (L[e].canRoute(t)) return !0;
           return !1;
         })(t) &&
-          (function(t, n) {
-            void 0 === n && (n = 'push'),
-              z && z[n]
-                ? z[n](t)
+          (function(t, e) {
+            void 0 === e && (e = 'push'),
+              z && z[e]
+                ? z[e](t)
                 : 'undefined' != typeof history &&
-                  history[n + 'State'] &&
-                  history[n + 'State'](null, null, t);
-          })(t, n ? 'replace' : 'push'),
-        J(t)
+                  history[e + 'State'] &&
+                  history[e + 'State'](null, null, t);
+          })(t, e ? 'replace' : 'push'),
+        W(t)
       );
     }
-    function J(t) {
-      for (var n = !1, e = 0; e < F.length; e++)
-        !0 === F[e].routeTo(t) && (n = !0);
-      for (var o = K.length; o--; ) K[o](t);
-      return n;
-    }
-    function Y(t) {
-      if (t && t.getAttribute) {
-        var n = t.getAttribute('href'),
-          e = t.getAttribute('target');
-        if (n && n.match(/^\//g) && (!e || e.match(/^_?self$/i))) return W(n);
-      }
+    function W(t) {
+      for (var e = !1, n = 0; n < L.length; n++)
+        !0 === L[n].routeTo(t) && (e = !0);
+      for (var a = K.length; a--; ) K[a](t);
+      return e;
     }
     function Z(t) {
-      if (!(t.ctrlKey || t.metaKey || t.altKey || t.shiftKey || 0 !== t.button))
-        return Y(t.currentTarget || t.target || this), $(t);
+      if (t && t.getAttribute) {
+        var e = t.getAttribute('href'),
+          n = t.getAttribute('target');
+        if (e && e.match(/^\//g) && (!n || n.match(/^_?self$/i))) return J(e);
+      }
     }
-    function $(t) {
+    function Y(t) {
+      if (!(t.ctrlKey || t.metaKey || t.altKey || t.shiftKey || 0 !== t.button))
+        return Z(t.currentTarget || t.target || this), q(t);
+    }
+    function q(t) {
       return (
         t &&
           (t.stopImmediatePropagation && t.stopImmediatePropagation(),
@@ -716,99 +716,98 @@
         !1
       );
     }
-    function q(t) {
+    function Q(t) {
       if (
         !(t.ctrlKey || t.metaKey || t.altKey || t.shiftKey || 0 !== t.button)
       ) {
-        var n = t.target;
+        var e = t.target;
         do {
           if (
-            'A' === String(n.nodeName).toUpperCase() &&
-            n.getAttribute('href')
+            'A' === String(e.nodeName).toUpperCase() &&
+            e.getAttribute('href')
           ) {
-            if (n.hasAttribute('native')) return;
-            if (Y(n)) return $(t);
+            if (e.hasAttribute('native')) return;
+            if (Z(e)) return q(t);
           }
-        } while ((n = n.parentNode));
+        } while ((e = e.parentNode));
       }
     }
-    var Q = !1;
+    var $ = !1;
     var X = (function(t) {
-      function n(n) {
-        t.call(this, n),
-          n.history && (z = n.history),
-          (this.state = { url: n.url || H() }),
-          Q ||
+      function e(e) {
+        t.call(this, e),
+          e.history && (z = e.history),
+          (this.state = { url: e.url || V() }),
+          $ ||
             ('function' == typeof addEventListener &&
               (z ||
                 addEventListener('popstate', function() {
-                  J(H());
+                  W(V());
                 }),
-              addEventListener('click', q)),
-            (Q = !0));
+              addEventListener('click', Q)),
+            ($ = !0));
       }
       return (
-        t && (n.__proto__ = t),
-        (n.prototype = Object.create(t && t.prototype)),
-        (n.prototype.constructor = n),
-        (n.prototype.shouldComponentUpdate = function(t) {
+        t && (e.__proto__ = t),
+        (e.prototype = Object.create(t && t.prototype)),
+        (e.prototype.constructor = e),
+        (e.prototype.shouldComponentUpdate = function(t) {
           return (
             !0 !== t.static ||
-            t.url !== this.props.url ||
-            t.onChange !== this.props.onChange
+            t.url !== this.props.url || t.onChange !== this.props.onChange
           );
         }),
-        (n.prototype.canRoute = function(t) {
-          var n = I(this.props.children);
-          return this.getMatchingChildren(n, t, !1).length > 0;
+        (e.prototype.canRoute = function(t) {
+          var e = _(this.props.children);
+          return this.getMatchingChildren(e, t, !1).length > 0;
         }),
-        (n.prototype.routeTo = function(t) {
+        (e.prototype.routeTo = function(t) {
           this.setState({ url: t });
-          var n = this.canRoute(t);
-          return this.updating || this.forceUpdate(), n;
+          var e = this.canRoute(t);
+          return this.updating || this.forceUpdate(), e;
         }),
-        (n.prototype.componentWillMount = function() {
-          F.push(this), (this.updating = !0);
+        (e.prototype.componentWillMount = function() {
+          L.push(this), (this.updating = !0);
         }),
-        (n.prototype.componentDidMount = function() {
+        (e.prototype.componentDidMount = function() {
           var t = this;
           z &&
-            (this.unlisten = z.listen(function(n) {
-              t.routeTo('' + (n.pathname || '') + (n.search || ''));
+            (this.unlisten = z.listen(function(e) {
+              t.routeTo('' + (e.pathname || '') + (e.search || ''));
             })),
             (this.updating = !1);
         }),
-        (n.prototype.componentWillUnmount = function() {
+        (e.prototype.componentWillUnmount = function() {
           'function' == typeof this.unlisten && this.unlisten(),
-            F.splice(F.indexOf(this), 1);
+            L.splice(L.indexOf(this), 1);
         }),
-        (n.prototype.componentWillUpdate = function() {
+        (e.prototype.componentWillUpdate = function() {
           this.updating = !0;
         }),
-        (n.prototype.componentDidUpdate = function() {
+        (e.prototype.componentDidUpdate = function() {
           this.updating = !1;
         }),
-        (n.prototype.getMatchingChildren = function(t, n, e) {
+        (e.prototype.getMatchingChildren = function(t, e, n) {
           return t
-            .filter(U)
-            .sort(R)
+            .filter(F)
+            .sort(j)
             .map(function(t) {
-              var o = j(n, t.props.path, t.props);
-              if (o) {
-                if (!1 !== e) {
-                  var a = { url: n, matches: o };
+              var a = G(e, t.props.path, t.props);
+              if (a) {
+                if (!1 !== n) {
+                  var o = { url: e, matches: a };
                   return (
-                    G(a, o),
-                    delete a.ref,
-                    delete a.key,
-                    (function(t, n) {
+                    E(o, a),
+                    delete o.ref,
+                    delete o.key,
+                    (function(t, e) {
                       return (
-                        (n = y(y({}, t.props), n)),
+                        (e = y(y({}, t.props), e)),
                         arguments.length > 2 &&
-                          (n.children = c.slice.call(arguments, 2)),
-                        f(t.type, n, n.key || t.key, n.ref || t.ref)
+                          (e.children = c.slice.call(arguments, 2)),
+                        f(t.type, e, e.key || t.key, e.ref || t.ref)
                       );
-                    })(t, a)
+                    })(t, o)
                   );
                 }
                 return t;
@@ -816,20 +815,20 @@
             })
             .filter(Boolean);
         }),
-        (n.prototype.render = function(t, n) {
-          var e = t.children,
-            o = t.onChange,
-            a = n.url,
-            i = this.getMatchingChildren(I(e), a, !0),
+        (e.prototype.render = function(t, e) {
+          var n = t.children,
+            a = t.onChange,
+            o = e.url,
+            i = this.getMatchingChildren(_(n), o, !0),
             r = i[0] || null,
             s = this.previousUrl;
           return (
-            a !== s &&
-              ((this.previousUrl = a),
-              'function' == typeof o &&
-                o({
+            o !== s &&
+              ((this.previousUrl = o),
+              'function' == typeof a &&
+                a({
                   router: this,
-                  url: a,
+                  url: o,
                   previous: s,
                   active: i,
                   current: r,
@@ -837,22 +836,22 @@
             r
           );
         }),
-        n
+        e
       );
     })(g);
     (X.subscribers = K),
-      (X.getCurrentUrl = H),
-      (X.route = W),
+      (X.getCurrentUrl = V),
+      (X.route = J),
       (X.Router = X),
       (X.Route = function(t) {
         return h(t.component, t);
       }),
       (X.Link = function(t) {
-        return h('a', G({ onClick: Z }, t));
+        return h('a', E({ onClick: Y }, t));
       }),
-      (X.exec = j);
+      (X.exec = G);
     var tt = X;
-    class nt extends g {
+    class et extends g {
       constructor() {
         super();
         const t = window.document.createElement('div');
@@ -885,9 +884,9 @@
         return h('div', { className: this.props.flexSize });
       }
     }
-    const et = 'flex',
-      ot = 'flex flex-col',
-      at = Object.freeze({
+    const nt = 'flex',
+      at = 'flex flex-col',
+      ot = Object.freeze({
         daysFromInfectionToDeath: 17.3,
         doublingTime: 6.18,
         fatalityRate: 0.0087,
@@ -912,131 +911,171 @@
         '#ffc6a0',
         '#ece79c',
         '#9e8dce',
+      ],
+      st = [
+        { value: [0, 1], color: '#FFFFFF' },
+        { value: [0, 100], color: '#fff5f5' },
+        { value: [100, 500], color: '#ffdcdc' },
+        { value: [500, 1500], color: '#ffa0a0' },
+        { value: [1500, 5e3], color: '#ff7373' },
+        { value: [5e3, 15e3], color: '#ff4b4b' },
+        { value: [15e3, 3e4], color: '#ff1919' },
+        { value: [3e4, 5e9], color: '#c60000' },
+      ],
+      ut = [
+        { value: [0, 1], color: '#FFFFFF' },
+        { value: [0, 100], color: '#fff5f5' },
+        { value: [100, 500], color: '#ffdcdc' },
+        { value: [500, 2e3], color: '#ffa0a0' },
+        { value: [2e3, 1e4], color: '#ff7373' },
+        { value: [1e4, 25e3], color: '#ff4b4b' },
+        { value: [25e3, 6e4], color: '#ff1919' },
+        { value: [6e4, 5e9], color: '#c60000' },
+      ],
+      lt = [
+        { value: [0, 1], color: '#FFFFFF' },
+        { value: [0, 50], color: '#fff5f5' },
+        { value: [50, 150], color: '#ffdcdc' },
+        { value: [150, 500], color: '#ffa0a0' },
+        { value: [500, 1500], color: '#ff7373' },
+        { value: [1500, 1e4], color: '#ff4b4b' },
+        { value: [1e4, 5e4], color: '#ff1919' },
+        { value: [5e4, 5e9], color: '#c60000' },
+      ],
+      ct = [
+        { value: [0, 1], color: '#FFFFFF' },
+        { value: [1, 100], color: '#f0fff0' },
+        { value: [100, 1e3], color: '#dcffdc' },
+        { value: [1e3, 1e4], color: '#beffbe' },
+        { value: [1e4, 25e3], color: '#a0ffa0' },
+        { value: [25e3, 1e5], color: '#78ff78' },
+        { value: [1e5, 5e5], color: '#41ff41' },
+        { value: [5e5, 5e9], color: '#009900' },
       ];
-    function st(t) {
+    function pt(t) {
       return 'boolean' == typeof t;
     }
-    function ut(t) {
+    function yt(t) {
       return 'number' == typeof t;
     }
-    function lt(t) {
+    function dt(t) {
       return 'string' == typeof t;
     }
-    function ct() {}
-    function pt(t, n, e) {
-      return Object.keys(t).reduce((e, o, a) => n(e, t[o], o, a, t), e);
+    function ht() {}
+    function ft(t, e, n) {
+      return Object.keys(t).reduce((n, a, o) => e(n, t[a], a, o, t), n);
     }
-    function yt({ onChange: t, options: n, selected: e }) {
+    function mt({ onChange: t, options: e, selected: n }) {
       return h(
         'select',
-        { onChange: n => t(parseInt(n.target.value, 10)) },
-        n.map((t, n) =>
-          lt(t)
+        { onChange: e => t(parseInt(e.target.value, 10)) },
+        e.map((t, e) =>
+          dt(t)
             ? h(
                 'option',
-                e === n ? { value: n, selected: !0 } : { value: n },
+                n === e ? { value: e, selected: !0 } : { value: e },
                 t
               )
             : h(
                 'option',
-                e === n ? { value: t.index, selected: !0 } : { value: t.index },
+                n === e ? { value: t.index, selected: !0 } : { value: t.index },
                 t.name
               )
         )
       );
     }
-    function dt({ onChange: t, onClick: n, options: e, selected: o }) {
-      n = n || ct;
-      const a = t => n(parseInt(t.target.value, 10));
+    function gt({ onChange: t, onClick: e, options: n, selected: a }) {
+      e = e || ht;
+      const o = t => e(parseInt(t.target.value, 10));
       return h(
         'select',
         {
-          onChange: n =>
+          onChange: e =>
             t(
               (function(t) {
-                let n = [];
-                for (let e = 0; e < t.length; e += 1) {
-                  const o = t[e];
-                  o.selected && n.push(parseInt(o.value, 10));
+                let e = [];
+                for (let n = 0; n < t.length; n += 1) {
+                  const a = t[n];
+                  a.selected && e.push(parseInt(a.value, 10));
                 }
-                return n;
-              })(n.target.options)
+                return e;
+              })(e.target.options)
             ),
           multiple: !0,
         },
-        e.map((t, n) => {
-          const e = n + (1e5 * Math.random()).toString(16);
-          return lt(t)
-            ? o.indexOf(n) > -1
-              ? h('option', { key: e, onClick: a, value: n, selected: !0 }, t)
-              : h('option', { key: e, onClick: a, value: n }, t)
-            : o.indexOf(t.index) > -1
+        n.map((t, e) => {
+          const n = e + (1e5 * Math.random()).toString(16);
+          return dt(t)
+            ? a.indexOf(e) > -1
+              ? h('option', { key: n, onClick: o, value: e, selected: !0 }, t)
+              : h('option', { key: n, onClick: o, value: e }, t)
+            : a.indexOf(t.index) > -1
             ? h(
                 'option',
-                { key: e, onClick: a, value: t.index, selected: !0 },
+                { key: n, onClick: o, value: t.index, selected: !0 },
                 t.name
               )
-            : h('option', { key: e, onClick: a, value: t.index }, t.name);
+            : h('option', { key: n, onClick: o, value: t.index }, t.name);
         })
       );
     }
-    function ht({ onChange: t, ymdString: n }) {
+    function bt({ onChange: t, ymdString: e }) {
       return h('input', {
-        onChange: n => t(n.target.value),
+        onChange: e => t(e.target.value),
         type: 'date',
-        value: n,
+        value: e,
       });
     }
-    function ft({ classes: t, isDisabled: n, label: e, onClick: o }) {
+    function St({ classes: t, isDisabled: e, label: n, onClick: a }) {
       return h(
         'button',
-        { className: t ? t.join(' ') : '', onClick: o, disabled: n },
-        e
+        { className: t ? t.join(' ') : '', onClick: a, disabled: e },
+        n
       );
     }
-    function mt({
+    function Ct({
       classes: t,
-      listenKeyUp: n,
-      onChange: e,
-      placeholder: o,
-      value: a,
+      listenKeyUp: e,
+      onChange: n,
+      placeholder: a,
+      value: o,
     }) {
-      const i = t => e(t.target.value);
+      const i = t => n(t.target.value);
       return h('input', {
         className: t ? t.join(' ') : '',
         onChange: i,
-        onKeyUp: n ? i : ct,
-        placeholder: o || '',
+        onKeyUp: e ? i : ht,
+        placeholder: a || '',
         type: 'text',
-        value: a,
+        value: o,
       });
     }
-    function gt() {
+    function vt() {
       let t = !1;
       return (
-        (function(n) {
+        (function(e) {
           (/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino/i.test(
-            n
+            e
           ) ||
             /1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i.test(
-              n.substr(0, 4)
+              e.substr(0, 4)
             )) &&
             (t = !0);
         })(navigator.userAgent || navigator.vendor || window.opera),
         t
       );
     }
-    function bt(...t) {
+    function At(...t) {
       console.log('COVID-19', ...t);
     }
-    class St extends g {
+    class _t extends g {
       constructor() {
         super();
       }
       getOptions() {
         return this.props.filter
           ? this.props.options.filter(t =>
-              lt(t)
+              dt(t)
                 ? t.toLowerCase().indexOf(this.props.filter.toLowerCase()) > -1
                 : t.name
                     .toLowerCase()
@@ -1046,33 +1085,33 @@
       }
       render() {
         const t = this.props.classes ? this.props.classes.join(' ') : '',
-          n = t => {
+          e = t => {
             this.props.onChange(t);
           };
         return h(
           'div',
-          { className: t.length ? `${t} ${ot}` : ot },
+          { className: t.length ? `${t} ${at}` : at },
           h(
             'div',
-            { className: et },
-            gt()
+            { className: nt },
+            vt()
               ? ''
-              : h(mt, {
+              : h(Ct, {
                   listenKeyUp: !0,
                   onChange: this.props.onUpdateFilter.bind(this),
                   placeholder: 'filter',
                   value: this.props.filter,
                 }),
-            h(ft, { label: '✗', onClick: this.props.onClear })
+            h(St, { label: '✗', onClick: this.props.onClear })
           ),
-          gt()
-            ? h(dt, {
-                onChange: n,
+          vt()
+            ? h(gt, {
+                onChange: e,
                 options: this.getOptions(),
                 selected: this.props.selected,
               })
-            : h(dt, {
-                onChange: n,
+            : h(gt, {
+                onChange: e,
                 onClick: t => {
                   this.props.onDeselect(t);
                 },
@@ -1082,115 +1121,114 @@
         );
       }
     }
-    const Ct = [
+    const Nt = [
         'Active',
         'Confirmed',
         'Deaths',
         'Recoveries',
         'Projection: By Reverse Death',
       ],
-      _t = ['By date', 'By first confirmed', 'By first 100 confirmed'],
-      vt = ['Linear', 'Logarithmic'],
+      Ot = ['By date', 'By first confirmed', 'By first 100 confirmed'],
+      kt = ['Linear', 'Logarithmic'],
       It = ['Show States', 'Hide States'],
-      At = ['By Value', 'Percent'];
-    function Mt({ countries: t, onChange: n, reload: e, state: o }) {
+      Mt = ['By Value', 'Percent'];
+    function wt({ countries: t, onChange: e, reload: n, state: a }) {
       return h(
         'section',
         { className: 'flex flex-item-20' },
         h(
           'section',
-          { className: ot },
-          h(yt, {
+          { className: at },
+          h(mt, {
             onChange: function(t) {
-              n(Object.assign(Object.assign({}, o), { mode: t }));
+              e(Object.assign(Object.assign({}, a), { mode: t }));
             },
-            options: _t,
-            selected: o.mode,
+            options: Ot,
+            selected: a.mode,
           }),
-          h(yt, {
+          h(mt, {
             onChange: function(t) {
-              n(Object.assign(Object.assign({}, o), { scaleType: t }));
+              e(Object.assign(Object.assign({}, a), { scaleType: t }));
             },
-            options: vt,
-            selected: o.scaleType,
+            options: kt,
+            selected: a.scaleType,
           }),
-          h(ht, {
+          h(bt, {
             onChange: function(t) {
-              n(Object.assign(Object.assign({}, o), { startDate: t }));
+              e(Object.assign(Object.assign({}, a), { startDate: t }));
             },
-            ymdString: o.startDate,
+            ymdString: a.startDate,
           })
         ),
-        h(dt, {
+        h(gt, {
           onChange: function(t) {
-            n(Object.assign(Object.assign({}, o), { dataSetIndexes: t }));
+            e(Object.assign(Object.assign({}, a), { dataSetIndexes: t }));
           },
-          options: Ct,
-          selected: o.dataSetIndexes,
+          options: Nt,
+          selected: a.dataSetIndexes,
         }),
-        h(St, {
+        h(_t, {
           classes: 0 === this.props.countryIndexes.length ? ['highlight'] : [],
           filter: this.props.state.countryFilter,
           onUpdateFilter: this.props.onUpdateCountryFilter,
-          onChange: ct,
+          onChange: ht,
           onClear: this.props.clearCountries,
           onDeselect: this.props.selectCountry,
           options: t.filter(
-            ((a = this.props.state.showStates),
+            ((o = this.props.state.showStates),
             t =>
-              !1 === a ||
-              !(t.name.indexOf(',') > -1) ||
-              t.name.indexOf(', Total') > -1)
+              !1 === o ||
+              !(t.name.indexOf(',') > -1) || t.name.indexOf(', Total') > -1)
           ),
           selected: this.props.countryIndexes,
         }),
         h(
           'div',
-          { className: ot },
-          h(yt, {
+          { className: at },
+          h(mt, {
             onChange: function(t) {
-              n(Object.assign(Object.assign({}, o), { showStates: 0 !== t }));
+              e(Object.assign(Object.assign({}, a), { showStates: 0 !== t }));
             },
             options: It,
-            selected: o.showStates ? 1 : 0,
+            selected: a.showStates ? 1 : 0,
           }),
-          h(yt, {
+          h(mt, {
             onChange: function(t) {
-              n(Object.assign(Object.assign({}, o), { byMetric: t }));
+              e(Object.assign(Object.assign({}, a), { byMetric: t }));
             },
-            options: At,
-            selected: o.byMetric,
+            options: Mt,
+            selected: a.byMetric,
           }),
-          h(ft, { label: 'Reload', onClick: e })
+          h(St, { label: 'Reload', onClick: n })
         )
       );
-      var a;
+      var o;
     }
-    function kt({
+    function Pt({
       classes: t,
-      isDisabled: n,
-      labelFalse: e,
-      labelTrue: o,
-      onClick: a,
+      isDisabled: e,
+      labelFalse: n,
+      labelTrue: a,
+      onClick: o,
       state: i,
     }) {
-      return h(ft, {
+      return h(St, {
         classes: t,
-        isDisabled: n,
-        label: i ? o : e,
-        onClick: () => a(!i),
+        isDisabled: e,
+        label: i ? a : n,
+        onClick: () => o(!i),
       });
     }
-    function Ot({ config: { onClick: t, labels: n, selected: e } }) {
+    function Bt({ config: { onClick: t, labels: e, selected: n } }) {
       return h(
         'nav',
-        { className: et },
-        n.map((n, o) =>
-          h(ft, { isDisabled: o === e, label: n, onClick: () => t(o) })
+        { className: nt },
+        e.map((e, a) =>
+          h(St, { isDisabled: a === n, label: e, onClick: () => t(a) })
         )
       );
     }
-    class wt extends g {
+    class Tt extends g {
       constructor() {
         super(), (this.state = {});
       }
@@ -1222,8 +1260,8 @@
             : [];
         return h(
           'section',
-          { className: `full-size ${ot}` },
-          h(nt, {
+          { className: `full-size ${at}` },
+          h(et, {
             flexSize: this.props.state.isConfigOpen
               ? 'flex-item-60'
               : 'flex-item-95',
@@ -1233,18 +1271,18 @@
           }),
           h(
             'section',
-            { className: et },
-            h(kt, {
+            { className: nt },
+            h(Pt, {
               classes: t,
               labelTrue: '✗ Enlarge Chart',
               labelFalse: '⚙️ Configure Chart',
               onClick: this.toggleConfig.bind(this),
               state: this.props.state.isConfigOpen,
             }),
-            h(Ot, { config: this.props.menu })
+            h(Bt, { config: this.props.menu })
           ),
           this.props.state.isConfigOpen
-            ? h(Mt, {
+            ? h(wt, {
                 onUpdateCountryFilter: this.setCountryFilter.bind(this),
                 clearCountries: this.props.clearCountries,
                 countryIndexes: this.props.countryIndexes,
@@ -1259,9 +1297,9 @@
         );
       }
     }
-    var Nt = e(0),
-      Pt = e(1);
-    const Dt = Object.freeze({
+    var Dt = n(0),
+      xt = n(1);
+    const Et = Object.freeze({
         AL: 'Alabama',
         AK: 'Alaska',
         AS: 'American Samoa',
@@ -1322,10 +1360,10 @@
         WI: 'Wisconsin',
         WY: 'Wyoming',
       }),
-      xt = Object.freeze(
-        Object.keys(Dt).reduce((t, n) => ((t[Dt[n]] = n), t), {})
+      Gt = Object.freeze(
+        Object.keys(Et).reduce((t, e) => ((t[Et[e]] = e), t), {})
       ),
-      Bt = Object.freeze({
+      jt = Object.freeze({
         'Congo (Kinshasa)': 'The Democratic Republic of Congo',
         "Cote d'Ivoire": 'Ivory Coast',
         Czechia: 'Czech Republic',
@@ -1339,7 +1377,7 @@
         'The Gambia': 'Gambia',
         US: 'United States',
       }),
-      Tt = Object.freeze({
+      Ft = Object.freeze({
         'Bahamas, The': 395361,
         'Cabo Verde': 546388,
         'Congo (Brazzaville)': 18e5,
@@ -1354,7 +1392,7 @@
         Serbia: 7022e3,
         'Taiwan*': 2378e4,
       }),
-      Gt = Object.freeze({
+      Rt = Object.freeze({
         Australia: Object.freeze({
           'Australian Capital Territory': 426709,
           'New South Wales': 8089526,
@@ -1503,7 +1541,7 @@
           PR: 3615086,
         }),
       }),
-      jt = Object.freeze({
+      Ut = Object.freeze({
         Afghanistan: 'AF',
         'Åland Islands': 'AX',
         Albania: 'AL',
@@ -1732,13 +1770,218 @@
         Yemen: 'YE',
         Zambia: 'ZM',
         Zimbabwe: 'ZW',
+      }),
+      zt = Object.freeze({
+        Australia: Object.freeze({
+          'Australian Capital Territory': 'AC',
+          'New South Wales': 'NS',
+          'Northern Territory': 'NT',
+          Queensland: 'QL',
+          'South Australia': 'SA',
+          Tasmania: 'TS',
+          Victoria: 'VI',
+          'Western Australia': 'WA',
+        }),
+        Canada: Object.freeze({
+          Alberta: 'AB',
+          'British Columbia': 'BC',
+          Ontario: 'ON',
+          Manitoba: 'MB',
+          'New Brunswick': 'NB',
+          'Newfoundland and Labrador': 'NF',
+          'Northwest Territories': 'NT',
+          'Nova Scotia': 'NS',
+          'Prince Edward Island': 'PE',
+          Quebec: 'QC',
+          Saskatchewan: 'SK',
+          Yukon: 'YT',
+          Nunavut: 'NU',
+        }),
+        China: Object.freeze({
+          Anhui: 'AH',
+          Beijing: 'BJ',
+          Chongqing: 'CQ',
+          Fujian: 'FJ',
+          Gansu: 'GS',
+          Guangdong: 'GD',
+          Guangxi: 'GX',
+          Guizhou: 'GZ',
+          Hainan: 'HA',
+          Hebei: 'HB',
+          Heilongjiang: 'HL',
+          Henan: 'HE',
+          Hubei: 'HU',
+          Hunan: 'HN',
+          'Inner Mongolia': 'NM',
+          Jiangsu: 'JS',
+          Jiangxi: 'JX',
+          Jilin: 'JL',
+          Liaoning: 'LN',
+          Ningxia: 'NX',
+          Qinghai: 'QH',
+          Shaanxi: 'SA',
+          Shandong: 'SD',
+          Shanghai: 'SH',
+          Shanxi: 'SX',
+          Sichuan: 'SC',
+          Tianjin: 'TJ',
+          Xinjiang: 'XJ',
+          Yunnan: 'YN',
+          Zhejiang: 'ZJ',
+        }),
+      }),
+      Lt = Object.freeze({
+        Afghanistan: 'Asia',
+        Albania: 'Europe',
+        Algeria: 'Africa',
+        Andorra: 'Europe',
+        Angola: 'Africa',
+        Argentina: 'South America',
+        Armenia: 'Asia',
+        Australia: 'Oceania',
+        Austria: 'Europe',
+        Azerbaijan: 'Asia',
+        'Bahamas, The': 'North America',
+        Bangladesh: 'Asia',
+        Belarus: 'Europe',
+        Belgium: 'Europe',
+        Benin: 'Africa',
+        Bhutan: 'Asia',
+        Bolivia: 'South America',
+        'Bosnia and Herzegovina': 'Europe',
+        Brazil: 'South America',
+        Brunei: 'Asia',
+        Bulgaria: 'Europe',
+        'Burkina Faso': 'Africa',
+        Cambodia: 'Asia',
+        Cameroon: 'Africa',
+        Canada: 'North America',
+        'Central African Republic': 'Africa',
+        Chad: 'Africa',
+        Chile: 'South America',
+        China: 'Asia',
+        Colombia: 'South America',
+        'Costa Rica': 'North America',
+        "Cote d'Ivoire": 'Africa',
+        Croatia: 'Europe',
+        Cuba: 'North America',
+        Cyprus: 'Asia',
+        Czechia: 'Europe',
+        Denmark: 'Europe',
+        Djibouti: 'Africa',
+        'Dominican Republic': 'North America',
+        Ecuador: 'South America',
+        Egypt: 'Africa',
+        'El Salvador': 'North America',
+        'Equatorial Guinea': 'Africa',
+        Eritrea: 'Africa',
+        Estonia: 'Europe',
+        Ethiopia: 'Africa',
+        Fiji: 'Oceania',
+        Finland: 'Europe',
+        France: 'Europe',
+        Gabon: 'Africa',
+        Georgia: 'Asia',
+        Germany: 'Europe',
+        Ghana: 'Africa',
+        Greece: 'Europe',
+        Guatemala: 'North America',
+        Guinea: 'Africa',
+        Guyana: 'South America',
+        Haiti: 'North America',
+        Honduras: 'North America',
+        Hungary: 'Europe',
+        Iceland: 'Europe',
+        India: 'Asia',
+        Indonesia: 'Asia',
+        Iran: 'Asia',
+        Iraq: 'Asia',
+        Ireland: 'Europe',
+        Israel: 'Asia',
+        Italy: 'Europe',
+        Jamaica: 'North America',
+        Japan: 'Asia',
+        Jordan: 'Asia',
+        Kazakhstan: 'Asia',
+        Kenya: 'Africa',
+        'Korea, South': 'Asia',
+        Kuwait: 'Asia',
+        Kyrgyzstan: 'Asia',
+        Latvia: 'Europe',
+        Lebanon: 'Asia',
+        Liberia: 'Africa',
+        Liechtenstein: 'Europe',
+        Lithuania: 'Europe',
+        Luxembourg: 'Europe',
+        Madagascar: 'Africa',
+        Malaysia: 'Asia',
+        Mauritania: 'Africa',
+        Mexico: 'North America',
+        Moldova: 'Europe',
+        Monaco: 'Europe',
+        Mongolia: 'Asia',
+        Morocco: 'Africa',
+        Mozambique: 'Africa',
+        Namibia: 'Africa',
+        Nepal: 'Asia',
+        Netherlands: 'Europe',
+        'New Zealand': 'Oceania',
+        Nicaragua: 'North America',
+        Niger: 'Africa',
+        Nigeria: 'Africa',
+        Norway: 'Europe',
+        Oman: 'Asia',
+        Pakistan: 'Asia',
+        Panama: 'North America',
+        'Papua New Guinea': 'Oceania',
+        Paraguay: 'South America',
+        Peru: 'South America',
+        Philippines: 'Asia',
+        Poland: 'Europe',
+        Portugal: 'Europe',
+        Qatar: 'Asia',
+        Romania: 'Europe',
+        Russia: 'Asia',
+        Rwanda: 'Africa',
+        'San Marino': 'Europe',
+        'Saudi Arabia': 'Asia',
+        Senegal: 'Africa',
+        Slovakia: 'Europe',
+        Slovenia: 'Europe',
+        Somalia: 'Africa',
+        'South Africa': 'Africa',
+        Spain: 'Europe',
+        'Sri Lanka': 'Asia',
+        Sudan: 'Africa',
+        Suriname: 'South America',
+        Sweden: 'Europe',
+        Switzerland: 'Europe',
+        Syria: 'Asia',
+        'Taiwan*': 'Asia',
+        Tanzania: 'Africa',
+        Thailand: 'Asia',
+        Togo: 'Africa',
+        'Trinidad and Tobago': 'North America',
+        Tunisia: 'Africa',
+        Turkey: 'Asia',
+        US: 'North America',
+        Uganda: 'Africa',
+        Ukraine: 'Europe',
+        'United Arab Emirates': 'Asia',
+        'United Kingdom': 'Europe',
+        Uruguay: 'South America',
+        Uzbekistan: 'Asia',
+        Venezuela: 'South America',
+        Vietnam: 'Asia',
+        Zambia: 'Africa',
+        Zimbabwe: 'Africa',
       });
-    class Rt {
+    class Kt {
       constructor(t) {
         this.data = t;
       }
       static create(t) {
-        return new Rt(t);
+        return new Kt(t);
       }
       lastValue(t) {
         return this.data.counts.length < 1
@@ -1811,22 +2054,22 @@
         return this.data.state;
       }
     }
-    class Ut extends Array {
+    class Ht extends Array {
       static create() {
-        return new Ut();
+        return new Ht();
       }
       constructor() {
         super();
       }
-      sortByProp(t, n = !0) {
-        const e = n ? -1 : 1;
-        this.sort((n, o) =>
-          n[t]() < o[t]() ? e : n[t]() > o[t]() ? -1 * e : 0
+      sortByProp(t, e = !0) {
+        const n = e ? -1 : 1;
+        this.sort((e, a) =>
+          e[t]() < a[t]() ? n : e[t]() > a[t]() ? -1 * n : 0
         );
       }
       clone() {
-        const t = Ut.create();
-        return this.forEach(n => t.push(n)), t;
+        const t = Ht.create();
+        return this.forEach(e => t.push(e)), t;
       }
       sortByActive(t = !0) {
         this.sortByProp('lastActive', t);
@@ -1841,18 +2084,18 @@
         this.sortByProp('lastConfirmedPercent', t);
       }
       sortByCountry(t = !0) {
-        this.sort((t, n) =>
-          t.country() < n.country()
+        this.sort((t, e) =>
+          t.country() < e.country()
             ? -1
-            : t.country() > n.country()
+            : t.country() > e.country()
             ? 1
-            : t.state() < n.state()
+            : t.state() < e.state()
             ? -1
-            : t.state() > n.state()
+            : t.state() > e.state()
             ? 1
-            : t.locale() < n.locale()
+            : t.locale() < e.locale()
             ? -1
-            : t.locale() > n.locale()
+            : t.locale() > e.locale()
             ? 1
             : 0
         );
@@ -1879,271 +2122,271 @@
         this.sortByProp('lastRecoveriesPercent', t);
       }
     }
-    const Et = (Nt || []).reduce(
-        (t, n) => ((t[n.country] = parseInt(n.population, 10)), t),
+    const Vt = (Dt || []).reduce(
+        (t, e) => ((t[e.country] = parseInt(e.population, 10)), t),
         {}
       ),
-      Lt = (Pt || []).reduce(
-        (t, n) => (
-          (t[n.country] = null === n.density ? null : parseInt(n.density, 10)),
+      Jt = (xt || []).reduce(
+        (t, e) => (
+          (t[e.country] = null === e.density ? null : parseInt(e.density, 10)),
           t
         ),
         {}
       ),
-      zt = [
+      Wt = [
         'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Confirmed.csv',
         'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Deaths.csv',
         'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Recovered.csv',
       ];
-    function Ft() {
-      return Promise.all(zt.map(t => fetch(t)))
-        .then(Ht)
-        .then(Zt)
-        .then(qt)
-        .then(Xt)
-        .then(tn)
-        .then(nn)
+    function Zt() {
+      return Promise.all(Wt.map(t => fetch(t)))
         .then(Qt)
-        .then(en);
+        .then(ee)
+        .then(ae)
+        .then(ie)
+        .then(re)
+        .then(se)
+        .then(oe)
+        .then(ue);
     }
-    function Kt(t, n, e) {
-      if (e) return 0;
-      if (n)
-        return (function(t, n, e) {
-          if (e) return 0;
-          if (Gt[t])
+    function Yt(t, e, n) {
+      if (n) return 0;
+      if (e)
+        return (function(t, e, n) {
+          if (n) return 0;
+          if (Rt[t])
             if ('US' === t) {
-              const e = xt[n];
-              if (e) {
-                const n = 'D.C.' === e ? 'DC' : e;
-                if (Gt[t][n]) return Gt[t][n];
+              const n = Gt[e];
+              if (n) {
+                const e = 'D.C.' === n ? 'DC' : n;
+                if (Rt[t][e]) return Rt[t][e];
               }
-            } else if (Gt[t][n]) return Gt[t][n];
+            } else if (Rt[t][e]) return Rt[t][e];
           return 0;
-        })(t, n, e);
-      let o = Et[t];
-      return o || ((o = Et[Bt[t]]), o || ((o = Tt[t]), o || 0));
+        })(t, e, n);
+      let a = Vt[t];
+      return a || ((a = Vt[jt[t]]), a || ((a = Ft[t]), a || 0));
     }
-    function Vt(t, n, e) {
-      if (n || e) return 0;
-      let o = Lt[t];
-      return o || ((o = Lt[Bt[t]]), o || 0);
+    function qt(t, e, n) {
+      if (e || n) return 0;
+      let a = Jt[t];
+      return a || ((a = Jt[jt[t]]), a || 0);
     }
-    function Ht(t) {
+    function Qt(t) {
       return Promise.all(t.map(t => t.text()));
     }
-    function Wt(t) {
-      const n = t.split(''),
-        e = { buffer: '', isEscape: !1, isInQuote: !1 },
-        o = () => {
-          e.isEscape ? (e.isEscape = !1) : (e.isEscape = !0);
+    function $t(t) {
+      const e = t.split(''),
+        n = { buffer: '', isEscape: !1, isInQuote: !1 },
+        a = () => {
+          n.isEscape ? (n.isEscape = !1) : (n.isEscape = !0);
         };
-      return n.reduce(
-        (t, n, a, i) =>
-          '"' === n
-            ? (e.isEscape
-                ? ((e.buffer += n), o())
-                : e.isInQuote
-                ? (e.isInQuote = !1)
-                : (e.isInQuote = !0),
+      return e.reduce(
+        (t, e, o, i) =>
+          '"' === e
+            ? (n.isEscape
+                ? ((n.buffer += e), a())
+                : n.isInQuote
+                ? (n.isInQuote = !1)
+                : (n.isInQuote = !0),
               t)
-            : '\\' === n
-            ? (e.isEscape ? ((e.buffer += n), o()) : o(), t)
-            : ',' === n
-            ? (e.isInQuote
-                ? (e.buffer += n)
-                : (t.push(e.buffer), (e.buffer = '')),
+            : '\\' === e
+            ? (n.isEscape ? ((n.buffer += e), a()) : a(), t)
+            : ',' === e
+            ? (n.isInQuote
+                ? (n.buffer += e)
+                : (t.push(n.buffer), (n.buffer = '')),
               t)
-            : ((e.buffer += n),
-              a === i.length - 1 && (t.push(e.buffer), (e.buffer = '')),
+            : ((n.buffer += e),
+              o === i.length - 1 && (t.push(n.buffer), (n.buffer = '')),
               t),
         []
       );
     }
-    function Jt(t) {
-      const n = t[1],
-        [e, o] = (function(t) {
+    function Xt(t) {
+      const e = t[1],
+        [n, a] = (function(t) {
           if (t.indexOf(',') > -1) {
-            const n = t.split(',').filter(Boolean);
-            return [n[0].trim(), n[1].trim()];
+            const e = t.split(',').filter(Boolean);
+            return [e[0].trim(), e[1].trim()];
           }
           return ['', t];
         })(t[0]);
       return {
-        country: n,
-        locale: e,
-        population: Kt(n, o, e),
-        populationDensity: Vt(n, o, e),
-        state: o,
+        country: e,
+        locale: n,
+        population: Yt(e, a, n),
+        populationDensity: qt(e, a, n),
+        state: a,
         timeSeries: t.slice(4).map(t => parseInt(t, 10)),
       };
     }
-    function Yt(t) {
-      const n = t.split('\n');
+    function te(t) {
+      const e = t.split('\n');
       return [
         (function(t) {
           return t
             .split(',')
             .slice(4)
             .map(t => new Date(t));
-        })(n[0]),
-        n
+        })(e[0]),
+        e
           .slice(1)
-          .map(Wt)
+          .map($t)
           .filter(t => t.length)
-          .map(Jt),
+          .map(Xt),
       ];
     }
-    function Zt(t) {
-      return t.map(Yt);
+    function ee(t) {
+      return t.map(te);
     }
-    function $t(t) {
-      const n = {};
+    function ne(t) {
+      const e = {};
       return (
         t.forEach(
           (function(t) {
-            return n => {
-              const e = e => {
-                const o = t[e] || new Array(n.timeSeries.length).fill(0);
-                n.timeSeries.forEach((t, n) => {
-                  o[n] += t;
+            return e => {
+              const n = n => {
+                const a = t[n] || new Array(e.timeSeries.length).fill(0);
+                e.timeSeries.forEach((t, e) => {
+                  a[e] += t;
                 }),
-                  (t[e] = o);
+                  (t[n] = a);
               };
               if (
-                (e('World'),
-                n.state &&
-                  !n.locale &&
-                  ('US' === n.country
-                    ? (e(`${n.country}.${n.state}`), e(n.country))
-                    : e(n.country)),
-                n.locale)
+                (n('World'),
+                e.state &&
+                  !e.locale &&
+                  ('US' === e.country
+                    ? (n(`${e.country}.${e.state}`), n(e.country))
+                    : n(e.country)),
+                e.locale)
               )
-                if ('US' === n.country) {
-                  const t = Dt[n.state];
+                if ('US' === e.country) {
+                  const t = Et[e.state];
                   t
-                    ? (e(`${n.country}.${t}`), e(n.country))
-                    : bt(
+                    ? (n(`${e.country}.${t}`), n(e.country))
+                    : At(
                         'US state ',
-                        n.state,
-                        `(${n.locale}) not found in map`
+                        e.state,
+                        `(${e.locale}) not found in map`
                       );
-                } else bt('Non US locale', n.country, n.state, n.locale);
+                } else At('Non US locale', e.country, e.state, e.locale);
             };
-          })(n)
+          })(e)
         ),
-        (function(t, n) {
-          return pt(
+        (function(t, e) {
+          return ft(
             t,
-            (t, n, e) => {
-              const o = e.split('.').filter(Boolean);
+            (t, e, n) => {
+              const a = n.split('.').filter(Boolean);
               return (
-                o.length < 1 ||
+                a.length < 1 ||
                   t.push({
-                    country: o[0],
+                    country: a[0],
                     locale: '',
-                    population: Kt(o[0], o[1]),
-                    populationDensity: Vt(o[0], o[1]),
-                    state: o[1] || 'Total',
-                    timeSeries: n,
+                    population: Yt(a[0], a[1]),
+                    populationDensity: qt(a[0], a[1]),
+                    state: a[1] || 'Total',
+                    timeSeries: e,
                   }),
                 t
               );
             },
             []
           ).concat(
-            n.filter(t => 'US' !== t.country || (!t.state && !t.locale))
+            e.filter(t => 'US' !== t.country || (!t.state && !t.locale))
           );
-        })(n, t)
+        })(e, t)
       );
     }
-    function qt(t) {
+    function ae(t) {
       return t.map(t => {
-        const [n, e] = t;
-        return [n, $t(e)];
+        const [e, n] = t;
+        return [e, ne(n)];
       });
     }
-    function Qt(t) {
+    function oe(t) {
       return t.sortByCountry(), t;
     }
-    function Xt(t) {
+    function ie(t) {
       return [
         [
           t[0][0],
-          t[0][1].map((n, e) => ({
-            country: n.country,
-            locale: n.locale,
-            population: 'World' === n.country ? ln() : n.population,
-            populationDensity: n.populationDensity,
-            state: n.state,
-            timeSeries: n.timeSeries.map(
-              (n, o) => n - t[1][1][e].timeSeries[o] - t[2][1][e].timeSeries[o]
+          t[0][1].map((e, n) => ({
+            country: e.country,
+            locale: e.locale,
+            population: 'World' === e.country ? he() : e.population,
+            populationDensity: e.populationDensity,
+            state: e.state,
+            timeSeries: e.timeSeries.map(
+              (e, a) => e - t[1][1][n].timeSeries[a] - t[2][1][n].timeSeries[a]
             ),
           })),
         ],
       ].concat(t);
     }
-    function tn(t) {
-      const n = [
+    function re(t) {
+      const e = [
         [
           t[0][0],
-          t[0][1].map((n, e) => ({
-            country: n.country,
-            locale: n.locale,
-            population: 'World' === n.country ? ln() : n.population,
-            populationDensity: n.populationDensity,
-            state: n.state,
-            timeSeries: n.timeSeries.map((n, o) => {
-              if (t[2][1][e].timeSeries[o] < at.minDeaths) return 0;
-              const a = t[2][1][e].timeSeries[o] / at.fatalityRate,
-                i = at.daysFromInfectionToDeath / at.doublingTime;
-              return a * Math.pow(2, i);
+          t[0][1].map((e, n) => ({
+            country: e.country,
+            locale: e.locale,
+            population: 'World' === e.country ? he() : e.population,
+            populationDensity: e.populationDensity,
+            state: e.state,
+            timeSeries: e.timeSeries.map((e, a) => {
+              if (t[2][1][n].timeSeries[a] < ot.minDeaths) return 0;
+              const o = t[2][1][n].timeSeries[a] / ot.fatalityRate,
+                i = ot.daysFromInfectionToDeath / ot.doublingTime;
+              return o * Math.pow(2, i);
             }),
           })),
         ],
       ];
-      return t.concat(n);
+      return t.concat(e);
     }
-    function nn(t) {
-      const n = t[0][0],
-        e = Ut.create();
+    function se(t) {
+      const e = t[0][0],
+        n = Ht.create();
       return (
-        t[0][1].forEach((o, a) => {
-          e.push(
-            Rt.create({
-              country: o.country,
-              index: a,
-              dates: n,
-              locale: o.locale,
-              population: o.population,
-              populationDensity: o.populationDensity,
-              state: o.state,
-              counts: o.timeSeries.map((n, e) => ({
-                active: t[0][1][a].timeSeries[e],
-                confirmed: t[1][1][a].timeSeries[e],
-                deaths: t[2][1][a].timeSeries[e],
-                recoveries: t[3][1][a].timeSeries[e],
-                projectionReverseDeath: t[4][1][a].timeSeries[e],
+        t[0][1].forEach((a, o) => {
+          n.push(
+            Kt.create({
+              country: a.country,
+              index: o,
+              dates: e,
+              locale: a.locale,
+              population: a.population,
+              populationDensity: a.populationDensity,
+              state: a.state,
+              counts: a.timeSeries.map((e, n) => ({
+                active: t[0][1][o].timeSeries[n],
+                confirmed: t[1][1][o].timeSeries[n],
+                deaths: t[2][1][o].timeSeries[n],
+                recoveries: t[3][1][o].timeSeries[n],
+                projectionReverseDeath: t[4][1][o].timeSeries[n],
               })),
             })
           );
         }),
-        e
+        n
       );
     }
-    function en(t) {
+    function ue(t) {
       return {
         countries: t
-          .reduce((t, n, e) => {
-            if (n.locale()) return t;
-            const o = n.countryName();
-            return t.push({ index: n.index(), name: o }), t;
+          .reduce((t, e, n) => {
+            if (e.locale()) return t;
+            const a = e.countryName();
+            return t.push({ index: e.index(), name: a }), t;
           }, [])
           .filter(Boolean),
         timeSeries: t,
       };
     }
-    function on(t) {
+    function le(t) {
       switch (t) {
         case 0:
           return '😷';
@@ -2159,84 +2402,84 @@
           return '😊';
       }
     }
-    function an(t, n) {
-      return n.dataPromise.then(({ countries: e, timeSeries: o }) => {
-        let a = 0;
+    function ce(t, e) {
+      return e.dataPromise.then(({ countries: n, timeSeries: a }) => {
+        let o = 0;
         return {
-          countries: e,
-          series: o.reduce(
-            (e, o) =>
-              n.countryIndexes.indexOf(o.index()) > -1
-                ? (function(t, n, e, o, a) {
-                    switch (n.lineGraphState.mode) {
+          countries: n,
+          series: a.reduce(
+            (n, a) =>
+              e.countryIndexes.indexOf(a.index()) > -1
+                ? (function(t, e, n, a, o) {
+                    switch (e.lineGraphState.mode) {
                       case 1:
-                        return rn(t, n, e, o, a, 1);
+                        return pe(t, e, n, a, o, 1);
                       case 2:
-                        return rn(t, n, e, o, a, 100);
+                        return pe(t, e, n, a, o, 100);
                       default:
-                        return (function(t, n, e, o, a) {
-                          const i = new Date(n.lineGraphState.startDate);
+                        return (function(t, e, n, a, o) {
+                          const i = new Date(e.lineGraphState.startDate);
                           return (
-                            n.lineGraphState.dataSetIndexes.forEach(t => {
+                            e.lineGraphState.dataSetIndexes.forEach(t => {
                               const r =
-                                  t > 3 ? rt[a % rt.length] : it[a % it.length],
-                                s = sn(t),
+                                  t > 3 ? rt[o % rt.length] : it[o % it.length],
+                                s = ye(t),
                                 u = {
                                   color: r,
                                   line: { color: r },
-                                  name: on(t) + ' ' + o.countryName(),
+                                  name: le(t) + ' ' + a.countryName(),
                                   points: [],
                                 };
-                              (u.points = o.counts().reduce((t, e, a) => {
-                                if (o.dates()[a] && o.dates()[a] > i) {
-                                  const i = un(
-                                    n.lineGraphState.byMetric,
-                                    e[s],
-                                    o.population()
+                              (u.points = a.counts().reduce((t, n, o) => {
+                                if (a.dates()[o] && a.dates()[o] > i) {
+                                  const i = de(
+                                    e.lineGraphState.byMetric,
+                                    n[s],
+                                    a.population()
                                   );
-                                  i && t.push({ x: o.dates()[a], y: i });
+                                  i && t.push({ x: a.dates()[o], y: i });
                                 }
                                 return t;
                               }, [])),
-                                e.push(u);
+                                n.push(u);
                             }),
-                            e
+                            n
                           );
-                        })(0, n, e, o, a);
+                        })(0, e, n, a, o);
                     }
-                  })(t, n, e, o, a++)
-                : e,
+                  })(t, e, n, a, o++)
+                : n,
             []
           ),
         };
       });
     }
-    function rn(t, n, e, o, a, i) {
-      const r = new Date(n.lineGraphState.startDate);
+    function pe(t, e, n, a, o, i) {
+      const r = new Date(e.lineGraphState.startDate);
       return (
-        n.lineGraphState.dataSetIndexes.forEach(t => {
-          const s = sn(t),
-            u = t > 3 ? rt[a % rt.length] : it[a % it.length],
+        e.lineGraphState.dataSetIndexes.forEach(t => {
+          const s = ye(t),
+            u = t > 3 ? rt[o % rt.length] : it[o % it.length],
             l = {
               color: u,
               line: { color: u },
-              name: on(t) + ' ' + o.countryName(),
+              name: le(t) + ' ' + a.countryName(),
               points: [],
             };
           let c = 0;
-          (l.points = o.counts().reduce((t, e, a) => {
-            if (o.dates()[a] && o.dates()[a] > r && e.confirmed >= i) {
-              const a = un(n.lineGraphState.byMetric, e[s], o.population());
-              a && t.push({ x: c, y: a }), (c += 1);
+          (l.points = a.counts().reduce((t, n, o) => {
+            if (a.dates()[o] && a.dates()[o] > r && n.confirmed >= i) {
+              const o = de(e.lineGraphState.byMetric, n[s], a.population());
+              o && t.push({ x: c, y: o }), (c += 1);
             }
             return t;
           }, [])),
-            e.push(l);
+            n.push(l);
         }),
-        e
+        n
       );
     }
-    function sn(t) {
+    function ye(t) {
       switch (t) {
         case 0:
           return 'active';
@@ -2252,20 +2495,20 @@
           return 'recoveries';
       }
     }
-    function un(t, n, e) {
-      return 0 === t ? n : e ? (n / e) * 100 : 0;
+    function de(t, e, n) {
+      return 0 === t ? e : n ? e / n : 0;
     }
-    function ln() {
-      return pt(Et, (t, n) => (n != n ? t : t + n), 0);
+    function he() {
+      return ft(Vt, (t, e) => (e != e ? t : t + e), 0);
     }
-    const cn = [];
-    function pn() {
+    const fe = [];
+    function me() {
       if (window.localStorage) {
         const t = window.localStorage.getItem('state');
         if (t)
           try {
-            const n = JSON.parse(t);
-            return n
+            const e = JSON.parse(t);
+            return e
               ? !1 ===
                 (function(t) {
                   if (!t) return !1;
@@ -2275,13 +2518,13 @@
                     !1 ===
                     (function(t) {
                       if (!t) return !1;
-                      if (!1 === st(t.isConfigOpen)) return !1;
-                      if (!1 === ut(t.byMetric)) return !1;
-                      if (!1 === lt(t.countryFilter)) return !1;
+                      if (!1 === pt(t.isConfigOpen)) return !1;
+                      if (!1 === yt(t.byMetric)) return !1;
+                      if (!1 === dt(t.countryFilter)) return !1;
                       if (!1 === Array.isArray(t.dataSetIndexes)) return !1;
-                      if (!1 === ut(t.mode)) return !1;
+                      if (!1 === yt(t.mode)) return !1;
                       if ('boolean' != typeof t.showStates) return !1;
-                      if (!1 === lt(t.startDate)) return !1;
+                      if (!1 === dt(t.startDate)) return !1;
                       return !0;
                     })(t.lineGraphState)
                   )
@@ -2290,32 +2533,32 @@
                   return (function(t) {
                     if (!t) return !1;
                     if (!1 === Array.isArray(t.columns)) return !1;
-                    if (!1 === st(t.isConfigOpen)) return !1;
-                    if (!1 === st(t.showAll)) return !1;
-                    if (!1 === st(t.sortByActive)) return !1;
-                    if (!1 === st(t.sortByActivePercent)) return !1;
-                    if (!1 === st(t.sortByConfirmed)) return !1;
-                    if (!1 === st(t.sortByConfirmedPercent)) return !1;
-                    if (!1 === st(t.sortByDeaths)) return !1;
-                    if (!1 === st(t.sortByDeathsPercent)) return !1;
-                    if (!1 === st(t.sortByRecoveries)) return !1;
-                    if (!1 === st(t.sortByRecoveriesPercent)) return !1;
-                    if (!1 === st(t.sortByPopulation)) return !1;
-                    if (!1 === st(t.sortByPopulationDensity)) return !1;
+                    if (!1 === pt(t.isConfigOpen)) return !1;
+                    if (!1 === pt(t.showAll)) return !1;
+                    if (!1 === pt(t.sortByActive)) return !1;
+                    if (!1 === pt(t.sortByActivePercent)) return !1;
+                    if (!1 === pt(t.sortByConfirmed)) return !1;
+                    if (!1 === pt(t.sortByConfirmedPercent)) return !1;
+                    if (!1 === pt(t.sortByDeaths)) return !1;
+                    if (!1 === pt(t.sortByDeathsPercent)) return !1;
+                    if (!1 === pt(t.sortByRecoveries)) return !1;
+                    if (!1 === pt(t.sortByRecoveriesPercent)) return !1;
+                    if (!1 === pt(t.sortByPopulation)) return !1;
+                    if (!1 === pt(t.sortByPopulationDensity)) return !1;
                     return !0;
                   })(t.tableState);
-                })(n)
-                ? (bt('Upgrade: Wiping old state'),
+                })(e)
+                ? (At('Upgrade: Wiping old state'),
                   window.localStorage.setItem('state', ''),
                   null)
-                : Object.assign(Object.assign({}, n), {
-                    dataPromise: Ft(),
-                    data: Ut.create(),
+                : Object.assign(Object.assign({}, e), {
+                    dataPromise: Zt(),
+                    data: Ht.create(),
                   })
               : null;
           } catch (t) {
             return (
-              bt('Failed to parse saved state, resetting localStorage'),
+              At('Failed to parse saved state, resetting localStorage'),
               window.localStorage.setItem('state', ''),
               null
             );
@@ -2323,7 +2566,7 @@
       }
       return null;
     }
-    const yn = [
+    const ge = [
       { label: 'Region', sort: 'sortByCountry' },
       { label: 'Active', sort: 'sortByActive' },
       { label: 'Active %', sort: 'sortByActivePercent' },
@@ -2337,18 +2580,18 @@
       { label: 'Population', sort: 'sortByPopulation' },
       { label: 'Population Density', sort: 'sortByPopulationDensity' },
     ];
-    class dn extends g {
+    class be extends g {
       constructor() {
         super(), (this.state = {});
       }
       formatNumber(t) {
         return t.toLocaleString();
       }
-      formatDecimal(t, n = 2) {
-        return t.toFixed(n);
+      formatDecimal(t, e = 2) {
+        return t.toFixed(e);
       }
-      formatPercent(t, n = 2) {
-        return this.formatDecimal(t, n) + '%';
+      formatPercent(t, e = 2) {
+        return this.formatDecimal(t, e) + '%';
       }
       clickHeader(t) {
         this.props.timeSeries[t.sort](this.props.state[t.sort]),
@@ -2387,7 +2630,7 @@
               )
           : this.props.onChange(
               Object.assign(Object.assign({}, this.props.state), {
-                columns: this.props.state.columns.filter(n => n !== t),
+                columns: this.props.state.columns.filter(e => e !== t),
               })
             );
       }
@@ -2395,10 +2638,10 @@
         const t =
             window.document.body.clientHeight *
             (this.props.state.isConfigOpen ? 0.6 : 0.82),
-          n = `width: ${100 / (this.props.state.columns.length || 1)}%;`;
+          e = `width: ${100 / (this.props.state.columns.length || 1)}%;`;
         return h(
           'section',
-          { className: `full-size ${ot}` },
+          { className: `full-size ${at}` },
           h(
             'section',
             {
@@ -2419,11 +2662,11 @@
                 h(
                   'tr',
                   null,
-                  yn.map((t, e) =>
-                    0 === e || this.props.state.columns.indexOf(e) > -1
+                  ge.map((t, n) =>
+                    0 === n || this.props.state.columns.indexOf(n) > -1
                       ? h(
                           'th',
-                          { style: n, onClick: () => this.clickHeader(t) },
+                          { style: e, onClick: () => this.clickHeader(t) },
                           t.label
                         )
                       : ''
@@ -2433,87 +2676,87 @@
               h(
                 'tbody',
                 { style: `overflow: auto; max-height: ${t}px;` },
-                this.props.timeSeries.map((t, e) => {
+                this.props.timeSeries.map((t, n) => {
                   if (t.counts().length < 1) return '';
                   if (
                     !1 === this.props.state.showAll &&
                     -1 === this.props.countryIndexes.indexOf(t.index())
                   )
                     return '';
-                  const o = t.country() + (t.state() ? ', ' + t.state() : ''),
-                    a = e % 2 == 0 ? 'row-even' : 'row-odd';
+                  const a = t.country() + (t.state() ? ', ' + t.state() : ''),
+                    o = n % 2 == 0 ? 'row-even' : 'row-odd';
                   return h(
                     'tr',
                     {
                       className:
                         this.props.countryIndexes.indexOf(t.index()) > -1
-                          ? 'row-highlight ' + a
-                          : a,
+                          ? 'row-highlight ' + o
+                          : o,
                       onClick: () => this.props.selectCountry(t.index()),
                     },
-                    h('td', { style: n }, o),
+                    h('td', { style: e }, a),
                     this.props.state.columns.indexOf(1) > -1
-                      ? h('td', { style: n }, this.formatNumber(t.lastActive()))
+                      ? h('td', { style: e }, this.formatNumber(t.lastActive()))
                       : '',
                     this.props.state.columns.indexOf(2) > -1
                       ? h(
                           'td',
-                          { style: n },
+                          { style: e },
                           this.formatDecimal(t.lastActivePercent(), 3)
                         )
                       : '',
                     this.props.state.columns.indexOf(3) > -1
                       ? h(
                           'td',
-                          { style: n },
+                          { style: e },
                           this.formatNumber(t.lastConfirmed())
                         )
                       : '',
                     this.props.state.columns.indexOf(4) > -1
                       ? h(
                           'td',
-                          { style: n },
+                          { style: e },
                           this.formatDecimal(t.lastConfirmedPercent(), 3)
                         )
                       : '',
                     this.props.state.columns.indexOf(5) > -1
-                      ? h('td', { style: n }, this.formatNumber(t.lastDeaths()))
+                      ? h('td', { style: e }, this.formatNumber(t.lastDeaths()))
                       : '',
                     this.props.state.columns.indexOf(6) > -1
                       ? h(
                           'td',
-                          { style: n },
+                          { style: e },
                           this.formatDecimal(t.lastDeathsPercent(), 4)
                         )
                       : '',
                     this.props.state.columns.indexOf(7) > -1
                       ? h(
                           'td',
-                          { style: n },
+                          { style: e },
                           this.formatNumber(t.lastRecoveries())
                         )
                       : '',
                     this.props.state.columns.indexOf(8) > -1
                       ? h(
                           'td',
-                          { style: n },
+                          { style: e },
                           this.formatDecimal(t.lastRecoveriesPercent(), 3)
                         )
                       : '',
                     this.props.state.columns.indexOf(9) > -1
                       ? h(
                           'td',
-                          { style: n },
+                          { style: e },
                           this.formatDecimal(t.lastMortality(), 2)
                         )
                       : '',
                     this.props.state.columns.indexOf(10) > -1
-                      ? h('td', { style: n }, this.formatNumber(t.population()))
+                      ? h('td', { style: e }, this.formatNumber(t.population()))
                       : '',
                     this.props.state.columns.indexOf(11) > -1
                       ? h(
                           'td',
-                          { style: n },
+                          { style: e },
                           this.formatNumber(
                             null === t.populationDensity()
                               ? 0
@@ -2531,26 +2774,26 @@
             null,
             h(
               'section',
-              { className: et },
-              h(kt, {
+              { className: nt },
+              h(Pt, {
                 labelTrue: '✗ Enlarge Table',
                 labelFalse: '⚙️ Configure Table',
                 onClick: this.toggleConfig.bind(this),
                 state: this.props.state.isConfigOpen,
               }),
-              h(Ot, { config: this.props.menu })
+              h(Bt, { config: this.props.menu })
             ),
             this.props.state.isConfigOpen
               ? h(
                   'section',
-                  { className: et },
-                  h(dt, {
-                    onChange: ct,
+                  { className: nt },
+                  h(gt, {
+                    onChange: ht,
                     onClick: t => this.onChangeColumns(t + 1),
-                    options: yn.map(t => t.label).slice(1),
+                    options: ge.map(t => t.label).slice(1),
                     selected: this.props.state.columns.map(t => t - 1),
                   }),
-                  h(yt, {
+                  h(mt, {
                     onChange: this.toggleShowAll.bind(this),
                     options: ['Show All', 'Only Selected'],
                     selected: this.props.state.showAll ? 0 : 1,
@@ -2561,7 +2804,7 @@
         );
       }
     }
-    function hn() {
+    function Se() {
       return h(
         'header',
         { class: 'small-text' },
@@ -2600,7 +2843,7 @@
         ')'
       );
     }
-    class fn extends g {
+    class Ce extends g {
       constructor() {
         super();
         const t = window.document.createElement('div');
@@ -2612,11 +2855,11 @@
       }
       componentDidUpdate() {
         JSC.Chart('chartMapDiv', {
+          debug: !0,
           type: 'map',
           defaultPoint: { tooltip: this.props.toolTip, z: 0 },
           palette: {
             pointValue: t => t.options('z'),
-            colors: this.props.colours,
             ranges: this.props.ranges,
           },
           series: this.props.series,
@@ -2626,86 +2869,169 @@
         return h('div', { className: 'full-size' });
       }
     }
-    class mn extends g {
+    class ve extends g {
       constructor() {
         super(),
           (this.state = {
             dataSet: 0,
             map: 'world',
             toolTip: '<b>%name<b/> <br/>Active Cases: %zValue',
-          });
+          }),
+          (this.getSeries = this.getCountrySeries);
       }
       componentDidMount() {
         this.setState(Object.assign({}, this.state));
       }
       countryFromClick(t) {
-        return (
-          (t &&
-            t.currentTarget &&
-            t.currentTarget.currentOptions &&
-            t.currentTarget.currentOptions.mapDataId &&
-            t.currentTarget.currentOptions.mapDataId.split('.')[1]) ||
-          null
-        );
+        return t &&
+          t.currentTarget &&
+          t.currentTarget.currentOptions &&
+          t.currentTarget.currentOptions.map &&
+          t.currentTarget.currentOptions.map.properties &&
+          t.currentTarget.currentOptions.map.properties.mapcode
+          ? t.currentTarget.currentOptions.map.properties.mapcode
+          : null;
       }
-      getSeries() {
+      continentFromClick(t) {
+        return t &&
+          t.currentTarget &&
+          t.currentTarget.currentOptions &&
+          t.currentTarget.currentOptions.map &&
+          t.currentTarget.currentOptions.map.properties &&
+          t.currentTarget.currentOptions.map.properties.continent
+          ? t.currentTarget.currentOptions.map.properties.continent
+          : null;
+      }
+      onMapClick(t) {
+        switch (this.countryFromClick(t).toLowerCase()) {
+          case 'au':
+            (this.getSeries = this.getStateSeries.bind(
+              this,
+              'Australia',
+              'AU'
+            )),
+              this.setState(
+                Object.assign(Object.assign({}, this.state), { map: 'au' })
+              );
+            break;
+          case 'ca':
+            (this.getSeries = this.getStateSeries.bind(this, 'Canada', 'CA')),
+              this.setState(
+                Object.assign(Object.assign({}, this.state), { map: 'ca' })
+              );
+            break;
+          case 'cn':
+            (this.getSeries = this.getStateSeries.bind(this, 'China', 'CN')),
+              this.setState(
+                Object.assign(Object.assign({}, this.state), { map: 'cn' })
+              );
+            break;
+          case 'us':
+            (this.getSeries = this.getStateSeries.bind(this, 'US', 'US')),
+              this.setState(
+                Object.assign(Object.assign({}, this.state), { map: 'us' })
+              );
+            break;
+          default:
+            this.tryContinent(t);
+        }
+      }
+      tryContinent(t) {
+        const e = this.continentFromClick(t);
+        if (!e) return;
+        let n = e;
+        ('North America' !== e && 'South America' !== e) || (n = 'Americas'),
+          (this.getSeries = this.getContinentSeries.bind(this, e)),
+          this.setState(
+            Object.assign(Object.assign({}, this.state), { map: n })
+          );
+      }
+      getCountrySeries() {
         let t = 0;
-        const n = [];
+        const e = [];
         return (
-          this.props.timeSeries.forEach(e => {
-            const o = jt[e.country()];
-            if (!o) return null;
-            if (e.state() && 'Total' !== e.state()) return null;
-            if (e.locale()) return null;
-            if (!e.population()) return null;
-            const a = (function(t, n) {
-              switch (t) {
-                case 0:
-                  return n.lastActive();
-                case 1:
-                  return n.lastConfirmed();
-                case 2:
-                  return n.lastDeaths();
-                case 3:
-                  return n.lastRecoveries();
-                default:
-                  return n.lastActive();
-              }
-            })(this.state.dataSet, e);
-            if (a < 1) return null;
-            a > t && (t = a), n.push({ map: 'WORLD.' + o.toLowerCase(), z: a });
+          this.props.timeSeries.forEach(n => {
+            const a = Ut[n.country()];
+            if (!a) return null;
+            if (n.state() && 'Total' !== n.state()) return null;
+            if (n.locale()) return null;
+            if (!n.population()) return null;
+            const o = _e(this.state.dataSet, n);
+            if (o < 1) return null;
+            o > t && (t = o), e.push({ map: 'WORLD.' + a.toLowerCase(), z: o });
           }),
           {
-            colours: gn(8),
-            ranges: { min: 0, max: t, interval: Math.floor(t / 8) },
+            ranges: Ne(this.state.dataSet),
             series: [
               {
-                defaultPoint_events_click: t => {
-                  switch (this.countryFromClick(t).toLowerCase()) {
-                    case 'ca':
-                      this.setState(
-                        Object.assign(Object.assign({}, this.state), {
-                          map: 'ca',
-                        })
-                      );
-                      break;
-                    case 'cn':
-                      this.setState(
-                        Object.assign(Object.assign({}, this.state), {
-                          map: 'cn',
-                        })
-                      );
-                      break;
-                    case 'us':
-                      this.setState(
-                        Object.assign(Object.assign({}, this.state), {
-                          map: 'us',
-                        })
-                      );
-                  }
-                },
+                defaultPoint_events_click: this.onMapClick.bind(this),
+                map: this.state.map,
+                points: e,
+              },
+            ],
+          }
+        );
+      }
+      getContinentSeries(t) {
+        let e = 0;
+        const n = [];
+        return (
+          this.props.timeSeries.forEach(a => {
+            const o = Lt[a.country()];
+            if (!o) return null;
+            if (
+              o !== t &&
+              !(o.indexOf('America') > -1 && t.indexOf('America') > -1)
+            )
+              return null;
+            if (a.state()) {
+              if ('Total' !== a.state()) return null;
+              if (a.locale()) return null;
+            }
+            const i = Ut[a.country()];
+            if (!i) return null;
+            const r = _e(this.state.dataSet, a);
+            if (r < 1) return null;
+            r > e && (e = r), n.push({ map: i.toLowerCase(), z: r });
+          }),
+          {
+            ranges: Ne(this.state.dataSet),
+            series: [
+              {
+                defaultPoint_events_click: this.onMapClick.bind(this),
                 map: this.state.map,
                 points: n,
+              },
+            ],
+          }
+        );
+      }
+      getStateSeries(t, e) {
+        let n = 0;
+        const a = [];
+        return (
+          this.props.timeSeries.forEach(o => {
+            if (o.country() !== t) return null;
+            if ('Total' === o.state()) return null;
+            if (o.locale()) return null;
+            let i = zt[t];
+            if (!i) {
+              if ('US' !== e) return null;
+              i = Gt;
+            }
+            let r = i[o.state()];
+            if (!r) return null;
+            const s = _e(this.state.dataSet, o);
+            if (s < 1) return null;
+            s > n && (n = s), a.push({ map: e + '.' + r.toLowerCase(), z: s });
+          }),
+          {
+            ranges: Ne(this.state.dataSet),
+            series: [
+              {
+                defaultPoint_events_click: this.onMapClick.bind(this),
+                map: this.state.map,
+                points: a,
               },
             ],
           }
@@ -2715,31 +3041,27 @@
         this.setState(
           Object.assign(Object.assign({}, this.state), {
             dataSet: t,
-            toolTip: bn(t),
+            toolTip: Ae(t),
           })
         );
       }
       zoomOut() {
-        'world' !== this.state.map &&
-          this.setState(
-            Object.assign(Object.assign({}, this.state), { map: 'world' })
-          );
+        (this.getSeries = this.getCountrySeries),
+          'world' !== this.state.map &&
+            this.setState(
+              Object.assign(Object.assign({}, this.state), { map: 'world' })
+            );
       }
       render() {
-        const { colours: t, ranges: n, series: e } = this.getSeries();
+        const { ranges: t, series: e } = this.getSeries();
         return h(
           'section',
-          { onClick: this.zoomOut.bind(this), className: `full-size ${ot}` },
-          h(fn, {
-            colours: t,
-            ranges: n,
-            series: e,
-            toolTip: this.state.toolTip,
-          }),
+          { onClick: this.zoomOut.bind(this), className: `full-size ${at}` },
+          h(Ce, { ranges: t, series: e, toolTip: this.state.toolTip }),
           h(
             'section',
-            { className: et },
-            h(yt, {
+            { className: nt },
+            h(mt, {
               onChange: this.onChangeDataSet.bind(this),
               options: [
                 'Active Cases',
@@ -2749,20 +3071,12 @@
               ],
               selected: this.state.dataSet,
             }),
-            h(Ot, { config: this.props.menu })
+            h(Bt, { config: this.props.menu })
           )
         );
       }
     }
-    function gn(t) {
-      t < 0 && (t *= -1);
-      const n = Math.floor(255 / t),
-        e = [];
-      for (let o = 255; o >= t; o -= n)
-        e.push('#' + (255).toString(16) + o.toString(16) + o.toString(16));
-      return e;
-    }
-    function bn(t) {
+    function Ae(t) {
       switch (t) {
         case 0:
           return '<b>%name<b/> <br/>Active Cases: %zValue';
@@ -2776,18 +3090,46 @@
           return '<b>%name<b/> <br/>Active Cases: %zValue';
       }
     }
-    class Sn extends g {
+    function _e(t, e) {
+      switch (t) {
+        case 0:
+          return e.lastActive();
+        case 1:
+          return e.lastConfirmed();
+        case 2:
+          return e.lastDeaths();
+        case 3:
+          return e.lastRecoveries();
+        default:
+          return e.lastActive();
+      }
+    }
+    function Ne(t) {
+      switch (t) {
+        case 0:
+          return st;
+        case 1:
+          return ut;
+        case 2:
+          return lt;
+        case 3:
+          return ct;
+        default:
+          return st;
+      }
+    }
+    class Oe extends g {
       constructor() {
         super();
-        let t = pn();
+        let t = me();
         t ||
-          (bt('No existing state'),
+          (At('No existing state'),
           (t = {
             countries: [],
             currentSeries: [],
-            data: Ut.create(),
-            dataPromise: Ft(),
-            countryIndexes: cn,
+            data: Ht.create(),
+            dataPromise: Zt(),
+            countryIndexes: fe,
             routePath: '/',
             lineGraphState: {
               dataSetIndexes: [0],
@@ -2817,26 +3159,26 @@
           })),
           (this.state = t),
           this.selectAndUpdate();
-        const n = ['/', '/table', '/geography'];
+        const e = ['/', '/table', '/geography'];
         this.menu = {
           labels: ['Chart', 'Table', 'Geography'],
           onClick: t => {
-            const e = n[t] || n[0];
+            const n = e[t] || e[0];
             this.setState(
-              Object.assign(Object.assign({}, this.state), { routePath: e })
+              Object.assign(Object.assign({}, this.state), { routePath: n })
             ),
               (this.menu.selected = t),
-              W(e),
+              J(n),
               this.selectAndUpdate();
           },
-          selected: n.indexOf(this.state.routePath),
+          selected: e.indexOf(this.state.routePath),
         };
       }
-      updateSelectState({ countries: t, series: n }) {
+      updateSelectState({ countries: t, series: e }) {
         this.setState(
           Object.assign(Object.assign({}, this.state), {
             countries: t,
-            currentSeries: n,
+            currentSeries: e,
           })
         );
       }
@@ -2847,7 +3189,7 @@
               this.setState(
                 Object.assign(Object.assign({}, this.state), { data: t })
               ),
-              an(this.props.cache, this.state)
+              ce(this.props.cache, this.state)
             )
           )
           .then(this.updateSelectState.bind(this))
@@ -2886,22 +3228,21 @@
         this.props.reset(),
           this.setState(
             Object.assign(Object.assign({}, this.state), {
-              dataPromise: Ft().then(t => (this.selectAndUpdate(), t)),
+              dataPromise: Zt().then(t => (this.selectAndUpdate(), t)),
             })
           );
       }
       clearCountries() {
-        console.log('clear countries'),
-          this.setState(
-            Object.assign(Object.assign({}, this.state), { countryIndexes: [] })
-          ),
+        this.setState(
+          Object.assign(Object.assign({}, this.state), { countryIndexes: [] })
+        ),
           this.selectAndUpdate();
       }
       selectCountry(t) {
         this.state.countryIndexes.indexOf(t) > -1
           ? this.setState(
               Object.assign(Object.assign({}, this.state), {
-                countryIndexes: this.state.countryIndexes.filter(n => n !== t),
+                countryIndexes: this.state.countryIndexes.filter(e => e !== t),
               })
             )
           : this.setState(
@@ -2914,12 +3255,12 @@
       render() {
         return h(
           'div',
-          { className: `full-size ${ot}` },
-          h(hn, null),
+          { className: `full-size ${at}` },
+          h(Se, null),
           h(
             tt,
             null,
-            h(wt, {
+            h(Tt, {
               path: '/',
               clearCountries: this.clearCountries.bind(this),
               countries: this.state.countries,
@@ -2932,7 +3273,7 @@
               selectCountry: this.selectCountry.bind(this),
               state: this.state.lineGraphState,
             }),
-            h(dn, {
+            h(be, {
               countryIndexes: this.state.countryIndexes,
               key: '1',
               onChange: this.tableState.bind(this),
@@ -2942,7 +3283,7 @@
               selectCountry: this.selectCountry.bind(this),
               timeSeries: this.state.data,
             }),
-            h(mn, {
+            h(ve, {
               key: '2',
               path: '/geography',
               menu: this.menu,
@@ -2958,8 +3299,8 @@
         throw new Error('Could not bootstrap the application');
       window.document.body.appendChild(t),
         (function(t) {
-          let n = {};
-          B(h(Sn, { cache: n, reset: () => (n = {}) }), t);
+          let e = {};
+          D(h(Oe, { cache: e, reset: () => (e = {}) }), t);
         })(t);
     })();
   },
