@@ -47,6 +47,7 @@ export class App extends Component<
         });
         this.menu.selected = selected;
         route(routePath);
+        this.selectAndUpdate();
       },
       selected: routePaths.indexOf(this.state.routePath),
     };
@@ -160,7 +161,12 @@ export class App extends Component<
             selectCountry={this.selectCountry.bind(this)}
             timeSeries={this.state.data}
           ></LearningTable>
-          <Geography key="2" path={'/geography'} menu={this.menu}></Geography>
+          <Geography
+            key="2"
+            path={'/geography'}
+            menu={this.menu}
+            timeSeries={this.state.data}
+          ></Geography>
         </Router>
       </div>
     );

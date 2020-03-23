@@ -4,7 +4,15 @@ declare const JSC: any;
 import { Component, h } from 'preact';
 import { fullSize } from '../constants';
 
-export class ChartMap extends Component<{}, { chartDiv: HTMLDivElement }> {
+export class ChartMap extends Component<
+  {
+    colours: string[];
+    ranges: { min: number; max: number; interval: number };
+    series: any;
+    toolTip: string;
+  },
+  { chartDiv: HTMLDivElement }
+> {
   constructor() {
     super();
 
@@ -22,7 +30,16 @@ export class ChartMap extends Component<{}, { chartDiv: HTMLDivElement }> {
   componentDidUpdate() {
     JSC.Chart('chartMapDiv', {
       type: 'map',
-      series: [{ map: 'world' }],
+      defaultPoint: {
+        tooltip: this.props.toolTip,
+        z: 0,
+      },
+      palette: {
+        pointValue: p => p.options('z'),
+        colors: this.props.colours,
+        ranges: this.props.ranges,
+      },
+      series: this.props.series,
     });
   }
 
