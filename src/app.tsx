@@ -1,4 +1,4 @@
-import Router from 'preact-router';
+import Router, { route } from 'preact-router';
 import { Component, h, render as preactRender } from 'preact';
 import { LineGraph } from './feature-line-graph/line-graph';
 import { createState, loadState, saveState } from './state';
@@ -7,6 +7,7 @@ import {
   ChartSeries,
   SelectOptionsWithIndex,
   LineGraphState,
+  MenuProp,
   TableState,
 } from './interfaces';
 import { selectData, fetchData } from './data';
@@ -15,11 +16,14 @@ import { Dictionary } from '@ch1/utility';
 import { LearningTable } from './feature-learning-table/learning-table';
 import { Header } from './components/header';
 import { fullSize, flexCol } from './constants';
+import { Geography } from './feature-geography/geography';
 
 export class App extends Component<
   { cache: Dictionary<ChartSeries>; reset: () => any },
   AppState
 > {
+  menu: MenuProp;
+
   constructor() {
     super();
 
@@ -30,6 +34,22 @@ export class App extends Component<
     }
     this.state = state;
     this.selectAndUpdate();
+
+    const routePaths = ['/', '/table', '/geography'];
+
+    this.menu = {
+      labels: ['Chart', 'Table', 'Geography'],
+      onClick: (selected: number) => {
+        const routePath = routePaths[selected] || routePaths[0];
+        this.setState({
+          ...this.state,
+          routePath,
+        });
+        this.menu.selected = selected;
+        route(routePath);
+      },
+      selected: routePaths.indexOf(this.state.routePath),
+    };
   }
 
   updateSelectState({
@@ -123,6 +143,7 @@ export class App extends Component<
             countries={this.state.countries}
             countryIndexes={this.state.countryIndexes}
             currentSeries={this.state.currentSeries}
+            menu={this.menu}
             onChange={this.lineGraphState.bind(this)}
             key="0"
             reload={this.reload.bind(this)}
@@ -133,11 +154,13 @@ export class App extends Component<
             countryIndexes={this.state.countryIndexes}
             key="1"
             onChange={this.tableState.bind(this)}
+            menu={this.menu}
             path={'/table'}
             state={this.state.tableState}
             selectCountry={this.selectCountry.bind(this)}
             timeSeries={this.state.data}
           ></LearningTable>
+          <Geography key="2" path={'/geography'} menu={this.menu}></Geography>
         </Router>
       </div>
     );

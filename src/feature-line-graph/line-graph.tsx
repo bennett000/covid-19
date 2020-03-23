@@ -1,21 +1,22 @@
-import { route } from 'preact-router';
 import { Component, h } from 'preact';
 import {
   LineGraphState,
   ChartSeries,
   SelectOptionsWithIndex,
+  MenuProp,
 } from '../interfaces';
 import { Chart } from '../components/chart';
 import { flexCol, fullSize, flexItem60, flexItem95, flex } from '../constants';
 import { LineGraphControls } from '../components/line-graph-controls';
 import { ButtonToggle } from '../components/button-toggle';
-import { Button } from '../components/button';
+import { Menu } from '../components/menu';
 
 export class LineGraph extends Component<{
   clearCountries: () => any;
   countries: SelectOptionsWithIndex[];
   countryIndexes: number[];
   currentSeries: ChartSeries[];
+  menu: MenuProp;
   onChange: (lgs: LineGraphState) => any;
   reload: () => any;
   selectCountry: (country: number) => any;
@@ -77,11 +78,7 @@ export class LineGraph extends Component<{
             onClick={this.toggleConfig.bind(this)}
             state={this.props.state.isConfigOpen}
           />
-          <Button
-            classes={classes}
-            label="Table"
-            onClick={() => route('/table')}
-          ></Button>
+          <Menu config={this.props.menu}></Menu>
         </section>
         {this.props.state.isConfigOpen ? (
           <LineGraphControls
