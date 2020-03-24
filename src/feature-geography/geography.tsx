@@ -127,13 +127,14 @@ export class Geography extends Component<
           map: 'cn',
         });
         break;
-      case 'us':
-        this.getSeries = this.getStateSeries.bind(this, 'US', 'US');
-        this.setState({
-          ...this.state,
-          map: 'us',
-        });
-        break;
+      // us state data is gone in the updated data set
+      // case 'us':
+      //   this.getSeries = this.getStateSeries.bind(this, 'US', 'US');
+      //   this.setState({
+      //     ...this.state,
+      //     map: 'us',
+      //   });
+      //   break;
       default:
         this.tryContinent(e);
         break;
