@@ -3,8 +3,8 @@ import {
   LocationSeries,
   TimeSeriesType,
   ITimeSeriesArray,
+  TimeSeriesCount,
 } from './interfaces';
-import { Dictionary } from '@ch1/utility';
 
 export class TimeSeries implements ITimeSeries {
   static create(locationSeries: LocationSeries) {
@@ -34,9 +34,6 @@ export class TimeSeries implements ITimeSeries {
     );
   }
 
-  index() {
-    return this.data.index;
-  }
   lastActive() {
     return this.lastValue('active');
   }
@@ -189,4 +186,14 @@ export class TimeSeriesArray extends Array implements ITimeSeriesArray {
   sortByRecoveriesPercent(asc = true) {
     this.sortByProp('lastRecoveriesPercent', asc);
   }
+}
+
+export function createTimeSeriesCount(): TimeSeriesCount {
+  return {
+    active: 0,
+    confirmed: 0,
+    deaths: 0,
+    recoveries: 0,
+    projectionReverseDeath: 0,
+  };
 }

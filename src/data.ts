@@ -8,27 +8,33 @@ import {
   ITimeSeries,
   TimeSeriesType,
   ITimeSeriesArray,
+  LocationSeries,
 } from './interfaces';
 import {
   reverseDeathProjectionDefaults,
-  totalString,
   worldString,
-  usaString,
   projectionPalette,
   basePalette,
 } from './constants';
 import rawPopulationData from 'country-json/src/country-by-population.json';
 import rawPopulationDensityData from 'country-json/src/country-by-population-density.json';
-import { Dictionary, objReduce } from '@ch1/utility';
+import { Dictionary, objReduce, objEach } from '@ch1/utility';
 import {
   mapJhuCountryToPop,
   manuallySourcePop,
-  usStates,
   usStateCodeByName,
   manuallySourceStatePop,
+  countriesToCodes,
+  statesToCodes,
 } from './data-maps';
 import { log } from './utility';
-import { TimeSeries, TimeSeriesArray } from './time-series';
+import {
+  TimeSeries,
+  TimeSeriesArray,
+  createTimeSeriesCount,
+} from './time-series';
+
+const recoveryDays = 25;
 
 const populationDictionary: {
   [key: string]: number;
@@ -48,22 +54,84 @@ const urls = [
   // updated from previous deprecated files (https://github.com/CSSEGISandData/COVID-19/commit/203881b83c3820521f5af7cafb0d15367e415652)
   'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv',
   'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv',
-  'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Recovered.csv',
+  'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_recovered_global.csv',
 ];
 
 export function fetchData(): Promise<{
   countries: SelectOptionsWithIndex[];
   timeSeries: ITimeSeriesArray;
 }> {
-  return Promise.all(urls.map(url => fetch(url)))
-    .then(unwrapResponses)
-    .then(convertAllCsvToStructured)
-    .then(sumAllRegions)
-    .then(generateActiveCases)
-    .then(generateReverseDeathProjection)
-    .then(mergeDataSets)
-    .then(alphabetize)
-    .then(extractCountries);
+  return (
+    Promise.all(urls.map(url => fetch(url)))
+      .then(unwrapResponses)
+      .then(convertAllCsvToStructured)
+      .then(convertToCountryDictionary)
+      // .then(sumAllRegions)
+      .then(() => null as any)
+  );
+  // .then(generateActiveCases)
+  // .then(generateReverseDeathProjection)
+  // .then(mergeDataSets)
+  // .then(alphabetize)
+  // .then(extractCountries);
+}
+
+export function convertToCountryDictionary(
+  dataSets: JhuSet[]
+): Dictionary<LocationSeries> {
+  const dict: Dictionary<LocationSeries> = {};
+  const createOnEach = (prop: TimeSeriesType) => c => {
+    let code = countriesToCodes[c.country];
+    if (!code) {
+      log('country not found', c.country);
+      return;
+    }
+    if (c.state) {
+      const states = statesToCodes[c.country];
+      if (!states) {
+        log('state set not found', c.country + ',', c.state);
+        return;
+      }
+      const stateCode = states[c.state];
+      if (!stateCode) {
+        log('state not found', c.coutry + ',', c.state);
+        return;
+      }
+      code = code + '.' + stateCode;
+    }
+    if (c.locale) {
+      code = code + '.' + c.locale;
+    }
+    if (dict[code]) {
+      c.timeSeries.map((value, i) => {
+        if (dict[code].counts[i] === undefined) {
+          log('Unexpected length:', prop);
+          dict[code].counts[i] = createTimeSeriesCount();
+        }
+        dict[code].counts[i][prop] = value;
+      });
+    } else {
+      dict[code] = {
+        country: c.country,
+        counts: c.timeSeries.map(value => {
+          const tsc = createTimeSeriesCount();
+          tsc[prop] = value;
+          return tsc;
+        }),
+        dates: dataSets[0][0],
+        locale: c.locale,
+        population: c.population,
+        populationDensity: c.populationDensity,
+        state: c.state,
+      };
+    }
+  };
+
+  dataSets[0][1].forEach(createOnEach('confirmed'));
+  dataSets[1][1].forEach(createOnEach('deaths'));
+  dataSets[2][1].forEach(createOnEach('recoveries'));
+
+  return dict;
 }
 
 function getPopulation(
@@ -247,99 +315,6 @@ function convertAllCsvToStructured(strings: string[]) {
   return strings.map(convertStringArrayToStructured);
 }
 
-export function sumRegion(dictionary: Dictionary<number[]>) {
-  return (ts: JhuTimeSeries) => {
-    const addTimeSeries = (key: string) => {
-      const currentTs =
-        dictionary[key] || new Array(ts.timeSeries.length).fill(0);
-      ts.timeSeries.forEach((cell, i) => {
-        currentTs[i] += cell;
-      });
-      dictionary[key] = currentTs;
-    };
-
-    addTimeSeries(worldString);
-
-    if (ts.state && !ts.locale) {
-      if (ts.country === usaString) {
-        addTimeSeries(`${ts.country}.${ts.state}`);
-        addTimeSeries(ts.country);
-      } else {
-        addTimeSeries(ts.country);
-      }
-    }
-
-    if (ts.locale) {
-      if (ts.country === usaString) {
-        const stateName = usStates[ts.state];
-        if (stateName) {
-          addTimeSeries(`${ts.country}.${stateName}`);
-          addTimeSeries(ts.country);
-        } else {
-          log('US state ', ts.state, `(${ts.locale}) not found in map`);
-        }
-      } else {
-        log('Non US locale', ts.country, ts.state, ts.locale);
-      }
-    }
-  };
-}
-
-export function sumDataSetRegions(
-  timeSeries: JhuTimeSeries[]
-): JhuTimeSeries[] {
-  const dictionary: Dictionary<number[]> = {};
-  timeSeries.forEach(sumRegion(dictionary));
-
-  return totalsDictionaryToTimeSeries(dictionary, timeSeries);
-}
-
-export function totalsDictionaryToTimeSeries(
-  dictionary: Dictionary<number[]>,
-  timeSeries: JhuTimeSeries[]
-) {
-  return objReduce(
-    dictionary,
-    (s: JhuTimeSeries[], totalSeries, key) => {
-      const parts = key.split('.').filter(Boolean);
-      if (parts.length < 1) {
-        return s;
-      }
-      s.push({
-        country: parts[0],
-        locale: '',
-        population: getPopulation(parts[0], parts[1]),
-        populationDensity: getPopulationDensity(parts[0], parts[1]),
-        state: parts[1] || totalString,
-        timeSeries: totalSeries,
-      });
-      return s;
-    },
-    []
-  ).concat(
-    timeSeries.filter(el => {
-      if (el.country === usaString) {
-        if (el.state || el.locale) {
-          return false;
-        }
-      }
-      return true;
-    })
-  );
-}
-
-export function sumAllRegions(dataSets: JhuSet[]): JhuSet[] {
-  return dataSets.map(ds => {
-    const [header, dataSet] = ds;
-    return [header, sumDataSetRegions(dataSet)];
-  });
-}
-
-function alphabetize(timeSeries: ITimeSeriesArray): ITimeSeriesArray {
-  timeSeries.sortByCountry();
-  return timeSeries;
-}
-
 export function generateActiveCases(dataSets: JhuSet[]): JhuSet[] {
   const activeSet: JhuSet[] = [
     [
@@ -410,7 +385,7 @@ export function mergeDataSets(dataSets: JhuSet[]): ITimeSeriesArray {
     its.push(
       TimeSeries.create({
         country: row.country,
-        index: rowIndex,
+        // index: rowIndex,
         dates,
         locale: row.locale,
         population: row.population,
@@ -439,7 +414,7 @@ function extractCountries(timeSeries: ITimeSeriesArray) {
         return countryArr;
       }
       const name = row.countryName();
-      countryArr.push({ index: row.index(), name });
+      // countryArr.push({ index: row.index(), name });
       return countryArr;
     }, [])
     .filter(Boolean);
@@ -470,9 +445,9 @@ export function selectData(cache: Dictionary<ChartSeries>, state: AppState) {
     return {
       countries,
       series: timeSeries.reduce((cs: ChartSeries[], ts) => {
-        if (state.countryIndexes.indexOf(ts.index()) > -1) {
-          return selectDataByMode(cache, state, cs, ts, selectedIndex++);
-        }
+        // if (state.countryIndexes.indexOf(ts.index()) > -1) {
+        //   return selectDataByMode(cache, state, cs, ts, selectedIndex++);
+        // }
         return cs;
       }, []),
     };

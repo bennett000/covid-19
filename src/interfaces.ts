@@ -93,7 +93,6 @@ export interface TimeSeriesCount {
 export interface LocationSeries extends Location {
   counts: TimeSeriesCount[];
   dates: Date[];
-  index: number;
 }
 export interface ITimeSeries {
   lastActive(): number;
@@ -110,7 +109,6 @@ export interface ITimeSeries {
   countryName(): string;
   counts(): TimeSeriesCount[];
   dates(): Date[];
-  index(): number;
   locale(): string;
   population(): number;
   populationDensity(): null | number;
