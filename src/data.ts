@@ -16,6 +16,7 @@ import {
   projectionPalette,
   basePalette,
   totalString,
+  worldString,
 } from './constants';
 import rawPopulationData from 'country-json/src/country-by-population.json';
 import rawPopulationDensityData from 'country-json/src/country-by-population-density.json';
@@ -70,6 +71,7 @@ export function fetchData(): Promise<{
     .then(manuallyAdjust)
     .then(interpolateRecoveriesAndActiveCases)
     .then(sumAllRegions)
+    .then(sumWorld)
     .then(toITimeSeries)
     .then(extractCountries);
 }
@@ -116,7 +118,7 @@ export function convertToCountryDictionary(
     if (c.state) {
       const states = statesToCodes[c.country];
       if (!states) {
-        log('state set not found', c.country + ',', c.state);
+        // don't bother logging these
         return;
       }
       stateCode = states[c.state];
@@ -235,6 +237,43 @@ export function addCounts(a: TimeSeriesCount, b: TimeSeriesCount) {
     recoveries: a.recoveries + b.recoveries,
     projectionReverseDeath: a.projectionReverseDeath + b.projectionReverseDeath,
   };
+}
+
+export function sumWorld(
+  dict: Dictionary<LocationSeries>
+): Dictionary<LocationSeries> {
+  const world = {
+    country: worldString,
+    countryCode: worldString,
+    dates: [],
+    key: worldString,
+    locale: '',
+    population: 0,
+    populationDensity: 0,
+    state: '',
+    stateCode: '',
+    counts: [],
+  };
+  objEach(dict, location => {
+    if (location.locale) {
+      return;
+    }
+    if (location.state && location.state !== totalString) {
+      return;
+    }
+    world.population += location.population;
+    location.counts.forEach((count, i) => {
+      if (world.counts[i]) {
+        world.counts[i] = addCounts(world.counts[i], count);
+      } else {
+        world.counts[i] = {
+          ...count,
+        };
+      }
+    });
+  });
+  dict[worldString] = world;
+  return dict;
 }
 
 export function sumAllRegions(
@@ -662,17 +701,4 @@ function getY(byMetric: number, value: number, population: number): number {
       return 0;
     }
   }
-}
-
-function worldPopulation(): number {
-  return objReduce(
-    populationDictionary,
-    (total, next) => {
-      if (next !== next) {
-        return total;
-      }
-      return total + next;
-    },
-    0
-  );
 }
