@@ -8,14 +8,14 @@ export function SelectMultiple({
   options,
   selected,
 }: {
-  onChange: (selected: number[]) => any;
-  onClick?: (value: number) => any;
+  onChange: (selected: any[]) => any;
+  onClick?: (value: number | string) => any;
   options: SelectOptions;
-  selected: number[];
+  selected: any[];
 }) {
   const change = e => onChange(selectedOptionsToArray(e.target.options));
   onClick = onClick || (noop as any);
-  const optClick = (e: any) => onClick(parseInt(e.target.value, 10));
+  const optClick = (e: any) => onClick(e.target.value);
   return (
     <select onChange={change} multiple={true}>
       {options.map((option, index) => {
@@ -66,7 +66,7 @@ function selectedOptionsToArray(options) {
   for (let i = 0; i < options.length; i += 1) {
     const opt = options[i];
     if (opt.selected) {
-      results.push(parseInt(opt.value, 10));
+      results.push(opt.value);
     }
   }
   return results;

@@ -1,6 +1,6 @@
 export type SelectOptions = (SelectOptionsWithIndex | string)[];
 export interface SelectOptionsWithIndex {
-  index: number;
+  index: number | string;
   name: string;
 }
 
@@ -35,7 +35,7 @@ export interface AppState {
   currentSeries: ChartSeries[];
   data: ITimeSeriesArray;
   dataPromise: Promise<JhuIntegratedData>;
-  countryIndexes: number[];
+  countryKeys: string[];
   lineGraphState: LineGraphState;
   tableState: TableState;
   routePath: string;
@@ -91,8 +91,11 @@ export interface TimeSeriesCount {
 }
 
 export interface LocationSeries extends Location {
+  countryCode: string;
   counts: TimeSeriesCount[];
   dates: Date[];
+  key: string;
+  stateCode: string;
 }
 export interface ITimeSeries {
   lastActive(): number;
@@ -106,13 +109,16 @@ export interface ITimeSeries {
   lastMortality(): number;
 
   country(): string;
+  countryCode(): string;
   countryName(): string;
   counts(): TimeSeriesCount[];
   dates(): Date[];
+  key(): string;
   locale(): string;
   population(): number;
   populationDensity(): null | number;
   state(): string;
+  stateCode(): string;
 
   // peakActive(): number;
   // peakConfirmed(): number;

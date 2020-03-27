@@ -38,12 +38,12 @@ export function LineGraphControls({
 }: {
   clearCountries: () => any;
   countries: SelectOptionsWithIndex[];
-  countryIndexes: number[];
+  countryKeys: string[];
   currentSeries: ChartSeries[];
   onChange: (lgs: LineGraphState) => any;
   onUpdateCountryFilter: (filter: string) => any;
   reload: () => any;
-  selectCountry: (country: number) => any;
+  selectCountry: (country: string) => any;
   state: LineGraphState;
 }) {
   function selectMode(mode: number) {
@@ -60,31 +60,31 @@ export function LineGraphControls({
     });
   }
 
-  function selectDataSets(dataSetIndexes: number[]) {
+  function selectDataSets(dataSetIndexes: any[]) {
     onChange({
       ...state,
-      dataSetIndexes,
+      dataSetIndexes: dataSetIndexes.map(d => parseInt(d + '', 10)),
     });
   }
 
-  function selectScaleType(scaleType: number) {
+  function selectScaleType(scaleType: number | string) {
     onChange({
       ...state,
-      scaleType,
+      scaleType: parseInt(scaleType + '', 10),
     });
   }
 
-  function selectShowStates(showOrHide: number) {
+  function selectShowStates(showOrHide: number | string) {
     onChange({
       ...state,
-      showStates: showOrHide === 0 ? false : true,
+      showStates: parseInt(showOrHide + '', 10) === 0 ? false : true,
     });
   }
 
-  function selectMetric(metric: number) {
+  function selectMetric(metric: number | string) {
     onChange({
       ...state,
-      byMetric: metric,
+      byMetric: parseInt(metric + '', 10),
     });
   }
 
@@ -105,14 +105,14 @@ export function LineGraphControls({
         selected={state.dataSetIndexes}
       />
       <SelectMultipleFilter
-        classes={this.props.countryIndexes.length === 0 ? [highlight] : []}
+        classes={this.props.countryKeys.length === 0 ? [highlight] : []}
         filter={this.props.state.countryFilter}
         onUpdateFilter={this.props.onUpdateCountryFilter}
         onChange={noop as any}
         onClear={this.props.clearCountries}
         onDeselect={this.props.selectCountry}
         options={countries.filter(filterStates(this.props.state.showStates))}
-        selected={this.props.countryIndexes}
+        selected={this.props.countryKeys}
       />
       <div className={flexCol}>
         <Select

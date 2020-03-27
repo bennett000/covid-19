@@ -74,8 +74,14 @@ export class TimeSeries implements ITimeSeries {
   country() {
     return this.data.country;
   }
+  countryCode() {
+    return this.data.countryCode;
+  }
   countryName() {
     return this.data.country + (this.data.state ? ', ' + this.data.state : '');
+  }
+  key() {
+    return this.data.key;
   }
   locale() {
     return this.data.locale;
@@ -88,6 +94,9 @@ export class TimeSeries implements ITimeSeries {
   }
   state() {
     return this.data.state;
+  }
+  stateCode() {
+    return this.data.stateCode;
   }
 }
 

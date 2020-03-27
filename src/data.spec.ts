@@ -4,10 +4,13 @@ import {
   csvRowStringToJhuTimeSeriesHeadaer,
   stateToLocaleState,
   convertRowToTimeSeries,
-  generateActiveCases,
+  getRecoveryDays,
+  interpolateRecoveriesAndActiveCases,
+  sumAllRegions,
 } from './data';
 import { worldString, totalString } from './constants';
 import { JhuTimeSeriesHeader, JhuTimeSeries } from './interfaces';
+import { statesToCodes } from './data-maps';
 
 describe('data functions', () => {
   describe('stateToLocaleState', () => {
@@ -104,59 +107,6 @@ describe('data functions', () => {
         state: 'ON',
         timeSeries: [35, 40],
       });
-    });
-  });
-
-  describe('generateActiveCases', () => {
-    it('creates a new dataset based on confirmed - deaths - recoveries', () => {
-      const header: JhuTimeSeriesHeader = [];
-      const confirmed: JhuTimeSeries[] = [
-        {
-          country: 'foo',
-          locale: 'baz',
-          population: 0,
-          populationDensity: 0,
-          state: 'bar',
-          timeSeries: [10, 30, 20],
-        },
-      ];
-      const deaths: JhuTimeSeries[] = [
-        {
-          country: 'foo',
-          locale: 'baz',
-          population: 0,
-          populationDensity: 0,
-          state: 'bar',
-          timeSeries: [3, 5, 9],
-        },
-      ];
-      const recoveries: JhuTimeSeries[] = [
-        {
-          country: 'foo',
-          locale: 'baz',
-          population: 0,
-          populationDensity: 0,
-          state: 'bar',
-          timeSeries: [1, 3, 5],
-        },
-      ];
-      const active: JhuTimeSeries[] = [
-        {
-          country: 'foo',
-          locale: 'baz',
-          population: 0,
-          populationDensity: 0,
-          state: 'bar',
-          timeSeries: [6, 22, 6],
-        },
-      ];
-      expect(
-        generateActiveCases([
-          [header, confirmed],
-          [header, deaths],
-          [header, recoveries],
-        ])[0][1]
-      ).toEqual(active);
     });
   });
 
@@ -557,6 +507,334 @@ describe('data functions', () => {
 
       expect(dict['CA.ON.foo']).toBeTruthy();
       expect(dict['CN.bar']).toBeTruthy();
+    });
+  });
+
+  describe('getRecoveryDays', () => {
+    it('returns the days if they are non zero', () => {
+      const data = [
+        {
+          active: 0,
+          confirmed: 5,
+          deaths: 0,
+          projectionReverseDeath: 0,
+          recoveries: 3,
+        },
+      ];
+      expect(getRecoveryDays(data[data.length - 1], 0, data, 25)).toBe(3);
+    });
+
+    it("returns the delta of rdays ago and rdays ago - 1's confirmed cases", () => {
+      const data = [
+        {
+          active: 0,
+          confirmed: 2,
+          deaths: 0,
+          projectionReverseDeath: 0,
+          recoveries: 0,
+        },
+        {
+          active: 0,
+          confirmed: 5,
+          deaths: 0,
+          projectionReverseDeath: 0,
+          recoveries: 0,
+        },
+        null,
+        null,
+        null,
+        null,
+        null,
+        {
+          active: 0,
+          confirmed: 5,
+          deaths: 0,
+          projectionReverseDeath: 0,
+          recoveries: 0,
+        },
+      ];
+      expect(
+        getRecoveryDays(data[data.length - 1], data.length - 1, data, 6)
+      ).toBe(3);
+    });
+
+    it(
+      "returns the delta of rdays ago and rdays ago - 1's confirmed cases " +
+        "and adds the day before's recoveries if they exist",
+      () => {
+        const data = [
+          {
+            active: 0,
+            confirmed: 2,
+            deaths: 0,
+            projectionReverseDeath: 0,
+            recoveries: 0,
+          },
+          {
+            active: 0,
+            confirmed: 5,
+            deaths: 0,
+            projectionReverseDeath: 0,
+            recoveries: 0,
+          },
+          null,
+          null,
+          null,
+          null,
+          {
+            active: 0,
+            confirmed: 5,
+            deaths: 0,
+            projectionReverseDeath: 0,
+            recoveries: 22,
+          },
+          {
+            active: 0,
+            confirmed: 5,
+            deaths: 0,
+            projectionReverseDeath: 0,
+            recoveries: 0,
+          },
+        ];
+        expect(
+          getRecoveryDays(data[data.length - 1], data.length - 1, data, 6)
+        ).toBe(25);
+      }
+    );
+
+    it("returns 0 if rdays ago - 1's does not exist", () => {
+      const data = [
+        {
+          active: 0,
+          confirmed: 5,
+          deaths: 0,
+          projectionReverseDeath: 0,
+          recoveries: 0,
+        },
+        null,
+        null,
+        null,
+        null,
+        null,
+        {
+          active: 0,
+          confirmed: 5,
+          deaths: 0,
+          projectionReverseDeath: 0,
+          recoveries: 0,
+        },
+      ];
+      expect(
+        getRecoveryDays(data[data.length - 1], data.length - 1, data, 6)
+      ).toBe(0);
+    });
+
+    it('returns 0 if rdays ago does not exist', () => {
+      const data = [
+        null,
+        null,
+        null,
+        null,
+        null,
+        {
+          active: 0,
+          confirmed: 5,
+          deaths: 0,
+          projectionReverseDeath: 0,
+          recoveries: 0,
+        },
+      ];
+      expect(
+        getRecoveryDays(data[data.length - 1], data.length - 1, data, 6)
+      ).toBe(0);
+    });
+
+    it('returns 0 if there are no confirmed cases', () => {
+      const data = [
+        {
+          active: 0,
+          confirmed: 0,
+          deaths: 0,
+          projectionReverseDeath: 0,
+          recoveries: 0,
+        },
+      ];
+      expect(
+        getRecoveryDays(data[data.length - 1], data.length - 1, data, 6)
+      ).toBe(0);
+    });
+  });
+
+  describe('interpolateRecoveriesAndActiveCases', () => {
+    it('adds active cases `confirmed` - `deaths` - `recoveries` = `active`', () => {
+      const complete = interpolateRecoveriesAndActiveCases({
+        CA: {
+          country: 'Canada',
+          countryCode: 'CA',
+          dates: [],
+          key: 'CA',
+          locale: '',
+          population: 0,
+          populationDensity: 0,
+          state: '',
+          stateCode: '',
+          counts: [
+            {
+              active: 0,
+              confirmed: 5,
+              deaths: 2,
+              recoveries: 0,
+              projectionReverseDeath: 0,
+            },
+          ],
+        },
+        US: {
+          country: 'US',
+          countryCode: 'US',
+          dates: [],
+          key: 'US',
+          locale: '',
+          population: 0,
+          populationDensity: 0,
+          state: '',
+          stateCode: 'US',
+          counts: [
+            {
+              active: 0,
+              confirmed: 50,
+              deaths: 20,
+              recoveries: 30,
+              projectionReverseDeath: 0,
+            },
+          ],
+        },
+      });
+      expect(complete.CA.counts[0].active).toBe(3);
+      expect(complete.US.counts[0].active).toBe(0);
+    });
+  });
+
+  describe('sumAllRegions', () => {
+    it('ignores regions with locales', () => {
+      const inputDict = {
+        CA: {
+          country: 'Canada',
+          countryCode: 'CA',
+          dates: [],
+          key: 'CA',
+          locale: 'foo',
+          population: 0,
+          populationDensity: 0,
+          state: 'Ontario',
+          stateCode: 'ON',
+          counts: [
+            {
+              active: 5,
+              confirmed: 10,
+              deaths: 3,
+              recoveries: 2,
+              projectionReverseDeath: 20,
+            },
+          ],
+        },
+      };
+      const outputDict = sumAllRegions(inputDict);
+      expect(outputDict).toEqual(inputDict);
+    });
+
+    it('ignores regions that have a total case', () => {
+      const inputDict = {
+        'CA.ON': {
+          country: 'Canada',
+          countryCode: 'CA',
+          dates: [],
+          key: 'CA.ON',
+          locale: '',
+          population: 0,
+          populationDensity: 0,
+          state: 'Ontario',
+          stateCode: 'ON',
+          counts: [
+            {
+              active: 5,
+              confirmed: 10,
+              deaths: 3,
+              recoveries: 2,
+              projectionReverseDeath: 20,
+            },
+          ],
+        },
+        CA: {
+          country: 'Canada',
+          countryCode: 'CA',
+          dates: [],
+          key: 'CA',
+          locale: '',
+          population: 0,
+          populationDensity: 0,
+          state: '',
+          stateCode: '',
+          counts: [
+            {
+              active: 5,
+              confirmed: 10,
+              deaths: 3,
+              recoveries: 2,
+              projectionReverseDeath: 20,
+            },
+          ],
+        },
+      };
+      const outputDict = sumAllRegions(inputDict);
+      expect(outputDict).toEqual(inputDict);
+      expect(outputDict.CA.counts[0].confirmed).toBe(10);
+    });
+
+    it('augments regions that have in progress sums', () => {
+      const inputDict = {
+        'CA.ON': {
+          country: 'Canada',
+          countryCode: 'CA',
+          dates: [],
+          key: 'CA.ON',
+          locale: '',
+          population: 0,
+          populationDensity: 0,
+          state: 'Ontario',
+          stateCode: 'ON',
+          counts: [
+            {
+              active: 5,
+              confirmed: 10,
+              deaths: 3,
+              recoveries: 2,
+              projectionReverseDeath: 20,
+            },
+          ],
+        },
+        ['CA.' + totalString]: {
+          country: 'Canada',
+          countryCode: 'CA',
+          dates: [],
+          key: 'CA.' + totalString,
+          locale: '',
+          population: 0,
+          populationDensity: 0,
+          state: totalString,
+          stateCode: '',
+          counts: [
+            {
+              active: 5,
+              confirmed: 10,
+              deaths: 3,
+              recoveries: 2,
+              projectionReverseDeath: 20,
+            },
+          ],
+        },
+      };
+      const outputDict = sumAllRegions(inputDict);
+      expect(outputDict['CA.' + totalString].counts[0].confirmed).toBe(20);
     });
   });
 });

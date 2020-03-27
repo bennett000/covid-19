@@ -7,11 +7,11 @@ export function Select({
   options,
   selected,
 }: {
-  onChange: (selected: number) => any;
+  onChange: (selected: number | string) => any;
   options: SelectOptions;
-  selected: number;
+  selected: number | string;
 }) {
-  const change = e => onChange(parseInt(e.target.value, 10));
+  const change = e => onChange(e.target.value);
   return (
     <select onChange={change}>
       {options.map((option, index) => {

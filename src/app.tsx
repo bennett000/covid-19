@@ -110,23 +110,21 @@ export class App extends Component<
   clearCountries() {
     this.setState({
       ...this.state,
-      countryIndexes: [],
+      countryKeys: [],
     });
     this.selectAndUpdate();
   }
 
-  selectCountry(countryIndex: number) {
-    if (this.state.countryIndexes.indexOf(countryIndex) > -1) {
+  selectCountry(countryKey: string) {
+    if (this.state.countryKeys.indexOf(countryKey) > -1) {
       this.setState({
         ...this.state,
-        countryIndexes: this.state.countryIndexes.filter(
-          i => i !== countryIndex
-        ),
+        countryKeys: this.state.countryKeys.filter(i => i !== countryKey),
       });
     } else {
       this.setState({
         ...this.state,
-        countryIndexes: this.state.countryIndexes.concat([countryIndex]),
+        countryKeys: this.state.countryKeys.concat([countryKey]),
       });
     }
     this.selectAndUpdate();
@@ -141,7 +139,7 @@ export class App extends Component<
             path={'/'}
             clearCountries={this.clearCountries.bind(this)}
             countries={this.state.countries}
-            countryIndexes={this.state.countryIndexes}
+            countryKeys={this.state.countryKeys}
             currentSeries={this.state.currentSeries}
             menu={this.menu}
             onChange={this.lineGraphState.bind(this)}
@@ -151,7 +149,7 @@ export class App extends Component<
             state={this.state.lineGraphState}
           ></LineGraph>
           <LearningTable
-            countryIndexes={this.state.countryIndexes}
+            countryKeys={this.state.countryKeys}
             key="1"
             onChange={this.tableState.bind(this)}
             menu={this.menu}

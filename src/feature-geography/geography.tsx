@@ -19,7 +19,6 @@ import {
   countriesToContinents,
 } from '../data-maps';
 import { Select } from '../components/select';
-import { totalsDictionaryToTimeSeries } from '../data';
 
 export class Geography extends Component<
   {
@@ -312,11 +311,12 @@ export class Geography extends Component<
     };
   }
 
-  onChangeDataSet(index: number) {
+  onChangeDataSet(index: number | string) {
+    const int = parseInt(index + '', 10);
     this.setState({
       ...this.state,
-      dataSet: index,
-      toolTip: getToolTip(index),
+      dataSet: int,
+      toolTip: getToolTip(int),
     });
   }
 
