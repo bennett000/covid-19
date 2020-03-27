@@ -467,9 +467,21 @@ function extractCountries({
       return arr;
     },
     []
-  );
+  ).sort(sortByProp('name'));
 
   return { countries, dictionary, timeSeries };
+}
+
+function sortByProp(prop: string) {
+  return (a: any, b: any) => {
+    if (a[prop] < b[prop]) {
+      return -1;
+    }
+    if (a[prop] > b[prop]) {
+      return 1;
+    }
+    return 0;
+  };
 }
 
 function getChartTypeFromIndex(index: number) {
