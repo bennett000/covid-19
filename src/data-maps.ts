@@ -28,15 +28,19 @@ export const manuallySourcePop = Object.freeze({
   'Cabo Verde': 546388, // march 22 2020
   'Congo (Brazzaville)': 1800000,
   'Congo (Kinshasa)': 81340000, // march 22 2020
-  'Cruise Ship': 700,
+  'Cruise Ship': 3711,
+  'Diamond Princess': 3711,
   Fiji: 905502, // march 22 2020
   'Gambia, The': 2101000, // march 22 2020
   Guernsey: 67052,
   Jersey: 97857,
   Kosovo: 1831000,
+  Libya: 6375000,
   Montenegro: 613219,
   Serbia: 7022000,
   'Taiwan*': 23780000,
+  'Timor-Leste': 1296000,
+  'West Bank and Gaza': 4685000,
 });
 
 export const manuallySourceStatePop = Object.freeze({
@@ -207,14 +211,18 @@ export const countriesToCodes = Object.freeze({
   Angola: 'AO',
   Anguilla: 'AI',
   Antarctica: 'AQ',
+  'Antigua and Barbuda': 'AG',
   Argentina: 'AR',
   Armenia: 'AM',
   Aruba: 'AW',
   Australia: 'AU',
   Austria: 'AT',
   Azerbaijan: 'AZ',
+  Bahamas: 'BS',
   'Bahamas, The': 'BS',
   Bangladesh: 'BD',
+  Bahrain: 'BH',
+  Barbados: 'BB',
   Belarus: 'BY',
   Belgium: 'BE',
   Belize: 'BZ',
@@ -231,6 +239,7 @@ export const countriesToCodes = Object.freeze({
   Bulgaria: 'BG',
   'Burkina Faso': 'BF',
   Burundi: 'BI',
+  'Cabo Verde': 'CV',
   Cambodia: 'KH',
   Cameroon: 'CM',
   Canada: 'CA',
@@ -244,7 +253,9 @@ export const countriesToCodes = Object.freeze({
   Colombia: 'CO',
   Comoros: 'KM',
   Congo: 'CG',
+  'Congo (Brazzaville)': 'CG',
   'Congo, The Democratic Republic of the': 'CD',
+  'Congo (Kinshasa)': 'CD',
   'Cook Islands': 'CK',
   'Costa Rica': 'CR',
   "Cote d'Ivoire": 'CI',
@@ -254,6 +265,7 @@ export const countriesToCodes = Object.freeze({
   Czechia: 'CZ',
   Denmark: 'DK',
   Djibouti: 'DJ',
+  Dominica: 'DM',
   'Dominican Republic': 'DO',
   Ecuador: 'EC',
   Egypt: 'EG',
@@ -261,6 +273,7 @@ export const countriesToCodes = Object.freeze({
   'Equatorial Guinea': 'GQ',
   Eritrea: 'ER',
   Estonia: 'EE',
+  Eswatini: 'SZ',
   Ethiopia: 'ET',
   'Falkland Islands (Malvinas)': 'FK',
   'Faroe Islands': 'FO',
@@ -270,6 +283,7 @@ export const countriesToCodes = Object.freeze({
   'French Guiana': 'GF',
   'French Polynesia': 'PF',
   'French Southern Territories': 'TF',
+  Gambia: 'GM',
   Gabon: 'GA',
   'The, Gambia': 'GM',
   Georgia: 'GE',
@@ -278,6 +292,7 @@ export const countriesToCodes = Object.freeze({
   Gibraltar: 'GI',
   Greece: 'GR',
   Greenland: 'GL',
+  Grenada: 'GD',
   Guam: 'GU',
   Guatemala: 'GT',
   Guernsey: 'GG',
@@ -305,18 +320,21 @@ export const countriesToCodes = Object.freeze({
   Jordan: 'JO',
   Kazakhstan: 'KZ',
   Kenya: 'KE',
+  Kosovo: 'XK',
   Kiribati: 'KI',
   "Korea, Democratic People'S Republic of": 'KP',
   'Korea, South': 'KR',
   Kuwait: 'KW',
   Kyrgyzstan: 'KG',
   "Lao People'S Democratic Republic": 'LA',
+  Laos: 'LA',
   Latvia: 'LV',
   Lebanon: 'LB',
   Lesotho: 'LS',
   Liberia: 'LR',
   'Libyan Arab Jamahiriya': 'LY',
   Liechtenstein: 'LI',
+  Libya: 'LY',
   Lithuania: 'LT',
   Luxembourg: 'LU',
   Macao: 'MO',
@@ -324,14 +342,18 @@ export const countriesToCodes = Object.freeze({
   Madagascar: 'MG',
   Malawi: 'MW',
   Malaysia: 'MY',
+  Maldives: 'MV',
   Mali: 'ML',
+  Malta: 'MT',
   'Marshall Islands': 'MH',
   Mauritania: 'MR',
+  Mauritius: 'MU',
   Mexico: 'MX',
   'Micronesia, Federated States of': 'FM',
   Moldova: 'MD',
   Monaco: 'MC',
   Mongolia: 'MN',
+  Montenegro: 'ME',
   Montserrat: 'MS',
   Morocco: 'MA',
   Mozambique: 'MZ',
@@ -349,6 +371,7 @@ export const countriesToCodes = Object.freeze({
   Niue: 'NU',
   'Norfolk Island': 'NF',
   'Northern Mariana Islands': 'MP',
+  'North Macedonia': 'MK',
   Norway: 'NO',
   Oman: 'OM',
   Pakistan: 'PK',
@@ -369,13 +392,17 @@ export const countriesToCodes = Object.freeze({
   Rwanda: 'RW',
   'Saint Helena': 'SH',
   'Saint Kitts and Nevis': 'KN',
+  'Saint Lucia': 'LC',
   'Saint Pierre and Miquelon': 'PM',
   Samoa: 'WS',
   'San Marino': 'SM',
   'Sao Tome and Principe': 'ST',
   'Saudi Arabia': 'SA',
   Senegal: 'SN',
+  Serbia: 'RS',
+  Seychelles: 'SC',
   'Sierra Leone': 'SL',
+  Singapore: 'SG',
   Slovakia: 'SK',
   Slovenia: 'SI',
   'Solomon Islands': 'SB',
@@ -384,6 +411,7 @@ export const countriesToCodes = Object.freeze({
   'South Georgia and the South Sandwich Islands': 'GS',
   Spain: 'ES',
   'Sri Lanka': 'LK',
+  'Saint Vincent and the Grenadines': 'VC',
   Sudan: 'SD',
   Suriname: 'SR',
   'Svalbard and Jan Mayen': 'SJ',
@@ -423,6 +451,7 @@ export const countriesToCodes = Object.freeze({
   Yemen: 'YE',
   Zambia: 'ZM',
   Zimbabwe: 'ZW',
+  'West Bank and Gaza': 'PO',
 });
 
 export const statesToCodes = Object.freeze({
@@ -494,6 +523,7 @@ export const statesToCodes = Object.freeze({
     CA: 'California',
     CO: 'Colorado',
     CT: 'Connecticut',
+    DC: 'District of Columbia',
     DE: 'Delaware',
     'D.C.': 'District of Columbia',
     FM: 'Federated States Of Micronesia',
@@ -704,3 +734,22 @@ export const usStateCodeByName = Object.freeze(
     }, {});
   })()
 );
+
+export const excludeFromMap = {
+  '': true,
+  AG: true, // but it exists in the docs
+  BB: true, // but it exists in the docs
+  BH: true, // but it exists in the docs
+  CV: true, // but it exists in the docs
+  DM: true, // but it exists in the docs
+  GD: true, // but it exists in the docs
+  KN: true,
+  LC: true, // but it exists in the docs
+  MT: true, // but it exists in the docs
+  MU: true,
+  MV: true,
+  TL: 'TP',
+  SC: true,
+  SG: true, // but it exists in the docs
+  VC: true,
+};

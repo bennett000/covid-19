@@ -23,7 +23,7 @@ const dataSets = [
   'Confirmed',
   'Deaths',
   'Recoveries*',
-  'Projection: By Reverse Death',
+  'Estimated Active Cases',
 ];
 const modes = ['By date', 'By first confirmed', 'By first 100 confirmed'];
 const scaleTypes = ['Linear', 'Logarithmic'];
@@ -46,10 +46,10 @@ export function LineGraphControls({
   selectCountry: (country: string) => any;
   state: LineGraphState;
 }) {
-  function selectMode(mode: number) {
+  function selectMode(mode: number | string) {
     onChange({
       ...state,
-      mode,
+      mode: parseInt(mode + '', 10),
     });
   }
 

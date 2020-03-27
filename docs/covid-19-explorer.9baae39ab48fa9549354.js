@@ -74,11 +74,11 @@
       l = {},
       c = [],
       p = /acit|ex(?:s|g|n|p|$)|rph|grid|ows|mnc|ntw|ine[ch]|zoo|^ord/i;
-    function y(t, e) {
+    function d(t, e) {
       for (var n in e) t[n] = e[n];
       return t;
     }
-    function d(t) {
+    function y(t) {
       var e = t.parentNode;
       e && e.removeChild(t);
     }
@@ -135,12 +135,12 @@
         return S(t);
       }
     }
-    function v(t) {
+    function C(t) {
       ((!t.__d && (t.__d = !0) && o.push(t) && !i++) ||
         s !== a.debounceRendering) &&
-        ((s = a.debounceRendering) || r)(C);
+        ((s = a.debounceRendering) || r)(v);
     }
-    function C() {
+    function v() {
       for (var t; (i = o.length); )
         (t = o.sort(function(t, e) {
           return t.__v.__b - e.__v.__b;
@@ -152,10 +152,10 @@
               ((i = (o = (e = t).__v).__e),
               (r = e.__P) &&
                 ((n = []),
-                (a = M(
+                (a = O(
                   r,
                   o,
-                  y({}, o),
+                  d({}, o),
                   e.__n,
                   void 0 !== r.ownerSVGElement,
                   null,
@@ -168,40 +168,40 @@
     }
     function A(t, e, n, a, o, i, r, s, u) {
       var p,
-        y,
+        d,
         h,
         f,
         m,
         g,
         S,
-        v = (n && n.__k) || c,
-        C = v.length;
+        C = (n && n.__k) || c,
+        v = C.length;
       if (
-        (s == l && (s = null != i ? i[0] : C ? b(n, 0) : null),
+        (s == l && (s = null != i ? i[0] : v ? b(n, 0) : null),
         (p = 0),
         (e.__k = _(e.__k, function(n) {
           if (null != n) {
             if (
               ((n.__ = e),
               (n.__b = e.__b + 1),
-              null === (h = v[p]) || (h && n.key == h.key && n.type === h.type))
+              null === (h = C[p]) || (h && n.key == h.key && n.type === h.type))
             )
-              v[p] = void 0;
+              C[p] = void 0;
             else
-              for (y = 0; y < C; y++) {
-                if ((h = v[y]) && n.key == h.key && n.type === h.type) {
-                  v[y] = void 0;
+              for (d = 0; d < v; d++) {
+                if ((h = C[d]) && n.key == h.key && n.type === h.type) {
+                  C[d] = void 0;
                   break;
                 }
                 h = null;
               }
             if (
-              ((f = M(t, n, (h = h || l), a, o, i, r, s, u)),
-              (y = n.ref) &&
-                h.ref != y &&
+              ((f = O(t, n, (h = h || l), a, o, i, r, s, u)),
+              (d = n.ref) &&
+                h.ref != d &&
                 (S || (S = []),
                 h.ref && S.push(h.ref, null, n),
-                S.push(y, n.__c || f, n)),
+                S.push(d, n.__c || f, n)),
               null != f)
             ) {
               var c;
@@ -211,7 +211,7 @@
                 t: if (null == s || s.parentNode !== t)
                   t.appendChild(f), (c = null);
                 else {
-                  for (m = s, y = 0; (m = m.nextSibling) && y < C; y += 2)
+                  for (m = s, d = 0; (m = m.nextSibling) && d < v; d += 2)
                     if (m == f) break t;
                   t.insertBefore(f, s), (c = s);
                 }
@@ -226,9 +226,9 @@
         (e.__e = g),
         null != i && 'function' != typeof e.type)
       )
-        for (p = i.length; p--; ) null != i[p] && d(i[p]);
-      for (p = C; p--; ) null != v[p] && T(v[p], v[p]);
-      if (S) for (p = 0; p < S.length; p++) P(S[p], S[++p], S[++p]);
+        for (p = i.length; p--; ) null != i[p] && y(i[p]);
+      for (p = v; p--; ) null != C[p] && T(C[p], C[p]);
+      if (S) for (p = 0; p < S.length; p++) B(S[p], S[++p], S[++p]);
     }
     function _(t, e, n) {
       if ((null == n && (n = []), null == t || 'boolean' == typeof t))
@@ -249,7 +249,7 @@
         );
       return n;
     }
-    function k(t, e, n) {
+    function M(t, e, n) {
       '-' === e[0]
         ? t.setProperty(e, n)
         : (t[e] =
@@ -259,7 +259,7 @@
               ? ''
               : n);
     }
-    function N(t, e, n, a, o) {
+    function k(t, e, n, a, o) {
       var i, r, s, u, l;
       if (
         (o
@@ -271,8 +271,8 @@
         if (((i = t.style), 'string' == typeof n)) i.cssText = n;
         else {
           if (('string' == typeof a && ((i.cssText = ''), (a = null)), a))
-            for (r in a) (n && r in n) || k(i, r, '');
-          if (n) for (s in n) (a && n[s] === a[s]) || k(i, s, n[s]);
+            for (r in a) (n && r in n) || M(i, r, '');
+          if (n) for (s in n) (a && n[s] === a[s]) || M(i, s, n[s]);
         }
       else
         'o' === e[0] && 'n' === e[1]
@@ -280,8 +280,8 @@
             (l = e.toLowerCase()),
             (e = (l in t ? l : e).slice(2)),
             n
-              ? (a || t.addEventListener(e, O, u), ((t.l || (t.l = {}))[e] = n))
-              : t.removeEventListener(e, O, u))
+              ? (a || t.addEventListener(e, N, u), ((t.l || (t.l = {}))[e] = n))
+              : t.removeEventListener(e, N, u))
           : 'list' !== e &&
             'tagName' !== e &&
             'form' !== e &&
@@ -307,67 +307,67 @@
               ? t.removeAttribute(e)
               : t.setAttribute(e, n));
     }
-    function O(t) {
+    function N(t) {
       this.l[t.type](a.event ? a.event(t) : t);
     }
-    function M(t, e, n, o, i, r, s, u, l) {
+    function O(t, e, n, o, i, r, s, u, l) {
       var c,
         p,
-        d,
+        y,
         h,
         f,
         b,
         S,
-        v,
         C,
+        v,
         _,
-        k = e.type;
+        M = e.type;
       if (void 0 !== e.constructor) return null;
       (c = a.__b) && c(e);
       try {
-        t: if ('function' == typeof k) {
+        t: if ('function' == typeof M) {
           if (
-            ((v = e.props),
-            (C = (c = k.contextType) && o[c.__c]),
-            (_ = c ? (C ? C.props.value : c.__) : o),
+            ((C = e.props),
+            (v = (c = M.contextType) && o[c.__c]),
+            (_ = c ? (v ? v.props.value : c.__) : o),
             n.__c
               ? (S = (p = e.__c = n.__c).__ = p.__E)
-              : ('prototype' in k && k.prototype.render
-                  ? (e.__c = p = new k(v, _))
-                  : ((e.__c = p = new g(v, _)),
-                    (p.constructor = k),
-                    (p.render = B)),
-                C && C.sub(p),
-                (p.props = v),
+              : ('prototype' in M && M.prototype.render
+                  ? (e.__c = p = new M(C, _))
+                  : ((e.__c = p = new g(C, _)),
+                    (p.constructor = M),
+                    (p.render = P)),
+                v && v.sub(p),
+                (p.props = C),
                 p.state || (p.state = {}),
                 (p.context = _),
                 (p.__n = o),
-                (d = p.__d = !0),
+                (y = p.__d = !0),
                 (p.__h = [])),
             null == p.__s && (p.__s = p.state),
-            null != k.getDerivedStateFromProps &&
-              (p.__s == p.state && (p.__s = y({}, p.__s)),
-              y(p.__s, k.getDerivedStateFromProps(v, p.__s))),
+            null != M.getDerivedStateFromProps &&
+              (p.__s == p.state && (p.__s = d({}, p.__s)),
+              d(p.__s, M.getDerivedStateFromProps(C, p.__s))),
             (h = p.props),
             (f = p.state),
-            d)
+            y)
           )
-            null == k.getDerivedStateFromProps &&
+            null == M.getDerivedStateFromProps &&
               null != p.componentWillMount &&
               p.componentWillMount(),
               null != p.componentDidMount && p.__h.push(p.componentDidMount);
           else {
             if (
-              (null == k.getDerivedStateFromProps &&
-                v !== h &&
+              (null == M.getDerivedStateFromProps &&
+                C !== h &&
                 null != p.componentWillReceiveProps &&
-                p.componentWillReceiveProps(v, _),
+                p.componentWillReceiveProps(C, _),
               !p.__e &&
                 null != p.shouldComponentUpdate &&
-                !1 === p.shouldComponentUpdate(v, p.__s, _))
+                !1 === p.shouldComponentUpdate(C, p.__s, _))
             ) {
               for (
-                p.props = v,
+                p.props = C,
                   p.state = p.__s,
                   p.__d = !1,
                   p.__v = e,
@@ -381,14 +381,14 @@
                 e.__k[c] && (e.__k[c].__ = e);
               break t;
             }
-            null != p.componentWillUpdate && p.componentWillUpdate(v, p.__s, _),
+            null != p.componentWillUpdate && p.componentWillUpdate(C, p.__s, _),
               null != p.componentDidUpdate &&
                 p.__h.push(function() {
                   p.componentDidUpdate(h, f, b);
                 });
           }
           (p.context = _),
-            (p.props = v),
+            (p.props = C),
             (p.state = p.__s),
             (c = a.__r) && c(e),
             (p.__d = !1),
@@ -401,8 +401,8 @@
                 : Array.isArray(c)
                 ? c
                 : [c]),
-            null != p.getChildContext && (o = y(y({}, o), p.getChildContext())),
-            d ||
+            null != p.getChildContext && (o = d(d({}, o), p.getChildContext())),
+            y ||
               null == p.getSnapshotBeforeUpdate ||
               (b = p.getSnapshotBeforeUpdate(h, f)),
             A(t, e, n, o, i, r, s, u, l),
@@ -434,8 +434,8 @@
     function I(t, e, n, a, o, i, r, s) {
       var u,
         p,
-        y,
         d,
+        y,
         h,
         f = n.props,
         m = e.props;
@@ -460,29 +460,29 @@
       else if (e !== n) {
         if (
           (null != i && (i = c.slice.call(t.childNodes)),
-          (y = (f = n.props || l).dangerouslySetInnerHTML),
-          (d = m.dangerouslySetInnerHTML),
+          (d = (f = n.props || l).dangerouslySetInnerHTML),
+          (y = m.dangerouslySetInnerHTML),
           !s)
         ) {
           if (f === l)
             for (f = {}, h = 0; h < t.attributes.length; h++)
               f[t.attributes[h].name] = t.attributes[h].value;
-          (d || y) &&
-            ((d && y && d.__html == y.__html) ||
-              (t.innerHTML = (d && d.__html) || ''));
+          (y || d) &&
+            ((y && d && y.__html == d.__html) ||
+              (t.innerHTML = (y && y.__html) || ''));
         }
         (function(t, e, n, a, o) {
           var i;
-          for (i in n) i in e || N(t, i, null, n[i], a);
+          for (i in n) i in e || k(t, i, null, n[i], a);
           for (i in e)
             (o && 'function' != typeof e[i]) ||
               'value' === i ||
               'checked' === i ||
               n[i] === e[i] ||
-              N(t, i, e[i], n[i], a);
+              k(t, i, e[i], n[i], a);
         })(t, m, f, o, s),
           (e.__k = e.props.children),
-          d || A(t, e, n, a, 'foreignObject' !== e.type && o, i, r, l, s),
+          y || A(t, e, n, a, 'foreignObject' !== e.type && o, i, r, l, s),
           s ||
             ('value' in m &&
               void 0 !== m.value &&
@@ -495,7 +495,7 @@
       }
       return t;
     }
-    function P(t, e, n) {
+    function B(t, e, n) {
       try {
         'function' == typeof t ? t(e) : (t.current = e);
       } catch (t) {
@@ -506,7 +506,7 @@
       var o, i, r;
       if (
         (a.unmount && a.unmount(t),
-        (o = t.ref) && ((o.current && o.current !== t.__e) || P(o, null, e)),
+        (o = t.ref) && ((o.current && o.current !== t.__e) || B(o, null, e)),
         n || 'function' == typeof t.type || (n = null != (i = t.__e)),
         (t.__e = t.__d = void 0),
         null != (o = t.__c))
@@ -520,9 +520,9 @@
         o.base = o.__P = null;
       }
       if ((o = t.__k)) for (r = 0; r < o.length; r++) o[r] && T(o[r], e, n);
-      null != i && d(i);
+      null != i && y(i);
     }
-    function B(t, e, n) {
+    function P(t, e, n) {
       return this.constructor(t, n);
     }
     function D(t, e, n) {
@@ -531,7 +531,7 @@
         (i = (o = n === u) ? null : (n && n.__k) || e.__k),
         (t = h(m, null, [t])),
         (r = []),
-        M(
+        O(
           e,
           ((o ? e : n || e).__k = t),
           i || l,
@@ -558,7 +558,7 @@
                   ((a = !0), n.componentDidCatch(t)),
                 a)
               )
-                return v((n.__E = n));
+                return C((n.__E = n));
             } catch (e) {
               t = e;
             }
@@ -568,13 +568,13 @@
       (g.prototype.setState = function(t, e) {
         var n;
         (n =
-          this.__s !== this.state ? this.__s : (this.__s = y({}, this.state))),
+          this.__s !== this.state ? this.__s : (this.__s = d({}, this.state))),
           'function' == typeof t && (t = t(n, this.props)),
-          t && y(n, t),
-          null != t && this.__v && (e && this.__h.push(e), v(this));
+          t && d(n, t),
+          null != t && this.__v && (e && this.__h.push(e), C(this));
       }),
       (g.prototype.forceUpdate = function(t) {
-        this.__v && ((this.__e = !0), t && this.__h.push(t), v(this));
+        this.__v && ((this.__e = !0), t && this.__h.push(t), C(this));
       }),
       (g.prototype.render = m),
       (o = []),
@@ -584,12 +584,12 @@
           ? Promise.prototype.then.bind(Promise.resolve())
           : setTimeout),
       (u = l);
-    var E = {};
-    function j(t, e) {
+    var G = {};
+    function E(t, e) {
       for (var n in e) t[n] = e[n];
       return t;
     }
-    function x(t, e, n) {
+    function j(t, e, n) {
       var a,
         o = /(?:\?([^#]*))?(#.*)?$/,
         i = t.match(o),
@@ -604,17 +604,17 @@
       (t = R(t.replace(o, ''))), (e = R(e || ''));
       for (var c = Math.max(t.length, e.length), p = 0; p < c; p++)
         if (e[p] && ':' === e[p].charAt(0)) {
-          var y = e[p].replace(/(^:|[+*?]+$)/g, ''),
-            d = (e[p].match(/[+*?]+$/) || E)[0] || '',
-            h = ~d.indexOf('+'),
-            f = ~d.indexOf('*'),
+          var d = e[p].replace(/(^:|[+*?]+$)/g, ''),
+            y = (e[p].match(/[+*?]+$/) || G)[0] || '',
+            h = ~y.indexOf('+'),
+            f = ~y.indexOf('*'),
             m = t[p] || '';
-          if (!m && !f && (d.indexOf('?') < 0 || h)) {
+          if (!m && !f && (y.indexOf('?') < 0 || h)) {
             a = !1;
             break;
           }
-          if (((r[y] = decodeURIComponent(m)), h || f)) {
-            r[y] = t
+          if (((r[d] = decodeURIComponent(m)), h || f)) {
+            r[d] = t
               .slice(p)
               .map(decodeURIComponent)
               .join('/');
@@ -626,7 +626,7 @@
         }
       return (!0 === n.default || !1 !== a) && r;
     }
-    function G(t, e) {
+    function x(t, e) {
       return t.rank < e.rank ? 1 : t.rank > e.rank ? -1 : t.index - e.index;
     }
     function F(t, e) {
@@ -637,7 +637,7 @@
             ? 0
             : ((e = t.props.path),
               R(e)
-                .map(z)
+                .map(L)
                 .join(''));
           var e;
         })(t)),
@@ -647,31 +647,31 @@
     function R(t) {
       return t.replace(/(^\/+|\/+$)/g, '').split('/');
     }
-    function z(t) {
+    function L(t) {
       return ':' == t.charAt(0)
         ? 1 + '*+?'.indexOf(t.charAt(t.length - 1)) || 4
         : 5;
     }
-    var U = null,
+    var z = null,
       K = [],
-      L = [],
+      U = [],
       H = {};
     function V() {
       var t;
       return (
         '' +
         ((t =
-          U && U.location
-            ? U.location
-            : U && U.getCurrentLocation
-            ? U.getCurrentLocation()
+          z && z.location
+            ? z.location
+            : z && z.getCurrentLocation
+            ? z.getCurrentLocation()
             : 'undefined' != typeof location
             ? location
             : H).pathname || '') +
         (t.search || '')
       );
     }
-    function J(t, e) {
+    function W(t, e) {
       return (
         void 0 === e && (e = !1),
         'string' != typeof t && t.url && ((e = t.replace), (t = t.url)),
@@ -681,26 +681,26 @@
         })(t) &&
           (function(t, e) {
             void 0 === e && (e = 'push'),
-              U && U[e]
-                ? U[e](t)
+              z && z[e]
+                ? z[e](t)
                 : 'undefined' != typeof history &&
                   history[e + 'State'] &&
                   history[e + 'State'](null, null, t);
           })(t, e ? 'replace' : 'push'),
-        W(t)
+        J(t)
       );
     }
-    function W(t) {
+    function J(t) {
       for (var e = !1, n = 0; n < K.length; n++)
         !0 === K[n].routeTo(t) && (e = !0);
-      for (var a = L.length; a--; ) L[a](t);
+      for (var a = U.length; a--; ) U[a](t);
       return e;
     }
     function Z(t) {
       if (t && t.getAttribute) {
         var e = t.getAttribute('href'),
           n = t.getAttribute('target');
-        if (e && e.match(/^\//g) && (!n || n.match(/^_?self$/i))) return J(e);
+        if (e && e.match(/^\//g) && (!n || n.match(/^_?self$/i))) return W(e);
       }
     }
     function Y(t) {
@@ -736,13 +736,13 @@
     var X = (function(t) {
       function e(e) {
         t.call(this, e),
-          e.history && (U = e.history),
+          e.history && (z = e.history),
           (this.state = { url: e.url || V() }),
           $ ||
             ('function' == typeof addEventListener &&
-              (U ||
+              (z ||
                 addEventListener('popstate', function() {
-                  W(V());
+                  J(V());
                 }),
               addEventListener('click', Q)),
             ($ = !0));
@@ -771,8 +771,8 @@
         }),
         (e.prototype.componentDidMount = function() {
           var t = this;
-          U &&
-            (this.unlisten = U.listen(function(e) {
+          z &&
+            (this.unlisten = z.listen(function(e) {
               t.routeTo('' + (e.pathname || '') + (e.search || ''));
             })),
             (this.updating = !1);
@@ -790,19 +790,19 @@
         (e.prototype.getMatchingChildren = function(t, e, n) {
           return t
             .filter(F)
-            .sort(G)
+            .sort(x)
             .map(function(t) {
-              var a = x(e, t.props.path, t.props);
+              var a = j(e, t.props.path, t.props);
               if (a) {
                 if (!1 !== n) {
                   var o = { url: e, matches: a };
                   return (
-                    j(o, a),
+                    E(o, a),
                     delete o.ref,
                     delete o.key,
                     (function(t, e) {
                       return (
-                        (e = y(y({}, t.props), e)),
+                        (e = d(d({}, t.props), e)),
                         arguments.length > 2 &&
                           (e.children = c.slice.call(arguments, 2)),
                         f(t.type, e, e.key || t.key, e.ref || t.ref)
@@ -839,17 +839,17 @@
         e
       );
     })(g);
-    (X.subscribers = L),
+    (X.subscribers = U),
       (X.getCurrentUrl = V),
-      (X.route = J),
+      (X.route = W),
       (X.Router = X),
       (X.Route = function(t) {
         return h(t.component, t);
       }),
       (X.Link = function(t) {
-        return h('a', j({ onClick: Y }, t));
+        return h('a', E({ onClick: Y }, t));
       }),
-      (X.exec = x);
+      (X.exec = j);
     var tt = X;
     class et extends g {
       constructor() {
@@ -915,22 +915,22 @@
       st = [
         { value: [0, 1], color: '#FFFFFF' },
         { value: [0, 100], color: '#fff5f5' },
-        { value: [100, 500], color: '#ffdcdc' },
-        { value: [500, 1500], color: '#ffa0a0' },
-        { value: [1500, 5e3], color: '#ff7373' },
-        { value: [5e3, 15e3], color: '#ff4b4b' },
-        { value: [15e3, 3e4], color: '#ff1919' },
-        { value: [3e4, 5e9], color: '#c60000' },
+        { value: [100, 1e3], color: '#ffdcdc' },
+        { value: [1e3, 5e3], color: '#ffa0a0' },
+        { value: [5e3, 15e3], color: '#ff7373' },
+        { value: [15e3, 5e4], color: '#ff4b4b' },
+        { value: [5e4, 15e4], color: '#ff1919' },
+        { value: [15e4, 5e9], color: '#c60000' },
       ],
       ut = [
         { value: [0, 1], color: '#FFFFFF' },
-        { value: [0, 100], color: '#fff5f5' },
-        { value: [100, 500], color: '#ffdcdc' },
-        { value: [500, 2e3], color: '#ffa0a0' },
-        { value: [2e3, 1e4], color: '#ff7373' },
-        { value: [1e4, 25e3], color: '#ff4b4b' },
-        { value: [25e3, 6e4], color: '#ff1919' },
-        { value: [6e4, 5e9], color: '#c60000' },
+        { value: [0, 500], color: '#fff5f5' },
+        { value: [500, 5e3], color: '#ffdcdc' },
+        { value: [5e3, 15e3], color: '#ffa0a0' },
+        { value: [15e3, 5e4], color: '#ff7373' },
+        { value: [5e4, 15e4], color: '#ff4b4b' },
+        { value: [15e4, 5e5], color: '#ff1919' },
+        { value: [5e5, 5e9], color: '#c60000' },
       ],
       lt = [
         { value: [0, 1], color: '#FFFFFF' },
@@ -944,21 +944,21 @@
       ],
       ct = [
         { value: [0, 1], color: '#FFFFFF' },
-        { value: [1, 100], color: '#f0fff0' },
-        { value: [100, 1e3], color: '#dcffdc' },
-        { value: [1e3, 1e4], color: '#beffbe' },
-        { value: [1e4, 25e3], color: '#a0ffa0' },
-        { value: [25e3, 1e5], color: '#78ff78' },
-        { value: [1e5, 5e5], color: '#41ff41' },
-        { value: [5e5, 5e9], color: '#009900' },
+        { value: [1, 500], color: '#f0fff0' },
+        { value: [500, 5e3], color: '#dcffdc' },
+        { value: [5e3, 5e4], color: '#beffbe' },
+        { value: [5e4, 25e4], color: '#a0ffa0' },
+        { value: [25e4, 1e6], color: '#78ff78' },
+        { value: [1e6, 5e6], color: '#41ff41' },
+        { value: [5e6, 5e9], color: '#009900' },
       ];
     function pt(t) {
       return 'boolean' == typeof t;
     }
-    function yt(t) {
+    function dt(t) {
       return 'number' == typeof t;
     }
-    function dt(t) {
+    function yt(t) {
       return 'string' == typeof t;
     }
     function ht() {}
@@ -975,7 +975,7 @@
         'select',
         { onChange: e => t(e.target.value) },
         e.map((t, e) =>
-          dt(t)
+          yt(t)
             ? h(
                 'option',
                 n === e ? { value: e, selected: !0 } : { value: e },
@@ -1010,7 +1010,7 @@
         },
         n.map((t, e) => {
           const n = e + (1e5 * Math.random()).toString(16);
-          return dt(t)
+          return yt(t)
             ? a.indexOf(e) > -1
               ? h('option', { key: n, onClick: o, value: e, selected: !0 }, t)
               : h('option', { key: n, onClick: o, value: e }, t)
@@ -1031,14 +1031,14 @@
         value: e,
       });
     }
-    function vt({ classes: t, isDisabled: e, label: n, onClick: a }) {
+    function Ct({ classes: t, isDisabled: e, label: n, onClick: a }) {
       return h(
         'button',
         { className: t ? t.join(' ') : '', onClick: a, disabled: e },
         n
       );
     }
-    function Ct({
+    function vt({
       classes: t,
       listenKeyUp: e,
       onChange: n,
@@ -1073,14 +1073,14 @@
     function _t(...t) {
       console.log('COVID-19', ...t);
     }
-    class kt extends g {
+    class Mt extends g {
       constructor() {
         super();
       }
       getOptions() {
         return this.props.filter
           ? this.props.options.filter(t =>
-              dt(t)
+              yt(t)
                 ? t.toLowerCase().indexOf(this.props.filter.toLowerCase()) > -1
                 : t.name
                     .toLowerCase()
@@ -1101,13 +1101,13 @@
             { className: nt },
             At()
               ? ''
-              : h(Ct, {
+              : h(vt, {
                   listenKeyUp: !0,
                   onChange: this.props.onUpdateFilter.bind(this),
                   placeholder: 'filter',
                   value: this.props.filter,
                 }),
-            h(vt, { label: '✗', onClick: this.props.onClear })
+            h(Ct, { label: '✗', onClick: this.props.onClear })
           ),
           At()
             ? h(bt, {
@@ -1126,18 +1126,18 @@
         );
       }
     }
-    const Nt = [
+    const kt = [
         'Active*',
         'Confirmed',
         'Deaths',
         'Recoveries*',
-        'Projection: By Reverse Death',
+        'Estimated Active Cases',
       ],
-      Ot = ['By date', 'By first confirmed', 'By first 100 confirmed'],
-      Mt = ['Linear', 'Logarithmic'],
+      Nt = ['By date', 'By first confirmed', 'By first 100 confirmed'],
+      Ot = ['Linear', 'Logarithmic'],
       wt = ['Show States', 'Hide States'],
       It = ['By Value', 'Percent'];
-    function Pt({ countries: t, onChange: e, reload: n, state: a }) {
+    function Bt({ countries: t, onChange: e, reload: n, state: a }) {
       return h(
         'section',
         { className: 'flex flex-item-20' },
@@ -1146,9 +1146,13 @@
           { className: at },
           h(gt, {
             onChange: function(t) {
-              e(Object.assign(Object.assign({}, a), { mode: t }));
+              e(
+                Object.assign(Object.assign({}, a), {
+                  mode: parseInt(t + '', 10),
+                })
+              );
             },
-            options: Ot,
+            options: Nt,
             selected: a.mode,
           }),
           h(gt, {
@@ -1159,7 +1163,7 @@
                 })
               );
             },
-            options: Mt,
+            options: Ot,
             selected: a.scaleType,
           }),
           h(St, {
@@ -1177,10 +1181,10 @@
               })
             );
           },
-          options: Nt,
+          options: kt,
           selected: a.dataSetIndexes,
         }),
-        h(kt, {
+        h(Mt, {
           classes: 0 === this.props.countryKeys.length ? ['highlight'] : [],
           filter: this.props.state.countryFilter,
           onUpdateFilter: this.props.onUpdateCountryFilter,
@@ -1220,7 +1224,7 @@
             options: It,
             selected: a.byMetric,
           }),
-          h(vt, { label: 'Reload', onClick: n })
+          h(Ct, { label: 'Reload', onClick: n })
         )
       );
       var o;
@@ -1233,19 +1237,19 @@
       onClick: o,
       state: i,
     }) {
-      return h(vt, {
+      return h(Ct, {
         classes: t,
         isDisabled: e,
         label: i ? a : n,
         onClick: () => o(!i),
       });
     }
-    function Bt({ config: { onClick: t, labels: e, selected: n } }) {
+    function Pt({ config: { onClick: t, labels: e, selected: n } }) {
       return h(
         'nav',
         { className: nt },
         e.map((e, a) =>
-          h(vt, { isDisabled: a === n, label: e, onClick: () => t(a) })
+          h(Ct, { isDisabled: a === n, label: e, onClick: () => t(a) })
         )
       );
     }
@@ -1300,10 +1304,10 @@
               onClick: this.toggleConfig.bind(this),
               state: this.props.state.isConfigOpen,
             }),
-            h(Bt, { config: this.props.menu })
+            h(Pt, { config: this.props.menu })
           ),
           this.props.state.isConfigOpen
-            ? h(Pt, {
+            ? h(Bt, {
                 onUpdateCountryFilter: this.setCountryFilter.bind(this),
                 clearCountries: this.props.clearCountries,
                 countryKeys: this.props.countryKeys,
@@ -1318,9 +1322,9 @@
         );
       }
     }
-    var Et = n(0),
-      jt = n(1);
-    const xt = Object.freeze({
+    var Gt = n(0),
+      Et = n(1);
+    const jt = Object.freeze({
         'Congo (Kinshasa)': 'The Democratic Republic of Congo',
         "Cote d'Ivoire": 'Ivory Coast',
         Czechia: 'Czech Republic',
@@ -1334,20 +1338,24 @@
         'The Gambia': 'Gambia',
         US: 'United States',
       }),
-      Gt = Object.freeze({
+      xt = Object.freeze({
         'Bahamas, The': 395361,
         'Cabo Verde': 546388,
         'Congo (Brazzaville)': 18e5,
         'Congo (Kinshasa)': 8134e4,
-        'Cruise Ship': 700,
+        'Cruise Ship': 3711,
+        'Diamond Princess': 3711,
         Fiji: 905502,
         'Gambia, The': 2101e3,
         Guernsey: 67052,
         Jersey: 97857,
         Kosovo: 1831e3,
+        Libya: 6375e3,
         Montenegro: 613219,
         Serbia: 7022e3,
         'Taiwan*': 2378e4,
+        'Timor-Leste': 1296e3,
+        'West Bank and Gaza': 4685e3,
       }),
       Ft = Object.freeze({
         Australia: Object.freeze({
@@ -1508,14 +1516,18 @@
         Angola: 'AO',
         Anguilla: 'AI',
         Antarctica: 'AQ',
+        'Antigua and Barbuda': 'AG',
         Argentina: 'AR',
         Armenia: 'AM',
         Aruba: 'AW',
         Australia: 'AU',
         Austria: 'AT',
         Azerbaijan: 'AZ',
+        Bahamas: 'BS',
         'Bahamas, The': 'BS',
         Bangladesh: 'BD',
+        Bahrain: 'BH',
+        Barbados: 'BB',
         Belarus: 'BY',
         Belgium: 'BE',
         Belize: 'BZ',
@@ -1532,6 +1544,7 @@
         Bulgaria: 'BG',
         'Burkina Faso': 'BF',
         Burundi: 'BI',
+        'Cabo Verde': 'CV',
         Cambodia: 'KH',
         Cameroon: 'CM',
         Canada: 'CA',
@@ -1545,7 +1558,9 @@
         Colombia: 'CO',
         Comoros: 'KM',
         Congo: 'CG',
+        'Congo (Brazzaville)': 'CG',
         'Congo, The Democratic Republic of the': 'CD',
+        'Congo (Kinshasa)': 'CD',
         'Cook Islands': 'CK',
         'Costa Rica': 'CR',
         "Cote d'Ivoire": 'CI',
@@ -1555,6 +1570,7 @@
         Czechia: 'CZ',
         Denmark: 'DK',
         Djibouti: 'DJ',
+        Dominica: 'DM',
         'Dominican Republic': 'DO',
         Ecuador: 'EC',
         Egypt: 'EG',
@@ -1562,6 +1578,7 @@
         'Equatorial Guinea': 'GQ',
         Eritrea: 'ER',
         Estonia: 'EE',
+        Eswatini: 'SZ',
         Ethiopia: 'ET',
         'Falkland Islands (Malvinas)': 'FK',
         'Faroe Islands': 'FO',
@@ -1571,6 +1588,7 @@
         'French Guiana': 'GF',
         'French Polynesia': 'PF',
         'French Southern Territories': 'TF',
+        Gambia: 'GM',
         Gabon: 'GA',
         'The, Gambia': 'GM',
         Georgia: 'GE',
@@ -1579,6 +1597,7 @@
         Gibraltar: 'GI',
         Greece: 'GR',
         Greenland: 'GL',
+        Grenada: 'GD',
         Guam: 'GU',
         Guatemala: 'GT',
         Guernsey: 'GG',
@@ -1606,18 +1625,21 @@
         Jordan: 'JO',
         Kazakhstan: 'KZ',
         Kenya: 'KE',
+        Kosovo: 'XK',
         Kiribati: 'KI',
         "Korea, Democratic People'S Republic of": 'KP',
         'Korea, South': 'KR',
         Kuwait: 'KW',
         Kyrgyzstan: 'KG',
         "Lao People'S Democratic Republic": 'LA',
+        Laos: 'LA',
         Latvia: 'LV',
         Lebanon: 'LB',
         Lesotho: 'LS',
         Liberia: 'LR',
         'Libyan Arab Jamahiriya': 'LY',
         Liechtenstein: 'LI',
+        Libya: 'LY',
         Lithuania: 'LT',
         Luxembourg: 'LU',
         Macao: 'MO',
@@ -1625,14 +1647,18 @@
         Madagascar: 'MG',
         Malawi: 'MW',
         Malaysia: 'MY',
+        Maldives: 'MV',
         Mali: 'ML',
+        Malta: 'MT',
         'Marshall Islands': 'MH',
         Mauritania: 'MR',
+        Mauritius: 'MU',
         Mexico: 'MX',
         'Micronesia, Federated States of': 'FM',
         Moldova: 'MD',
         Monaco: 'MC',
         Mongolia: 'MN',
+        Montenegro: 'ME',
         Montserrat: 'MS',
         Morocco: 'MA',
         Mozambique: 'MZ',
@@ -1650,6 +1676,7 @@
         Niue: 'NU',
         'Norfolk Island': 'NF',
         'Northern Mariana Islands': 'MP',
+        'North Macedonia': 'MK',
         Norway: 'NO',
         Oman: 'OM',
         Pakistan: 'PK',
@@ -1670,13 +1697,17 @@
         Rwanda: 'RW',
         'Saint Helena': 'SH',
         'Saint Kitts and Nevis': 'KN',
+        'Saint Lucia': 'LC',
         'Saint Pierre and Miquelon': 'PM',
         Samoa: 'WS',
         'San Marino': 'SM',
         'Sao Tome and Principe': 'ST',
         'Saudi Arabia': 'SA',
         Senegal: 'SN',
+        Serbia: 'RS',
+        Seychelles: 'SC',
         'Sierra Leone': 'SL',
+        Singapore: 'SG',
         Slovakia: 'SK',
         Slovenia: 'SI',
         'Solomon Islands': 'SB',
@@ -1685,6 +1716,7 @@
         'South Georgia and the South Sandwich Islands': 'GS',
         Spain: 'ES',
         'Sri Lanka': 'LK',
+        'Saint Vincent and the Grenadines': 'VC',
         Sudan: 'SD',
         Suriname: 'SR',
         'Svalbard and Jan Mayen': 'SJ',
@@ -1724,8 +1756,9 @@
         Yemen: 'YE',
         Zambia: 'ZM',
         Zimbabwe: 'ZW',
+        'West Bank and Gaza': 'PO',
       }),
-      zt = Object.freeze({
+      Lt = Object.freeze({
         Australia: Object.freeze({
           'Australian Capital Territory': 'AC',
           'New South Wales': 'NS',
@@ -1792,6 +1825,7 @@
           CA: 'California',
           CO: 'Colorado',
           CT: 'Connecticut',
+          DC: 'District of Columbia',
           DE: 'Delaware',
           'D.C.': 'District of Columbia',
           FM: 'Federated States Of Micronesia',
@@ -1845,7 +1879,7 @@
           WY: 'Wyoming',
         }),
       }),
-      Ut = Object.freeze({
+      zt = Object.freeze({
         Afghanistan: 'Asia',
         Albania: 'Europe',
         Algeria: 'Africa',
@@ -1992,14 +2026,32 @@
         Zimbabwe: 'Africa',
       }),
       Kt = Object.freeze(
-        Object.keys(zt.US).reduce((t, e) => ((t[zt.US[e]] = e), t), {})
-      );
-    class Lt {
+        Object.keys(Lt.US).reduce((t, e) => ((t[Lt.US[e]] = e), t), {})
+      ),
+      Ut = {
+        '': !0,
+        AG: !0,
+        BB: !0,
+        BH: !0,
+        CV: !0,
+        DM: !0,
+        GD: !0,
+        KN: !0,
+        LC: !0,
+        MT: !0,
+        MU: !0,
+        MV: !0,
+        TL: 'TP',
+        SC: !0,
+        SG: !0,
+        VC: !0,
+      };
+    class Ht {
       constructor(t) {
         this.data = t;
       }
       static create(t) {
-        return new Lt(t);
+        return new Ht(t);
       }
       lastValue(t) {
         return this.data.counts.length < 1
@@ -2078,9 +2130,9 @@
         return this.data.stateCode;
       }
     }
-    class Ht extends Array {
+    class Vt extends Array {
       static create() {
-        return new Ht();
+        return new Vt();
       }
       constructor() {
         super();
@@ -2092,7 +2144,7 @@
         );
       }
       clone() {
-        const t = Ht.create();
+        const t = Vt.create();
         return this.forEach(e => t.push(e)), t;
       }
       sortByActive(t = !0) {
@@ -2146,50 +2198,51 @@
         this.sortByProp('lastRecoveriesPercent', t);
       }
     }
-    const Vt = (Et || []).reduce(
+    const Wt = (Gt || []).reduce(
         (t, e) => ((t[e.country] = parseInt(e.population, 10)), t),
         {}
       ),
-      Jt = (jt || []).reduce(
+      Jt = (Et || []).reduce(
         (t, e) => (
           (t[e.country] = null === e.density ? null : parseInt(e.density, 10)),
           t
         ),
         {}
       ),
-      Wt = [
+      Zt = [
         'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv',
         'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv',
         'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_recovered_global.csv',
       ];
-    function Zt() {
-      return Promise.all(Wt.map(t => fetch(t)))
-        .then(ne)
-        .then(re)
-        .then(Qt)
-        .then(Yt)
+    function Yt() {
+      return Promise.all(Zt.map(t => fetch(t)))
+        .then(ie)
+        .then(le)
         .then($t)
-        .then(Xt)
         .then(qt)
-        .then(se);
-    }
-    function Yt(t) {
-      return delete t.CA, t;
+        .then(Xt)
+        .then(ne)
+        .then(ee)
+        .then(Qt)
+        .then(ce);
     }
     function qt(t) {
+      return delete t.CA, t;
+    }
+    function Qt(t) {
       const e = {},
         n = mt(
           t,
           (t, n, a) => {
             if (n.locale) return t;
-            const o = Lt.create(n);
+            const o = Ht.create(n);
             return t.push(o), (e[a] = o), t;
           },
-          Ht.create()
+          Vt.create()
         );
       return { dictionary: e, timeSeries: n };
     }
-    function Qt(t) {
+    function $t(t) {
       const e = {},
         n = n => a => {
           const o = Rt[a.country];
@@ -2197,9 +2250,8 @@
           let i = o,
             r = '';
           if (a.state) {
-            const t = zt[a.country];
-            if (!t)
-              return void _t('state set not found', a.country + ',', a.state);
+            const t = Lt[a.country];
+            if (!t) return;
             if (((r = t[a.state]), !r))
               return void _t('state not found', a.coutry + ',', a.state);
             i = i + '.' + r;
@@ -2247,7 +2299,7 @@
         e
       );
     }
-    function $t(t) {
+    function Xt(t) {
       return (
         ft(t, t => {
           t.counts.forEach((t, e, n) => {
@@ -2281,7 +2333,45 @@
         t
       );
     }
-    function Xt(t) {
+    function te(t, e) {
+      return {
+        active: t.active + e.active,
+        confirmed: t.confirmed + e.confirmed,
+        deaths: t.deaths + e.deaths,
+        recoveries: t.recoveries + e.recoveries,
+        projectionReverseDeath:
+          t.projectionReverseDeath + e.projectionReverseDeath,
+      };
+    }
+    function ee(t) {
+      const e = {
+        country: 'World',
+        countryCode: 'World',
+        dates: [],
+        key: 'World',
+        locale: '',
+        population: 0,
+        populationDensity: 0,
+        state: '',
+        stateCode: '',
+        counts: [],
+      };
+      return (
+        ft(t, t => {
+          t.locale ||
+            (t.state && 'Total' !== t.state) ||
+            ((e.population += t.population),
+            t.counts.forEach((t, n) => {
+              e.counts[n]
+                ? (e.counts[n] = te(e.counts[n], t))
+                : (e.counts[n] = Object.assign({}, t));
+            }));
+        }),
+        (t.World = e),
+        t
+      );
+    }
+    function ne(t) {
       return (
         ft(t, e => {
           if ('Total' !== e.state && e.state) {
@@ -2292,23 +2382,14 @@
               (t[n] = Object.assign(Object.assign({}, e), {
                 key: n,
                 locale: '',
-                population: te(e.country),
-                populationDensity: ee(e.country),
+                population: ae(e.country),
+                populationDensity: oe(e.country),
                 state: 'Total',
                 counts: [],
               })),
               e.counts.forEach((e, a) => {
                 t[n].counts[a]
-                  ? (t[n].counts[a] = (function(t, e) {
-                      return {
-                        active: t.active + e.active,
-                        confirmed: t.confirmed + e.confirmed,
-                        deaths: t.deaths + e.deaths,
-                        recoveries: t.recoveries + e.recoveries,
-                        projectionReverseDeath:
-                          t.projectionReverseDeath + e.projectionReverseDeath,
-                      };
-                    })(t[n].counts[a], e))
+                  ? (t[n].counts[a] = te(t[n].counts[a], e))
                   : (t[n].counts[a] = e);
               });
           }
@@ -2316,7 +2397,7 @@
         t
       );
     }
-    function te(t, e, n) {
+    function ae(t, e, n) {
       if (n) return 0;
       if (e)
         return (function(t, e, n) {
@@ -2331,18 +2412,22 @@
             } else if (Ft[t][e]) return Ft[t][e];
           return 0;
         })(t, e, n);
-      let a = Vt[t];
-      return a || ((a = Vt[xt[t]]), a || ((a = Gt[t]), a || 0));
+      let a = Wt[t];
+      return (
+        a ||
+        ((a = Wt[jt[t]]),
+        a || ((a = xt[t]), a || (_t('population not found for', t, e, n), 0)))
+      );
     }
-    function ee(t, e, n) {
+    function oe(t, e, n) {
       if (e || n) return 0;
       let a = Jt[t];
-      return a || ((a = Jt[xt[t]]), a || 0);
+      return a || ((a = Jt[jt[t]]), a || 0);
     }
-    function ne(t) {
+    function ie(t) {
       return Promise.all(t.map(t => t.text()));
     }
-    function ae(t) {
+    function re(t) {
       const e = t.split(''),
         n = { buffer: '', isEscape: !1, isInQuote: !1 },
         a = () => {
@@ -2370,7 +2455,7 @@
         []
       );
     }
-    function oe(t) {
+    function se(t) {
       const e = t[1],
         [n, a] = (function(t) {
           if (t.indexOf(',') > -1) {
@@ -2382,13 +2467,13 @@
       return {
         country: e,
         locale: n,
-        population: te(e, a, n),
-        populationDensity: ee(e, a, n),
+        population: ae(e, a, n),
+        populationDensity: oe(e, a, n),
         state: a,
         timeSeries: t.slice(4).map(t => parseInt(t, 10)),
       };
     }
-    function ie(t) {
+    function ue(t) {
       const e = t.split('\n');
       return [
         (function(t) {
@@ -2399,15 +2484,15 @@
         })(e[0]),
         e
           .slice(1)
-          .map(ae)
+          .map(re)
           .filter(t => t.length)
-          .map(oe),
+          .map(se),
       ];
     }
-    function re(t) {
-      return t.map(ie);
+    function le(t) {
+      return t.map(ue);
     }
-    function se({ dictionary: t, timeSeries: e }) {
+    function ce({ dictionary: t, timeSeries: e }) {
       var n;
       return {
         countries: mt(
@@ -2425,23 +2510,23 @@
         timeSeries: e,
       };
     }
-    function ue(t) {
+    function pe(t) {
       switch (t) {
         case 0:
-          return '😷';
+          return '😷 (Active)';
         case 1:
-          return '✔';
+          return '✔ (Confirmed)';
         case 2:
-          return '☠';
+          return '☠ (Deaths)';
         case 3:
-          return '😊';
+          return '😊 (Recoveries)';
         case 4:
-          return '🤔';
+          return '🤔 (Estimate)';
         default:
-          return '😊';
+          return '😊 (Recovery)';
       }
     }
-    function le(t, e) {
+    function de(t, e) {
       return e.dataPromise.then(({ countries: n, timeSeries: a }) => {
         let o = 0;
         return {
@@ -2452,9 +2537,9 @@
                 ? (function(t, e, n, a, o) {
                     switch (e.lineGraphState.mode) {
                       case 1:
-                        return ce(t, e, n, a, o, 1);
+                        return ye(t, e, n, a, o, 1);
                       case 2:
-                        return ce(t, e, n, a, o, 100);
+                        return ye(t, e, n, a, o, 100);
                       default:
                         return (function(t, e, n, a, o) {
                           const i = new Date(e.lineGraphState.startDate);
@@ -2462,16 +2547,16 @@
                             e.lineGraphState.dataSetIndexes.forEach(t => {
                               const r =
                                   t > 3 ? rt[o % rt.length] : it[o % it.length],
-                                s = pe(t),
+                                s = he(t),
                                 u = {
                                   color: r,
                                   line: { color: r },
-                                  name: ue(t) + ' ' + a.countryName(),
+                                  name: pe(t) + ' ' + a.countryName(),
                                   points: [],
                                 };
                               (u.points = a.counts().reduce((t, n, o) => {
                                 if (a.dates()[o] && a.dates()[o] > i) {
-                                  const i = ye(
+                                  const i = fe(
                                     e.lineGraphState.byMetric,
                                     n[s],
                                     a.population()
@@ -2493,22 +2578,22 @@
         };
       });
     }
-    function ce(t, e, n, a, o, i) {
+    function ye(t, e, n, a, o, i) {
       const r = new Date(e.lineGraphState.startDate);
       return (
         e.lineGraphState.dataSetIndexes.forEach(t => {
-          const s = pe(t),
+          const s = he(t),
             u = t > 3 ? rt[o % rt.length] : it[o % it.length],
             l = {
               color: u,
               line: { color: u },
-              name: ue(t) + ' ' + a.countryName(),
+              name: pe(t) + ' ' + a.countryName(),
               points: [],
             };
           let c = 0;
           (l.points = a.counts().reduce((t, n, o) => {
             if (a.dates()[o] && a.dates()[o] > r && n.confirmed >= i) {
-              const o = ye(e.lineGraphState.byMetric, n[s], a.population());
+              const o = fe(e.lineGraphState.byMetric, n[s], a.population());
               o && t.push({ x: c, y: o }), (c += 1);
             }
             return t;
@@ -2518,7 +2603,7 @@
         n
       );
     }
-    function pe(t) {
+    function he(t) {
       switch (t) {
         case 0:
           return 'active';
@@ -2534,11 +2619,11 @@
           return 'recoveries';
       }
     }
-    function ye(t, e, n) {
+    function fe(t, e, n) {
       return 0 === t ? e : n ? e / n : 0;
     }
-    const de = [];
-    function he() {
+    const me = [];
+    function ge() {
       if (window.localStorage) {
         const t = window.localStorage.getItem('state');
         if (t)
@@ -2555,12 +2640,12 @@
                     (function(t) {
                       if (!t) return !1;
                       if (!1 === pt(t.isConfigOpen)) return !1;
-                      if (!1 === yt(t.byMetric)) return !1;
-                      if (!1 === dt(t.countryFilter)) return !1;
+                      if (!1 === dt(t.byMetric)) return !1;
+                      if (!1 === yt(t.countryFilter)) return !1;
                       if (!1 === Array.isArray(t.dataSetIndexes)) return !1;
-                      if (!1 === yt(t.mode)) return !1;
+                      if (!1 === dt(t.mode)) return !1;
                       if ('boolean' != typeof t.showStates) return !1;
-                      if (!1 === dt(t.startDate)) return !1;
+                      if (!1 === yt(t.startDate)) return !1;
                       return !0;
                     })(t.lineGraphState)
                   )
@@ -2588,8 +2673,8 @@
                   window.localStorage.setItem('state', ''),
                   null)
                 : Object.assign(Object.assign({}, e), {
-                    dataPromise: Zt(),
-                    data: Ht.create(),
+                    dataPromise: Yt(),
+                    data: Vt.create(),
                   })
               : null;
           } catch (t) {
@@ -2602,7 +2687,7 @@
       }
       return null;
     }
-    const fe = [
+    const be = [
       { label: 'Region', sort: 'sortByCountry' },
       { label: 'Active*', sort: 'sortByActive' },
       { label: 'Active* %', sort: 'sortByActivePercent' },
@@ -2616,7 +2701,7 @@
       { label: 'Population', sort: 'sortByPopulation' },
       { label: 'Population Density', sort: 'sortByPopulationDensity' },
     ];
-    class me extends g {
+    class Se extends g {
       constructor() {
         super(), (this.state = {});
       }
@@ -2698,7 +2783,7 @@
                 h(
                   'tr',
                   null,
-                  fe.map((t, n) =>
+                  be.map((t, n) =>
                     0 === n || this.props.state.columns.indexOf(n) > -1
                       ? h(
                           'th',
@@ -2817,7 +2902,7 @@
                 onClick: this.toggleConfig.bind(this),
                 state: this.props.state.isConfigOpen,
               }),
-              h(Bt, { config: this.props.menu })
+              h(Pt, { config: this.props.menu })
             ),
             this.props.state.isConfigOpen
               ? h(
@@ -2827,7 +2912,7 @@
                     onChange: ht,
                     onClick: t =>
                       this.onChangeColumns(parseInt(t + '', 10) + 1),
-                    options: fe.map(t => t.label).slice(1),
+                    options: be.map(t => t.label).slice(1),
                     selected: this.props.state.columns.map(t => t - 1),
                   }),
                   h(gt, {
@@ -2841,7 +2926,7 @@
         );
       }
     }
-    function ge() {
+    function Ce() {
       return h(
         'header',
         { class: 'small-text' },
@@ -2880,7 +2965,7 @@
         ')'
       );
     }
-    class be extends g {
+    class ve extends g {
       constructor() {
         super();
         const t = window.document.createElement('div');
@@ -2905,7 +2990,7 @@
         return h('div', { className: 'full-size' });
       }
     }
-    class Se extends g {
+    class Ae extends g {
       constructor() {
         super(),
           (this.state = {
@@ -2981,17 +3066,17 @@
         const e = [];
         return (
           this.props.timeSeries.forEach(n => {
-            const a = Rt[n.country()];
-            if (!a) return null;
+            const a = n.countryCode();
+            if (Ut[a]) return null;
             if (n.state() && 'Total' !== n.state()) return null;
             if (n.locale()) return null;
             if (!n.population()) return null;
-            const o = Ce(this.state.dataSet, n);
+            const o = Me(this.state.dataSet, n);
             if (o < 1) return null;
             o > t && (t = o), e.push({ map: 'WORLD.' + a.toLowerCase(), z: o });
           }),
           {
-            ranges: Ae(this.state.dataSet),
+            ranges: ke(this.state.dataSet),
             series: [
               {
                 defaultPoint_events_click: this.onMapClick.bind(this),
@@ -3007,7 +3092,7 @@
         const n = [];
         return (
           this.props.timeSeries.forEach(a => {
-            const o = Ut[a.country()];
+            const o = zt[a.country()];
             if (!o) return null;
             if (
               o !== t &&
@@ -3018,14 +3103,14 @@
               if ('Total' !== a.state()) return null;
               if (a.locale()) return null;
             }
-            const i = Rt[a.country()];
-            if (!i) return null;
-            const r = Ce(this.state.dataSet, a);
+            const i = a.countryCode();
+            if (Ut[i]) return null;
+            const r = Me(this.state.dataSet, a);
             if (r < 1) return null;
             r > e && (e = r), n.push({ map: i.toLowerCase(), z: r });
           }),
           {
-            ranges: Ae(this.state.dataSet),
+            ranges: ke(this.state.dataSet),
             series: [
               {
                 defaultPoint_events_click: this.onMapClick.bind(this),
@@ -3044,19 +3129,19 @@
             if (o.country() !== t) return null;
             if ('Total' === o.state()) return null;
             if (o.locale()) return null;
-            let i = zt[t];
+            let i = Lt[t];
             if (!i) {
               if ('US' !== e) return null;
               i = Kt;
             }
-            let r = i[o.state()];
-            if (!r) return null;
-            const s = Ce(this.state.dataSet, o);
+            const r = o.stateCode();
+            if (Ut[o.countryCode() + '.' + r]) return null;
+            const s = Me(this.state.dataSet, o);
             if (s < 1) return null;
-            s > n && (n = s), a.push({ map: e + '.' + r.toLowerCase(), z: s });
+            s > n && (n = s), a.push({ map: e + '.' + r, z: s });
           }),
           {
-            ranges: Ae(this.state.dataSet),
+            ranges: ke(this.state.dataSet),
             series: [
               {
                 defaultPoint_events_click: this.onMapClick.bind(this),
@@ -3072,7 +3157,7 @@
         this.setState(
           Object.assign(Object.assign({}, this.state), {
             dataSet: e,
-            toolTip: ve(e),
+            toolTip: _e(e),
           })
         );
       }
@@ -3088,7 +3173,7 @@
         return h(
           'section',
           { onClick: this.zoomOut.bind(this), className: `full-size ${at}` },
-          h(be, { ranges: t, series: e, toolTip: this.state.toolTip }),
+          h(ve, { ranges: t, series: e, toolTip: this.state.toolTip }),
           h(
             'section',
             { className: nt },
@@ -3102,12 +3187,12 @@
               ],
               selected: this.state.dataSet,
             }),
-            h(Bt, { config: this.props.menu })
+            h(Pt, { config: this.props.menu })
           )
         );
       }
     }
-    function ve(t) {
+    function _e(t) {
       switch (t) {
         case 0:
           return '<b>%name<b/> <br/>Active Cases: %zValue';
@@ -3121,7 +3206,7 @@
           return '<b>%name<b/> <br/>Active Cases: %zValue';
       }
     }
-    function Ce(t, e) {
+    function Me(t, e) {
       switch (t) {
         case 0:
           return e.lastActive();
@@ -3135,7 +3220,7 @@
           return e.lastActive();
       }
     }
-    function Ae(t) {
+    function ke(t) {
       switch (t) {
         case 0:
           return st;
@@ -3149,18 +3234,18 @@
           return st;
       }
     }
-    class _e extends g {
+    class Ne extends g {
       constructor() {
         super();
-        let t = he();
+        let t = ge();
         t ||
           (_t('No existing state'),
           (t = {
             countries: [],
             currentSeries: [],
-            data: Ht.create(),
-            dataPromise: Zt(),
-            countryKeys: de,
+            data: Vt.create(),
+            dataPromise: Yt(),
+            countryKeys: me,
             routePath: '/',
             lineGraphState: {
               dataSetIndexes: [0],
@@ -3199,7 +3284,7 @@
               Object.assign(Object.assign({}, this.state), { routePath: n })
             ),
               (this.menu.selected = t),
-              J(n),
+              W(n),
               this.selectAndUpdate();
           },
           selected: e.indexOf(this.state.routePath),
@@ -3220,7 +3305,7 @@
               this.setState(
                 Object.assign(Object.assign({}, this.state), { data: t })
               ),
-              le(this.props.cache, this.state)
+              de(this.props.cache, this.state)
             )
           )
           .then(this.updateSelectState.bind(this))
@@ -3259,7 +3344,7 @@
         this.props.reset(),
           this.setState(
             Object.assign(Object.assign({}, this.state), {
-              dataPromise: Zt().then(t => (this.selectAndUpdate(), t)),
+              dataPromise: Yt().then(t => (this.selectAndUpdate(), t)),
             })
           );
       }
@@ -3287,7 +3372,7 @@
         return h(
           'div',
           { className: `full-size ${at}` },
-          h(ge, null),
+          h(Ce, null),
           h(
             tt,
             null,
@@ -3304,7 +3389,7 @@
               selectCountry: this.selectCountry.bind(this),
               state: this.state.lineGraphState,
             }),
-            h(me, {
+            h(Se, {
               countryKeys: this.state.countryKeys,
               key: '1',
               onChange: this.tableState.bind(this),
@@ -3314,7 +3399,7 @@
               selectCountry: this.selectCountry.bind(this),
               timeSeries: this.state.data,
             }),
-            h(Se, {
+            h(Ae, {
               key: '2',
               path: '/geography',
               menu: this.menu,
@@ -3331,7 +3416,7 @@
       window.document.body.appendChild(t),
         (function(t) {
           let e = {};
-          D(h(_e, { cache: e, reset: () => (e = {}) }), t);
+          D(h(Ne, { cache: e, reset: () => (e = {}) }), t);
         })(t);
     })();
   },
