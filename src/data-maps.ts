@@ -28,16 +28,19 @@ export const manuallySourcePop = Object.freeze({
   'Cabo Verde': 546388, // march 22 2020
   'Congo (Brazzaville)': 1800000,
   'Congo (Kinshasa)': 81340000, // march 22 2020
-  'Cruise Ship': 700,
+  'Cruise Ship': 3711,
+  'Diamond Princess': 3711,
   Fiji: 905502, // march 22 2020
   'Gambia, The': 2101000, // march 22 2020
   Guernsey: 67052,
   Jersey: 97857,
   Kosovo: 1831000,
+  Libya: 6375000,
   Montenegro: 613219,
   Serbia: 7022000,
   'Taiwan*': 23780000,
   'Timor-Leste': 1296000,
+  'West Bank and Gaza': 4685000,
 });
 
 export const manuallySourceStatePop = Object.freeze({
@@ -520,6 +523,7 @@ export const statesToCodes = Object.freeze({
     CA: 'California',
     CO: 'Colorado',
     CT: 'Connecticut',
+    DC: 'District of Columbia',
     DE: 'Delaware',
     'D.C.': 'District of Columbia',
     FM: 'Federated States Of Micronesia',

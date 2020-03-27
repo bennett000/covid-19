@@ -28,7 +28,6 @@ export class ChartMap extends Component<
 
   componentDidUpdate() {
     JSC.Chart('chartMapDiv', {
-      debug: true,
       type: 'map',
       defaultPoint: {
         tooltip: this.props.toolTip,
