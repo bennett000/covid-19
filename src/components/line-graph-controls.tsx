@@ -23,7 +23,7 @@ const dataSets = [
   'Confirmed',
   'Deaths',
   'Recoveries*',
-  'Projection: By Reverse Death',
+  'Estimated Active Cases',
 ];
 const modes = ['By date', 'By first confirmed', 'By first 100 confirmed'];
 const scaleTypes = ['Linear', 'Logarithmic'];

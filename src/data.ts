@@ -497,17 +497,17 @@ function sortByProp(prop: string) {
 function getChartTypeFromIndex(index: number) {
   switch (index) {
     case 0:
-      return '😷';
+      return '😷 (Active)';
     case 1:
-      return '✔';
+      return '✔ (Confirmed)';
     case 2:
-      return '☠';
+      return '☠ (Deaths)';
     case 3:
-      return '😊';
+      return '😊 (Recoveries)';
     case 4:
-      return '🤔';
+      return '🤔 (Estimate)';
     default:
-      return '😊';
+      return '😊 (Recovery)';
   }
 }
 
