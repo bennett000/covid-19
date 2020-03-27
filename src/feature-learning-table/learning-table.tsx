@@ -22,11 +22,11 @@ const header = [
     sort: 'sortByCountry',
   },
   {
-    label: 'Active',
+    label: 'Active*',
     sort: 'sortByActive',
   },
   {
-    label: 'Active %',
+    label: 'Active* %',
     sort: 'sortByActivePercent',
   },
   {
@@ -46,11 +46,11 @@ const header = [
     sort: 'sortByDeathsPercent',
   },
   {
-    label: 'Recoveries',
+    label: 'Recoveries*',
     sort: 'sortByRecoveries',
   },
   {
-    label: 'Recoveries %',
+    label: 'Recoveries* %',
     sort: 'sortByRecoveriesPercent',
   },
   {

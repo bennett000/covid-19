@@ -19,10 +19,10 @@ import { SelectMultipleFilter } from './select-multiple-filter';
 import { noop } from '@ch1/utility';
 
 const dataSets = [
-  'Active',
+  'Active*',
   'Confirmed',
   'Deaths',
-  'Recoveries',
+  'Recoveries*',
   'Projection: By Reverse Death',
 ];
 const modes = ['By date', 'By first confirmed', 'By first 100 confirmed'];

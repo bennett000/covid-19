@@ -67,10 +67,20 @@ export function fetchData(): Promise<{
     .then(unwrapResponses)
     .then(convertAllCsvToStructured)
     .then(convertToCountryDictionary)
+    .then(manuallyAdjust)
     .then(interpolateRecoveriesAndActiveCases)
     .then(sumAllRegions)
     .then(toITimeSeries)
     .then(extractCountries);
+}
+
+function manuallyAdjust(dict: Dictionary<LocationSeries>) {
+  // there will be some initial data that needs correction to keep things organized
+
+  // there is no top level entry for Canadian confirmed cases or deaths, this minimal recovery data
+  delete dict.CA;
+
+  return dict;
 }
 
 export function toITimeSeries(dict: Dictionary<LocationSeries>) {
