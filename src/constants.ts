@@ -48,23 +48,23 @@ export const projectionPalette = [
 export const activeRanges = [
   { value: [0, 1], color: '#FFFFFF' },
   { value: [0, 100], color: '#fff5f5' },
-  { value: [100, 500], color: '#ffdcdc' },
-  { value: [500, 1500], color: '#ffa0a0' },
-  { value: [1500, 5000], color: '#ff7373' },
-  { value: [5000, 15000], color: '#ff4b4b' },
-  { value: [15000, 30000], color: '#ff1919' },
-  { value: [30000, 5000000000], color: '#c60000' },
+  { value: [100, 1000], color: '#ffdcdc' },
+  { value: [1000, 5000], color: '#ffa0a0' },
+  { value: [5000, 15000], color: '#ff7373' },
+  { value: [15000, 50000], color: '#ff4b4b' },
+  { value: [50000, 150000], color: '#ff1919' },
+  { value: [150000, 5000000000], color: '#c60000' },
 ];
 
 export const confirmedRanges = [
   { value: [0, 1], color: '#FFFFFF' },
-  { value: [0, 100], color: '#fff5f5' },
-  { value: [100, 500], color: '#ffdcdc' },
-  { value: [500, 2000], color: '#ffa0a0' },
-  { value: [2000, 10000], color: '#ff7373' },
-  { value: [10000, 25000], color: '#ff4b4b' },
-  { value: [25000, 60000], color: '#ff1919' },
-  { value: [60000, 5000000000], color: '#c60000' },
+  { value: [0, 500], color: '#fff5f5' },
+  { value: [500, 5000], color: '#ffdcdc' },
+  { value: [5000, 15000], color: '#ffa0a0' },
+  { value: [15000, 50000], color: '#ff7373' },
+  { value: [50000, 150000], color: '#ff4b4b' },
+  { value: [150000, 500000], color: '#ff1919' },
+  { value: [500000, 5000000000], color: '#c60000' },
 ];
 
 export const deathRanges = [
@@ -80,11 +80,11 @@ export const deathRanges = [
 
 export const recoveryRanges = [
   { value: [0, 1], color: '#FFFFFF' },
-  { value: [1, 100], color: '#f0fff0' },
-  { value: [100, 1000], color: '#dcffdc' },
-  { value: [1000, 10000], color: '#beffbe' },
-  { value: [10000, 25000], color: '#a0ffa0' },
-  { value: [25000, 100000], color: '#78ff78' },
-  { value: [100000, 500000], color: '#41ff41' },
-  { value: [500000, 5000000000], color: '#009900' },
+  { value: [1, 500], color: '#f0fff0' },
+  { value: [500, 5000], color: '#dcffdc' },
+  { value: [5000, 50000], color: '#beffbe' },
+  { value: [50000, 250000], color: '#a0ffa0' },
+  { value: [250000, 1000000], color: '#78ff78' },
+  { value: [1000000, 5000000], color: '#41ff41' },
+  { value: [5000000, 5000000000], color: '#009900' },
 ];
