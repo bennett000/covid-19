@@ -3,8 +3,8 @@ import {
   LocationSeries,
   TimeSeriesType,
   ITimeSeriesArray,
+  TimeSeriesCount,
 } from './interfaces';
-import { Dictionary } from '@ch1/utility';
 
 export class TimeSeries implements ITimeSeries {
   static create(locationSeries: LocationSeries) {
@@ -34,9 +34,6 @@ export class TimeSeries implements ITimeSeries {
     );
   }
 
-  index() {
-    return this.data.index;
-  }
   lastActive() {
     return this.lastValue('active');
   }
@@ -77,8 +74,14 @@ export class TimeSeries implements ITimeSeries {
   country() {
     return this.data.country;
   }
+  countryCode() {
+    return this.data.countryCode;
+  }
   countryName() {
     return this.data.country + (this.data.state ? ', ' + this.data.state : '');
+  }
+  key() {
+    return this.data.key;
   }
   locale() {
     return this.data.locale;
@@ -91,6 +94,9 @@ export class TimeSeries implements ITimeSeries {
   }
   state() {
     return this.data.state;
+  }
+  stateCode() {
+    return this.data.stateCode;
   }
 }
 
@@ -189,4 +195,14 @@ export class TimeSeriesArray extends Array implements ITimeSeriesArray {
   sortByRecoveriesPercent(asc = true) {
     this.sortByProp('lastRecoveriesPercent', asc);
   }
+}
+
+export function createTimeSeriesCount(): TimeSeriesCount {
+  return {
+    active: 0,
+    confirmed: 0,
+    deaths: 0,
+    recoveries: 0,
+    projectionReverseDeath: 0,
+  };
 }

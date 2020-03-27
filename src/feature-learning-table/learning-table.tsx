@@ -22,11 +22,11 @@ const header = [
     sort: 'sortByCountry',
   },
   {
-    label: 'Active',
+    label: 'Active*',
     sort: 'sortByActive',
   },
   {
-    label: 'Active %',
+    label: 'Active* %',
     sort: 'sortByActivePercent',
   },
   {
@@ -46,11 +46,11 @@ const header = [
     sort: 'sortByDeathsPercent',
   },
   {
-    label: 'Recoveries',
+    label: 'Recoveries*',
     sort: 'sortByRecoveries',
   },
   {
-    label: 'Recoveries %',
+    label: 'Recoveries* %',
     sort: 'sortByRecoveriesPercent',
   },
   {
@@ -68,10 +68,10 @@ const header = [
 ];
 
 export class LearningTable extends Component<{
-  countryIndexes: number[];
+  countryKeys: string[];
   menu: MenuProp;
   onChange: (lgs: TableState) => any;
-  selectCountry: (countryIndex: number) => any;
+  selectCountry: (countryIndex: string) => any;
   state: TableState;
   timeSeries: ITimeSeriesArray;
 }> {
@@ -169,7 +169,7 @@ export class LearningTable extends Component<{
                   return '';
                 }
                 if (this.props.state.showAll === false) {
-                  if (this.props.countryIndexes.indexOf(ts.index()) === -1) {
+                  if (this.props.countryKeys.indexOf(ts.key()) === -1) {
                     return '';
                   }
                 }
@@ -177,13 +177,13 @@ export class LearningTable extends Component<{
                   ts.country() + (ts.state() ? ', ' + ts.state() : '');
                 const rowParity = i % 2 === 0 ? rowEven : rowOdd;
                 const rowClass =
-                  this.props.countryIndexes.indexOf(ts.index()) > -1
+                  this.props.countryKeys.indexOf(ts.key()) > -1
                     ? rowHighlight + ' ' + rowParity
                     : rowParity;
                 return (
                   <tr
                     className={rowClass}
-                    onClick={() => this.props.selectCountry(ts.index())}
+                    onClick={() => this.props.selectCountry(ts.key())}
                   >
                     <td style={width}>{name}</td>
                     {this.props.state.columns.indexOf(1) > -1 ? (
@@ -287,7 +287,7 @@ export class LearningTable extends Component<{
             <section className={flex}>
               <SelectMultiple
                 onChange={noop as any}
-                onClick={v => this.onChangeColumns(v + 1)}
+                onClick={v => this.onChangeColumns(parseInt(v + '', 10) + 1)}
                 options={header.map(item => item.label).slice(1)}
                 selected={this.props.state.columns.map(c => c - 1)}
               ></SelectMultiple>

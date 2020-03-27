@@ -8,27 +8,34 @@ import {
   ITimeSeries,
   TimeSeriesType,
   ITimeSeriesArray,
+  LocationSeries,
+  TimeSeriesCount,
 } from './interfaces';
 import {
   reverseDeathProjectionDefaults,
-  totalString,
-  worldString,
-  usaString,
   projectionPalette,
   basePalette,
+  totalString,
 } from './constants';
 import rawPopulationData from 'country-json/src/country-by-population.json';
 import rawPopulationDensityData from 'country-json/src/country-by-population-density.json';
-import { Dictionary, objReduce } from '@ch1/utility';
+import { Dictionary, objReduce, objEach } from '@ch1/utility';
 import {
   mapJhuCountryToPop,
   manuallySourcePop,
-  usStates,
   usStateCodeByName,
   manuallySourceStatePop,
+  countriesToCodes,
+  statesToCodes,
 } from './data-maps';
 import { log } from './utility';
-import { TimeSeries, TimeSeriesArray } from './time-series';
+import {
+  createTimeSeriesCount,
+  TimeSeries,
+  TimeSeriesArray,
+} from './time-series';
+
+const recoveryDays = 25;
 
 const populationDictionary: {
   [key: string]: number;
@@ -48,22 +55,227 @@ const urls = [
   // updated from previous deprecated files (https://github.com/CSSEGISandData/COVID-19/commit/203881b83c3820521f5af7cafb0d15367e415652)
   'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv',
   'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv',
-  'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Recovered.csv',
+  'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_recovered_global.csv',
 ];
 
 export function fetchData(): Promise<{
   countries: SelectOptionsWithIndex[];
+  dictionary: Dictionary<ITimeSeries>;
   timeSeries: ITimeSeriesArray;
 }> {
   return Promise.all(urls.map(url => fetch(url)))
     .then(unwrapResponses)
     .then(convertAllCsvToStructured)
+    .then(convertToCountryDictionary)
+    .then(manuallyAdjust)
+    .then(interpolateRecoveriesAndActiveCases)
     .then(sumAllRegions)
-    .then(generateActiveCases)
-    .then(generateReverseDeathProjection)
-    .then(mergeDataSets)
-    .then(alphabetize)
+    .then(toITimeSeries)
     .then(extractCountries);
+}
+
+function manuallyAdjust(dict: Dictionary<LocationSeries>) {
+  // there will be some initial data that needs correction to keep things organized
+
+  // there is no top level entry for Canadian confirmed cases or deaths, this minimal recovery data
+  delete dict.CA;
+
+  return dict;
+}
+
+export function toITimeSeries(dict: Dictionary<LocationSeries>) {
+  const dictionary: Dictionary<ITimeSeries> = {};
+  const timeSeries = objReduce(
+    dict,
+    (arr, location, key) => {
+      if (location.locale) {
+        return arr;
+      }
+      const ts = TimeSeries.create(location);
+      arr.push(ts);
+      dictionary[key] = ts;
+      return arr;
+    },
+    TimeSeriesArray.create()
+  );
+  return { dictionary, timeSeries };
+}
+
+export function convertToCountryDictionary(
+  dataSets: JhuSet[]
+): Dictionary<LocationSeries> {
+  const dict: Dictionary<LocationSeries> = {};
+  const createOnEach = (prop: TimeSeriesType) => c => {
+    const countryCode = countriesToCodes[c.country];
+    if (!countryCode) {
+      log('country not found', c.country);
+      return;
+    }
+    let code = countryCode;
+    let stateCode = '';
+    if (c.state) {
+      const states = statesToCodes[c.country];
+      if (!states) {
+        log('state set not found', c.country + ',', c.state);
+        return;
+      }
+      stateCode = states[c.state];
+      if (!stateCode) {
+        log('state not found', c.coutry + ',', c.state);
+        return;
+      }
+      code = code + '.' + stateCode;
+    }
+    if (c.locale) {
+      code = code + '.' + c.locale;
+    }
+    if (dict[code]) {
+      c.timeSeries.map((value, i) => {
+        if (dict[code].counts[i] === undefined) {
+          log('Warning: unexpected length:', prop);
+          dict[code].counts[i] = createTimeSeriesCount();
+        }
+        dict[code].counts[i][prop] = value;
+      });
+    } else {
+      dict[code] = {
+        country: c.country,
+        countryCode,
+        counts: c.timeSeries.map(value => {
+          const tsc = createTimeSeriesCount();
+          tsc[prop] = value;
+          return tsc;
+        }),
+        dates: dataSets[0][0],
+        key: code,
+        locale: c.locale,
+        population: c.population,
+        populationDensity: c.populationDensity,
+        state: c.state,
+        stateCode,
+      };
+    }
+  };
+
+  dataSets[0][1].forEach(createOnEach('confirmed'));
+  dataSets[1][1].forEach(createOnEach('deaths'));
+  dataSets[2][1].forEach(createOnEach('recoveries'));
+
+  return dict;
+}
+
+export function getRecoveryDays(
+  count: TimeSeriesCount,
+  i: number,
+  arr: TimeSeriesCount[],
+  rdays
+) {
+  if (count.confirmed) {
+    if (count.recoveries < 1) {
+      if (arr[i - rdays]) {
+        if (arr[i - rdays - 1]) {
+          const rprev = arr[i - rdays - 1].confirmed;
+          const rcurr = arr[i - rdays].confirmed;
+          const diff = rcurr - rprev;
+
+          if (arr[i - 1]) {
+            return diff + arr[i - 1].recoveries;
+          } else {
+            return diff;
+          }
+        }
+      }
+    } else {
+      return count.recoveries;
+    }
+  } else {
+    if (count.deaths) {
+      log('Warning: data seems odd, there are deaths but no confirmed cases');
+    }
+    if (count.recoveries) {
+      log(
+        'Warning: data seems odd, there are recoveries but no confirmed cases'
+      );
+    }
+  }
+  return 0;
+}
+
+export function interpolateRecoveriesAndActiveCases(
+  dict: Dictionary<LocationSeries>
+): Dictionary<LocationSeries> {
+  objEach(dict, c => {
+    c.counts.forEach((count, i, arr) => {
+      count.recoveries = getRecoveryDays(count, i, arr, recoveryDays);
+      count.active = count.confirmed - count.deaths - count.recoveries;
+      count.projectionReverseDeath = reverseDeathProjection(count);
+    });
+  });
+  return dict;
+}
+
+export function reverseDeathProjection(day: TimeSeriesCount) {
+  // projection is based on https://medium.com/@tomaspueyo/coronavirus-act-today-or-people-will-die-f4d3d9cd99ca
+  // https://docs.google.com/spreadsheets/d/1R25ygRLahhSNP2N-lnas_9a9aRWGCtAt3_sCYDoRyAU/edit#gid=0
+  const deaths = day.deaths;
+  const numberOfCasesCausingDeath =
+    deaths / reverseDeathProjectionDefaults.fatalityRate;
+  const numberOfDoubles =
+    reverseDeathProjectionDefaults.daysFromInfectionToDeath /
+    reverseDeathProjectionDefaults.doublingTime;
+
+  return numberOfCasesCausingDeath * Math.pow(2, numberOfDoubles);
+}
+
+export function addCounts(a: TimeSeriesCount, b: TimeSeriesCount) {
+  return {
+    active: a.active + b.active,
+    confirmed: a.confirmed + b.confirmed,
+    deaths: a.deaths + b.deaths,
+    recoveries: a.recoveries + b.recoveries,
+    projectionReverseDeath: a.projectionReverseDeath + b.projectionReverseDeath,
+  };
+}
+
+export function sumAllRegions(
+  dict: Dictionary<LocationSeries>
+): Dictionary<LocationSeries> {
+  objEach(dict, location => {
+    if (location.state === totalString) {
+      // skip totals
+      return;
+    }
+    if (location.state) {
+      if (location.locale) {
+        // re-implement US addition?
+        return;
+      }
+      if (dict[location.countryCode]) {
+        // skip if there's already a total like in UK's case
+        return;
+      }
+      const totalKey = location.countryCode + '.' + totalString;
+      if (dict[totalKey] === undefined) {
+        dict[totalKey] = {
+          ...location,
+          key: totalKey,
+          locale: '',
+          population: getPopulation(location.country),
+          populationDensity: getPopulationDensity(location.country),
+          state: totalString,
+          counts: [],
+        };
+      }
+      location.counts.forEach((count, i) => {
+        if (dict[totalKey].counts[i]) {
+          dict[totalKey].counts[i] = addCounts(dict[totalKey].counts[i], count);
+        } else {
+          dict[totalKey].counts[i] = count;
+        }
+      });
+    }
+  });
+  return dict;
 }
 
 function getPopulation(
@@ -247,204 +459,39 @@ function convertAllCsvToStructured(strings: string[]) {
   return strings.map(convertStringArrayToStructured);
 }
 
-export function sumRegion(dictionary: Dictionary<number[]>) {
-  return (ts: JhuTimeSeries) => {
-    const addTimeSeries = (key: string) => {
-      const currentTs =
-        dictionary[key] || new Array(ts.timeSeries.length).fill(0);
-      ts.timeSeries.forEach((cell, i) => {
-        currentTs[i] += cell;
-      });
-      dictionary[key] = currentTs;
-    };
-
-    addTimeSeries(worldString);
-
-    if (ts.state && !ts.locale) {
-      if (ts.country === usaString) {
-        addTimeSeries(`${ts.country}.${ts.state}`);
-        addTimeSeries(ts.country);
-      } else {
-        addTimeSeries(ts.country);
-      }
-    }
-
-    if (ts.locale) {
-      if (ts.country === usaString) {
-        const stateName = usStates[ts.state];
-        if (stateName) {
-          addTimeSeries(`${ts.country}.${stateName}`);
-          addTimeSeries(ts.country);
-        } else {
-          log('US state ', ts.state, `(${ts.locale}) not found in map`);
-        }
-      } else {
-        log('Non US locale', ts.country, ts.state, ts.locale);
-      }
-    }
-  };
-}
-
-export function sumDataSetRegions(
-  timeSeries: JhuTimeSeries[]
-): JhuTimeSeries[] {
-  const dictionary: Dictionary<number[]> = {};
-  timeSeries.forEach(sumRegion(dictionary));
-
-  return totalsDictionaryToTimeSeries(dictionary, timeSeries);
-}
-
-export function totalsDictionaryToTimeSeries(
-  dictionary: Dictionary<number[]>,
-  timeSeries: JhuTimeSeries[]
-) {
-  return objReduce(
+function extractCountries({
+  dictionary,
+  timeSeries,
+}: {
+  dictionary: Dictionary<ITimeSeries>;
+  timeSeries: ITimeSeriesArray;
+}) {
+  const countries = objReduce(
     dictionary,
-    (s: JhuTimeSeries[], totalSeries, key) => {
-      const parts = key.split('.').filter(Boolean);
-      if (parts.length < 1) {
-        return s;
+    (arr, location, key) => {
+      if (location.locale()) {
+        return arr;
       }
-      s.push({
-        country: parts[0],
-        locale: '',
-        population: getPopulation(parts[0], parts[1]),
-        populationDensity: getPopulationDensity(parts[0], parts[1]),
-        state: parts[1] || totalString,
-        timeSeries: totalSeries,
-      });
-      return s;
+      const name = location.countryName();
+      arr.push({ index: key, name });
+      return arr;
     },
     []
-  ).concat(
-    timeSeries.filter(el => {
-      if (el.country === usaString) {
-        if (el.state || el.locale) {
-          return false;
-        }
-      }
-      return true;
-    })
-  );
+  ).sort(sortByProp('name'));
+
+  return { countries, dictionary, timeSeries };
 }
 
-export function sumAllRegions(dataSets: JhuSet[]): JhuSet[] {
-  return dataSets.map(ds => {
-    const [header, dataSet] = ds;
-    return [header, sumDataSetRegions(dataSet)];
-  });
-}
-
-function alphabetize(timeSeries: ITimeSeriesArray): ITimeSeriesArray {
-  timeSeries.sortByCountry();
-  return timeSeries;
-}
-
-export function generateActiveCases(dataSets: JhuSet[]): JhuSet[] {
-  const activeSet: JhuSet[] = [
-    [
-      dataSets[0][0],
-      dataSets[0][1].map((ts, i) => {
-        return {
-          country: ts.country,
-          locale: ts.locale,
-          population:
-            ts.country === worldString ? worldPopulation() : ts.population,
-          populationDensity: ts.populationDensity,
-          state: ts.state,
-          timeSeries: ts.timeSeries.map((confirmed, j) => {
-            return (
-              confirmed -
-              dataSets[1][1][i].timeSeries[j] -
-              dataSets[2][1][i].timeSeries[j]
-            );
-          }),
-        };
-      }),
-    ],
-  ];
-  return activeSet.concat(dataSets);
-}
-
-export function generateReverseDeathProjection(dataSets: JhuSet[]): JhuSet[] {
-  const activeSet: JhuSet[] = [
-    [
-      dataSets[0][0],
-      dataSets[0][1].map((ts, i) => {
-        return {
-          country: ts.country,
-          locale: ts.locale,
-          population:
-            ts.country === worldString ? worldPopulation() : ts.population,
-          populationDensity: ts.populationDensity,
-          state: ts.state,
-          timeSeries: ts.timeSeries.map((confirmed, j) => {
-            if (
-              dataSets[2][1][i].timeSeries[j] <
-              reverseDeathProjectionDefaults.minDeaths
-            ) {
-              return 0;
-            }
-            // projection is based on https://medium.com/@tomaspueyo/coronavirus-act-today-or-people-will-die-f4d3d9cd99ca
-            // https://docs.google.com/spreadsheets/d/1R25ygRLahhSNP2N-lnas_9a9aRWGCtAt3_sCYDoRyAU/edit#gid=0
-            const deaths = dataSets[2][1][i].timeSeries[j];
-            const numberOfCasesCausingDeath =
-              deaths / reverseDeathProjectionDefaults.fatalityRate;
-            const numberOfDoubles =
-              reverseDeathProjectionDefaults.daysFromInfectionToDeath /
-              reverseDeathProjectionDefaults.doublingTime;
-
-            return numberOfCasesCausingDeath * Math.pow(2, numberOfDoubles);
-          }),
-        };
-      }),
-    ],
-  ];
-  return dataSets.concat(activeSet);
-}
-
-export function mergeDataSets(dataSets: JhuSet[]): ITimeSeriesArray {
-  const dates = dataSets[0][0];
-  const its = TimeSeriesArray.create();
-  dataSets[0][1].forEach((row, rowIndex) => {
-    its.push(
-      TimeSeries.create({
-        country: row.country,
-        index: rowIndex,
-        dates,
-        locale: row.locale,
-        population: row.population,
-        populationDensity: row.populationDensity,
-        state: row.state,
-        counts: row.timeSeries.map((number, timeSeriesIndex) => {
-          return {
-            active: dataSets[0][1][rowIndex].timeSeries[timeSeriesIndex],
-            confirmed: dataSets[1][1][rowIndex].timeSeries[timeSeriesIndex],
-            deaths: dataSets[2][1][rowIndex].timeSeries[timeSeriesIndex],
-            recoveries: dataSets[3][1][rowIndex].timeSeries[timeSeriesIndex],
-            projectionReverseDeath:
-              dataSets[4][1][rowIndex].timeSeries[timeSeriesIndex],
-          };
-        }),
-      })
-    );
-  });
-  return its;
-}
-
-function extractCountries(timeSeries: ITimeSeriesArray) {
-  const countries = timeSeries
-    .reduce((countryArr: SelectOptionsWithIndex[], row, i) => {
-      if (row.locale()) {
-        return countryArr;
-      }
-      const name = row.countryName();
-      countryArr.push({ index: row.index(), name });
-      return countryArr;
-    }, [])
-    .filter(Boolean);
-
-  return { countries, timeSeries };
+function sortByProp(prop: string) {
+  return (a: any, b: any) => {
+    if (a[prop] < b[prop]) {
+      return -1;
+    }
+    if (a[prop] > b[prop]) {
+      return 1;
+    }
+    return 0;
+  };
 }
 
 function getChartTypeFromIndex(index: number) {
@@ -470,7 +517,7 @@ export function selectData(cache: Dictionary<ChartSeries>, state: AppState) {
     return {
       countries,
       series: timeSeries.reduce((cs: ChartSeries[], ts) => {
-        if (state.countryIndexes.indexOf(ts.index()) > -1) {
+        if (state.countryKeys.indexOf(ts.key()) > -1) {
           return selectDataByMode(cache, state, cs, ts, selectedIndex++);
         }
         return cs;

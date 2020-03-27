@@ -17,7 +17,7 @@ export function createState(): AppState {
     currentSeries: [],
     data: TimeSeriesArray.create(),
     dataPromise: fetchData(),
-    countryIndexes: defaultCountries,
+    countryKeys: defaultCountries,
     routePath: '/',
     lineGraphState: {
       dataSetIndexes: [defaultDataset],
@@ -103,7 +103,7 @@ function isSavedAppState(thing: any): boolean {
     return false;
   }
 
-  if (Array.isArray(thing.countryIndexes) === false) {
+  if (Array.isArray(thing.countryKeys) === false) {
     return false;
   }
 

@@ -10,12 +10,12 @@ import { isMobile } from '../utility';
 type SelectMultipleFilterProps = {
   classes?: string[];
   filter: string;
-  onChange: (selected: number[]) => any;
+  onChange: (selected: any[]) => any;
   onClear: () => any;
-  onDeselect: (index: number) => any;
+  onDeselect: (index: number | string) => any;
   onUpdateFilter: () => any;
   options: SelectOptions;
-  selected: number[];
+  selected: any[];
 };
 
 export class SelectMultipleFilter extends Component<SelectMultipleFilterProps> {

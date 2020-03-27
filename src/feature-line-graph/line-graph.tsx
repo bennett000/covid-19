@@ -14,12 +14,12 @@ import { Menu } from '../components/menu';
 export class LineGraph extends Component<{
   clearCountries: () => any;
   countries: SelectOptionsWithIndex[];
-  countryIndexes: number[];
+  countryKeys: string[];
   currentSeries: ChartSeries[];
   menu: MenuProp;
   onChange: (lgs: LineGraphState) => any;
   reload: () => any;
-  selectCountry: (country: number) => any;
+  selectCountry: (country: string) => any;
   state: LineGraphState;
 }> {
   constructor() {
@@ -59,7 +59,7 @@ export class LineGraph extends Component<{
   render() {
     const classes =
       this.props.state.isConfigOpen === false &&
-      this.props.countryIndexes.length === 0
+      this.props.countryKeys.length === 0
         ? ['green']
         : [];
     return (
@@ -84,7 +84,7 @@ export class LineGraph extends Component<{
           <LineGraphControls
             onUpdateCountryFilter={this.setCountryFilter.bind(this)}
             clearCountries={this.props.clearCountries}
-            countryIndexes={this.props.countryIndexes}
+            countryKeys={this.props.countryKeys}
             countries={this.props.countries}
             currentSeries={this.props.currentSeries}
             onChange={this.props.onChange}

@@ -135,12 +135,12 @@
         return S(t);
       }
     }
-    function C(t) {
+    function v(t) {
       ((!t.__d && (t.__d = !0) && o.push(t) && !i++) ||
         s !== a.debounceRendering) &&
-        ((s = a.debounceRendering) || r)(v);
+        ((s = a.debounceRendering) || r)(C);
     }
-    function v() {
+    function C() {
       for (var t; (i = o.length); )
         (t = o.sort(function(t, e) {
           return t.__v.__b - e.__v.__b;
@@ -152,7 +152,7 @@
               ((i = (o = (e = t).__v).__e),
               (r = e.__P) &&
                 ((n = []),
-                (a = O(
+                (a = M(
                   r,
                   o,
                   y({}, o),
@@ -162,7 +162,7 @@
                   n,
                   null == i ? b(o) : i
                 )),
-                M(n, o),
+                w(n, o),
                 a != i && S(o)));
           });
     }
@@ -174,29 +174,29 @@
         m,
         g,
         S,
-        C = (n && n.__k) || c,
-        v = C.length;
+        v = (n && n.__k) || c,
+        C = v.length;
       if (
-        (s == l && (s = null != i ? i[0] : v ? b(n, 0) : null),
+        (s == l && (s = null != i ? i[0] : C ? b(n, 0) : null),
         (p = 0),
         (e.__k = _(e.__k, function(n) {
           if (null != n) {
             if (
               ((n.__ = e),
               (n.__b = e.__b + 1),
-              null === (h = C[p]) || (h && n.key == h.key && n.type === h.type))
+              null === (h = v[p]) || (h && n.key == h.key && n.type === h.type))
             )
-              C[p] = void 0;
+              v[p] = void 0;
             else
-              for (y = 0; y < v; y++) {
-                if ((h = C[y]) && n.key == h.key && n.type === h.type) {
-                  C[y] = void 0;
+              for (y = 0; y < C; y++) {
+                if ((h = v[y]) && n.key == h.key && n.type === h.type) {
+                  v[y] = void 0;
                   break;
                 }
                 h = null;
               }
             if (
-              ((f = O(t, n, (h = h || l), a, o, i, r, s, u)),
+              ((f = M(t, n, (h = h || l), a, o, i, r, s, u)),
               (y = n.ref) &&
                 h.ref != y &&
                 (S || (S = []),
@@ -211,7 +211,7 @@
                 t: if (null == s || s.parentNode !== t)
                   t.appendChild(f), (c = null);
                 else {
-                  for (m = s, y = 0; (m = m.nextSibling) && y < v; y += 2)
+                  for (m = s, y = 0; (m = m.nextSibling) && y < C; y += 2)
                     if (m == f) break t;
                   t.insertBefore(f, s), (c = s);
                 }
@@ -227,8 +227,8 @@
         null != i && 'function' != typeof e.type)
       )
         for (p = i.length; p--; ) null != i[p] && d(i[p]);
-      for (p = v; p--; ) null != C[p] && P(C[p], C[p]);
-      if (S) for (p = 0; p < S.length; p++) B(S[p], S[++p], S[++p]);
+      for (p = C; p--; ) null != v[p] && T(v[p], v[p]);
+      if (S) for (p = 0; p < S.length; p++) P(S[p], S[++p], S[++p]);
     }
     function _(t, e, n) {
       if ((null == n && (n = []), null == t || 'boolean' == typeof t))
@@ -249,7 +249,7 @@
         );
       return n;
     }
-    function N(t, e, n) {
+    function k(t, e, n) {
       '-' === e[0]
         ? t.setProperty(e, n)
         : (t[e] =
@@ -259,7 +259,7 @@
               ? ''
               : n);
     }
-    function I(t, e, n, a, o) {
+    function N(t, e, n, a, o) {
       var i, r, s, u, l;
       if (
         (o
@@ -271,8 +271,8 @@
         if (((i = t.style), 'string' == typeof n)) i.cssText = n;
         else {
           if (('string' == typeof a && ((i.cssText = ''), (a = null)), a))
-            for (r in a) (n && r in n) || N(i, r, '');
-          if (n) for (s in n) (a && n[s] === a[s]) || N(i, s, n[s]);
+            for (r in a) (n && r in n) || k(i, r, '');
+          if (n) for (s in n) (a && n[s] === a[s]) || k(i, s, n[s]);
         }
       else
         'o' === e[0] && 'n' === e[1]
@@ -280,8 +280,8 @@
             (l = e.toLowerCase()),
             (e = (l in t ? l : e).slice(2)),
             n
-              ? (a || t.addEventListener(e, k, u), ((t.l || (t.l = {}))[e] = n))
-              : t.removeEventListener(e, k, u))
+              ? (a || t.addEventListener(e, O, u), ((t.l || (t.l = {}))[e] = n))
+              : t.removeEventListener(e, O, u))
           : 'list' !== e &&
             'tagName' !== e &&
             'form' !== e &&
@@ -307,10 +307,10 @@
               ? t.removeAttribute(e)
               : t.setAttribute(e, n));
     }
-    function k(t) {
+    function O(t) {
       this.l[t.type](a.event ? a.event(t) : t);
     }
-    function O(t, e, n, o, i, r, s, u, l) {
+    function M(t, e, n, o, i, r, s, u, l) {
       var c,
         p,
         d,
@@ -318,56 +318,56 @@
         f,
         b,
         S,
-        C,
         v,
+        C,
         _,
-        N = e.type;
+        k = e.type;
       if (void 0 !== e.constructor) return null;
       (c = a.__b) && c(e);
       try {
-        t: if ('function' == typeof N) {
+        t: if ('function' == typeof k) {
           if (
-            ((C = e.props),
-            (v = (c = N.contextType) && o[c.__c]),
-            (_ = c ? (v ? v.props.value : c.__) : o),
+            ((v = e.props),
+            (C = (c = k.contextType) && o[c.__c]),
+            (_ = c ? (C ? C.props.value : c.__) : o),
             n.__c
               ? (S = (p = e.__c = n.__c).__ = p.__E)
-              : ('prototype' in N && N.prototype.render
-                  ? (e.__c = p = new N(C, _))
-                  : ((e.__c = p = new g(C, _)),
-                    (p.constructor = N),
-                    (p.render = T)),
-                v && v.sub(p),
-                (p.props = C),
+              : ('prototype' in k && k.prototype.render
+                  ? (e.__c = p = new k(v, _))
+                  : ((e.__c = p = new g(v, _)),
+                    (p.constructor = k),
+                    (p.render = B)),
+                C && C.sub(p),
+                (p.props = v),
                 p.state || (p.state = {}),
                 (p.context = _),
                 (p.__n = o),
                 (d = p.__d = !0),
                 (p.__h = [])),
             null == p.__s && (p.__s = p.state),
-            null != N.getDerivedStateFromProps &&
+            null != k.getDerivedStateFromProps &&
               (p.__s == p.state && (p.__s = y({}, p.__s)),
-              y(p.__s, N.getDerivedStateFromProps(C, p.__s))),
+              y(p.__s, k.getDerivedStateFromProps(v, p.__s))),
             (h = p.props),
             (f = p.state),
             d)
           )
-            null == N.getDerivedStateFromProps &&
+            null == k.getDerivedStateFromProps &&
               null != p.componentWillMount &&
               p.componentWillMount(),
               null != p.componentDidMount && p.__h.push(p.componentDidMount);
           else {
             if (
-              (null == N.getDerivedStateFromProps &&
-                C !== h &&
+              (null == k.getDerivedStateFromProps &&
+                v !== h &&
                 null != p.componentWillReceiveProps &&
-                p.componentWillReceiveProps(C, _),
+                p.componentWillReceiveProps(v, _),
               !p.__e &&
                 null != p.shouldComponentUpdate &&
-                !1 === p.shouldComponentUpdate(C, p.__s, _))
+                !1 === p.shouldComponentUpdate(v, p.__s, _))
             ) {
               for (
-                p.props = C,
+                p.props = v,
                   p.state = p.__s,
                   p.__d = !1,
                   p.__v = e,
@@ -381,14 +381,14 @@
                 e.__k[c] && (e.__k[c].__ = e);
               break t;
             }
-            null != p.componentWillUpdate && p.componentWillUpdate(C, p.__s, _),
+            null != p.componentWillUpdate && p.componentWillUpdate(v, p.__s, _),
               null != p.componentDidUpdate &&
                 p.__h.push(function() {
                   p.componentDidUpdate(h, f, b);
                 });
           }
           (p.context = _),
-            (p.props = C),
+            (p.props = v),
             (p.state = p.__s),
             (c = a.__r) && c(e),
             (p.__d = !1),
@@ -410,14 +410,14 @@
             p.__h.length && s.push(p),
             S && (p.__E = p.__ = null),
             (p.__e = !1);
-        } else e.__e = w(n.__e, e, n, o, i, r, s, l);
+        } else e.__e = I(n.__e, e, n, o, i, r, s, l);
         (c = a.diffed) && c(e);
       } catch (t) {
         a.__e(t, e, n);
       }
       return e.__e;
     }
-    function M(t, e) {
+    function w(t, e) {
       a.__c && a.__c(e, t),
         t.some(function(e) {
           try {
@@ -431,7 +431,7 @@
           }
         });
     }
-    function w(t, e, n, a, o, i, r, s) {
+    function I(t, e, n, a, o, i, r, s) {
       var u,
         p,
         y,
@@ -473,13 +473,13 @@
         }
         (function(t, e, n, a, o) {
           var i;
-          for (i in n) i in e || I(t, i, null, n[i], a);
+          for (i in n) i in e || N(t, i, null, n[i], a);
           for (i in e)
             (o && 'function' != typeof e[i]) ||
               'value' === i ||
               'checked' === i ||
               n[i] === e[i] ||
-              I(t, i, e[i], n[i], a);
+              N(t, i, e[i], n[i], a);
         })(t, m, f, o, s),
           (e.__k = e.props.children),
           d || A(t, e, n, a, 'foreignObject' !== e.type && o, i, r, l, s),
@@ -495,18 +495,18 @@
       }
       return t;
     }
-    function B(t, e, n) {
+    function P(t, e, n) {
       try {
         'function' == typeof t ? t(e) : (t.current = e);
       } catch (t) {
         a.__e(t, n);
       }
     }
-    function P(t, e, n) {
+    function T(t, e, n) {
       var o, i, r;
       if (
         (a.unmount && a.unmount(t),
-        (o = t.ref) && ((o.current && o.current !== t.__e) || B(o, null, e)),
+        (o = t.ref) && ((o.current && o.current !== t.__e) || P(o, null, e)),
         n || 'function' == typeof t.type || (n = null != (i = t.__e)),
         (t.__e = t.__d = void 0),
         null != (o = t.__c))
@@ -519,19 +519,19 @@
           }
         o.base = o.__P = null;
       }
-      if ((o = t.__k)) for (r = 0; r < o.length; r++) o[r] && P(o[r], e, n);
+      if ((o = t.__k)) for (r = 0; r < o.length; r++) o[r] && T(o[r], e, n);
       null != i && d(i);
     }
-    function T(t, e, n) {
+    function B(t, e, n) {
       return this.constructor(t, n);
     }
-    function x(t, e, n) {
+    function D(t, e, n) {
       var o, i, r;
       a.__ && a.__(t, e),
         (i = (o = n === u) ? null : (n && n.__k) || e.__k),
         (t = h(m, null, [t])),
         (r = []),
-        O(
+        M(
           e,
           ((o ? e : n || e).__k = t),
           i || l,
@@ -542,7 +542,7 @@
           n || l,
           o
         ),
-        M(r, t);
+        w(r, t);
     }
     (a = {
       __e: function(t, e) {
@@ -558,7 +558,7 @@
                   ((a = !0), n.componentDidCatch(t)),
                 a)
               )
-                return C((n.__E = n));
+                return v((n.__E = n));
             } catch (e) {
               t = e;
             }
@@ -571,10 +571,10 @@
           this.__s !== this.state ? this.__s : (this.__s = y({}, this.state))),
           'function' == typeof t && (t = t(n, this.props)),
           t && y(n, t),
-          null != t && this.__v && (e && this.__h.push(e), C(this));
+          null != t && this.__v && (e && this.__h.push(e), v(this));
       }),
       (g.prototype.forceUpdate = function(t) {
-        this.__v && ((this.__e = !0), t && this.__h.push(t), C(this));
+        this.__v && ((this.__e = !0), t && this.__h.push(t), v(this));
       }),
       (g.prototype.render = m),
       (o = []),
@@ -584,12 +584,12 @@
           ? Promise.prototype.then.bind(Promise.resolve())
           : setTimeout),
       (u = l);
-    var D = {};
-    function E(t, e) {
+    var E = {};
+    function j(t, e) {
       for (var n in e) t[n] = e[n];
       return t;
     }
-    function G(t, e, n) {
+    function x(t, e, n) {
       var a,
         o = /(?:\?([^#]*))?(#.*)?$/,
         i = t.match(o),
@@ -605,7 +605,7 @@
       for (var c = Math.max(t.length, e.length), p = 0; p < c; p++)
         if (e[p] && ':' === e[p].charAt(0)) {
           var y = e[p].replace(/(^:|[+*?]+$)/g, ''),
-            d = (e[p].match(/[+*?]+$/) || D)[0] || '',
+            d = (e[p].match(/[+*?]+$/) || E)[0] || '',
             h = ~d.indexOf('+'),
             f = ~d.indexOf('*'),
             m = t[p] || '';
@@ -626,7 +626,7 @@
         }
       return (!0 === n.default || !1 !== a) && r;
     }
-    function j(t, e) {
+    function G(t, e) {
       return t.rank < e.rank ? 1 : t.rank > e.rank ? -1 : t.index - e.index;
     }
     function F(t, e) {
@@ -637,7 +637,7 @@
             ? 0
             : ((e = t.props.path),
               R(e)
-                .map(U)
+                .map(z)
                 .join(''));
           var e;
         })(t)),
@@ -647,24 +647,24 @@
     function R(t) {
       return t.replace(/(^\/+|\/+$)/g, '').split('/');
     }
-    function U(t) {
+    function z(t) {
       return ':' == t.charAt(0)
         ? 1 + '*+?'.indexOf(t.charAt(t.length - 1)) || 4
         : 5;
     }
-    var z = null,
-      L = [],
+    var U = null,
       K = [],
+      L = [],
       H = {};
     function V() {
       var t;
       return (
         '' +
         ((t =
-          z && z.location
-            ? z.location
-            : z && z.getCurrentLocation
-            ? z.getCurrentLocation()
+          U && U.location
+            ? U.location
+            : U && U.getCurrentLocation
+            ? U.getCurrentLocation()
             : 'undefined' != typeof location
             ? location
             : H).pathname || '') +
@@ -676,13 +676,13 @@
         void 0 === e && (e = !1),
         'string' != typeof t && t.url && ((e = t.replace), (t = t.url)),
         (function(t) {
-          for (var e = L.length; e--; ) if (L[e].canRoute(t)) return !0;
+          for (var e = K.length; e--; ) if (K[e].canRoute(t)) return !0;
           return !1;
         })(t) &&
           (function(t, e) {
             void 0 === e && (e = 'push'),
-              z && z[e]
-                ? z[e](t)
+              U && U[e]
+                ? U[e](t)
                 : 'undefined' != typeof history &&
                   history[e + 'State'] &&
                   history[e + 'State'](null, null, t);
@@ -691,9 +691,9 @@
       );
     }
     function W(t) {
-      for (var e = !1, n = 0; n < L.length; n++)
-        !0 === L[n].routeTo(t) && (e = !0);
-      for (var a = K.length; a--; ) K[a](t);
+      for (var e = !1, n = 0; n < K.length; n++)
+        !0 === K[n].routeTo(t) && (e = !0);
+      for (var a = L.length; a--; ) L[a](t);
       return e;
     }
     function Z(t) {
@@ -736,11 +736,11 @@
     var X = (function(t) {
       function e(e) {
         t.call(this, e),
-          e.history && (z = e.history),
+          e.history && (U = e.history),
           (this.state = { url: e.url || V() }),
           $ ||
             ('function' == typeof addEventListener &&
-              (z ||
+              (U ||
                 addEventListener('popstate', function() {
                   W(V());
                 }),
@@ -767,19 +767,19 @@
           return this.updating || this.forceUpdate(), e;
         }),
         (e.prototype.componentWillMount = function() {
-          L.push(this), (this.updating = !0);
+          K.push(this), (this.updating = !0);
         }),
         (e.prototype.componentDidMount = function() {
           var t = this;
-          z &&
-            (this.unlisten = z.listen(function(e) {
+          U &&
+            (this.unlisten = U.listen(function(e) {
               t.routeTo('' + (e.pathname || '') + (e.search || ''));
             })),
             (this.updating = !1);
         }),
         (e.prototype.componentWillUnmount = function() {
           'function' == typeof this.unlisten && this.unlisten(),
-            L.splice(L.indexOf(this), 1);
+            K.splice(K.indexOf(this), 1);
         }),
         (e.prototype.componentWillUpdate = function() {
           this.updating = !0;
@@ -790,14 +790,14 @@
         (e.prototype.getMatchingChildren = function(t, e, n) {
           return t
             .filter(F)
-            .sort(j)
+            .sort(G)
             .map(function(t) {
-              var a = G(e, t.props.path, t.props);
+              var a = x(e, t.props.path, t.props);
               if (a) {
                 if (!1 !== n) {
                   var o = { url: e, matches: a };
                   return (
-                    E(o, a),
+                    j(o, a),
                     delete o.ref,
                     delete o.key,
                     (function(t, e) {
@@ -839,7 +839,7 @@
         e
       );
     })(g);
-    (X.subscribers = K),
+    (X.subscribers = L),
       (X.getCurrentUrl = V),
       (X.route = J),
       (X.Router = X),
@@ -847,9 +847,9 @@
         return h(t.component, t);
       }),
       (X.Link = function(t) {
-        return h('a', E({ onClick: Y }, t));
+        return h('a', j({ onClick: Y }, t));
       }),
-      (X.exec = G);
+      (X.exec = x);
     var tt = X;
     class et extends g {
       constructor() {
@@ -962,13 +962,18 @@
       return 'string' == typeof t;
     }
     function ht() {}
-    function ft(t, e, n) {
+    function ft(t, e) {
+      Object.keys(t).forEach((n, a) => {
+        e(t[n], n, a, t);
+      });
+    }
+    function mt(t, e, n) {
       return Object.keys(t).reduce((n, a, o) => e(n, t[a], a, o, t), n);
     }
-    function mt({ onChange: t, options: e, selected: n }) {
+    function gt({ onChange: t, options: e, selected: n }) {
       return h(
         'select',
-        { onChange: e => t(parseInt(e.target.value, 10)) },
+        { onChange: e => t(e.target.value) },
         e.map((t, e) =>
           dt(t)
             ? h(
@@ -984,9 +989,9 @@
         )
       );
     }
-    function gt({ onChange: t, onClick: e, options: n, selected: a }) {
+    function bt({ onChange: t, onClick: e, options: n, selected: a }) {
       e = e || ht;
-      const o = t => e(parseInt(t.target.value, 10));
+      const o = t => e(t.target.value);
       return h(
         'select',
         {
@@ -996,7 +1001,7 @@
                 let e = [];
                 for (let n = 0; n < t.length; n += 1) {
                   const a = t[n];
-                  a.selected && e.push(parseInt(a.value, 10));
+                  a.selected && e.push(a.value);
                 }
                 return e;
               })(e.target.options)
@@ -1019,14 +1024,14 @@
         })
       );
     }
-    function bt({ onChange: t, ymdString: e }) {
+    function St({ onChange: t, ymdString: e }) {
       return h('input', {
         onChange: e => t(e.target.value),
         type: 'date',
         value: e,
       });
     }
-    function St({ classes: t, isDisabled: e, label: n, onClick: a }) {
+    function vt({ classes: t, isDisabled: e, label: n, onClick: a }) {
       return h(
         'button',
         { className: t ? t.join(' ') : '', onClick: a, disabled: e },
@@ -1050,7 +1055,7 @@
         value: o,
       });
     }
-    function vt() {
+    function At() {
       let t = !1;
       return (
         (function(e) {
@@ -1065,10 +1070,10 @@
         t
       );
     }
-    function At(...t) {
+    function _t(...t) {
       console.log('COVID-19', ...t);
     }
-    class _t extends g {
+    class kt extends g {
       constructor() {
         super();
       }
@@ -1094,7 +1099,7 @@
           h(
             'div',
             { className: nt },
-            vt()
+            At()
               ? ''
               : h(Ct, {
                   listenKeyUp: !0,
@@ -1102,15 +1107,15 @@
                   placeholder: 'filter',
                   value: this.props.filter,
                 }),
-            h(St, { label: '✗', onClick: this.props.onClear })
+            h(vt, { label: '✗', onClick: this.props.onClear })
           ),
-          vt()
-            ? h(gt, {
+          At()
+            ? h(bt, {
                 onChange: e,
                 options: this.getOptions(),
                 selected: this.props.selected,
               })
-            : h(gt, {
+            : h(bt, {
                 onChange: e,
                 onClick: t => {
                   this.props.onDeselect(t);
@@ -1122,53 +1127,61 @@
       }
     }
     const Nt = [
-        'Active',
+        'Active*',
         'Confirmed',
         'Deaths',
-        'Recoveries',
+        'Recoveries*',
         'Projection: By Reverse Death',
       ],
-      It = ['By date', 'By first confirmed', 'By first 100 confirmed'],
-      kt = ['Linear', 'Logarithmic'],
-      Ot = ['Show States', 'Hide States'],
-      Mt = ['By Value', 'Percent'];
-    function wt({ countries: t, onChange: e, reload: n, state: a }) {
+      Ot = ['By date', 'By first confirmed', 'By first 100 confirmed'],
+      Mt = ['Linear', 'Logarithmic'],
+      wt = ['Show States', 'Hide States'],
+      It = ['By Value', 'Percent'];
+    function Pt({ countries: t, onChange: e, reload: n, state: a }) {
       return h(
         'section',
         { className: 'flex flex-item-20' },
         h(
           'section',
           { className: at },
-          h(mt, {
+          h(gt, {
             onChange: function(t) {
               e(Object.assign(Object.assign({}, a), { mode: t }));
             },
-            options: It,
+            options: Ot,
             selected: a.mode,
           }),
-          h(mt, {
+          h(gt, {
             onChange: function(t) {
-              e(Object.assign(Object.assign({}, a), { scaleType: t }));
+              e(
+                Object.assign(Object.assign({}, a), {
+                  scaleType: parseInt(t + '', 10),
+                })
+              );
             },
-            options: kt,
+            options: Mt,
             selected: a.scaleType,
           }),
-          h(bt, {
+          h(St, {
             onChange: function(t) {
               e(Object.assign(Object.assign({}, a), { startDate: t }));
             },
             ymdString: a.startDate,
           })
         ),
-        h(gt, {
+        h(bt, {
           onChange: function(t) {
-            e(Object.assign(Object.assign({}, a), { dataSetIndexes: t }));
+            e(
+              Object.assign(Object.assign({}, a), {
+                dataSetIndexes: t.map(t => parseInt(t + '', 10)),
+              })
+            );
           },
           options: Nt,
           selected: a.dataSetIndexes,
         }),
-        h(_t, {
-          classes: 0 === this.props.countryIndexes.length ? ['highlight'] : [],
+        h(kt, {
+          classes: 0 === this.props.countryKeys.length ? ['highlight'] : [],
           filter: this.props.state.countryFilter,
           onUpdateFilter: this.props.onUpdateCountryFilter,
           onChange: ht,
@@ -1180,31 +1193,39 @@
               !1 === o ||
               !(t.name.indexOf(',') > -1) || t.name.indexOf(', Total') > -1)
           ),
-          selected: this.props.countryIndexes,
+          selected: this.props.countryKeys,
         }),
         h(
           'div',
           { className: at },
-          h(mt, {
+          h(gt, {
             onChange: function(t) {
-              e(Object.assign(Object.assign({}, a), { showStates: 0 !== t }));
+              e(
+                Object.assign(Object.assign({}, a), {
+                  showStates: 0 !== parseInt(t + '', 10),
+                })
+              );
             },
-            options: Ot,
+            options: wt,
             selected: a.showStates ? 1 : 0,
           }),
-          h(mt, {
+          h(gt, {
             onChange: function(t) {
-              e(Object.assign(Object.assign({}, a), { byMetric: t }));
+              e(
+                Object.assign(Object.assign({}, a), {
+                  byMetric: parseInt(t + '', 10),
+                })
+              );
             },
-            options: Mt,
+            options: It,
             selected: a.byMetric,
           }),
-          h(St, { label: 'Reload', onClick: n })
+          h(vt, { label: 'Reload', onClick: n })
         )
       );
       var o;
     }
-    function Bt({
+    function Tt({
       classes: t,
       isDisabled: e,
       labelFalse: n,
@@ -1212,23 +1233,23 @@
       onClick: o,
       state: i,
     }) {
-      return h(St, {
+      return h(vt, {
         classes: t,
         isDisabled: e,
         label: i ? a : n,
         onClick: () => o(!i),
       });
     }
-    function Pt({ config: { onClick: t, labels: e, selected: n } }) {
+    function Bt({ config: { onClick: t, labels: e, selected: n } }) {
       return h(
         'nav',
         { className: nt },
         e.map((e, a) =>
-          h(St, { isDisabled: a === n, label: e, onClick: () => t(a) })
+          h(vt, { isDisabled: a === n, label: e, onClick: () => t(a) })
         )
       );
     }
-    class Tt extends g {
+    class Dt extends g {
       constructor() {
         super(), (this.state = {});
       }
@@ -1255,7 +1276,7 @@
       render() {
         const t =
           !1 === this.props.state.isConfigOpen &&
-          0 === this.props.countryIndexes.length
+          0 === this.props.countryKeys.length
             ? ['green']
             : [];
         return h(
@@ -1272,20 +1293,20 @@
           h(
             'section',
             { className: nt },
-            h(Bt, {
+            h(Tt, {
               classes: t,
               labelTrue: '✗ Enlarge Chart',
               labelFalse: '⚙️ Configure Chart',
               onClick: this.toggleConfig.bind(this),
               state: this.props.state.isConfigOpen,
             }),
-            h(Pt, { config: this.props.menu })
+            h(Bt, { config: this.props.menu })
           ),
           this.props.state.isConfigOpen
-            ? h(wt, {
+            ? h(Pt, {
                 onUpdateCountryFilter: this.setCountryFilter.bind(this),
                 clearCountries: this.props.clearCountries,
-                countryIndexes: this.props.countryIndexes,
+                countryKeys: this.props.countryKeys,
                 countries: this.props.countries,
                 currentSeries: this.props.currentSeries,
                 onChange: this.props.onChange,
@@ -1297,73 +1318,9 @@
         );
       }
     }
-    var xt = n(0),
-      Dt = n(1);
-    const Et = Object.freeze({
-        AL: 'Alabama',
-        AK: 'Alaska',
-        AS: 'American Samoa',
-        AZ: 'Arizona',
-        AR: 'Arkansas',
-        CA: 'California',
-        CO: 'Colorado',
-        CT: 'Connecticut',
-        DE: 'Delaware',
-        'D.C.': 'District of Columbia',
-        FM: 'Federated States Of Micronesia',
-        FL: 'Florida',
-        GA: 'Georgia',
-        GU: 'Guam',
-        HI: 'Hawaii',
-        ID: 'Idaho',
-        IL: 'Illinois',
-        IN: 'Indiana',
-        IA: 'Iowa',
-        KS: 'Kansas',
-        KY: 'Kentucky',
-        LA: 'Louisiana',
-        ME: 'Maine',
-        MH: 'Marshall Islands',
-        MD: 'Maryland',
-        MA: 'Massachusetts',
-        MI: 'Michigan',
-        MN: 'Minnesota',
-        MS: 'Mississippi',
-        MO: 'Missouri',
-        MT: 'Montana',
-        NE: 'Nebraska',
-        NV: 'Nevada',
-        NH: 'New Hampshire',
-        NJ: 'New Jersey',
-        NM: 'New Mexico',
-        NY: 'New York',
-        NC: 'North Carolina',
-        ND: 'North Dakota',
-        MP: 'Northern Mariana Islands',
-        OH: 'Ohio',
-        OK: 'Oklahoma',
-        OR: 'Oregon',
-        PW: 'Palau',
-        PA: 'Pennsylvania',
-        PR: 'Puerto Rico',
-        RI: 'Rhode Island',
-        SC: 'South Carolina',
-        SD: 'South Dakota',
-        TN: 'Tennessee',
-        TX: 'Texas',
-        UT: 'Utah',
-        VT: 'Vermont',
-        VI: 'Virgin Islands',
-        VA: 'Virginia',
-        WA: 'Washington',
-        WV: 'West Virginia',
-        WI: 'Wisconsin',
-        WY: 'Wyoming',
-      }),
-      Gt = Object.freeze(
-        Object.keys(Et).reduce((t, e) => ((t[Et[e]] = e), t), {})
-      ),
-      jt = Object.freeze({
+    var Et = n(0),
+      jt = n(1);
+    const xt = Object.freeze({
         'Congo (Kinshasa)': 'The Democratic Republic of Congo',
         "Cote d'Ivoire": 'Ivory Coast',
         Czechia: 'Czech Republic',
@@ -1377,7 +1334,7 @@
         'The Gambia': 'Gambia',
         US: 'United States',
       }),
-      Ft = Object.freeze({
+      Gt = Object.freeze({
         'Bahamas, The': 395361,
         'Cabo Verde': 546388,
         'Congo (Brazzaville)': 18e5,
@@ -1392,7 +1349,7 @@
         Serbia: 7022e3,
         'Taiwan*': 2378e4,
       }),
-      Rt = Object.freeze({
+      Ft = Object.freeze({
         Australia: Object.freeze({
           'Australian Capital Territory': 426709,
           'New South Wales': 8089526,
@@ -1541,7 +1498,7 @@
           PR: 3615086,
         }),
       }),
-      Ut = Object.freeze({
+      Rt = Object.freeze({
         Afghanistan: 'AF',
         'Åland Islands': 'AX',
         Albania: 'AL',
@@ -1826,8 +1783,69 @@
           Yunnan: 'YN',
           Zhejiang: 'ZJ',
         }),
+        US: Object.freeze({
+          AL: 'Alabama',
+          AK: 'Alaska',
+          AS: 'American Samoa',
+          AZ: 'Arizona',
+          AR: 'Arkansas',
+          CA: 'California',
+          CO: 'Colorado',
+          CT: 'Connecticut',
+          DE: 'Delaware',
+          'D.C.': 'District of Columbia',
+          FM: 'Federated States Of Micronesia',
+          FL: 'Florida',
+          GA: 'Georgia',
+          GU: 'Guam',
+          HI: 'Hawaii',
+          ID: 'Idaho',
+          IL: 'Illinois',
+          IN: 'Indiana',
+          IA: 'Iowa',
+          KS: 'Kansas',
+          KY: 'Kentucky',
+          LA: 'Louisiana',
+          ME: 'Maine',
+          MH: 'Marshall Islands',
+          MD: 'Maryland',
+          MA: 'Massachusetts',
+          MI: 'Michigan',
+          MN: 'Minnesota',
+          MS: 'Mississippi',
+          MO: 'Missouri',
+          MT: 'Montana',
+          NE: 'Nebraska',
+          NV: 'Nevada',
+          NH: 'New Hampshire',
+          NJ: 'New Jersey',
+          NM: 'New Mexico',
+          NY: 'New York',
+          NC: 'North Carolina',
+          ND: 'North Dakota',
+          MP: 'Northern Mariana Islands',
+          OH: 'Ohio',
+          OK: 'Oklahoma',
+          OR: 'Oregon',
+          PW: 'Palau',
+          PA: 'Pennsylvania',
+          PR: 'Puerto Rico',
+          RI: 'Rhode Island',
+          SC: 'South Carolina',
+          SD: 'South Dakota',
+          TN: 'Tennessee',
+          TX: 'Texas',
+          UT: 'Utah',
+          VT: 'Vermont',
+          VI: 'Virgin Islands',
+          VA: 'Virginia',
+          WA: 'Washington',
+          WV: 'West Virginia',
+          WI: 'Wisconsin',
+          WY: 'Wyoming',
+        }),
       }),
-      Lt = Object.freeze({
+      Ut = Object.freeze({
         Afghanistan: 'Asia',
         Albania: 'Europe',
         Algeria: 'Africa',
@@ -1972,13 +1990,16 @@
         Vietnam: 'Asia',
         Zambia: 'Africa',
         Zimbabwe: 'Africa',
-      });
-    class Kt {
+      }),
+      Kt = Object.freeze(
+        Object.keys(zt.US).reduce((t, e) => ((t[zt.US[e]] = e), t), {})
+      );
+    class Lt {
       constructor(t) {
         this.data = t;
       }
       static create(t) {
-        return new Kt(t);
+        return new Lt(t);
       }
       lastValue(t) {
         return this.data.counts.length < 1
@@ -1991,9 +2012,6 @@
           : (this.data.counts[this.data.counts.length - 1][t] /
               this.data.population) *
               100;
-      }
-      index() {
-        return this.data.index;
       }
       lastActive() {
         return this.lastValue('active');
@@ -2033,10 +2051,16 @@
       country() {
         return this.data.country;
       }
+      countryCode() {
+        return this.data.countryCode;
+      }
       countryName() {
         return (
           this.data.country + (this.data.state ? ', ' + this.data.state : '')
         );
+      }
+      key() {
+        return this.data.key;
       }
       locale() {
         return this.data.locale;
@@ -2049,6 +2073,9 @@
       }
       state() {
         return this.data.state;
+      }
+      stateCode() {
+        return this.data.stateCode;
       }
     }
     class Ht extends Array {
@@ -2119,11 +2146,11 @@
         this.sortByProp('lastRecoveriesPercent', t);
       }
     }
-    const Vt = (xt || []).reduce(
+    const Vt = (Et || []).reduce(
         (t, e) => ((t[e.country] = parseInt(e.population, 10)), t),
         {}
       ),
-      Jt = (Dt || []).reduce(
+      Jt = (jt || []).reduce(
         (t, e) => (
           (t[e.country] = null === e.density ? null : parseInt(e.density, 10)),
           t
@@ -2133,46 +2160,189 @@
       Wt = [
         'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv',
         'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv',
-        'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Recovered.csv',
+        'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_recovered_global.csv',
       ];
     function Zt() {
       return Promise.all(Wt.map(t => fetch(t)))
-        .then(Qt)
-        .then(ee)
-        .then(ae)
-        .then(ie)
+        .then(ne)
         .then(re)
-        .then(se)
-        .then(oe)
-        .then(ue);
+        .then(Qt)
+        .then(Yt)
+        .then($t)
+        .then(Xt)
+        .then(qt)
+        .then(se);
     }
-    function Yt(t, e, n) {
+    function Yt(t) {
+      return delete t.CA, t;
+    }
+    function qt(t) {
+      const e = {},
+        n = mt(
+          t,
+          (t, n, a) => {
+            if (n.locale) return t;
+            const o = Lt.create(n);
+            return t.push(o), (e[a] = o), t;
+          },
+          Ht.create()
+        );
+      return { dictionary: e, timeSeries: n };
+    }
+    function Qt(t) {
+      const e = {},
+        n = n => a => {
+          const o = Rt[a.country];
+          if (!o) return void _t('country not found', a.country);
+          let i = o,
+            r = '';
+          if (a.state) {
+            const t = zt[a.country];
+            if (!t)
+              return void _t('state set not found', a.country + ',', a.state);
+            if (((r = t[a.state]), !r))
+              return void _t('state not found', a.coutry + ',', a.state);
+            i = i + '.' + r;
+          }
+          a.locale && (i = i + '.' + a.locale),
+            e[i]
+              ? a.timeSeries.map((t, a) => {
+                  void 0 === e[i].counts[a] &&
+                    (_t('Warning: unexpected length:', n),
+                    (e[i].counts[a] = {
+                      active: 0,
+                      confirmed: 0,
+                      deaths: 0,
+                      recoveries: 0,
+                      projectionReverseDeath: 0,
+                    })),
+                    (e[i].counts[a][n] = t);
+                })
+              : (e[i] = {
+                  country: a.country,
+                  countryCode: o,
+                  counts: a.timeSeries.map(t => {
+                    const e = {
+                      active: 0,
+                      confirmed: 0,
+                      deaths: 0,
+                      recoveries: 0,
+                      projectionReverseDeath: 0,
+                    };
+                    return (e[n] = t), e;
+                  }),
+                  dates: t[0][0],
+                  key: i,
+                  locale: a.locale,
+                  population: a.population,
+                  populationDensity: a.populationDensity,
+                  state: a.state,
+                  stateCode: r,
+                });
+        };
+      return (
+        t[0][1].forEach(n('confirmed')),
+        t[1][1].forEach(n('deaths')),
+        t[2][1].forEach(n('recoveries')),
+        e
+      );
+    }
+    function $t(t) {
+      return (
+        ft(t, t => {
+          t.counts.forEach((t, e, n) => {
+            (t.recoveries = (function(t, e, n, a) {
+              if (t.confirmed) {
+                if (!(t.recoveries < 1)) return t.recoveries;
+                if (n[e - a] && n[e - a - 1]) {
+                  const t = n[e - a - 1].confirmed,
+                    o = n[e - a].confirmed - t;
+                  return n[e - 1] ? o + n[e - 1].recoveries : o;
+                }
+              } else
+                t.deaths &&
+                  _t(
+                    'Warning: data seems odd, there are deaths but no confirmed cases'
+                  ),
+                  t.recoveries &&
+                    _t(
+                      'Warning: data seems odd, there are recoveries but no confirmed cases'
+                    );
+              return 0;
+            })(t, e, n, 25)),
+              (t.active = t.confirmed - t.deaths - t.recoveries),
+              (t.projectionReverseDeath = (function(t) {
+                const e = t.deaths / ot.fatalityRate,
+                  n = ot.daysFromInfectionToDeath / ot.doublingTime;
+                return e * Math.pow(2, n);
+              })(t));
+          });
+        }),
+        t
+      );
+    }
+    function Xt(t) {
+      return (
+        ft(t, e => {
+          if ('Total' !== e.state && e.state) {
+            if (e.locale) return;
+            if (t[e.countryCode]) return;
+            const n = e.countryCode + '.Total';
+            void 0 === t[n] &&
+              (t[n] = Object.assign(Object.assign({}, e), {
+                key: n,
+                locale: '',
+                population: te(e.country),
+                populationDensity: ee(e.country),
+                state: 'Total',
+                counts: [],
+              })),
+              e.counts.forEach((e, a) => {
+                t[n].counts[a]
+                  ? (t[n].counts[a] = (function(t, e) {
+                      return {
+                        active: t.active + e.active,
+                        confirmed: t.confirmed + e.confirmed,
+                        deaths: t.deaths + e.deaths,
+                        recoveries: t.recoveries + e.recoveries,
+                        projectionReverseDeath:
+                          t.projectionReverseDeath + e.projectionReverseDeath,
+                      };
+                    })(t[n].counts[a], e))
+                  : (t[n].counts[a] = e);
+              });
+          }
+        }),
+        t
+      );
+    }
+    function te(t, e, n) {
       if (n) return 0;
       if (e)
         return (function(t, e, n) {
           if (n) return 0;
-          if (Rt[t])
+          if (Ft[t])
             if ('US' === t) {
-              const n = Gt[e];
+              const n = Kt[e];
               if (n) {
                 const e = 'D.C.' === n ? 'DC' : n;
-                if (Rt[t][e]) return Rt[t][e];
+                if (Ft[t][e]) return Ft[t][e];
               }
-            } else if (Rt[t][e]) return Rt[t][e];
+            } else if (Ft[t][e]) return Ft[t][e];
           return 0;
         })(t, e, n);
       let a = Vt[t];
-      return a || ((a = Vt[jt[t]]), a || ((a = Ft[t]), a || 0));
+      return a || ((a = Vt[xt[t]]), a || ((a = Gt[t]), a || 0));
     }
-    function qt(t, e, n) {
+    function ee(t, e, n) {
       if (e || n) return 0;
       let a = Jt[t];
-      return a || ((a = Jt[jt[t]]), a || 0);
+      return a || ((a = Jt[xt[t]]), a || 0);
     }
-    function Qt(t) {
+    function ne(t) {
       return Promise.all(t.map(t => t.text()));
     }
-    function $t(t) {
+    function ae(t) {
       const e = t.split(''),
         n = { buffer: '', isEscape: !1, isInQuote: !1 },
         a = () => {
@@ -2200,7 +2370,7 @@
         []
       );
     }
-    function Xt(t) {
+    function oe(t) {
       const e = t[1],
         [n, a] = (function(t) {
           if (t.indexOf(',') > -1) {
@@ -2212,13 +2382,13 @@
       return {
         country: e,
         locale: n,
-        population: Yt(e, a, n),
-        populationDensity: qt(e, a, n),
+        population: te(e, a, n),
+        populationDensity: ee(e, a, n),
         state: a,
         timeSeries: t.slice(4).map(t => parseInt(t, 10)),
       };
     }
-    function te(t) {
+    function ie(t) {
       const e = t.split('\n');
       return [
         (function(t) {
@@ -2229,161 +2399,33 @@
         })(e[0]),
         e
           .slice(1)
-          .map($t)
+          .map(ae)
           .filter(t => t.length)
-          .map(Xt),
+          .map(oe),
       ];
-    }
-    function ee(t) {
-      return t.map(te);
-    }
-    function ne(t) {
-      const e = {};
-      return (
-        t.forEach(
-          (function(t) {
-            return e => {
-              const n = n => {
-                const a = t[n] || new Array(e.timeSeries.length).fill(0);
-                e.timeSeries.forEach((t, e) => {
-                  a[e] += t;
-                }),
-                  (t[n] = a);
-              };
-              if (
-                (n('World'),
-                e.state &&
-                  !e.locale &&
-                  ('US' === e.country
-                    ? (n(`${e.country}.${e.state}`), n(e.country))
-                    : n(e.country)),
-                e.locale)
-              )
-                if ('US' === e.country) {
-                  const t = Et[e.state];
-                  t
-                    ? (n(`${e.country}.${t}`), n(e.country))
-                    : At(
-                        'US state ',
-                        e.state,
-                        `(${e.locale}) not found in map`
-                      );
-                } else At('Non US locale', e.country, e.state, e.locale);
-            };
-          })(e)
-        ),
-        (function(t, e) {
-          return ft(
-            t,
-            (t, e, n) => {
-              const a = n.split('.').filter(Boolean);
-              return (
-                a.length < 1 ||
-                  t.push({
-                    country: a[0],
-                    locale: '',
-                    population: Yt(a[0], a[1]),
-                    populationDensity: qt(a[0], a[1]),
-                    state: a[1] || 'Total',
-                    timeSeries: e,
-                  }),
-                t
-              );
-            },
-            []
-          ).concat(
-            e.filter(t => 'US' !== t.country || (!t.state && !t.locale))
-          );
-        })(e, t)
-      );
-    }
-    function ae(t) {
-      return t.map(t => {
-        const [e, n] = t;
-        return [e, ne(n)];
-      });
-    }
-    function oe(t) {
-      return t.sortByCountry(), t;
-    }
-    function ie(t) {
-      return [
-        [
-          t[0][0],
-          t[0][1].map((e, n) => ({
-            country: e.country,
-            locale: e.locale,
-            population: 'World' === e.country ? he() : e.population,
-            populationDensity: e.populationDensity,
-            state: e.state,
-            timeSeries: e.timeSeries.map(
-              (e, a) => e - t[1][1][n].timeSeries[a] - t[2][1][n].timeSeries[a]
-            ),
-          })),
-        ],
-      ].concat(t);
     }
     function re(t) {
-      const e = [
-        [
-          t[0][0],
-          t[0][1].map((e, n) => ({
-            country: e.country,
-            locale: e.locale,
-            population: 'World' === e.country ? he() : e.population,
-            populationDensity: e.populationDensity,
-            state: e.state,
-            timeSeries: e.timeSeries.map((e, a) => {
-              if (t[2][1][n].timeSeries[a] < ot.minDeaths) return 0;
-              const o = t[2][1][n].timeSeries[a] / ot.fatalityRate,
-                i = ot.daysFromInfectionToDeath / ot.doublingTime;
-              return o * Math.pow(2, i);
-            }),
-          })),
-        ],
-      ];
-      return t.concat(e);
+      return t.map(ie);
     }
-    function se(t) {
-      const e = t[0][0],
-        n = Ht.create();
-      return (
-        t[0][1].forEach((a, o) => {
-          n.push(
-            Kt.create({
-              country: a.country,
-              index: o,
-              dates: e,
-              locale: a.locale,
-              population: a.population,
-              populationDensity: a.populationDensity,
-              state: a.state,
-              counts: a.timeSeries.map((e, n) => ({
-                active: t[0][1][o].timeSeries[n],
-                confirmed: t[1][1][o].timeSeries[n],
-                deaths: t[2][1][o].timeSeries[n],
-                recoveries: t[3][1][o].timeSeries[n],
-                projectionReverseDeath: t[4][1][o].timeSeries[n],
-              })),
-            })
-          );
-        }),
-        n
-      );
-    }
-    function ue(t) {
+    function se({ dictionary: t, timeSeries: e }) {
+      var n;
       return {
-        countries: t
-          .reduce((t, e, n) => {
+        countries: mt(
+          t,
+          (t, e, n) => {
             if (e.locale()) return t;
             const a = e.countryName();
-            return t.push({ index: e.index(), name: a }), t;
-          }, [])
-          .filter(Boolean),
-        timeSeries: t,
+            return t.push({ index: n, name: a }), t;
+          },
+          []
+        ).sort(
+          ((n = 'name'), (t, e) => (t[n] < e[n] ? -1 : t[n] > e[n] ? 1 : 0))
+        ),
+        dictionary: t,
+        timeSeries: e,
       };
     }
-    function le(t) {
+    function ue(t) {
       switch (t) {
         case 0:
           return '😷';
@@ -2399,20 +2441,20 @@
           return '😊';
       }
     }
-    function ce(t, e) {
+    function le(t, e) {
       return e.dataPromise.then(({ countries: n, timeSeries: a }) => {
         let o = 0;
         return {
           countries: n,
           series: a.reduce(
             (n, a) =>
-              e.countryIndexes.indexOf(a.index()) > -1
+              e.countryKeys.indexOf(a.key()) > -1
                 ? (function(t, e, n, a, o) {
                     switch (e.lineGraphState.mode) {
                       case 1:
-                        return pe(t, e, n, a, o, 1);
+                        return ce(t, e, n, a, o, 1);
                       case 2:
-                        return pe(t, e, n, a, o, 100);
+                        return ce(t, e, n, a, o, 100);
                       default:
                         return (function(t, e, n, a, o) {
                           const i = new Date(e.lineGraphState.startDate);
@@ -2420,16 +2462,16 @@
                             e.lineGraphState.dataSetIndexes.forEach(t => {
                               const r =
                                   t > 3 ? rt[o % rt.length] : it[o % it.length],
-                                s = ye(t),
+                                s = pe(t),
                                 u = {
                                   color: r,
                                   line: { color: r },
-                                  name: le(t) + ' ' + a.countryName(),
+                                  name: ue(t) + ' ' + a.countryName(),
                                   points: [],
                                 };
                               (u.points = a.counts().reduce((t, n, o) => {
                                 if (a.dates()[o] && a.dates()[o] > i) {
-                                  const i = de(
+                                  const i = ye(
                                     e.lineGraphState.byMetric,
                                     n[s],
                                     a.population()
@@ -2451,22 +2493,22 @@
         };
       });
     }
-    function pe(t, e, n, a, o, i) {
+    function ce(t, e, n, a, o, i) {
       const r = new Date(e.lineGraphState.startDate);
       return (
         e.lineGraphState.dataSetIndexes.forEach(t => {
-          const s = ye(t),
+          const s = pe(t),
             u = t > 3 ? rt[o % rt.length] : it[o % it.length],
             l = {
               color: u,
               line: { color: u },
-              name: le(t) + ' ' + a.countryName(),
+              name: ue(t) + ' ' + a.countryName(),
               points: [],
             };
           let c = 0;
           (l.points = a.counts().reduce((t, n, o) => {
             if (a.dates()[o] && a.dates()[o] > r && n.confirmed >= i) {
-              const o = de(e.lineGraphState.byMetric, n[s], a.population());
+              const o = ye(e.lineGraphState.byMetric, n[s], a.population());
               o && t.push({ x: c, y: o }), (c += 1);
             }
             return t;
@@ -2476,7 +2518,7 @@
         n
       );
     }
-    function ye(t) {
+    function pe(t) {
       switch (t) {
         case 0:
           return 'active';
@@ -2492,14 +2534,11 @@
           return 'recoveries';
       }
     }
-    function de(t, e, n) {
+    function ye(t, e, n) {
       return 0 === t ? e : n ? e / n : 0;
     }
+    const de = [];
     function he() {
-      return ft(Vt, (t, e) => (e != e ? t : t + e), 0);
-    }
-    const fe = [];
-    function me() {
       if (window.localStorage) {
         const t = window.localStorage.getItem('state');
         if (t)
@@ -2526,7 +2565,7 @@
                     })(t.lineGraphState)
                   )
                     return !1;
-                  if (!1 === Array.isArray(t.countryIndexes)) return !1;
+                  if (!1 === Array.isArray(t.countryKeys)) return !1;
                   return (function(t) {
                     if (!t) return !1;
                     if (!1 === Array.isArray(t.columns)) return !1;
@@ -2545,7 +2584,7 @@
                     return !0;
                   })(t.tableState);
                 })(e)
-                ? (At('Upgrade: Wiping old state'),
+                ? (_t('Upgrade: Wiping old state'),
                   window.localStorage.setItem('state', ''),
                   null)
                 : Object.assign(Object.assign({}, e), {
@@ -2555,7 +2594,7 @@
               : null;
           } catch (t) {
             return (
-              At('Failed to parse saved state, resetting localStorage'),
+              _t('Failed to parse saved state, resetting localStorage'),
               window.localStorage.setItem('state', ''),
               null
             );
@@ -2563,21 +2602,21 @@
       }
       return null;
     }
-    const ge = [
+    const fe = [
       { label: 'Region', sort: 'sortByCountry' },
-      { label: 'Active', sort: 'sortByActive' },
-      { label: 'Active %', sort: 'sortByActivePercent' },
+      { label: 'Active*', sort: 'sortByActive' },
+      { label: 'Active* %', sort: 'sortByActivePercent' },
       { label: 'Confirmed', sort: 'sortByConfirmed' },
       { label: 'Confirmed %', sort: 'sortByConfirmedPercent' },
       { label: 'Deaths', sort: 'sortByDeaths' },
       { label: 'Deaths %', sort: 'sortByDeathsPercent' },
-      { label: 'Recoveries', sort: 'sortByRecoveries' },
-      { label: 'Recoveries %', sort: 'sortByRecoveriesPercent' },
+      { label: 'Recoveries*', sort: 'sortByRecoveries' },
+      { label: 'Recoveries* %', sort: 'sortByRecoveriesPercent' },
       { label: 'Mortality', sort: 'sortByMortality' },
       { label: 'Population', sort: 'sortByPopulation' },
       { label: 'Population Density', sort: 'sortByPopulationDensity' },
     ];
-    class be extends g {
+    class me extends g {
       constructor() {
         super(), (this.state = {});
       }
@@ -2659,7 +2698,7 @@
                 h(
                   'tr',
                   null,
-                  ge.map((t, n) =>
+                  fe.map((t, n) =>
                     0 === n || this.props.state.columns.indexOf(n) > -1
                       ? h(
                           'th',
@@ -2677,7 +2716,7 @@
                   if (t.counts().length < 1) return '';
                   if (
                     !1 === this.props.state.showAll &&
-                    -1 === this.props.countryIndexes.indexOf(t.index())
+                    -1 === this.props.countryKeys.indexOf(t.key())
                   )
                     return '';
                   const a = t.country() + (t.state() ? ', ' + t.state() : ''),
@@ -2686,10 +2725,10 @@
                     'tr',
                     {
                       className:
-                        this.props.countryIndexes.indexOf(t.index()) > -1
+                        this.props.countryKeys.indexOf(t.key()) > -1
                           ? 'row-highlight ' + o
                           : o,
-                      onClick: () => this.props.selectCountry(t.index()),
+                      onClick: () => this.props.selectCountry(t.key()),
                     },
                     h('td', { style: e }, a),
                     this.props.state.columns.indexOf(1) > -1
@@ -2772,25 +2811,26 @@
             h(
               'section',
               { className: nt },
-              h(Bt, {
+              h(Tt, {
                 labelTrue: '✗ Enlarge Table',
                 labelFalse: '⚙️ Configure Table',
                 onClick: this.toggleConfig.bind(this),
                 state: this.props.state.isConfigOpen,
               }),
-              h(Pt, { config: this.props.menu })
+              h(Bt, { config: this.props.menu })
             ),
             this.props.state.isConfigOpen
               ? h(
                   'section',
                   { className: nt },
-                  h(gt, {
+                  h(bt, {
                     onChange: ht,
-                    onClick: t => this.onChangeColumns(t + 1),
-                    options: ge.map(t => t.label).slice(1),
+                    onClick: t =>
+                      this.onChangeColumns(parseInt(t + '', 10) + 1),
+                    options: fe.map(t => t.label).slice(1),
                     selected: this.props.state.columns.map(t => t - 1),
                   }),
-                  h(mt, {
+                  h(gt, {
                     onChange: this.toggleShowAll.bind(this),
                     options: ['Show All', 'Only Selected'],
                     selected: this.props.state.showAll ? 0 : 1,
@@ -2801,7 +2841,7 @@
         );
       }
     }
-    function Se() {
+    function ge() {
       return h(
         'header',
         { class: 'small-text' },
@@ -2840,7 +2880,7 @@
         ')'
       );
     }
-    class Ce extends g {
+    class be extends g {
       constructor() {
         super();
         const t = window.document.createElement('div');
@@ -2865,7 +2905,7 @@
         return h('div', { className: 'full-size' });
       }
     }
-    class ve extends g {
+    class Se extends g {
       constructor() {
         super(),
           (this.state = {
@@ -2941,17 +2981,17 @@
         const e = [];
         return (
           this.props.timeSeries.forEach(n => {
-            const a = Ut[n.country()];
+            const a = Rt[n.country()];
             if (!a) return null;
             if (n.state() && 'Total' !== n.state()) return null;
             if (n.locale()) return null;
             if (!n.population()) return null;
-            const o = _e(this.state.dataSet, n);
+            const o = Ce(this.state.dataSet, n);
             if (o < 1) return null;
             o > t && (t = o), e.push({ map: 'WORLD.' + a.toLowerCase(), z: o });
           }),
           {
-            ranges: Ne(this.state.dataSet),
+            ranges: Ae(this.state.dataSet),
             series: [
               {
                 defaultPoint_events_click: this.onMapClick.bind(this),
@@ -2967,7 +3007,7 @@
         const n = [];
         return (
           this.props.timeSeries.forEach(a => {
-            const o = Lt[a.country()];
+            const o = Ut[a.country()];
             if (!o) return null;
             if (
               o !== t &&
@@ -2978,14 +3018,14 @@
               if ('Total' !== a.state()) return null;
               if (a.locale()) return null;
             }
-            const i = Ut[a.country()];
+            const i = Rt[a.country()];
             if (!i) return null;
-            const r = _e(this.state.dataSet, a);
+            const r = Ce(this.state.dataSet, a);
             if (r < 1) return null;
             r > e && (e = r), n.push({ map: i.toLowerCase(), z: r });
           }),
           {
-            ranges: Ne(this.state.dataSet),
+            ranges: Ae(this.state.dataSet),
             series: [
               {
                 defaultPoint_events_click: this.onMapClick.bind(this),
@@ -3007,16 +3047,16 @@
             let i = zt[t];
             if (!i) {
               if ('US' !== e) return null;
-              i = Gt;
+              i = Kt;
             }
             let r = i[o.state()];
             if (!r) return null;
-            const s = _e(this.state.dataSet, o);
+            const s = Ce(this.state.dataSet, o);
             if (s < 1) return null;
             s > n && (n = s), a.push({ map: e + '.' + r.toLowerCase(), z: s });
           }),
           {
-            ranges: Ne(this.state.dataSet),
+            ranges: Ae(this.state.dataSet),
             series: [
               {
                 defaultPoint_events_click: this.onMapClick.bind(this),
@@ -3028,10 +3068,11 @@
         );
       }
       onChangeDataSet(t) {
+        const e = parseInt(t + '', 10);
         this.setState(
           Object.assign(Object.assign({}, this.state), {
-            dataSet: t,
-            toolTip: Ae(t),
+            dataSet: e,
+            toolTip: ve(e),
           })
         );
       }
@@ -3047,26 +3088,26 @@
         return h(
           'section',
           { onClick: this.zoomOut.bind(this), className: `full-size ${at}` },
-          h(Ce, { ranges: t, series: e, toolTip: this.state.toolTip }),
+          h(be, { ranges: t, series: e, toolTip: this.state.toolTip }),
           h(
             'section',
             { className: nt },
-            h(mt, {
+            h(gt, {
               onChange: this.onChangeDataSet.bind(this),
               options: [
-                'Active Cases',
+                'Active Cases*',
                 'Confirmed Cases',
                 'Deaths',
-                'Recoveries',
+                'Recoveries*',
               ],
               selected: this.state.dataSet,
             }),
-            h(Pt, { config: this.props.menu })
+            h(Bt, { config: this.props.menu })
           )
         );
       }
     }
-    function Ae(t) {
+    function ve(t) {
       switch (t) {
         case 0:
           return '<b>%name<b/> <br/>Active Cases: %zValue';
@@ -3080,7 +3121,7 @@
           return '<b>%name<b/> <br/>Active Cases: %zValue';
       }
     }
-    function _e(t, e) {
+    function Ce(t, e) {
       switch (t) {
         case 0:
           return e.lastActive();
@@ -3094,7 +3135,7 @@
           return e.lastActive();
       }
     }
-    function Ne(t) {
+    function Ae(t) {
       switch (t) {
         case 0:
           return st;
@@ -3108,18 +3149,18 @@
           return st;
       }
     }
-    class Ie extends g {
+    class _e extends g {
       constructor() {
         super();
-        let t = me();
+        let t = he();
         t ||
-          (At('No existing state'),
+          (_t('No existing state'),
           (t = {
             countries: [],
             currentSeries: [],
             data: Ht.create(),
             dataPromise: Zt(),
-            countryIndexes: fe,
+            countryKeys: de,
             routePath: '/',
             lineGraphState: {
               dataSetIndexes: [0],
@@ -3179,7 +3220,7 @@
               this.setState(
                 Object.assign(Object.assign({}, this.state), { data: t })
               ),
-              ce(this.props.cache, this.state)
+              le(this.props.cache, this.state)
             )
           )
           .then(this.updateSelectState.bind(this))
@@ -3224,20 +3265,20 @@
       }
       clearCountries() {
         this.setState(
-          Object.assign(Object.assign({}, this.state), { countryIndexes: [] })
+          Object.assign(Object.assign({}, this.state), { countryKeys: [] })
         ),
           this.selectAndUpdate();
       }
       selectCountry(t) {
-        this.state.countryIndexes.indexOf(t) > -1
+        this.state.countryKeys.indexOf(t) > -1
           ? this.setState(
               Object.assign(Object.assign({}, this.state), {
-                countryIndexes: this.state.countryIndexes.filter(e => e !== t),
+                countryKeys: this.state.countryKeys.filter(e => e !== t),
               })
             )
           : this.setState(
               Object.assign(Object.assign({}, this.state), {
-                countryIndexes: this.state.countryIndexes.concat([t]),
+                countryKeys: this.state.countryKeys.concat([t]),
               })
             ),
           this.selectAndUpdate();
@@ -3246,15 +3287,15 @@
         return h(
           'div',
           { className: `full-size ${at}` },
-          h(Se, null),
+          h(ge, null),
           h(
             tt,
             null,
-            h(Tt, {
+            h(Dt, {
               path: '/',
               clearCountries: this.clearCountries.bind(this),
               countries: this.state.countries,
-              countryIndexes: this.state.countryIndexes,
+              countryKeys: this.state.countryKeys,
               currentSeries: this.state.currentSeries,
               menu: this.menu,
               onChange: this.lineGraphState.bind(this),
@@ -3263,8 +3304,8 @@
               selectCountry: this.selectCountry.bind(this),
               state: this.state.lineGraphState,
             }),
-            h(be, {
-              countryIndexes: this.state.countryIndexes,
+            h(me, {
+              countryKeys: this.state.countryKeys,
               key: '1',
               onChange: this.tableState.bind(this),
               menu: this.menu,
@@ -3273,7 +3314,7 @@
               selectCountry: this.selectCountry.bind(this),
               timeSeries: this.state.data,
             }),
-            h(ve, {
+            h(Se, {
               key: '2',
               path: '/geography',
               menu: this.menu,
@@ -3290,7 +3331,7 @@
       window.document.body.appendChild(t),
         (function(t) {
           let e = {};
-          x(h(Ie, { cache: e, reset: () => (e = {}) }), t);
+          D(h(_e, { cache: e, reset: () => (e = {}) }), t);
         })(t);
     })();
   },

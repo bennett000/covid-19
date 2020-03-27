@@ -19,7 +19,6 @@ import {
   countriesToContinents,
 } from '../data-maps';
 import { Select } from '../components/select';
-import { totalsDictionaryToTimeSeries } from '../data';
 
 export class Geography extends Component<
   {
@@ -312,11 +311,12 @@ export class Geography extends Component<
     };
   }
 
-  onChangeDataSet(index: number) {
+  onChangeDataSet(index: number | string) {
+    const int = parseInt(index + '', 10);
     this.setState({
       ...this.state,
-      dataSet: index,
-      toolTip: getToolTip(index),
+      dataSet: int,
+      toolTip: getToolTip(int),
     });
   }
 
@@ -346,10 +346,10 @@ export class Geography extends Component<
           <Select
             onChange={this.onChangeDataSet.bind(this)}
             options={[
-              'Active Cases',
+              'Active Cases*',
               'Confirmed Cases',
               'Deaths',
-              'Recoveries',
+              'Recoveries*',
             ]}
             selected={this.state.dataSet}
           ></Select>
@@ -358,20 +358,6 @@ export class Geography extends Component<
       </section>
     );
   }
-}
-
-function generateHexColours(interval: number): string[] {
-  if (interval < 0) {
-    interval *= -1;
-  }
-  const inc = Math.floor(255 / interval);
-  const colours = [];
-
-  for (let i = 255; i >= interval; i -= inc) {
-    colours.push('#' + (255).toString(16) + i.toString(16) + i.toString(16));
-  }
-
-  return colours;
 }
 
 function getToolTip(index: number) {
