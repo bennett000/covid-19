@@ -17,6 +17,7 @@ import {
   statesToCodes,
   usStateCodeByName,
   countriesToContinents,
+  excludeFromMap,
 } from '../data-maps';
 import { Select } from '../components/select';
 
@@ -160,10 +161,11 @@ export class Geography extends Component<
     let max = 0;
     const s = [];
     this.props.timeSeries.forEach(ts => {
-      const code = countriesToCodes[ts.country()];
-      if (!code) {
+      const code = ts.countryCode();
+      if (excludeFromMap[code]) {
         return null;
       }
+
       if (ts.state()) {
         if (ts.state() !== totalString) {
           return null;
@@ -226,8 +228,8 @@ export class Geography extends Component<
         }
       }
 
-      const code = countriesToCodes[ts.country()];
-      if (!code) {
+      const code = ts.countryCode();
+      if (excludeFromMap[code]) {
         return null;
       }
       const value = getFromDataSet(this.state.dataSet, ts);
@@ -279,8 +281,8 @@ export class Geography extends Component<
           return null;
         }
       }
-      let code = stc[ts.state()];
-      if (!code) {
+      const code = ts.stateCode();
+      if (excludeFromMap[ts.countryCode() + '.' + code]) {
         return null;
       }
       const value = getFromDataSet(this.state.dataSet, ts);
@@ -294,7 +296,7 @@ export class Geography extends Component<
       }
 
       s.push({
-        map: countryCode + '.' + code.toLowerCase(),
+        map: countryCode + '.' + code,
         z: value,
       });
     });

@@ -301,6 +301,7 @@ function getPopulation(
   if (population) {
     return population;
   }
+  log('population not found for', country, state, locale);
   return 0;
 }
 
