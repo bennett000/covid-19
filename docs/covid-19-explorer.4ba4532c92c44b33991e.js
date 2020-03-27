@@ -1146,7 +1146,11 @@
           { className: at },
           h(gt, {
             onChange: function(t) {
-              e(Object.assign(Object.assign({}, a), { mode: t }));
+              e(
+                Object.assign(Object.assign({}, a), {
+                  mode: parseInt(t + '', 10),
+                })
+              );
             },
             options: Ot,
             selected: a.mode,

@@ -46,10 +46,10 @@ export function LineGraphControls({
   selectCountry: (country: string) => any;
   state: LineGraphState;
 }) {
-  function selectMode(mode: number) {
+  function selectMode(mode: number | string) {
     onChange({
       ...state,
-      mode,
+      mode: parseInt(mode + '', 10),
     });
   }
 
