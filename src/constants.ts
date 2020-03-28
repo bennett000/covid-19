@@ -16,6 +16,9 @@ export const recoveryDays = 25;
 
 export const strings = Object.freeze({
   app: Object.freeze({
+    log: Object.freeze({
+      noState: 'No existing state',
+    }),
     menu: Object.freeze([
       {
         route: '/',
@@ -38,6 +41,18 @@ export const strings = Object.freeze({
   countries: Object.freeze({
     total: 'Total',
     world: 'World',
+  }),
+  data: Object.freeze({
+    log: Object.freeze({
+      countryNotFound: 'country not found',
+      deathNoConfirmed:
+        'Warning: data seems odd, there are deaths but no confirmed cases',
+      populationNotFound: 'population not found for',
+      recoveryNoConfirmed:
+        'Warning: data seems odd, there are recoveries but no confirmed cases',
+      stateNotFound: 'state not found',
+      unexpectedLength: 'Warning: unexpected length:',
+    }),
   }),
   descriptions: Object.freeze({
     metrics: Object.freeze({
@@ -152,6 +167,10 @@ export const strings = Object.freeze({
     deaths: 'Deaths',
     estimatedActiveCases: 'Estimated Active Cases',
     recoveries: 'Recoveries*',
+  }),
+  state: Object.freeze({
+    parseFail: 'Failed to parse saved state, resetting localStorage',
+    wipingOld: 'Upgrade: Wiping old state',
   }),
 });
 

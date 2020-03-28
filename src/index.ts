@@ -1,5 +1,5 @@
 import { render } from './app';
-import { fullSize, flexCol } from './constants';
+import { fullSize } from './constants';
 
 main();
 

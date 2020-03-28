@@ -3,6 +3,7 @@ import { AppState } from './interfaces';
 import { isNumber, isString, isBoolean } from '@ch1/utility';
 import { log } from './utility';
 import { TimeSeriesArray } from './time-series';
+import { strings } from './constants';
 
 const defaultDataset = 0;
 const defaultCountries = [];
@@ -70,7 +71,7 @@ export function loadState(): AppState | null {
           return null;
         }
         if (isSavedAppState(parsed) === false) {
-          log('Upgrade: Wiping old state');
+          log(strings.state.wipingOld);
           window.localStorage.setItem('state', '');
           return null;
         }
@@ -80,7 +81,7 @@ export function loadState(): AppState | null {
           data: TimeSeriesArray.create(),
         };
       } catch (e) {
-        log('Failed to parse saved state, resetting localStorage');
+        log(strings.state.parseFail);
         window.localStorage.setItem('state', '');
         return null;
       }

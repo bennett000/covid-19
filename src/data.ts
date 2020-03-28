@@ -108,7 +108,7 @@ export function convertToCountryDictionary(
   const createOnEach = (prop: TimeSeriesType) => c => {
     const countryCode = countriesToCodes[c.country];
     if (!countryCode) {
-      log('country not found', c.country);
+      log(strings.data.log.countryNotFound, c.country);
       return;
     }
     let code = countryCode;
@@ -121,7 +121,7 @@ export function convertToCountryDictionary(
       }
       stateCode = states[c.state];
       if (!stateCode) {
-        log('state not found', c.coutry + ',', c.state);
+        log(strings.data.log.stateNotFound, c.coutry + ',', c.state);
         return;
       }
       code = code + '.' + stateCode;
@@ -132,7 +132,7 @@ export function convertToCountryDictionary(
     if (dict[code]) {
       c.timeSeries.map((value, i) => {
         if (dict[code].counts[i] === undefined) {
-          log('Warning: unexpected length:', prop);
+          log(strings.data.log.unexpectedLength, prop);
           dict[code].counts[i] = createTimeSeriesCount();
         }
         dict[code].counts[i][prop] = value;
@@ -190,12 +190,10 @@ export function getRecoveryDays(
     }
   } else {
     if (count.deaths) {
-      log('Warning: data seems odd, there are deaths but no confirmed cases');
+      log(strings.data.log.deathNoConfirmed);
     }
     if (count.recoveries) {
-      log(
-        'Warning: data seems odd, there are recoveries but no confirmed cases'
-      );
+      log(strings.data.log.recoveryNoConfirmed);
     }
   }
   return 0;
@@ -338,7 +336,7 @@ function getPopulation(
   if (population) {
     return population;
   }
-  log('population not found for', country, state, locale);
+  log(strings.data.log.populationNotFound, country, state, locale);
   return 0;
 }
 

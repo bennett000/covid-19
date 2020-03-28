@@ -30,7 +30,7 @@ export class App extends Component<
 
     let state = loadState();
     if (!state) {
-      log('No existing state');
+      log(strings.app.log.noState);
       state = createState();
     }
     this.state = state;
