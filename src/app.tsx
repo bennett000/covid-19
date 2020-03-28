@@ -137,6 +137,14 @@ export class App extends Component<
     this.selectAndUpdate();
   }
 
+  selectCountries(countryKeys: string[]) {
+    this.setState({
+      ...this.state,
+      countryKeys,
+    });
+    this.selectAndUpdate();
+  }
+
   render() {
     return (
       <div className={`${fullSize} ${flexCol}`}>
@@ -153,6 +161,7 @@ export class App extends Component<
             key="0"
             reload={this.reload.bind(this)}
             selectCountry={this.selectCountry.bind(this)}
+            selectCountries={this.selectCountries.bind(this)}
             state={this.state.lineGraphState}
             strings={this.props.strings}
           ></LineGraph>

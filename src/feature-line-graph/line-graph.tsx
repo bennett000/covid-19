@@ -21,6 +21,7 @@ export class LineGraph extends Component<{
   onChange: (lgs: LineGraphState) => any;
   reload: () => any;
   selectCountry: (country: string) => any;
+  selectCountries: (countries: string[]) => any;
   state: LineGraphState;
   strings: Strings;
 }> {
@@ -93,6 +94,7 @@ export class LineGraph extends Component<{
             onChange={this.props.onChange}
             reload={this.props.reload}
             selectCountry={this.props.selectCountry}
+            selectCountries={this.props.selectCountries}
             state={this.props.state}
             strings={this.props.strings}
           />

@@ -10,7 +10,6 @@ import {
   LineGraphState,
 } from '../interfaces';
 import { SelectMultipleFilter } from '../components/select-multiple-filter';
-import { noop } from '@ch1/utility';
 import { Strings } from '../i18n';
 
 export function LineGraphControls({
@@ -21,6 +20,7 @@ export function LineGraphControls({
   onUpdateCountryFilter,
   reload,
   selectCountry,
+  selectCountries,
   state,
   strings,
 }: {
@@ -32,6 +32,7 @@ export function LineGraphControls({
   onUpdateCountryFilter: (filter: string) => any;
   reload: () => any;
   selectCountry: (country: string) => any;
+  selectCountries: (countries: string[]) => any;
   state: LineGraphState;
   strings: Strings;
 }) {
@@ -116,7 +117,7 @@ export function LineGraphControls({
         classes={countryKeys.length === 0 ? [highlight] : []}
         filter={state.countryFilter}
         onUpdateFilter={onUpdateCountryFilter}
-        onChange={noop as any}
+        onChange={selectCountries}
         onClear={clearCountries}
         onDeselect={selectCountry}
         options={countries.filter(filterStates(state.showStates, strings))}
