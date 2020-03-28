@@ -19,6 +19,7 @@ import {
 } from '../data-maps';
 import { Select } from '../components/select';
 import { Strings } from '../i18n';
+import stringStories from '../components/string.stories';
 
 export class Geography extends Component<
   {
@@ -162,6 +163,10 @@ export class Geography extends Component<
     const s = [];
     this.props.timeSeries.forEach(ts => {
       const code = ts.countryCode();
+      if (code === this.props.strings.countries.world) {
+        return null;
+      }
+
       if (excludeFromMap[code]) {
         return null;
       }
