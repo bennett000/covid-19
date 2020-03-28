@@ -15,6 +15,26 @@ export const rowHighlight = 'row-highlight';
 export const recoveryDays = 25;
 
 export const strings = Object.freeze({
+  app: Object.freeze({
+    menu: Object.freeze([
+      {
+        route: '/',
+        name: 'Chart',
+      },
+      {
+        route: '/table',
+        name: 'Table',
+      },
+      {
+        route: '/geography',
+        name: 'Geography',
+      },
+      {
+        route: '/about',
+        name: 'About',
+      },
+    ]),
+  }),
   countries: Object.freeze({
     total: 'Total',
     world: 'World',

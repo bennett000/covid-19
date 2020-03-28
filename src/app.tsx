@@ -15,7 +15,7 @@ import { log } from './utility';
 import { Dictionary } from '@ch1/utility';
 import { LearningTable } from './feature-learning-table/learning-table';
 import { Header } from './components/header';
-import { fullSize, flexCol } from './constants';
+import { fullSize, flexCol, strings } from './constants';
 import { Geography } from './feature-geography/geography';
 import { About } from './feature-about/about';
 
@@ -36,12 +36,11 @@ export class App extends Component<
     this.state = state;
     this.selectAndUpdate();
 
-    const routePaths = ['/', '/table', '/geography', '/about'];
-
     this.menu = {
-      labels: ['Chart', 'Table', 'Geography', 'About'],
+      labels: strings.app.menu.map(s => s.name),
       onClick: (selected: number) => {
-        const routePath = routePaths[selected] || routePaths[0];
+        const routePath =
+          strings.app.menu[selected].route || strings.app.menu[0].route;
         this.setState({
           ...this.state,
           routePath,
@@ -50,7 +49,12 @@ export class App extends Component<
         route(routePath);
         this.selectAndUpdate();
       },
-      selected: routePaths.indexOf(this.state.routePath),
+      selected: strings.app.menu.reduce((s, n, i) => {
+        if (n.route === this.state.routePath) {
+          return i;
+        }
+        return s;
+      }, 0),
     };
   }
 
@@ -137,7 +141,7 @@ export class App extends Component<
         <Header />
         <Router>
           <LineGraph
-            path={'/'}
+            path={strings.app.menu[0].route}
             clearCountries={this.clearCountries.bind(this)}
             countries={this.state.countries}
             countryKeys={this.state.countryKeys}
@@ -154,18 +158,22 @@ export class App extends Component<
             key="1"
             onChange={this.tableState.bind(this)}
             menu={this.menu}
-            path={'/table'}
+            path={strings.app.menu[1].route}
             state={this.state.tableState}
             selectCountry={this.selectCountry.bind(this)}
             timeSeries={this.state.data}
           ></LearningTable>
           <Geography
             key="2"
-            path={'/geography'}
+            path={strings.app.menu[2].route}
             menu={this.menu}
             timeSeries={this.state.data}
           ></Geography>
-          <About key="3" path={'/about'} menu={this.menu}></About>
+          <About
+            key="3"
+            path={strings.app.menu[3].route}
+            menu={this.menu}
+          ></About>
         </Router>
       </div>
     );
