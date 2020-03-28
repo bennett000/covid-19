@@ -192,3 +192,15 @@ function isSavedTableState(thing: any): boolean {
   }
   return true;
 }
+
+export function getSavedLanguage() {
+  if (window.localStorage) {
+    return window.localStorage.getItem('language') || '';
+  }
+}
+
+export function saveLanguage(language: string) {
+  if (window.localStorage) {
+    window.localStorage.setItem('language', language);
+  }
+}
