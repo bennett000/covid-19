@@ -8,9 +8,13 @@ import {
   interpolateRecoveriesAndActiveCases,
   sumAllRegions,
 } from './data';
-import { worldString, totalString } from './constants';
-import { JhuTimeSeriesHeader, JhuTimeSeries } from './interfaces';
-import { statesToCodes } from './data-maps';
+
+const strings: any = {
+  countries: {},
+  data: {
+    log: {},
+  },
+};
 
 describe('data functions', () => {
   describe('stateToLocaleState', () => {
@@ -65,7 +69,7 @@ describe('data functions', () => {
   describe('convertRowToTimeSeries', () => {
     it('converts ["foo", "bar", "1", "2", "35", "40"] to a structured object', () => {
       expect(
-        convertRowToTimeSeries(['foo', 'bar', '1', '2', '35', '40'])
+        convertRowToTimeSeries(strings)(['foo', 'bar', '1', '2', '35', '40'])
       ).toEqual({
         country: 'bar',
         locale: '',
@@ -78,7 +82,14 @@ describe('data functions', () => {
 
     it('converts [""foo, ON"", "bar", "1", "2", "35", "40"] to a structured object', () => {
       expect(
-        convertRowToTimeSeries(['foo, ON', 'bar', '1', '2', '35', '40'])
+        convertRowToTimeSeries(strings)([
+          'foo, ON',
+          'bar',
+          '1',
+          '2',
+          '35',
+          '40',
+        ])
       ).toEqual({
         country: 'bar',
         locale: 'foo',
@@ -91,7 +102,7 @@ describe('data functions', () => {
 
     it('converts [""foo\'s county, ON"", "bar", "1", "2", "35", "40"] to a structured object', () => {
       expect(
-        convertRowToTimeSeries([
+        convertRowToTimeSeries(strings)([
           "foo's county, ON",
           'bar',
           '1',
@@ -112,7 +123,7 @@ describe('data functions', () => {
 
   describe('convertToCountryDictionary', () => {
     it('ignores countries that do not have a code', () => {
-      const dict = convertToCountryDictionary([
+      const dict = convertToCountryDictionary(strings)([
         [
           [],
           [
@@ -158,7 +169,7 @@ describe('data functions', () => {
     });
 
     it('adds countries that have a code', () => {
-      const dict = convertToCountryDictionary([
+      const dict = convertToCountryDictionary(strings)([
         [
           [],
           [
@@ -228,7 +239,7 @@ describe('data functions', () => {
     });
 
     it('aggregates timeSeries data in any order', () => {
-      const dict = convertToCountryDictionary([
+      const dict = convertToCountryDictionary(strings)([
         [
           [],
           [
@@ -298,7 +309,7 @@ describe('data functions', () => {
     });
 
     it('ignores state/provinces that do not exist', () => {
-      const dict = convertToCountryDictionary([
+      const dict = convertToCountryDictionary(strings)([
         [
           [],
           [
@@ -368,7 +379,7 @@ describe('data functions', () => {
     });
 
     it('adds state/provinces that  exist', () => {
-      const dict = convertToCountryDictionary([
+      const dict = convertToCountryDictionary(strings)([
         [
           [],
           [
@@ -439,7 +450,7 @@ describe('data functions', () => {
     });
 
     it('adds locales regardless of if they exist or make sense', () => {
-      const dict = convertToCountryDictionary([
+      const dict = convertToCountryDictionary(strings)([
         [
           [],
           [
@@ -521,7 +532,9 @@ describe('data functions', () => {
           recoveries: 3,
         },
       ];
-      expect(getRecoveryDays(data[data.length - 1], 0, data, 25)).toBe(3);
+      expect(getRecoveryDays(strings)(data[data.length - 1], 0, data, 25)).toBe(
+        3
+      );
     });
 
     it("returns the delta of rdays ago and rdays ago - 1's confirmed cases", () => {
@@ -554,7 +567,12 @@ describe('data functions', () => {
         },
       ];
       expect(
-        getRecoveryDays(data[data.length - 1], data.length - 1, data, 6)
+        getRecoveryDays(strings)(
+          data[data.length - 1],
+          data.length - 1,
+          data,
+          6
+        )
       ).toBe(3);
     });
 
@@ -597,7 +615,12 @@ describe('data functions', () => {
           },
         ];
         expect(
-          getRecoveryDays(data[data.length - 1], data.length - 1, data, 6)
+          getRecoveryDays(strings)(
+            data[data.length - 1],
+            data.length - 1,
+            data,
+            6
+          )
         ).toBe(25);
       }
     );
@@ -625,7 +648,12 @@ describe('data functions', () => {
         },
       ];
       expect(
-        getRecoveryDays(data[data.length - 1], data.length - 1, data, 6)
+        getRecoveryDays(strings)(
+          data[data.length - 1],
+          data.length - 1,
+          data,
+          6
+        )
       ).toBe(0);
     });
 
@@ -645,7 +673,12 @@ describe('data functions', () => {
         },
       ];
       expect(
-        getRecoveryDays(data[data.length - 1], data.length - 1, data, 6)
+        getRecoveryDays(strings)(
+          data[data.length - 1],
+          data.length - 1,
+          data,
+          6
+        )
       ).toBe(0);
     });
 
@@ -660,14 +693,19 @@ describe('data functions', () => {
         },
       ];
       expect(
-        getRecoveryDays(data[data.length - 1], data.length - 1, data, 6)
+        getRecoveryDays(strings)(
+          data[data.length - 1],
+          data.length - 1,
+          data,
+          6
+        )
       ).toBe(0);
     });
   });
 
   describe('interpolateRecoveriesAndActiveCases', () => {
     it('adds active cases `confirmed` - `deaths` - `recoveries` = `active`', () => {
-      const complete = interpolateRecoveriesAndActiveCases({
+      const complete = interpolateRecoveriesAndActiveCases(strings)({
         CA: {
           country: 'Canada',
           countryCode: 'CA',
@@ -738,7 +776,7 @@ describe('data functions', () => {
           ],
         },
       };
-      const outputDict = sumAllRegions(inputDict);
+      const outputDict = sumAllRegions(strings)(inputDict);
       expect(outputDict).toEqual(inputDict);
     });
 
@@ -785,7 +823,7 @@ describe('data functions', () => {
           ],
         },
       };
-      const outputDict = sumAllRegions(inputDict);
+      const outputDict = sumAllRegions(strings)(inputDict);
       expect(outputDict).toEqual(inputDict);
       expect(outputDict.CA.counts[0].confirmed).toBe(10);
     });
@@ -812,15 +850,15 @@ describe('data functions', () => {
             },
           ],
         },
-        ['CA.' + totalString]: {
+        ['CA.' + strings.countries.total]: {
           country: 'Canada',
           countryCode: 'CA',
           dates: [],
-          key: 'CA.' + totalString,
+          key: 'CA.' + strings.countries.total,
           locale: '',
           population: 0,
           populationDensity: 0,
-          state: totalString,
+          state: strings.countries.total,
           stateCode: '',
           counts: [
             {
@@ -833,8 +871,10 @@ describe('data functions', () => {
           ],
         },
       };
-      const outputDict = sumAllRegions(inputDict);
-      expect(outputDict['CA.' + totalString].counts[0].confirmed).toBe(20);
+      const outputDict = sumAllRegions(strings)(inputDict);
+      expect(
+        outputDict['CA.' + strings.countries.total].counts[0].confirmed
+      ).toBe(20);
     });
   });
 });

@@ -1,31 +1,33 @@
 import { h } from 'preact';
+import { Strings } from '../i18n';
 
-export function Header() {
+export function Header({ strings }: { strings: Strings }) {
   return (
     <header class="small-text">
-      COVID-19
+      {strings.header.title}&nbsp;
       <a
         href="https://github.com/CSSEGISandData/COVID-19"
         target="_blank"
-        title="GitHub repository of source data maintained by Johns Hopkins University"
+        title={strings.header.jhuGitHubTitle}
       >
-        Johns Hopkins University Source Data
+        {strings.header.jhuSourceDataLink}
       </a>
-      Explorer (
+      &nbsp;
+      {strings.header.explorer} (
       <a
         href="https://github.com/bennett000/covid-19"
         target="_blank"
-        title="Source code to this website"
+        title={strings.header.sourceCodeTitle}
       >
-        source code
-      </a>{' '}
-      |
+        {strings.header.sourceCodeLink}
+      </a>
+      &nbsp;|&nbsp;
       <a
         href="https://github.com/bennett000/covid-19/issues"
         target="_blank"
-        title="Provide feedback, suggest features, file issues, etc"
+        title={strings.header.feedbackTitle}
       >
-        feedback
+        {strings.header.feedbackLink}
       </a>
       )
     </header>

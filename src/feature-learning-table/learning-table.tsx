@@ -15,57 +15,7 @@ import { SelectMultiple } from '../components/select-multiple';
 import { noop } from '@ch1/utility';
 import { Select } from '../components/select';
 import { Menu } from '../components/menu';
-
-const header = [
-  {
-    label: 'Region',
-    sort: 'sortByCountry',
-  },
-  {
-    label: 'Active*',
-    sort: 'sortByActive',
-  },
-  {
-    label: 'Active* %',
-    sort: 'sortByActivePercent',
-  },
-  {
-    label: 'Confirmed',
-    sort: 'sortByConfirmed',
-  },
-  {
-    label: 'Confirmed %',
-    sort: 'sortByConfirmedPercent',
-  },
-  {
-    label: 'Deaths',
-    sort: 'sortByDeaths',
-  },
-  {
-    label: 'Deaths %',
-    sort: 'sortByDeathsPercent',
-  },
-  {
-    label: 'Recoveries*',
-    sort: 'sortByRecoveries',
-  },
-  {
-    label: 'Recoveries* %',
-    sort: 'sortByRecoveriesPercent',
-  },
-  {
-    label: 'Mortality',
-    sort: 'sortByMortality',
-  },
-  {
-    label: 'Population',
-    sort: 'sortByPopulation',
-  },
-  {
-    label: 'Population Density',
-    sort: 'sortByPopulationDensity',
-  },
-];
+import { Strings } from '../i18n';
 
 export class LearningTable extends Component<{
   countryKeys: string[];
@@ -73,6 +23,7 @@ export class LearningTable extends Component<{
   onChange: (lgs: TableState) => any;
   selectCountry: (countryIndex: string) => any;
   state: TableState;
+  strings: Strings;
   timeSeries: ITimeSeriesArray;
 }> {
   constructor() {
@@ -136,6 +87,56 @@ export class LearningTable extends Component<{
   }
 
   render() {
+    const header = [
+      {
+        label: this.props.strings.learningTable.titles.region,
+        sort: 'sortByCountry',
+      },
+      {
+        label: this.props.strings.learningTable.titles.active,
+        sort: 'sortByActive',
+      },
+      {
+        label: this.props.strings.learningTable.titles.activePercent,
+        sort: 'sortByActivePercent',
+      },
+      {
+        label: this.props.strings.learningTable.titles.confirmed,
+        sort: 'sortByConfirmed',
+      },
+      {
+        label: this.props.strings.learningTable.titles.confirmedPercent,
+        sort: 'sortByConfirmedPercent',
+      },
+      {
+        label: this.props.strings.learningTable.titles.deaths,
+        sort: 'sortByDeaths',
+      },
+      {
+        label: this.props.strings.learningTable.titles.deathsPercent,
+        sort: 'sortByDeathsPercent',
+      },
+      {
+        label: this.props.strings.learningTable.titles.recoveries,
+        sort: 'sortByRecoveries',
+      },
+      {
+        label: this.props.strings.learningTable.titles.recoveriesPercent,
+        sort: 'sortByRecoveriesPercent',
+      },
+      {
+        label: this.props.strings.learningTable.titles.mortality,
+        sort: 'sortByMortality',
+      },
+      {
+        label: this.props.strings.learningTable.titles.population,
+        sort: 'sortByPopulation',
+      },
+      {
+        label: this.props.strings.learningTable.titles.populationDensity,
+        sort: 'sortByPopulationDensity',
+      },
+    ];
     const tbody =
       window.document.body.clientHeight *
       (this.props.state.isConfigOpen ? 0.6 : 0.82);
@@ -276,8 +277,8 @@ export class LearningTable extends Component<{
         <section>
           <section className={flex}>
             <ButtonToggle
-              labelTrue="✗ Enlarge Table"
-              labelFalse="⚙️ Configure Table"
+              labelTrue={this.props.strings.learningTable.enlarge}
+              labelFalse={this.props.strings.learningTable.configure}
               onClick={this.toggleConfig.bind(this)}
               state={this.props.state.isConfigOpen}
             />
@@ -293,7 +294,10 @@ export class LearningTable extends Component<{
               ></SelectMultiple>
               <Select
                 onChange={this.toggleShowAll.bind(this)}
-                options={['Show All', 'Only Selected']}
+                options={[
+                  this.props.strings.learningTable.showAll,
+                  this.props.strings.learningTable.showOnlySelected,
+                ]}
                 selected={this.props.state.showAll ? 0 : 1}
               ></Select>
             </section>

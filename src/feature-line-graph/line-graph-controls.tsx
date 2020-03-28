@@ -3,38 +3,26 @@ import { Select } from '../components/select';
 import { SelectMultiple } from '../components/select-multiple';
 import { InputDate } from '../components/date';
 import { Button } from '../components/button';
-import {
-  flex,
-  flexCol,
-  flexItem20,
-  totalString,
-  highlight,
-} from '../constants';
+import { flex, flexCol, flexItem20, highlight } from '../constants';
 import {
   SelectOptionsWithIndex,
   ChartSeries,
   LineGraphState,
 } from '../interfaces';
-import { SelectMultipleFilter } from './select-multiple-filter';
-import { noop } from '@ch1/utility';
-
-const dataSets = [
-  'Active*',
-  'Confirmed',
-  'Deaths',
-  'Recoveries*',
-  'Estimated Active Cases',
-];
-const modes = ['By date', 'By first confirmed', 'By first 100 confirmed'];
-const scaleTypes = ['Linear', 'Logarithmic'];
-const showStates = ['Show States', 'Hide States'];
-const metrics = ['By Value', 'Percent'];
+import { SelectMultipleFilter } from '../components/select-multiple-filter';
+import { Strings } from '../i18n';
 
 export function LineGraphControls({
+  clearCountries,
   countries,
+  countryKeys,
   onChange,
+  onUpdateCountryFilter,
   reload,
+  selectCountry,
+  selectCountries,
   state,
+  strings,
 }: {
   clearCountries: () => any;
   countries: SelectOptionsWithIndex[];
@@ -44,8 +32,29 @@ export function LineGraphControls({
   onUpdateCountryFilter: (filter: string) => any;
   reload: () => any;
   selectCountry: (country: string) => any;
+  selectCountries: (countries: string[]) => any;
   state: LineGraphState;
+  strings: Strings;
 }) {
+  const dataSets = [
+    strings.series.activeCases,
+    strings.series.confirmedCases,
+    strings.series.deaths,
+    strings.series.recoveries,
+    strings.series.estimatedActiveCases,
+  ];
+  const modes = [
+    strings.modes.byDate,
+    strings.modes.byFirst,
+    strings.modes.byFirst100,
+  ];
+  const scaleTypes = [
+    strings.scaleTypes.linear,
+    strings.scaleTypes.logarithmic,
+  ];
+  const showStates = ['Show States', 'Hide States'];
+  const metrics = [strings.metrics.byValue, strings.metrics.byPercent];
+
   function selectMode(mode: number | string) {
     onChange({
       ...state,
@@ -105,14 +114,14 @@ export function LineGraphControls({
         selected={state.dataSetIndexes}
       />
       <SelectMultipleFilter
-        classes={this.props.countryKeys.length === 0 ? [highlight] : []}
-        filter={this.props.state.countryFilter}
-        onUpdateFilter={this.props.onUpdateCountryFilter}
-        onChange={noop as any}
-        onClear={this.props.clearCountries}
-        onDeselect={this.props.selectCountry}
-        options={countries.filter(filterStates(this.props.state.showStates))}
-        selected={this.props.countryKeys}
+        classes={countryKeys.length === 0 ? [highlight] : []}
+        filter={state.countryFilter}
+        onUpdateFilter={onUpdateCountryFilter}
+        onChange={selectCountries}
+        onClear={clearCountries}
+        onDeselect={selectCountry}
+        options={countries.filter(filterStates(state.showStates, strings))}
+        selected={countryKeys}
       />
       <div className={flexCol}>
         <Select
@@ -125,19 +134,19 @@ export function LineGraphControls({
           options={metrics}
           selected={state.byMetric}
         />
-        <Button label="Reload" onClick={reload}></Button>
+        <Button label={strings.lineGraph.reload} onClick={reload}></Button>
       </div>
     </section>
   );
 }
 
-function filterStates(doFilter: boolean) {
+function filterStates(doFilter: boolean, strings) {
   return (item: SelectOptionsWithIndex) => {
     if (doFilter === false) {
       return true;
     }
     if (item.name.indexOf(',') > -1) {
-      if (item.name.indexOf(`, ${totalString}`) > -1) {
+      if (item.name.indexOf(`, ${strings.countries.total}`) > -1) {
         return true;
       }
       return false;

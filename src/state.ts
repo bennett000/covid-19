@@ -3,6 +3,7 @@ import { AppState } from './interfaces';
 import { isNumber, isString, isBoolean } from '@ch1/utility';
 import { log } from './utility';
 import { TimeSeriesArray } from './time-series';
+import { Strings } from './i18n';
 
 const defaultDataset = 0;
 const defaultCountries = [];
@@ -11,12 +12,12 @@ const defaultStart = '2019-12-26';
 const defaultScaleType = 0;
 const defaultShowStates = false;
 
-export function createState(): AppState {
+export function createState(strings: Strings): AppState {
   return {
     countries: [],
     currentSeries: [],
     data: TimeSeriesArray.create(),
-    dataPromise: fetchData(),
+    dataPromise: fetchData(strings),
     countryKeys: defaultCountries,
     routePath: '/',
     lineGraphState: {
@@ -60,7 +61,7 @@ export function saveState(state: AppState) {
   }
 }
 
-export function loadState(): AppState | null {
+export function loadState(strings: Strings): AppState | null {
   if (window.localStorage) {
     const item = window.localStorage.getItem('state');
     if (item) {
@@ -70,17 +71,17 @@ export function loadState(): AppState | null {
           return null;
         }
         if (isSavedAppState(parsed) === false) {
-          log('Upgrade: Wiping old state');
+          log(strings.state.wipingOld);
           window.localStorage.setItem('state', '');
           return null;
         }
         return {
           ...parsed,
-          dataPromise: fetchData(),
+          dataPromise: fetchData(strings),
           data: TimeSeriesArray.create(),
         };
       } catch (e) {
-        log('Failed to parse saved state, resetting localStorage');
+        log(strings.state.parseFail);
         window.localStorage.setItem('state', '');
         return null;
       }
@@ -190,4 +191,16 @@ function isSavedTableState(thing: any): boolean {
     return false;
   }
   return true;
+}
+
+export function getSavedLanguage() {
+  if (window.localStorage) {
+    return window.localStorage.getItem('language') || '';
+  }
+}
+
+export function saveLanguage(language: string) {
+  if (window.localStorage) {
+    window.localStorage.setItem('language', language);
+  }
 }

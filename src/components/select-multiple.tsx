@@ -19,7 +19,7 @@ export function SelectMultiple({
   return (
     <select onChange={change} multiple={true}>
       {options.map((option, index) => {
-        const key = index + (Math.random() * 100000).toString(16);
+        const key = 'option-' + option;
         if (isString(option)) {
           if (selected.indexOf(index) > -1) {
             return (

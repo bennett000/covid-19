@@ -1,0 +1,148 @@
+{
+  "app": {
+    "log": {
+      "noState": "No existing state"
+    },
+    "menu": [
+      {
+        "route": "/",
+        "name": "Chart"
+      },
+      {
+        "route": "/table",
+        "name": "Table"
+      },
+      {
+        "route": "/geography",
+        "name": "Geography"
+      },
+      {
+        "route": "/about",
+        "name": "About"
+      }
+    ]
+  },
+  "countries": {
+    "total": "Total",
+    "world": "World"
+  },
+  "data": {
+    "log": {
+      "countryNotFound": "country not found",
+      "deathNoConfirmed": "Warning: data seems odd, there are deaths but no confirmed cases",
+      "populationNotFound": "population not found for",
+      "recoveryNoConfirmed": "Warning: data seems odd, there are recoveries but no confirmed cases",
+      "stateNotFound": "state not found",
+      "unexpectedLength": "Warning: unexpected length:"
+    }
+  },
+  "descriptions": {
+    "metrics": {
+      "byPercet": "Uses the percentage of population* note population data is imperfect",
+      "byValue": "Uses the raw count"
+    },
+    "modes": {
+      "byDate": "Plots series based on the date the count occured",
+      "byFirst": "Plots series starting from the day the first person was confirmed to have covid-19",
+      "byFirst100": "Plots series starting from the day the first one hundred (100) people were confirmed to have covid-19"
+    },
+    "scales": {
+      "linear": "scales \"normally\" 0, 10, 20, 30, 40, 50...",
+      "logarithmic": "scales by a multiplier 0, 10, 100, 1000, 10000... this scale is useful for looking at series that are early in their curve and series that are late in their curve at the same time"
+    },
+    "series": {
+      "activeCases": "Confirmed - Deaths - Recoveries*.  There is an * because this value depends on Recoveries*",
+      "confirmedCases": "The number of confirmed cases according to reported data",
+      "deaths": "The number of reported deaths, this is the most reliable data point",
+      "recoveries": "Roughly how many people have recovered.  There is some actual data but it is not maintained. Recoveries are estimated based on ${recoveryDays} days since the case was reported confirmed",
+      "estimatedActiveCases": {
+        "part1": "This estimate is",
+        "link": "based on the spreadsheet created for \"Coronavirus act today...\".",
+        "part2": "",
+        "url": "https://medium.com/@tomaspueyo/coronavirus-act-today-or-people-will-die-f4d3d9cd99ca"
+      }
+    },
+    "titles": {
+      "metrics": "Metrics",
+      "modes": "Modes",
+      "scales": "Scales",
+      "series": "Series"
+    }
+  },
+  "errors": {
+    "bootstrap": "Could not bootstrap the application",
+    "chart": {
+      "domError": "could not add the chart to the DOM"
+    }
+  },
+  "geography": {
+    "toolTip0": "<b>%name<b/> <br/>Active Cases: %zValue",
+    "toolTip1": "<b>%name<b/> <br/>Confirmed Cases: %zValue",
+    "toolTip2": "<b>%name<b/> <br/>Deaths: %zValue",
+    "toolTip3": "<b>%name<b/> <br/>Recoveries: %zValue",
+    "toolTipDefault": "<b>%name<b/> <br/>Active Cases: %zValue"
+  },
+  "header": {
+    "explorer": "Explorer",
+    "feedbackLink": "feedback",
+    "feedbackTitle": "Provide feedback, suggest features, file issues, etc",
+    "jhuGitHubTitle": "GitHub repository of source data maintained by Johns Hopkins University",
+    "jhuSourceDataLink": "Johns Hopkins University Source Data",
+    "sourceCodeLink": "source code",
+    "sourceCodeTitle": "Source code to this website",
+    "title": "COVID-19"
+  },
+  "i18n": {
+    "part1": "Error loading language",
+    "part2": "reverting to English"
+  },
+  "learningTable": {
+    "configure": "⚙️ Configure Table",
+    "enlarge": "✗ Enlarge Table",
+    "showAll": "Show All",
+    "showOnlySelected": "Only Selected",
+    "titles": {
+      "active": "Active",
+      "activePercent": "Active %",
+      "confirmed": "Confirmed",
+      "confirmedPercent": "Confirmed %",
+      "deaths": "Deaths",
+      "deathsPercent": "Deaths %",
+      "mortality": "Mortality",
+      "population": "Population",
+      "populationDensity": "Population Density",
+      "recoveries": "Recoveries",
+      "recoveriesPercent": "Recoveries %",
+      "region": "Region"
+    }
+  },
+  "lineGraph": {
+    "configure": "⚙️ Configure Chart",
+    "enlarge": "✗ Enlarge Chart",
+    "reload": "Reload"
+  },
+  "metrics": {
+    "byValue": "By Value",
+    "byPercent": "Percent"
+  },
+  "modes": {
+    "byDate": "By date",
+    "byFirst": "By first confirmed",
+    "byFirst100": "By first 100 confirmed"
+  },
+  "scaleTypes": {
+    "linear": "Linear",
+    "logarithmic": "Logarithmic"
+  },
+  "series": {
+    "activeCases": "Active Cases*",
+    "confirmedCases": "Confirmed Cases",
+    "deaths": "Deaths",
+    "estimatedActiveCases": "Estimated Active Cases",
+    "recoveries": "Recoveries*"
+  },
+  "state": {
+    "parseFail": "Failed to parse saved state, resetting localStorage",
+    "wipingOld": "Upgrade: Wiping old state"
+  }
+}

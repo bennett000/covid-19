@@ -238,6 +238,7 @@ export const countriesToCodes = Object.freeze({
   Brunei: 'BN',
   Bulgaria: 'BG',
   'Burkina Faso': 'BF',
+  Burma: 'BU',
   Burundi: 'BI',
   'Cabo Verde': 'CV',
   Cambodia: 'KH',
@@ -748,6 +749,7 @@ export const excludeFromMap = {
   MT: true, // but it exists in the docs
   MU: true,
   MV: true,
+  PO: true,
   TL: 'TP',
   SC: true,
   SG: true, // but it exists in the docs

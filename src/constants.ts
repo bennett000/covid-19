@@ -12,9 +12,7 @@ export const rowEven = 'row-even';
 export const rowOdd = 'row-odd';
 export const rowHighlight = 'row-highlight';
 
-export const totalString = 'Total';
-export const usaString = 'US';
-export const worldString = 'World';
+export const recoveryDays = 25;
 
 export const reverseDeathProjectionDefaults = Object.freeze({
   daysFromInfectionToDeath: 17.3,

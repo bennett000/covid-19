@@ -5,7 +5,6 @@ import { MenuProp, ITimeSeriesArray, ITimeSeries } from '../interfaces';
 import {
   flexCol,
   fullSize,
-  totalString,
   flex,
   activeRanges,
   confirmedRanges,
@@ -13,17 +12,19 @@ import {
   recoveryRanges,
 } from '../constants';
 import {
-  countriesToCodes,
   statesToCodes,
   usStateCodeByName,
   countriesToContinents,
   excludeFromMap,
 } from '../data-maps';
 import { Select } from '../components/select';
+import { Strings } from '../i18n';
+import stringStories from '../components/string.stories';
 
 export class Geography extends Component<
   {
     menu: MenuProp;
+    strings: Strings;
     timeSeries: ITimeSeriesArray;
   },
   {
@@ -162,12 +163,16 @@ export class Geography extends Component<
     const s = [];
     this.props.timeSeries.forEach(ts => {
       const code = ts.countryCode();
+      if (code === this.props.strings.countries.world) {
+        return null;
+      }
+
       if (excludeFromMap[code]) {
         return null;
       }
 
       if (ts.state()) {
-        if (ts.state() !== totalString) {
+        if (ts.state() !== this.props.strings.countries.total) {
           return null;
         }
       }
@@ -220,7 +225,7 @@ export class Geography extends Component<
         }
       }
       if (ts.state()) {
-        if (ts.state() !== totalString) {
+        if (ts.state() !== this.props.strings.countries.total) {
           return null;
         }
         if (ts.locale()) {
@@ -267,7 +272,7 @@ export class Geography extends Component<
       if (ts.country() !== country) {
         return null;
       }
-      if (ts.state() === totalString) {
+      if (ts.state() === this.props.strings.countries.total) {
         return null;
       }
       if (ts.locale()) {
@@ -318,7 +323,7 @@ export class Geography extends Component<
     this.setState({
       ...this.state,
       dataSet: int,
-      toolTip: getToolTip(int),
+      toolTip: getToolTip(int, this.props.strings),
     });
   }
 
@@ -342,16 +347,17 @@ export class Geography extends Component<
         <ChartMap
           ranges={ranges}
           series={series}
+          strings={this.props.strings}
           toolTip={this.state.toolTip}
         />
         <section className={flex}>
           <Select
             onChange={this.onChangeDataSet.bind(this)}
             options={[
-              'Active Cases*',
-              'Confirmed Cases',
-              'Deaths',
-              'Recoveries*',
+              this.props.strings.series.activeCases,
+              this.props.strings.series.confirmedCases,
+              this.props.strings.series.deaths,
+              this.props.strings.series.recoveries,
             ]}
             selected={this.state.dataSet}
           ></Select>
@@ -362,18 +368,18 @@ export class Geography extends Component<
   }
 }
 
-function getToolTip(index: number) {
+function getToolTip(index: number, strings: Strings) {
   switch (index) {
     case 0:
-      return '<b>%name<b/> <br/>Active Cases: %zValue';
+      return strings.geography.toolTip0;
     case 1:
-      return '<b>%name<b/> <br/>Confirmed Cases: %zValue';
+      return strings.geography.toolTip1;
     case 2:
-      return '<b>%name<b/> <br/>Deaths: %zValue';
+      return strings.geography.toolTip2;
     case 3:
-      return '<b>%name<b/> <br/>Recoveries: %zValue';
+      return strings.geography.toolTip3;
     default:
-      return '<b>%name<b/> <br/>Active Cases: %zValue';
+      return strings.geography.toolTipDefault;
   }
 }
 

@@ -7,9 +7,10 @@ import {
 } from '../interfaces';
 import { Chart } from '../components/chart';
 import { flexCol, fullSize, flexItem60, flexItem95, flex } from '../constants';
-import { LineGraphControls } from '../components/line-graph-controls';
+import { LineGraphControls } from './line-graph-controls';
 import { ButtonToggle } from '../components/button-toggle';
 import { Menu } from '../components/menu';
+import { Strings } from '../i18n';
 
 export class LineGraph extends Component<{
   clearCountries: () => any;
@@ -20,7 +21,9 @@ export class LineGraph extends Component<{
   onChange: (lgs: LineGraphState) => any;
   reload: () => any;
   selectCountry: (country: string) => any;
+  selectCountries: (countries: string[]) => any;
   state: LineGraphState;
+  strings: Strings;
 }> {
   constructor() {
     super();
@@ -68,13 +71,14 @@ export class LineGraph extends Component<{
           flexSize={this.props.state.isConfigOpen ? flexItem60 : flexItem95}
           series={this.props.currentSeries}
           scaleType={this.props.state.scaleType}
+          strings={this.props.strings}
           useDays={this.useDays()}
         ></Chart>
         <section className={flex}>
           <ButtonToggle
             classes={classes}
-            labelTrue="✗ Enlarge Chart"
-            labelFalse="⚙️ Configure Chart"
+            labelTrue={this.props.strings.lineGraph.enlarge}
+            labelFalse={this.props.strings.lineGraph.configure}
             onClick={this.toggleConfig.bind(this)}
             state={this.props.state.isConfigOpen}
           />
@@ -90,7 +94,9 @@ export class LineGraph extends Component<{
             onChange={this.props.onChange}
             reload={this.props.reload}
             selectCountry={this.props.selectCountry}
+            selectCountries={this.props.selectCountries}
             state={this.props.state}
+            strings={this.props.strings}
           />
         ) : (
           ''

@@ -17,30 +17,32 @@ import { LearningTable } from './feature-learning-table/learning-table';
 import { Header } from './components/header';
 import { fullSize, flexCol } from './constants';
 import { Geography } from './feature-geography/geography';
+import { About } from './feature-about/about';
+import { Strings } from './i18n';
 
 export class App extends Component<
-  { cache: Dictionary<ChartSeries>; reset: () => any },
+  { cache: Dictionary<ChartSeries>; reset: () => any; strings: Strings },
   AppState
 > {
   menu: MenuProp;
 
-  constructor() {
+  constructor(props) {
     super();
 
-    let state = loadState();
+    let state = loadState(props.strings);
     if (!state) {
-      log('No existing state');
-      state = createState();
+      log(props.strings.app.log.noState);
+      state = createState(props.strings);
     }
     this.state = state;
     this.selectAndUpdate();
 
-    const routePaths = ['/', '/table', '/geography'];
-
     this.menu = {
-      labels: ['Chart', 'Table', 'Geography'],
+      labels: props.strings.app.menu.map(s => s.name),
       onClick: (selected: number) => {
-        const routePath = routePaths[selected] || routePaths[0];
+        const routePath =
+          this.props.strings.app.menu[selected].route ||
+          this.props.strings.app.menu[0].route;
         this.setState({
           ...this.state,
           routePath,
@@ -49,7 +51,12 @@ export class App extends Component<
         route(routePath);
         this.selectAndUpdate();
       },
-      selected: routePaths.indexOf(this.state.routePath),
+      selected: props.strings.app.menu.reduce((s, n, i) => {
+        if (n.route === this.state.routePath) {
+          return i;
+        }
+        return s;
+      }, 0),
     };
   }
 
@@ -100,7 +107,7 @@ export class App extends Component<
     this.props.reset();
     this.setState({
       ...this.state,
-      dataPromise: fetchData().then(d => {
+      dataPromise: fetchData(this.props.strings).then(d => {
         this.selectAndUpdate();
         return d;
       }),
@@ -130,13 +137,21 @@ export class App extends Component<
     this.selectAndUpdate();
   }
 
+  selectCountries(countryKeys: string[]) {
+    this.setState({
+      ...this.state,
+      countryKeys,
+    });
+    this.selectAndUpdate();
+  }
+
   render() {
     return (
       <div className={`${fullSize} ${flexCol}`}>
-        <Header />
+        <Header strings={this.props.strings} />
         <Router>
           <LineGraph
-            path={'/'}
+            path={this.props.strings.app.menu[0].route}
             clearCountries={this.clearCountries.bind(this)}
             countries={this.state.countries}
             countryKeys={this.state.countryKeys}
@@ -146,31 +161,44 @@ export class App extends Component<
             key="0"
             reload={this.reload.bind(this)}
             selectCountry={this.selectCountry.bind(this)}
+            selectCountries={this.selectCountries.bind(this)}
             state={this.state.lineGraphState}
+            strings={this.props.strings}
           ></LineGraph>
           <LearningTable
             countryKeys={this.state.countryKeys}
             key="1"
             onChange={this.tableState.bind(this)}
             menu={this.menu}
-            path={'/table'}
+            path={this.props.strings.app.menu[1].route}
             state={this.state.tableState}
             selectCountry={this.selectCountry.bind(this)}
+            strings={this.props.strings}
             timeSeries={this.state.data}
           ></LearningTable>
           <Geography
             key="2"
-            path={'/geography'}
+            path={this.props.strings.app.menu[2].route}
             menu={this.menu}
+            strings={this.props.strings}
             timeSeries={this.state.data}
           ></Geography>
+          <About
+            key="3"
+            path={this.props.strings.app.menu[3].route}
+            strings={this.props.strings}
+            menu={this.menu}
+          ></About>
         </Router>
       </div>
     );
   }
 }
 
-export function render(root: HTMLElement) {
+export function render(root: HTMLElement, strings: Strings) {
   let cache: Dictionary<ChartSeries> = {};
-  preactRender(<App cache={cache} reset={() => (cache = {})} />, root);
+  preactRender(
+    <App cache={cache} reset={() => (cache = {})} strings={strings} />,
+    root
+  );
 }
