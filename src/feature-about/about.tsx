@@ -1,6 +1,6 @@
 import { Component, h } from 'preact';
 import { MenuProp } from '../interfaces';
-import { fullSize, strings, recoveryDays } from '../constants';
+import { fullSize, strings } from '../constants';
 import { Menu } from '../components/menu';
 import { AboutList } from '../components/about-list';
 
@@ -86,10 +86,22 @@ export class About extends Component<{
   render() {
     return (
       <section className={`${fullSize}`}>
-        <AboutList title="Series Types" list={definitionsSeries}></AboutList>
-        <AboutList title="Modes" list={definitionsModes}></AboutList>
-        <AboutList title="Scales" list={definitionsScales}></AboutList>
-        <AboutList title="Metrics" list={definitionsMetrics}></AboutList>
+        <AboutList
+          title={strings.descriptions.titles.series}
+          list={definitionsSeries}
+        ></AboutList>
+        <AboutList
+          title={strings.descriptions.titles.modes}
+          list={definitionsModes}
+        ></AboutList>
+        <AboutList
+          title={strings.descriptions.titles.scales}
+          list={definitionsScales}
+        ></AboutList>
+        <AboutList
+          title={strings.descriptions.titles.metrics}
+          list={definitionsMetrics}
+        ></AboutList>
         <Menu config={this.props.menu}></Menu>
       </section>
     );

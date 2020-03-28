@@ -3,14 +3,7 @@ import { Select } from '../components/select';
 import { SelectMultiple } from '../components/select-multiple';
 import { InputDate } from '../components/date';
 import { Button } from '../components/button';
-import {
-  flex,
-  flexCol,
-  flexItem20,
-  totalString,
-  highlight,
-  strings,
-} from '../constants';
+import { flex, flexCol, flexItem20, highlight, strings } from '../constants';
 import {
   SelectOptionsWithIndex,
   ChartSeries,
@@ -130,7 +123,7 @@ export function LineGraphControls({
           options={metrics}
           selected={state.byMetric}
         />
-        <Button label="Reload" onClick={reload}></Button>
+        <Button label={strings.lineGraph.reload} onClick={reload}></Button>
       </div>
     </section>
   );
@@ -142,7 +135,7 @@ function filterStates(doFilter: boolean) {
       return true;
     }
     if (item.name.indexOf(',') > -1) {
-      if (item.name.indexOf(`, ${totalString}`) > -1) {
+      if (item.name.indexOf(`, ${strings.countries.total}`) > -1) {
         return true;
       }
       return false;

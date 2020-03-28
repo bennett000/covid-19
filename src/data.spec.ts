@@ -8,9 +8,7 @@ import {
   interpolateRecoveriesAndActiveCases,
   sumAllRegions,
 } from './data';
-import { worldString, totalString } from './constants';
-import { JhuTimeSeriesHeader, JhuTimeSeries } from './interfaces';
-import { statesToCodes } from './data-maps';
+import { strings } from './constants';
 
 describe('data functions', () => {
   describe('stateToLocaleState', () => {
@@ -812,15 +810,15 @@ describe('data functions', () => {
             },
           ],
         },
-        ['CA.' + totalString]: {
+        ['CA.' + strings.countries.total]: {
           country: 'Canada',
           countryCode: 'CA',
           dates: [],
-          key: 'CA.' + totalString,
+          key: 'CA.' + strings.countries.total,
           locale: '',
           population: 0,
           populationDensity: 0,
-          state: totalString,
+          state: strings.countries.total,
           stateCode: '',
           counts: [
             {
@@ -834,7 +832,9 @@ describe('data functions', () => {
         },
       };
       const outputDict = sumAllRegions(inputDict);
-      expect(outputDict['CA.' + totalString].counts[0].confirmed).toBe(20);
+      expect(
+        outputDict['CA.' + strings.countries.total].counts[0].confirmed
+      ).toBe(20);
     });
   });
 });

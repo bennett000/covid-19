@@ -12,13 +12,13 @@ export const rowEven = 'row-even';
 export const rowOdd = 'row-odd';
 export const rowHighlight = 'row-highlight';
 
-export const totalString = 'Total';
-export const usaString = 'US';
-export const worldString = 'World';
-
 export const recoveryDays = 25;
 
 export const strings = Object.freeze({
+  countries: Object.freeze({
+    total: 'Total',
+    world: 'World',
+  }),
   descriptions: Object.freeze({
     metrics: Object.freeze({
       byPercet:
@@ -58,6 +58,31 @@ export const strings = Object.freeze({
           'https://medium.com/@tomaspueyo/coronavirus-act-today-or-people-will-die-f4d3d9cd99ca',
       }),
     }),
+    titles: Object.freeze({
+      metrics: 'Metrics',
+      modes: 'Modes',
+      scales: 'Scales',
+      series: 'Series',
+    }),
+  }),
+  errors: Object.freeze({
+    chart: Object.freeze({
+      domError: 'could not add the chart to the DOM',
+    }),
+  }),
+  header: Object.freeze({
+    explorer: 'Explorer',
+    feedbackLink: 'feedback',
+    feedbackTitle: 'Provide feedback, suggest features, file issues, etc',
+    jhuGitHubTitle:
+      'GitHub repository of source data maintained by Johns Hopkins University',
+    jhuSourceDataLink: 'Johns Hopkins University Source Data',
+    sourceCodeLink: 'source code',
+    sourceCodeTitle: 'Source code to this website',
+    title: 'COVID-19',
+  }),
+  lineGraph: Object.freeze({
+    reload: 'Reload',
   }),
   metrics: Object.freeze({
     byValue: 'By Value',

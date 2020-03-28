@@ -5,7 +5,6 @@ import { MenuProp, ITimeSeriesArray, ITimeSeries } from '../interfaces';
 import {
   flexCol,
   fullSize,
-  totalString,
   flex,
   activeRanges,
   confirmedRanges,
@@ -167,7 +166,7 @@ export class Geography extends Component<
       }
 
       if (ts.state()) {
-        if (ts.state() !== totalString) {
+        if (ts.state() !== strings.countries.total) {
           return null;
         }
       }
@@ -220,7 +219,7 @@ export class Geography extends Component<
         }
       }
       if (ts.state()) {
-        if (ts.state() !== totalString) {
+        if (ts.state() !== strings.countries.total) {
           return null;
         }
         if (ts.locale()) {
@@ -267,7 +266,7 @@ export class Geography extends Component<
       if (ts.country() !== country) {
         return null;
       }
-      if (ts.state() === totalString) {
+      if (ts.state() === strings.countries.total) {
         return null;
       }
       if (ts.locale()) {

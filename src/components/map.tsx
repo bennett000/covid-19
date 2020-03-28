@@ -2,7 +2,7 @@
 // MIT licensed as `JSC` is proprietary
 declare const JSC: any;
 import { Component, h } from 'preact';
-import { fullSize } from '../constants';
+import { fullSize, strings } from '../constants';
 
 export class ChartMap extends Component<
   {
@@ -17,7 +17,7 @@ export class ChartMap extends Component<
 
     const chartDiv = window.document.createElement('div');
     if (!chartDiv) {
-      throw new Error('could not add the chart to the DOM');
+      throw new Error(strings.errors.chart.domError);
     }
     this.state = { chartDiv };
   }

@@ -15,9 +15,8 @@ import {
   reverseDeathProjectionDefaults,
   projectionPalette,
   basePalette,
-  totalString,
-  worldString,
   recoveryDays,
+  strings,
 } from './constants';
 import rawPopulationData from 'country-json/src/country-by-population.json';
 import rawPopulationDensityData from 'country-json/src/country-by-population-density.json';
@@ -242,10 +241,10 @@ export function sumWorld(
   dict: Dictionary<LocationSeries>
 ): Dictionary<LocationSeries> {
   const world = {
-    country: worldString,
-    countryCode: worldString,
+    country: strings.countries.world,
+    countryCode: strings.countries.world,
     dates: [],
-    key: worldString,
+    key: strings.countries.world,
     locale: '',
     population: 0,
     populationDensity: 0,
@@ -257,7 +256,7 @@ export function sumWorld(
     if (location.locale) {
       return;
     }
-    if (location.state && location.state !== totalString) {
+    if (location.state && location.state !== strings.countries.total) {
       return;
     }
     world.population += location.population;
@@ -271,7 +270,7 @@ export function sumWorld(
       }
     });
   });
-  dict[worldString] = world;
+  dict[strings.countries.world] = world;
   return dict;
 }
 
@@ -279,7 +278,7 @@ export function sumAllRegions(
   dict: Dictionary<LocationSeries>
 ): Dictionary<LocationSeries> {
   objEach(dict, location => {
-    if (location.state === totalString) {
+    if (location.state === strings.countries.total) {
       // skip totals
       return;
     }
@@ -292,7 +291,7 @@ export function sumAllRegions(
         // skip if there's already a total like in UK's case
         return;
       }
-      const totalKey = location.countryCode + '.' + totalString;
+      const totalKey = location.countryCode + '.' + strings.countries.total;
       if (dict[totalKey] === undefined) {
         dict[totalKey] = {
           ...location,
@@ -300,7 +299,7 @@ export function sumAllRegions(
           locale: '',
           population: getPopulation(location.country),
           populationDensity: getPopulationDensity(location.country),
-          state: totalString,
+          state: strings.countries.total,
           counts: [],
         };
       }
