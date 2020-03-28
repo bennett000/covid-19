@@ -9,6 +9,7 @@ import {
   flexItem95,
   flex,
   flexItem60,
+  strings,
 } from '../constants';
 import { ButtonToggle } from '../components/button-toggle';
 import { SelectMultiple } from '../components/select-multiple';
@@ -18,51 +19,51 @@ import { Menu } from '../components/menu';
 
 const header = [
   {
-    label: 'Region',
+    label: strings.learningTable.titles.region,
     sort: 'sortByCountry',
   },
   {
-    label: 'Active*',
+    label: strings.learningTable.titles.active,
     sort: 'sortByActive',
   },
   {
-    label: 'Active* %',
+    label: strings.learningTable.titles.activePercent,
     sort: 'sortByActivePercent',
   },
   {
-    label: 'Confirmed',
+    label: strings.learningTable.titles.confirmed,
     sort: 'sortByConfirmed',
   },
   {
-    label: 'Confirmed %',
+    label: strings.learningTable.titles.confirmedPercent,
     sort: 'sortByConfirmedPercent',
   },
   {
-    label: 'Deaths',
+    label: strings.learningTable.titles.deaths,
     sort: 'sortByDeaths',
   },
   {
-    label: 'Deaths %',
+    label: strings.learningTable.titles.deathsPercent,
     sort: 'sortByDeathsPercent',
   },
   {
-    label: 'Recoveries*',
+    label: strings.learningTable.titles.recoveries,
     sort: 'sortByRecoveries',
   },
   {
-    label: 'Recoveries* %',
+    label: strings.learningTable.titles.recoveriesPercent,
     sort: 'sortByRecoveriesPercent',
   },
   {
-    label: 'Mortality',
+    label: strings.learningTable.titles.mortality,
     sort: 'sortByMortality',
   },
   {
-    label: 'Population',
+    label: strings.learningTable.titles.population,
     sort: 'sortByPopulation',
   },
   {
-    label: 'Population Density',
+    label: strings.learningTable.titles.populationDensity,
     sort: 'sortByPopulationDensity',
   },
 ];
@@ -276,8 +277,8 @@ export class LearningTable extends Component<{
         <section>
           <section className={flex}>
             <ButtonToggle
-              labelTrue="✗ Enlarge Table"
-              labelFalse="⚙️ Configure Table"
+              labelTrue={strings.learningTable.enlarge}
+              labelFalse={strings.learningTable.configure}
               onClick={this.toggleConfig.bind(this)}
               state={this.props.state.isConfigOpen}
             />
@@ -293,7 +294,10 @@ export class LearningTable extends Component<{
               ></SelectMultiple>
               <Select
                 onChange={this.toggleShowAll.bind(this)}
-                options={['Show All', 'Only Selected']}
+                options={[
+                  strings.learningTable.showAll,
+                  strings.learningTable.showOnlySelected,
+                ]}
                 selected={this.props.state.showAll ? 0 : 1}
               ></Select>
             </section>

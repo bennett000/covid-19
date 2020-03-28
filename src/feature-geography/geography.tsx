@@ -364,15 +364,15 @@ export class Geography extends Component<
 function getToolTip(index: number) {
   switch (index) {
     case 0:
-      return '<b>%name<b/> <br/>Active Cases: %zValue';
+      return strings.geography.toolTip0;
     case 1:
-      return '<b>%name<b/> <br/>Confirmed Cases: %zValue';
+      return strings.geography.toolTip1;
     case 2:
-      return '<b>%name<b/> <br/>Deaths: %zValue';
+      return strings.geography.toolTip2;
     case 3:
-      return '<b>%name<b/> <br/>Recoveries: %zValue';
+      return strings.geography.toolTip3;
     default:
-      return '<b>%name<b/> <br/>Active Cases: %zValue';
+      return strings.geography.toolTipDefault;
   }
 }
 

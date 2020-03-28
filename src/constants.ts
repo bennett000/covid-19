@@ -70,6 +70,13 @@ export const strings = Object.freeze({
       domError: 'could not add the chart to the DOM',
     }),
   }),
+  geography: Object.freeze({
+    toolTip0: '<b>%name<b/> <br/>Active Cases: %zValue',
+    toolTip1: '<b>%name<b/> <br/>Confirmed Cases: %zValue',
+    toolTip2: '<b>%name<b/> <br/>Deaths: %zValue',
+    toolTip3: '<b>%name<b/> <br/>Recoveries: %zValue',
+    toolTipDefault: '<b>%name<b/> <br/>Active Cases: %zValue',
+  }),
   header: Object.freeze({
     explorer: 'Explorer',
     feedbackLink: 'feedback',
@@ -81,7 +88,29 @@ export const strings = Object.freeze({
     sourceCodeTitle: 'Source code to this website',
     title: 'COVID-19',
   }),
+  learningTable: Object.freeze({
+    configure: '⚙️ Configure Table',
+    enlarge: '✗ Enlarge Table',
+    showAll: 'Show All',
+    showOnlySelected: 'Only Selected',
+    titles: Object.freeze({
+      active: 'Active',
+      activePercent: 'Active %',
+      confirmed: 'Confirmed',
+      confirmedPercent: 'Confirmed %',
+      deaths: 'Deaths',
+      deathsPercent: 'Deaths %',
+      mortality: 'Mortality',
+      population: 'Population',
+      populationDensity: 'Population Density',
+      recoveries: 'Recoveries',
+      recoveriesPercent: 'Recoveries %',
+      region: 'Region',
+    }),
+  }),
   lineGraph: Object.freeze({
+    configure: '⚙️ Configure Chart',
+    enlarge: '✗ Enlarge Chart',
     reload: 'Reload',
   }),
   metrics: Object.freeze({

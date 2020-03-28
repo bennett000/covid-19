@@ -6,7 +6,14 @@ import {
   MenuProp,
 } from '../interfaces';
 import { Chart } from '../components/chart';
-import { flexCol, fullSize, flexItem60, flexItem95, flex } from '../constants';
+import {
+  flexCol,
+  fullSize,
+  flexItem60,
+  flexItem95,
+  flex,
+  strings,
+} from '../constants';
 import { LineGraphControls } from '../components/line-graph-controls';
 import { ButtonToggle } from '../components/button-toggle';
 import { Menu } from '../components/menu';
@@ -73,8 +80,8 @@ export class LineGraph extends Component<{
         <section className={flex}>
           <ButtonToggle
             classes={classes}
-            labelTrue="✗ Enlarge Chart"
-            labelFalse="⚙️ Configure Chart"
+            labelTrue={strings.lineGraph.enlarge}
+            labelFalse={strings.lineGraph.configure}
             onClick={this.toggleConfig.bind(this)}
             state={this.props.state.isConfigOpen}
           />
