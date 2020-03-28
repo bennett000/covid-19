@@ -2,24 +2,17 @@
 // MIT licensed as `JSC` is proprietary
 declare const JSC: any;
 import { Component, h } from 'preact';
-import { fullSize, strings } from '../constants';
+import { fullSize } from '../constants';
+import { Strings } from '../i18n';
 
-export class ChartMap extends Component<
-  {
-    ranges: { color: string; value: number[] }[];
-    series: any;
-    toolTip: string;
-  },
-  { chartDiv: HTMLDivElement }
-> {
+export class ChartMap extends Component<{
+  ranges: { color: string; value: number[] }[];
+  series: any;
+  strings: Strings;
+  toolTip: string;
+}> {
   constructor() {
     super();
-
-    const chartDiv = window.document.createElement('div');
-    if (!chartDiv) {
-      throw new Error(strings.errors.chart.domError);
-    }
-    this.state = { chartDiv };
   }
 
   componentDidMount() {

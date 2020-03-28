@@ -3,25 +3,17 @@
 declare const JSC: any;
 import { Component, h } from 'preact';
 import { ChartSeries } from '../interfaces';
-import { strings } from '../constants';
+import { Strings } from '../i18n';
 
-export class Chart extends Component<
-  {
-    flexSize: string;
-    series: ChartSeries[];
-    scaleType: number;
-    useDays: boolean;
-  },
-  { chartDiv: HTMLDivElement }
-> {
+export class Chart extends Component<{
+  flexSize: string;
+  series: ChartSeries[];
+  scaleType: number;
+  strings: Strings;
+  useDays: boolean;
+}> {
   constructor() {
     super();
-
-    const chartDiv = window.document.createElement('div');
-    if (!chartDiv) {
-      throw new Error(strings.errors.chart.domError);
-    }
-    this.state = { chartDiv };
   }
 
   componentDidMount() {

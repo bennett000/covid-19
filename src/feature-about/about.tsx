@@ -1,82 +1,13 @@
 import { Component, h } from 'preact';
 import { MenuProp } from '../interfaces';
-import { fullSize, strings } from '../constants';
+import { fullSize } from '../constants';
 import { Menu } from '../components/menu';
 import { AboutList } from '../components/about-list';
-
-const definitionsSeries = [
-  {
-    name: strings.series.activeCases,
-    description: strings.descriptions.series.activeCases,
-  },
-  {
-    name: strings.series.confirmedCases,
-    description: strings.descriptions.series.confirmedCases,
-  },
-  {
-    name: strings.series.deaths,
-    description: strings.descriptions.series.deaths,
-  },
-  {
-    name: strings.series.recoveries,
-    description: strings.descriptions.series.recoveries,
-  },
-  {
-    name: strings.series.estimatedActiveCases,
-    description: () => (
-      <span>
-        {strings.descriptions.series.estimatedActiveCases.part1}
-        <a
-          href={strings.descriptions.series.estimatedActiveCases.url}
-          target="_blank"
-        >
-          {strings.descriptions.series.estimatedActiveCases.link}
-        </a>{' '}
-        {strings.descriptions.series.estimatedActiveCases.part2}
-      </span>
-    ),
-  },
-];
-
-const definitionsMetrics = [
-  {
-    name: strings.metrics.byValue,
-    description: strings.descriptions.metrics.byValue,
-  },
-  {
-    name: strings.metrics.byPercent,
-    description: strings.descriptions.metrics.byPercet,
-  },
-];
-
-const definitionsModes = [
-  {
-    name: strings.modes.byDate,
-    description: strings.descriptions.modes.byDate,
-  },
-  {
-    name: strings.modes.byFirst,
-    description: strings.descriptions.modes.byFirst,
-  },
-  {
-    name: strings.modes.byFirst100,
-    description: strings.descriptions.modes.byFirst100,
-  },
-];
-
-const definitionsScales = [
-  {
-    name: strings.scaleTypes.linear,
-    description: strings.descriptions.scales.linear,
-  },
-  {
-    name: strings.scaleTypes.logarithmic,
-    description: strings.descriptions.scales.logarithmic,
-  },
-];
+import { Strings } from '../i18n';
 
 export class About extends Component<{
   menu: MenuProp;
+  strings: Strings;
 }> {
   constructor() {
     super();
@@ -84,22 +15,95 @@ export class About extends Component<{
   }
 
   render() {
+    const definitionsSeries = [
+      {
+        name: this.props.strings.series.activeCases,
+        description: this.props.strings.descriptions.series.activeCases,
+      },
+      {
+        name: this.props.strings.series.confirmedCases,
+        description: this.props.strings.descriptions.series.confirmedCases,
+      },
+      {
+        name: this.props.strings.series.deaths,
+        description: this.props.strings.descriptions.series.deaths,
+      },
+      {
+        name: this.props.strings.series.recoveries,
+        description: this.props.strings.descriptions.series.recoveries,
+      },
+      {
+        name: this.props.strings.series.estimatedActiveCases,
+        description: () => (
+          <span>
+            {this.props.strings.descriptions.series.estimatedActiveCases.part1}
+            <a
+              href={
+                this.props.strings.descriptions.series.estimatedActiveCases.url
+              }
+              target="_blank"
+            >
+              {this.props.strings.descriptions.series.estimatedActiveCases.link}
+            </a>{' '}
+            {this.props.strings.descriptions.series.estimatedActiveCases.part2}
+          </span>
+        ),
+      },
+    ];
+
+    const definitionsMetrics = [
+      {
+        name: this.props.strings.metrics.byValue,
+        description: this.props.strings.descriptions.metrics.byValue,
+      },
+      {
+        name: this.props.strings.metrics.byPercent,
+        description: this.props.strings.descriptions.metrics.byPercet,
+      },
+    ];
+
+    const definitionsModes = [
+      {
+        name: this.props.strings.modes.byDate,
+        description: this.props.strings.descriptions.modes.byDate,
+      },
+      {
+        name: this.props.strings.modes.byFirst,
+        description: this.props.strings.descriptions.modes.byFirst,
+      },
+      {
+        name: this.props.strings.modes.byFirst100,
+        description: this.props.strings.descriptions.modes.byFirst100,
+      },
+    ];
+
+    const definitionsScales = [
+      {
+        name: this.props.strings.scaleTypes.linear,
+        description: this.props.strings.descriptions.scales.linear,
+      },
+      {
+        name: this.props.strings.scaleTypes.logarithmic,
+        description: this.props.strings.descriptions.scales.logarithmic,
+      },
+    ];
+
     return (
       <section className={`${fullSize}`}>
         <AboutList
-          title={strings.descriptions.titles.series}
+          title={this.props.strings.descriptions.titles.series}
           list={definitionsSeries}
         ></AboutList>
         <AboutList
-          title={strings.descriptions.titles.modes}
+          title={this.props.strings.descriptions.titles.modes}
           list={definitionsModes}
         ></AboutList>
         <AboutList
-          title={strings.descriptions.titles.scales}
+          title={this.props.strings.descriptions.titles.scales}
           list={definitionsScales}
         ></AboutList>
         <AboutList
-          title={strings.descriptions.titles.metrics}
+          title={this.props.strings.descriptions.titles.metrics}
           list={definitionsMetrics}
         ></AboutList>
         <Menu config={this.props.menu}></Menu>

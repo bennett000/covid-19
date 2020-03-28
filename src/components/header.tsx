@@ -1,7 +1,7 @@
 import { h } from 'preact';
-import { strings } from '../constants';
+import { Strings } from '../i18n';
 
-export function Header() {
+export function Header({ strings }: { strings: Strings }) {
   return (
     <header class="small-text">
       {strings.header.title}&nbsp;

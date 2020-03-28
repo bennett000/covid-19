@@ -17,7 +17,7 @@ function main() {
         throw new Error(strings.errors.bootstrap);
       }
       window.document.body.appendChild(element);
-      render(element);
+      render(element, strings);
     })
     .catch(e => {
       log(

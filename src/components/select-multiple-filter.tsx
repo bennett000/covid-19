@@ -13,7 +13,7 @@ type SelectMultipleFilterProps = {
   onChange: (selected: any[]) => any;
   onClear: () => any;
   onDeselect: (index: number | string) => any;
-  onUpdateFilter: () => any;
+  onUpdateFilter: (filter: string) => any;
   options: SelectOptions;
   selected: any[];
 };

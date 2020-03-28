@@ -10,7 +10,6 @@ import {
   confirmedRanges,
   deathRanges,
   recoveryRanges,
-  strings,
 } from '../constants';
 import {
   statesToCodes,
@@ -19,10 +18,12 @@ import {
   excludeFromMap,
 } from '../data-maps';
 import { Select } from '../components/select';
+import { Strings } from '../i18n';
 
 export class Geography extends Component<
   {
     menu: MenuProp;
+    strings: Strings;
     timeSeries: ITimeSeriesArray;
   },
   {
@@ -166,7 +167,7 @@ export class Geography extends Component<
       }
 
       if (ts.state()) {
-        if (ts.state() !== strings.countries.total) {
+        if (ts.state() !== this.props.strings.countries.total) {
           return null;
         }
       }
@@ -219,7 +220,7 @@ export class Geography extends Component<
         }
       }
       if (ts.state()) {
-        if (ts.state() !== strings.countries.total) {
+        if (ts.state() !== this.props.strings.countries.total) {
           return null;
         }
         if (ts.locale()) {
@@ -266,7 +267,7 @@ export class Geography extends Component<
       if (ts.country() !== country) {
         return null;
       }
-      if (ts.state() === strings.countries.total) {
+      if (ts.state() === this.props.strings.countries.total) {
         return null;
       }
       if (ts.locale()) {
@@ -317,7 +318,7 @@ export class Geography extends Component<
     this.setState({
       ...this.state,
       dataSet: int,
-      toolTip: getToolTip(int),
+      toolTip: getToolTip(int, this.props.strings),
     });
   }
 
@@ -341,16 +342,17 @@ export class Geography extends Component<
         <ChartMap
           ranges={ranges}
           series={series}
+          strings={this.props.strings}
           toolTip={this.state.toolTip}
         />
         <section className={flex}>
           <Select
             onChange={this.onChangeDataSet.bind(this)}
             options={[
-              strings.series.activeCases,
-              strings.series.confirmedCases,
-              strings.series.deaths,
-              strings.series.recoveries,
+              this.props.strings.series.activeCases,
+              this.props.strings.series.confirmedCases,
+              this.props.strings.series.deaths,
+              this.props.strings.series.recoveries,
             ]}
             selected={this.state.dataSet}
           ></Select>
@@ -361,7 +363,7 @@ export class Geography extends Component<
   }
 }
 
-function getToolTip(index: number) {
+function getToolTip(index: number, strings: Strings) {
   switch (index) {
     case 0:
       return strings.geography.toolTip0;

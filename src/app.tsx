@@ -15,32 +15,34 @@ import { log } from './utility';
 import { Dictionary } from '@ch1/utility';
 import { LearningTable } from './feature-learning-table/learning-table';
 import { Header } from './components/header';
-import { fullSize, flexCol, strings } from './constants';
+import { fullSize, flexCol } from './constants';
 import { Geography } from './feature-geography/geography';
 import { About } from './feature-about/about';
+import { Strings } from './i18n';
 
 export class App extends Component<
-  { cache: Dictionary<ChartSeries>; reset: () => any },
+  { cache: Dictionary<ChartSeries>; reset: () => any; strings: Strings },
   AppState
 > {
   menu: MenuProp;
 
-  constructor() {
+  constructor(props) {
     super();
 
-    let state = loadState();
+    let state = loadState(props.strings);
     if (!state) {
-      log(strings.app.log.noState);
-      state = createState();
+      log(props.strings.app.log.noState);
+      state = createState(props.strings);
     }
     this.state = state;
     this.selectAndUpdate();
 
     this.menu = {
-      labels: strings.app.menu.map(s => s.name),
+      labels: props.strings.app.menu.map(s => s.name),
       onClick: (selected: number) => {
         const routePath =
-          strings.app.menu[selected].route || strings.app.menu[0].route;
+          this.props.strings.app.menu[selected].route ||
+          this.props.strings.app.menu[0].route;
         this.setState({
           ...this.state,
           routePath,
@@ -49,7 +51,7 @@ export class App extends Component<
         route(routePath);
         this.selectAndUpdate();
       },
-      selected: strings.app.menu.reduce((s, n, i) => {
+      selected: props.strings.app.menu.reduce((s, n, i) => {
         if (n.route === this.state.routePath) {
           return i;
         }
@@ -105,7 +107,7 @@ export class App extends Component<
     this.props.reset();
     this.setState({
       ...this.state,
-      dataPromise: fetchData().then(d => {
+      dataPromise: fetchData(this.props.strings).then(d => {
         this.selectAndUpdate();
         return d;
       }),
@@ -138,10 +140,10 @@ export class App extends Component<
   render() {
     return (
       <div className={`${fullSize} ${flexCol}`}>
-        <Header />
+        <Header strings={this.props.strings} />
         <Router>
           <LineGraph
-            path={strings.app.menu[0].route}
+            path={this.props.strings.app.menu[0].route}
             clearCountries={this.clearCountries.bind(this)}
             countries={this.state.countries}
             countryKeys={this.state.countryKeys}
@@ -152,26 +154,30 @@ export class App extends Component<
             reload={this.reload.bind(this)}
             selectCountry={this.selectCountry.bind(this)}
             state={this.state.lineGraphState}
+            strings={this.props.strings}
           ></LineGraph>
           <LearningTable
             countryKeys={this.state.countryKeys}
             key="1"
             onChange={this.tableState.bind(this)}
             menu={this.menu}
-            path={strings.app.menu[1].route}
+            path={this.props.strings.app.menu[1].route}
             state={this.state.tableState}
             selectCountry={this.selectCountry.bind(this)}
+            strings={this.props.strings}
             timeSeries={this.state.data}
           ></LearningTable>
           <Geography
             key="2"
-            path={strings.app.menu[2].route}
+            path={this.props.strings.app.menu[2].route}
             menu={this.menu}
+            strings={this.props.strings}
             timeSeries={this.state.data}
           ></Geography>
           <About
             key="3"
-            path={strings.app.menu[3].route}
+            path={this.props.strings.app.menu[3].route}
+            strings={this.props.strings}
             menu={this.menu}
           ></About>
         </Router>
@@ -180,7 +186,10 @@ export class App extends Component<
   }
 }
 
-export function render(root: HTMLElement) {
+export function render(root: HTMLElement, strings: Strings) {
   let cache: Dictionary<ChartSeries> = {};
-  preactRender(<App cache={cache} reset={() => (cache = {})} />, root);
+  preactRender(
+    <App cache={cache} reset={() => (cache = {})} strings={strings} />,
+    root
+  );
 }
