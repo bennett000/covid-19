@@ -16,6 +16,71 @@ export const totalString = 'Total';
 export const usaString = 'US';
 export const worldString = 'World';
 
+export const recoveryDays = 25;
+
+export const strings = Object.freeze({
+  descriptions: Object.freeze({
+    metrics: Object.freeze({
+      byPercet:
+        'Uses the percentage of population* note population data is imperfect',
+      byValue: 'Uses the raw count',
+    }),
+    modes: Object.freeze({
+      byDate: 'Plots series based on the date the count occured',
+      byFirst:
+        'Plots series starting from the day the first person was confirmed to have covid-19',
+      byFirst100:
+        'Plots series starting from the day the first one hundred (100) people were confirmed to have covid-19',
+    }),
+    scales: Object.freeze({
+      linear: 'scales "normally" 0, 10, 20, 30, 40, 50...',
+      logarithmic:
+        'scales by a multiplier 0, 10, 100, 1000, 10000... this scale is useful for looking at series that are early in their curve and series that are late in their curve at the same time',
+    }),
+    series: Object.freeze({
+      activeCases:
+        'Confirmed - Deaths - Recoveries*.  There is an * because this ' +
+        'value depends on Recoveries*',
+      confirmedCases:
+        'The number of confirmed cases according to reported data',
+      deaths:
+        'The number of reported deaths, this is the most reliable data point',
+      recoveries:
+        'Roughly how many people have recovered.  There is some actual data ' +
+        `but it is not maintained. Recoveries are estimated based on ${recoveryDays} since ` +
+        'the case was reported confirmed',
+      estimatedActiveCases: Object.freeze({
+        part1: 'This estimate is',
+        link:
+          'based on the spreadsheet created for "Coronavirus act today...".',
+        part2: '',
+        url:
+          'https://medium.com/@tomaspueyo/coronavirus-act-today-or-people-will-die-f4d3d9cd99ca',
+      }),
+    }),
+  }),
+  metrics: Object.freeze({
+    byValue: 'By Value',
+    byPercent: 'Percent',
+  }),
+  modes: Object.freeze({
+    byDate: 'By date',
+    byFirst: 'By first confirmed',
+    byFirst100: 'By first 100 confirmed',
+  }),
+  scaleTypes: Object.freeze({
+    linear: 'Linear',
+    logarithmic: 'Logarithmic',
+  }),
+  series: Object.freeze({
+    activeCases: 'Active Cases*',
+    confirmedCases: 'Confirmed Cases',
+    deaths: 'Deaths',
+    estimatedActiveCases: 'Estimated Active Cases',
+    recoveries: 'Recoveries*',
+  }),
+});
+
 export const reverseDeathProjectionDefaults = Object.freeze({
   daysFromInfectionToDeath: 17.3,
   doublingTime: 6.18,

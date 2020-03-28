@@ -17,6 +17,7 @@ import { LearningTable } from './feature-learning-table/learning-table';
 import { Header } from './components/header';
 import { fullSize, flexCol } from './constants';
 import { Geography } from './feature-geography/geography';
+import { About } from './feature-about/about';
 
 export class App extends Component<
   { cache: Dictionary<ChartSeries>; reset: () => any },
@@ -35,10 +36,10 @@ export class App extends Component<
     this.state = state;
     this.selectAndUpdate();
 
-    const routePaths = ['/', '/table', '/geography'];
+    const routePaths = ['/', '/table', '/geography', '/about'];
 
     this.menu = {
-      labels: ['Chart', 'Table', 'Geography'],
+      labels: ['Chart', 'Table', 'Geography', 'About'],
       onClick: (selected: number) => {
         const routePath = routePaths[selected] || routePaths[0];
         this.setState({
@@ -164,6 +165,7 @@ export class App extends Component<
             menu={this.menu}
             timeSeries={this.state.data}
           ></Geography>
+          <About key="3" path={'/about'} menu={this.menu}></About>
         </Router>
       </div>
     );

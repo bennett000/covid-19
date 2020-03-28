@@ -17,6 +17,7 @@ import {
   basePalette,
   totalString,
   worldString,
+  recoveryDays,
 } from './constants';
 import rawPopulationData from 'country-json/src/country-by-population.json';
 import rawPopulationDensityData from 'country-json/src/country-by-population-density.json';
@@ -35,8 +36,6 @@ import {
   TimeSeries,
   TimeSeriesArray,
 } from './time-series';
-
-const recoveryDays = 25;
 
 const populationDictionary: {
   [key: string]: number;

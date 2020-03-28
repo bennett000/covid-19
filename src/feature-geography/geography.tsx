@@ -11,9 +11,9 @@ import {
   confirmedRanges,
   deathRanges,
   recoveryRanges,
+  strings,
 } from '../constants';
 import {
-  countriesToCodes,
   statesToCodes,
   usStateCodeByName,
   countriesToContinents,
@@ -348,10 +348,10 @@ export class Geography extends Component<
           <Select
             onChange={this.onChangeDataSet.bind(this)}
             options={[
-              'Active Cases*',
-              'Confirmed Cases',
-              'Deaths',
-              'Recoveries*',
+              strings.series.activeCases,
+              strings.series.confirmedCases,
+              strings.series.deaths,
+              strings.series.recoveries,
             ]}
             selected={this.state.dataSet}
           ></Select>

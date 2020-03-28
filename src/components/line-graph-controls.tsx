@@ -9,6 +9,7 @@ import {
   flexItem20,
   totalString,
   highlight,
+  strings,
 } from '../constants';
 import {
   SelectOptionsWithIndex,
@@ -19,16 +20,20 @@ import { SelectMultipleFilter } from './select-multiple-filter';
 import { noop } from '@ch1/utility';
 
 const dataSets = [
-  'Active*',
-  'Confirmed',
-  'Deaths',
-  'Recoveries*',
-  'Estimated Active Cases',
+  strings.series.activeCases,
+  strings.series.confirmedCases,
+  strings.series.deaths,
+  strings.series.recoveries,
+  strings.series.estimatedActiveCases,
 ];
-const modes = ['By date', 'By first confirmed', 'By first 100 confirmed'];
-const scaleTypes = ['Linear', 'Logarithmic'];
+const modes = [
+  strings.modes.byDate,
+  strings.modes.byFirst,
+  strings.modes.byFirst100,
+];
+const scaleTypes = [strings.scaleTypes.linear, strings.scaleTypes.logarithmic];
 const showStates = ['Show States', 'Hide States'];
-const metrics = ['By Value', 'Percent'];
+const metrics = [strings.metrics.byValue, strings.metrics.byPercent];
 
 export function LineGraphControls({
   countries,
