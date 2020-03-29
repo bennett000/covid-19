@@ -13,7 +13,15 @@ export function Header({ strings }: { strings: Strings }) {
         {strings.header.jhuSourceDataLink}
       </a>
       &nbsp;
-      {strings.header.explorer} (
+      {strings.header.explorer}, {strings.header.usData}&nbsp;
+      <a
+        href="https://github.com/nytimes/covid-19-data"
+        target="_blank"
+        title={strings.header.usDataTitle}
+      >
+        {strings.header.usDataLink}
+      </a>
+      &nbsp; (
       <a
         href="https://github.com/bennett000/covid-19"
         target="_blank"

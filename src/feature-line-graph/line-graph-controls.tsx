@@ -145,6 +145,10 @@ function filterStates(doFilter: boolean, strings) {
     if (doFilter === false) {
       return true;
     }
+    // special case for Korea
+    if (item.name.toLowerCase().indexOf('korea') > -1) {
+      return true;
+    }
     if (item.name.indexOf(',') > -1) {
       if (item.name.indexOf(`, ${strings.countries.total}`) > -1) {
         return true;

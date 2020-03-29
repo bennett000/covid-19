@@ -90,7 +90,10 @@
     "jhuSourceDataLink": "Johns Hopkins University Source Data",
     "sourceCodeLink": "source code",
     "sourceCodeTitle": "Source code to this website",
-    "title": "COVID-19"
+    "title": "COVID-19",
+    "usData": "US Data",
+    "usDataLink": "From NYT",
+    "usDataTitle": "New York Times US state and county data"
   },
   "i18n": {
     "part1": "Error loading language",

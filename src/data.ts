@@ -16,6 +16,8 @@ import {
   projectionPalette,
   basePalette,
   recoveryDays,
+  jhuStartDay,
+  usaCode,
 } from './constants';
 import rawPopulationData from 'country-json/src/country-by-population.json';
 import rawPopulationDensityData from 'country-json/src/country-by-population-density.json';
@@ -50,12 +52,16 @@ const populationDensityDictionary: {
   return p;
 }, {});
 
-const urls = [
+const jhuUrls = [
   // updated from previous deprecated files (https://github.com/CSSEGISandData/COVID-19/commit/203881b83c3820521f5af7cafb0d15367e415652)
   'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv',
   'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv',
   'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_recovered_global.csv',
 ];
+
+const nytUrl =
+  'https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-states.csv';
+const twentyFourSeven = 24 * 60 * 60 * 1000;
 
 export function fetchData(
   strings: Strings
@@ -64,11 +70,17 @@ export function fetchData(
   dictionary: Dictionary<ITimeSeries>;
   timeSeries: ITimeSeriesArray;
 }> {
-  return Promise.all(urls.map(url => fetch(url)))
-    .then(unwrapResponses)
-    .then(convertAllCsvToStructured(strings))
-    .then(convertToCountryDictionary(strings))
-    .then(manuallyAdjust)
+  return Promise.all([
+    Promise.all(jhuUrls.map(url => fetch(url)))
+      .then(unwrapResponses)
+      .then(convertAllJhuCsvToStructured(strings))
+      .then(convertToCountryDictionary(strings))
+      .then(manuallyAdjust),
+    fetch(nytUrl)
+      .then(unwrapResponse)
+      .then(convertNytCsvToStructured),
+  ])
+    .then(mergeNytIntoJhu)
     .then(interpolateRecoveriesAndActiveCases(strings))
     .then(sumAllRegions(strings))
     .then(sumWorld(strings))
@@ -83,6 +95,18 @@ function manuallyAdjust(dict: Dictionary<LocationSeries>) {
   delete dict.CA;
 
   return dict;
+}
+
+function mergeNytIntoJhu([jhu, nyt]: [
+  Dictionary<LocationSeries>,
+  Dictionary<LocationSeries>
+]): Dictionary<LocationSeries> {
+  objEach(nyt, (el, key) => {
+    if (jhu[key] === undefined) {
+      jhu[key] = el;
+    }
+  });
+  return jhu;
 }
 
 export function toITimeSeries(dict: Dictionary<LocationSeries>) {
@@ -124,7 +148,7 @@ export function convertToCountryDictionary(
         }
         stateCode = states[c.state];
         if (!stateCode) {
-          log(strings.data.log.stateNotFound, c.coutry + ',', c.state);
+          log(strings.data.log.stateNotFound, c.country + ',', c.state);
           return;
         }
         code = code + '.' + stateCode;
@@ -360,7 +384,7 @@ function getStatePopulation(country: string, state?: string, locale?: string) {
     return 0;
   }
   if (manuallySourceStatePop[country]) {
-    if (country === 'US') {
+    if (country === usaCode) {
       const rawStateCode = usStateCodeByName[state];
       if (rawStateCode) {
         const stateCode = rawStateCode === 'D.C.' ? 'DC' : rawStateCode;
@@ -396,8 +420,12 @@ function getPopulationDensity(
   return 0;
 }
 
+function unwrapResponse(response: Response) {
+  return response.text();
+}
+
 function unwrapResponses(responses: Response[]) {
-  return Promise.all(responses.map(response => response.text()));
+  return Promise.all(responses.map(unwrapResponse));
 }
 
 export function csvRowStringToArray(csvRow: string): string[] {
@@ -471,7 +499,7 @@ export function stateToLocaleState(string: string) {
   }
 }
 
-export function csvRowStringToJhuTimeSeriesHeadaer(
+export function csvRowStringToJhuTimeSeriesHeader(
   rowString: string
 ): JhuTimeSeriesHeader {
   const cells = rowString.split(',');
@@ -502,7 +530,7 @@ export function convertStringArrayToStructured(
 ): (rowString: string) => JhuSet {
   return (rowString: string) => {
     const rows = rowString.split('\n');
-    const header = csvRowStringToJhuTimeSeriesHeadaer(rows[0]);
+    const header = csvRowStringToJhuTimeSeriesHeader(rows[0]);
     return [
       header,
       rows
@@ -514,10 +542,154 @@ export function convertStringArrayToStructured(
   };
 }
 
-function convertAllCsvToStructured(strings: Strings) {
+function convertAllJhuCsvToStructured(strings: Strings) {
   return (csvStrings: string[]) => {
     return csvStrings.map(convertStringArrayToStructured(strings));
   };
+}
+
+function sortNytRows(rows: string[][]) {
+  rows.sort((a, b) => {
+    if (a[0] < b[0]) {
+      return -1;
+    }
+    if (a[0] > b[0]) {
+      return 1;
+    }
+    return 0;
+  });
+  return rows;
+}
+
+function simplePad(number: number): string {
+  if (number < 10) {
+    return '0' + number;
+  }
+  return number + '';
+}
+
+function generateDateDictionary(): Dictionary<number> {
+  const day0 = new Date(jhuStartDay).getTime();
+  const now = Date.now() - twentyFourSeven;
+  const days = Math.floor((now - day0) / 1000 / 60 / 60 / 24);
+  const dict: Dictionary<number> = {};
+
+  for (let i = 0; i < days; i += 1) {
+    const today = new Date(day0 + i * twentyFourSeven);
+    const year = today.getUTCFullYear();
+    const month = simplePad(today.getUTCMonth() + 1);
+    const date = simplePad(today.getUTCDate());
+    const todayString = `${year}-${month}-${date}`;
+    dict[todayString] = i;
+  }
+
+  return dict;
+}
+
+export function nytRowsToDict(
+  rows: string[][]
+): Dictionary<Dictionary<TimeSeriesCount>> {
+  const dict: Dictionary<Dictionary<TimeSeriesCount>> = {};
+  rows.forEach(row => {
+    if (!row[0] || !row[1]) {
+      return;
+    }
+
+    const stateCode = usStateCodeByName[row[1]];
+    if (!stateCode) {
+      return;
+    }
+    const key = keyFromUsState(stateCode);
+
+    if (dict[row[0]] === undefined) {
+      dict[row[0]] = {};
+    }
+
+    if (dict[row[0]][key] === undefined) {
+      dict[row[0]][key] = createTimeSeriesCount();
+    }
+
+    if (row[3]) {
+      dict[row[0]][key].confirmed = parseInt(row[3], 10);
+    }
+
+    if (row[4]) {
+      dict[row[0]][key].deaths = parseInt(row[4], 10);
+    }
+  });
+  return dict;
+}
+
+function convertNytTimeSeriesDictToStateDict(
+  byTime: Dictionary<Dictionary<TimeSeriesCount>>
+): [Date[], Dictionary<TimeSeriesCount[]>] {
+  const byState: Dictionary<TimeSeriesCount[]> = {};
+
+  // account for JHU D.C. code
+  const states = Object.keys(statesToCodes.US).filter(code => {
+    if (code === 'D.C.') {
+      return false;
+    }
+    return true;
+  });
+  const dateDict = generateDateDictionary();
+  const dates: Date[] = [];
+  objEach(dateDict, (timeSeriesIndex, dateString) => {
+    dates.push(new Date(dateString));
+    states.forEach(stateCode => {
+      const key = keyFromUsState(stateCode);
+
+      if (byState[key] === undefined) {
+        byState[key] = [];
+      }
+
+      if (byTime[dateString] && byTime[dateString][key]) {
+        byState[key][timeSeriesIndex] = byTime[dateString][key];
+      } else {
+        const last = byState[key][timeSeriesIndex - 1];
+        if (last) {
+          byState[key][timeSeriesIndex] = {
+            ...last,
+          };
+        } else {
+          byState[key][timeSeriesIndex] = createTimeSeriesCount();
+        }
+      }
+    });
+  });
+  return [dates, byState];
+}
+
+function convertNytCsvToStructured(string: string): Dictionary<LocationSeries> {
+  const rows = sortNytRows(
+    string
+      .split('\n')
+      .slice(1)
+      .map(csvRowStringToArray)
+  );
+
+  const timeSeriesDict = nytRowsToDict(rows);
+  const [dates, byState] = convertNytTimeSeriesDictToStateDict(timeSeriesDict);
+  const dict: Dictionary<LocationSeries> = {};
+
+  objEach(byState, (counts, key) => {
+    const stateCode = key.split('.')[1];
+    const state = statesToCodes.US[stateCode];
+    dict[key] = {
+      country: usaCode,
+      countryCode: usaCode,
+      dates,
+      key,
+      locale: '',
+      population: getStatePopulation(usaCode, state),
+      populationDensity: getPopulationDensity(usaCode, state),
+      state,
+      stateCode,
+      counts,
+    };
+  });
+
+  return dict;
 }
 
 function extractCountries({
@@ -555,6 +727,7 @@ function sortByProp(prop: string) {
   };
 }
 
+/** @todo i18n string data */
 function getChartTypeFromIndex(index: number) {
   switch (index) {
     case 0:
@@ -722,4 +895,8 @@ function getY(byMetric: number, value: number, population: number): number {
       return 0;
     }
   }
+}
+
+function keyFromUsState(code: string) {
+  return usaCode + '.' + code;
 }

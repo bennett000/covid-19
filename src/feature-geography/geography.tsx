@@ -10,6 +10,7 @@ import {
   confirmedRanges,
   deathRanges,
   recoveryRanges,
+  usaCode,
 } from '../constants';
 import {
   statesToCodes,
@@ -128,14 +129,13 @@ export class Geography extends Component<
           map: 'cn',
         });
         break;
-      // us state data is gone in the updated data set
-      // case 'us':
-      //   this.getSeries = this.getStateSeries.bind(this, 'US', 'US');
-      //   this.setState({
-      //     ...this.state,
-      //     map: 'us',
-      //   });
-      //   break;
+      case usaCode.toLowerCase():
+        this.getSeries = this.getStateSeries.bind(this, usaCode, usaCode);
+        this.setState({
+          ...this.state,
+          map: usaCode.toLowerCase(),
+        });
+        break;
       default:
         this.tryContinent(e);
         break;
@@ -280,13 +280,16 @@ export class Geography extends Component<
       }
       let stc = statesToCodes[country];
       if (!stc) {
-        if (countryCode === 'US') {
+        if (countryCode === usaCode) {
           stc = usStateCodeByName;
         } else {
           return null;
         }
       }
       const code = ts.stateCode();
+      if (!code) {
+        return null;
+      }
       if (excludeFromMap[ts.countryCode() + '.' + code]) {
         return null;
       }

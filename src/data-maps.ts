@@ -7,6 +7,8 @@
 // Time since first confirmed
 // Time since first 100 confirmed
 
+import { usaCode } from './constants';
+
 export const mapJhuCountryToPop = Object.freeze({
   'Congo (Kinshasa)': 'The Democratic Republic of Congo',
   "Cote d'Ivoire": 'Ivory Coast',
@@ -25,6 +27,7 @@ export const mapJhuCountryToPop = Object.freeze({
 // manually source via internet march 17 2020
 export const manuallySourcePop = Object.freeze({
   'Bahamas, The': 395361, // march 22 2020
+  Burma: 53370000, // march 29 2020
   'Cabo Verde': 546388, // march 22 2020
   'Congo (Brazzaville)': 1800000,
   'Congo (Kinshasa)': 81340000, // march 22 2020
@@ -238,7 +241,7 @@ export const countriesToCodes = Object.freeze({
   Brunei: 'BN',
   Bulgaria: 'BG',
   'Burkina Faso': 'BF',
-  Burma: 'BU',
+  Burma: 'MM',
   Burundi: 'BI',
   'Cabo Verde': 'CV',
   Cambodia: 'KH',
@@ -438,7 +441,7 @@ export const countriesToCodes = Object.freeze({
   Ukraine: 'UA',
   'United Arab Emirates': 'AE',
   'United Kingdom': 'GB',
-  US: 'US',
+  US: usaCode,
   'United States Minor Outlying Islands': 'UM',
   Uruguay: 'UY',
   Uzbekistan: 'UZ',
@@ -496,6 +499,7 @@ export const statesToCodes = Object.freeze({
     Hebei: 'HB',
     Heilongjiang: 'HL',
     Henan: 'HE',
+    'Hong Kong': 'HK',
     Hubei: 'HU',
     Hunan: 'HN',
     'Inner Mongolia': 'NM',
@@ -503,6 +507,7 @@ export const statesToCodes = Object.freeze({
     Jiangxi: 'JX',
     Jilin: 'JL',
     Liaoning: 'LN',
+    Macau: 'MO',
     Ningxia: 'NX',
     Qinghai: 'QH',
     Shaanxi: 'SA',
@@ -511,6 +516,7 @@ export const statesToCodes = Object.freeze({
     Shanxi: 'SX',
     Sichuan: 'SC',
     Tianjin: 'TJ',
+    Tibet: 'AR',
     Xinjiang: 'XJ',
     Yunnan: 'YN',
     Zhejiang: 'ZJ',
@@ -741,6 +747,8 @@ export const excludeFromMap = {
   AG: true, // but it exists in the docs
   BB: true, // but it exists in the docs
   BH: true, // but it exists in the docs
+  'CN.HK': 'HK',
+  'CN.MO': 'MO',
   CV: true, // but it exists in the docs
   DM: true, // but it exists in the docs
   GD: true, // but it exists in the docs
@@ -753,5 +761,8 @@ export const excludeFromMap = {
   TL: 'TP',
   SC: true,
   SG: true, // but it exists in the docs
+  'US.GU': true,
+  'US.PR': true,
+  'US.VI': true,
   VC: true,
 };
