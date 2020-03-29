@@ -11,6 +11,7 @@ import {
 } from '../interfaces';
 import { SelectMultipleFilter } from '../components/select-multiple-filter';
 import { Strings } from '../i18n';
+import { filterStates } from '../utility';
 
 export function TimeVsCountsControls({
   clearCountries,
@@ -52,7 +53,7 @@ export function TimeVsCountsControls({
     strings.scaleTypes.linear,
     strings.scaleTypes.logarithmic,
   ];
-  const showStates = ['Show States', 'Hide States'];
+  const showStates = strings.states;
   const metrics = [strings.metrics.byValue, strings.metrics.byPercent];
 
   function selectMode(mode: number | string) {
@@ -138,23 +139,4 @@ export function TimeVsCountsControls({
       </div>
     </section>
   );
-}
-
-function filterStates(doFilter: boolean, strings) {
-  return (item: SelectOptionsWithIndex) => {
-    if (doFilter === false) {
-      return true;
-    }
-    // special case for Korea
-    if (item.name.toLowerCase().indexOf('korea') > -1) {
-      return true;
-    }
-    if (item.name.indexOf(',') > -1) {
-      if (item.name.indexOf(`, ${strings.countries.total}`) > -1) {
-        return true;
-      }
-      return false;
-    }
-    return true;
-  };
 }

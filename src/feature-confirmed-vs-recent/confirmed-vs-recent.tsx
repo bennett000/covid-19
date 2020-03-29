@@ -1,13 +1,36 @@
 import { Component, h } from 'preact';
-import { MenuProp, ChartSeries } from '../interfaces';
-import { flexCol, fullSize, flex, flexItem95 } from '../constants';
+import {
+  MenuProp,
+  ChartSeries,
+  ConfirmedVsRecentState,
+  SelectOptionsWithIndex,
+} from '../interfaces';
+import {
+  flexCol,
+  fullSize,
+  flex,
+  flexItem95,
+  flexItem60,
+  highlight,
+} from '../constants';
 import { Menu } from '../components/menu';
 import { Strings } from '../i18n';
 import { Chart } from '../components/chart';
+import { ButtonToggle } from '../components/button-toggle';
+import { SelectMultipleFilter } from '../components/select-multiple-filter';
+import { filterStates } from '../utility';
+import { Select } from '../components/select';
 
 export class ConfirmedVsRecent extends Component<{
+  clearCountries: () => any;
+  countries: SelectOptionsWithIndex[];
+  countryKeys: string[];
   currentSeries: ChartSeries[];
   menu: MenuProp;
+  onChange: (lgs: ConfirmedVsRecentState) => any;
+  selectCountry: (country: string) => any;
+  selectCountries: (countries: string[]) => any;
+  state: ConfirmedVsRecentState;
   strings: Strings;
 }> {
   constructor() {
@@ -22,12 +45,37 @@ export class ConfirmedVsRecent extends Component<{
     });
   }
 
+  selectShowStates(showOrHide: number | string) {
+    this.props.onChange({
+      ...this.props.state,
+      showStates: parseInt(showOrHide + '', 10) === 0 ? false : true,
+    });
+  }
+
+  setCountryFilter(filter: string) {
+    this.props.onChange({
+      ...this.props.state,
+      countryFilter: filter,
+    });
+  }
+
+  toggleConfig(v: boolean) {
+    this.props.onChange({
+      ...this.props.state,
+      isConfigOpen: v,
+    });
+  }
+
   render() {
+    const classes =
+      this.props.state.isConfigOpen === false &&
+      this.props.countryKeys.length === 0
+        ? ['green']
+        : [];
     return (
       <section className={`${fullSize} ${flexCol}`}>
         <Chart
-          // flexSize={this.props.state.isConfigOpen ? flexItem60 : flexItem95}
-          flexSize={flexItem95}
+          flexSize={this.props.state.isConfigOpen ? flexItem60 : flexItem95}
           options={
             {
               xAxis: { scale: { type: 'logarithmic' } },
@@ -42,32 +90,38 @@ export class ConfirmedVsRecent extends Component<{
           strings={this.props.strings}
         ></Chart>
         <section className={flex}>
-          {/* <ButtonToggle
+          <ButtonToggle
             classes={classes}
-            labelTrue={this.props.strings.timeVsCounts.enlarge}
-            labelFalse={this.props.strings.timeVsCounts.configure}
+            labelTrue={this.props.strings.confirmedVsRecent.enlarge}
+            labelFalse={this.props.strings.confirmedVsRecent.configure}
             onClick={this.toggleConfig.bind(this)}
             state={this.props.state.isConfigOpen}
-          /> */}
+          />
           <Menu config={this.props.menu}></Menu>
         </section>
-        {/* {this.props.state.isConfigOpen ? (
-          <TimeVsCountsControls
-            onUpdateCountryFilter={this.setCountryFilter.bind(this)}
-            clearCountries={this.props.clearCountries}
-            countryKeys={this.props.countryKeys}
-            countries={this.props.countries}
-            currentSeries={this.props.currentSeries}
-            onChange={this.props.onChange}
-            reload={this.props.reload}
-            selectCountry={this.props.selectCountry}
-            selectCountries={this.props.selectCountries}
-            state={this.props.state}
-            strings={this.props.strings}
-          />
+        {this.props.state.isConfigOpen ? (
+          <section className={`${flex}`}>
+            <SelectMultipleFilter
+              classes={this.props.countryKeys.length === 0 ? [highlight] : []}
+              filter={this.props.state.countryFilter}
+              onUpdateFilter={this.setCountryFilter.bind(this)}
+              onChange={this.props.selectCountries}
+              onClear={this.props.clearCountries}
+              onDeselect={this.props.selectCountry}
+              options={this.props.countries.filter(
+                filterStates(this.props.state.showStates, this.props.strings)
+              )}
+              selected={this.props.countryKeys}
+            />
+            <Select
+              onChange={this.selectShowStates.bind(this)}
+              options={this.props.strings.states}
+              selected={this.props.state.showStates ? 1 : 0}
+            />
+          </section>
         ) : (
           ''
-        )} */}
+        )}
       </section>
     );
   }

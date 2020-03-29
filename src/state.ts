@@ -46,6 +46,11 @@ export function createState(strings: Strings): AppState {
       sortByPopulation: false,
       sortByPopulationDensity: false,
     },
+    confirmedVsRecentState: {
+      countryFilter: '',
+      isConfigOpen: false,
+      showStates: defaultShowStates,
+    },
   };
 }
 
@@ -108,7 +113,11 @@ function isSavedAppState(thing: any): boolean {
     return false;
   }
 
-  return isSavedTableState(thing.tableState);
+  if (isSavedTableState(thing.tableState) === false) {
+    return false;
+  }
+
+  return isConfirmedVsRecentState(thing.confirmedVsRecentState);
 }
 
 function isSavedTimeVsCountsState(thing: any): boolean {
@@ -203,4 +212,21 @@ export function saveLanguage(language: string) {
   if (window.localStorage) {
     window.localStorage.setItem('language', language);
   }
+}
+
+function isConfirmedVsRecentState(thing: any): boolean {
+  if (!thing) {
+    return false;
+  }
+  if (isString(thing.countryFilter) === false) {
+    return false;
+  }
+  if (isBoolean(thing.isConfigOpen) === false) {
+    return false;
+  }
+  if (isBoolean(thing.showStates) === false) {
+    return false;
+  }
+
+  return true;
 }

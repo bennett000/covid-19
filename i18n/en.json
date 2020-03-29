@@ -27,7 +27,9 @@
     ]
   },
   "confirmedVsRecent": {
+    "configure": "⚙️ Configure Chart",
     "confirmedCases": "Total Confirmed Cases",
+    "enlarge": "✗ Enlarge Chart",
     "recentCases": "Confirmed in Last Seven (7) Days"
   },
   "countries": {
@@ -151,6 +153,10 @@
     "parseFail": "Failed to parse saved state, resetting localStorage",
     "wipingOld": "Upgrade: Wiping old state"
   },
+  "states": [
+    "Show States",
+    "Hide States"
+  ],
   "timeVsCounts": {
     "configure": "⚙️ Configure Chart",
     "enlarge": "✗ Enlarge Chart",

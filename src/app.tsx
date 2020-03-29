@@ -9,6 +9,7 @@ import {
   TimeVsCountsState,
   MenuProp,
   TableState,
+  ConfirmedVsRecentState,
 } from './interfaces';
 import { selectData, fetchData } from './data';
 import { log } from './utility';
@@ -97,6 +98,14 @@ export class App extends Component<
     this.selectAndUpdate();
   }
 
+  confirmedVsRecent(cvr: ConfirmedVsRecentState) {
+    this.setState({
+      ...this.state,
+      confirmedVsRecentState: cvr,
+    });
+    this.selectAndUpdate();
+  }
+
   tableState(tableState: TableState) {
     this.setState({
       ...this.state,
@@ -168,33 +177,40 @@ export class App extends Component<
             strings={this.props.strings}
           ></TimeVsCount>
           <ConfirmedVsRecent
+            path={this.props.strings.app.menu[1].route}
+            clearCountries={this.clearCountries.bind(this)}
+            countries={this.state.countries}
+            countryKeys={this.state.countryKeys}
             currentSeries={this.state.currentSeries}
             key="1"
             menu={this.menu}
-            path={this.props.strings.app.menu[1].route}
+            onChange={this.confirmedVsRecent.bind(this)}
+            selectCountry={this.selectCountry.bind(this)}
+            selectCountries={this.selectCountries.bind(this)}
+            state={this.state.confirmedVsRecentState}
             strings={this.props.strings}
           ></ConfirmedVsRecent>
           <LearningTable
+            path={this.props.strings.app.menu[2].route}
             countryKeys={this.state.countryKeys}
             key="2"
             onChange={this.tableState.bind(this)}
             menu={this.menu}
-            path={this.props.strings.app.menu[2].route}
             state={this.state.tableState}
             selectCountry={this.selectCountry.bind(this)}
             strings={this.props.strings}
             timeSeries={this.state.data}
           ></LearningTable>
           <Geography
-            key="3"
             path={this.props.strings.app.menu[3].route}
+            key="3"
             menu={this.menu}
             strings={this.props.strings}
             timeSeries={this.state.data}
           ></Geography>
           <About
-            key="4"
             path={this.props.strings.app.menu[4].route}
+            key="4"
             strings={this.props.strings}
             menu={this.menu}
           ></About>
