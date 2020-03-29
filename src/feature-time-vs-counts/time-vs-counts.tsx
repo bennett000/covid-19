@@ -7,12 +7,12 @@ import {
 } from '../interfaces';
 import { Chart } from '../components/chart';
 import { flexCol, fullSize, flexItem60, flexItem95, flex } from '../constants';
-import { LineGraphControls } from './line-graph-controls';
+import { TimeVsCountsControls } from './time-vs-counts-controls';
 import { ButtonToggle } from '../components/button-toggle';
 import { Menu } from '../components/menu';
 import { Strings } from '../i18n';
 
-export class LineGraph extends Component<{
+export class TimeVsCount extends Component<{
   clearCountries: () => any;
   countries: SelectOptionsWithIndex[];
   countryKeys: string[];
@@ -85,7 +85,7 @@ export class LineGraph extends Component<{
           <Menu config={this.props.menu}></Menu>
         </section>
         {this.props.state.isConfigOpen ? (
-          <LineGraphControls
+          <TimeVsCountsControls
             onUpdateCountryFilter={this.setCountryFilter.bind(this)}
             clearCountries={this.props.clearCountries}
             countryKeys={this.props.countryKeys}

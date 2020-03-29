@@ -1,6 +1,6 @@
 import Router, { route } from 'preact-router';
 import { Component, h, render as preactRender } from 'preact';
-import { LineGraph } from './feature-line-graph/line-graph';
+import { TimeVsCount } from './feature-time-vs-counts/time-vs-counts';
 import { createState, loadState, saveState } from './state';
 import {
   AppState,
@@ -16,6 +16,7 @@ import { Dictionary } from '@ch1/utility';
 import { LearningTable } from './feature-learning-table/learning-table';
 import { Header } from './components/header';
 import { fullSize, flexCol } from './constants';
+import { ConfirmedVsRecent } from './feature-confirmed-vs-recent/confirmed-vs-recent';
 import { Geography } from './feature-geography/geography';
 import { About } from './feature-about/about';
 import { Strings } from './i18n';
@@ -150,7 +151,7 @@ export class App extends Component<
       <div className={`${fullSize} ${flexCol}`}>
         <Header strings={this.props.strings} />
         <Router>
-          <LineGraph
+          <TimeVsCount
             path={this.props.strings.app.menu[0].route}
             clearCountries={this.clearCountries.bind(this)}
             countries={this.state.countries}
@@ -164,28 +165,34 @@ export class App extends Component<
             selectCountries={this.selectCountries.bind(this)}
             state={this.state.lineGraphState}
             strings={this.props.strings}
-          ></LineGraph>
-          <LearningTable
-            countryKeys={this.state.countryKeys}
+          ></TimeVsCount>
+          <ConfirmedVsRecent
             key="1"
-            onChange={this.tableState.bind(this)}
             menu={this.menu}
             path={this.props.strings.app.menu[1].route}
+            strings={this.props.strings}
+          ></ConfirmedVsRecent>
+          <LearningTable
+            countryKeys={this.state.countryKeys}
+            key="2"
+            onChange={this.tableState.bind(this)}
+            menu={this.menu}
+            path={this.props.strings.app.menu[2].route}
             state={this.state.tableState}
             selectCountry={this.selectCountry.bind(this)}
             strings={this.props.strings}
             timeSeries={this.state.data}
           ></LearningTable>
           <Geography
-            key="2"
-            path={this.props.strings.app.menu[2].route}
+            key="3"
+            path={this.props.strings.app.menu[3].route}
             menu={this.menu}
             strings={this.props.strings}
             timeSeries={this.state.data}
           ></Geography>
           <About
-            key="3"
-            path={this.props.strings.app.menu[3].route}
+            key="4"
+            path={this.props.strings.app.menu[4].route}
             strings={this.props.strings}
             menu={this.menu}
           ></About>

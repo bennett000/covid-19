@@ -6,7 +6,11 @@
     "menu": [
       {
         "route": "/",
-        "name": "Chart"
+        "name": "Time vs Counts"
+      },
+      {
+        "route": "/confirmed-vs-recent",
+        "name": "Confirmed vs Recent"
       },
       {
         "route": "/table",

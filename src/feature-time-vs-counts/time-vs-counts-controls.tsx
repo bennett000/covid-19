@@ -12,7 +12,7 @@ import {
 import { SelectMultipleFilter } from '../components/select-multiple-filter';
 import { Strings } from '../i18n';
 
-export function LineGraphControls({
+export function TimeVsCountsControls({
   clearCountries,
   countries,
   countryKeys,

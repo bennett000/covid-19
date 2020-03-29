@@ -27,6 +27,12 @@ function main() {
         `(${e.message})`
       );
       saveLanguage('');
-      return main();
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          main()
+            .then(resolve)
+            .catch(reject);
+        }, 100);
+      });
     });
 }
