@@ -148,7 +148,7 @@ export function convertToCountryDictionary(
         }
         stateCode = states[c.state];
         if (!stateCode) {
-          log(strings.data.log.stateNotFound, c.coutry + ',', c.state);
+          log(strings.data.log.stateNotFound, c.country + ',', c.state);
           return;
         }
         code = code + '.' + stateCode;
