@@ -3285,6 +3285,7 @@
               yAxis_label_text: this.props.strings.confirmedVsRecent
                 .recentCases,
               series: this.props.currentSeries,
+              legend: { template: '%icon %name' },
             },
             strings: this.props.strings,
           }),

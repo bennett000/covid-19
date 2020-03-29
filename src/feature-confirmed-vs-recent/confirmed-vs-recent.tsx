@@ -85,6 +85,9 @@ export class ConfirmedVsRecent extends Component<{
               yAxis_label_text: this.props.strings.confirmedVsRecent
                 .recentCases,
               series: this.props.currentSeries,
+              legend: {
+                template: '%icon %name',
+              },
             } as any
           }
           strings={this.props.strings}
