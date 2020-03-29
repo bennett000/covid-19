@@ -625,7 +625,13 @@ function convertNytTimeSeriesDictToStateDict(
 ): [Date[], Dictionary<TimeSeriesCount[]>] {
   const byState: Dictionary<TimeSeriesCount[]> = {};
 
-  const states = Object.keys(statesToCodes.US);
+  // account for JHU D.C. code
+  const states = Object.keys(statesToCodes.US).filter(code => {
+    if (code === 'D.C.') {
+      return false;
+    }
+    return true;
+  });
   const dateDict = generateDateDictionary();
   const dates: Date[] = [];
   objEach(dateDict, (timeSeriesIndex, dateString) => {
