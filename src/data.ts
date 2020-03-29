@@ -745,22 +745,93 @@ function getChartTypeFromIndex(index: number) {
   }
 }
 
+function getTimeVsCountsSeries(
+  cache: Dictionary<ChartSeries>,
+  state: AppState,
+  timeSeries: ITimeSeriesArray
+) {
+  let selectedIndex = 0;
+  return timeSeries.reduce((cs: ChartSeries[], ts) => {
+    if (state.countryKeys.indexOf(ts.key()) > -1) {
+      return selectTimeVsCountsDataByMode(
+        cache,
+        state,
+        cs,
+        ts,
+        selectedIndex++
+      );
+    }
+    return cs;
+  }, []);
+}
+
+function getConfirmedVsRecentSeries(
+  cache: Dictionary<ChartSeries>,
+  state: AppState,
+  timeSeries: ITimeSeriesArray
+) {
+  let selectedIndex = 0;
+  return timeSeries.reduce((cs: ChartSeries[], ts) => {
+    if (state.countryKeys.indexOf(ts.key()) > -1) {
+      return selectConfirmedVsRecentData(cache, state, cs, ts, selectedIndex++);
+    }
+    return cs;
+  }, []);
+}
+
 export function selectData(cache: Dictionary<ChartSeries>, state: AppState) {
   return state.dataPromise.then(({ countries, timeSeries }) => {
-    let selectedIndex = 0;
+    let series: ChartSeries[];
+    if (state.routePath === '/') {
+      series = getTimeVsCountsSeries(cache, state, timeSeries);
+    } else {
+      series = getConfirmedVsRecentSeries(cache, state, timeSeries);
+    }
     return {
       countries,
-      series: timeSeries.reduce((cs: ChartSeries[], ts) => {
-        if (state.countryKeys.indexOf(ts.key()) > -1) {
-          return selectDataByMode(cache, state, cs, ts, selectedIndex++);
-        }
-        return cs;
-      }, []),
+      series,
     };
   });
 }
 
-function selectDataByMode(
+function selectConfirmedVsRecentData(
+  cache: Dictionary<ChartSeries>,
+  state: AppState,
+  cs: ChartSeries[],
+  ts: ITimeSeries,
+  index: number
+) {
+  const recent = 7;
+  const colour = basePalette[index % basePalette.length];
+  const chart = {
+    color: colour,
+    line: { color: colour },
+    name: ts.countryName(),
+    points: [],
+  };
+  const yMin = 1;
+  const xMin = 100;
+
+  for (let i = ts.counts().length - 1; i > recent; i -= 1) {
+    const count = ts.counts()[i];
+    const recentDaysAgo = ts.counts()[i - recent] || createTimeSeriesCount();
+    const y = count.confirmed - recentDaysAgo.confirmed || yMin;
+    if (count.confirmed < xMin) {
+      continue;
+    }
+    chart.points.push({
+      x: count.confirmed,
+      y,
+    });
+  }
+  chart.points = chart.points.reverse();
+
+  cs.push(chart);
+
+  return cs;
+}
+
+function selectTimeVsCountsDataByMode(
   cache: Dictionary<ChartSeries>,
   state: AppState,
   cs: ChartSeries[],
@@ -769,15 +840,22 @@ function selectDataByMode(
 ): ChartSeries[] {
   switch (state.lineGraphState.mode) {
     case 1:
-      return selectDataByConfirmed(cache, state, cs, ts, index, 1);
+      return selectTimeVsCountsDataByConfirmed(cache, state, cs, ts, index, 1);
     case 2:
-      return selectDataByConfirmed(cache, state, cs, ts, index, 100);
+      return selectTimeVsCountsDataByConfirmed(
+        cache,
+        state,
+        cs,
+        ts,
+        index,
+        100
+      );
     default:
-      return selectDataByDate(cache, state, cs, ts, index);
+      return selectTimeVsCountsDataByDate(cache, state, cs, ts, index);
   }
 }
 
-function selectDataByConfirmed(
+function selectTimeVsCountsDataByConfirmed(
   cache: Dictionary<ChartSeries>,
   state: AppState,
   cs: ChartSeries[],
@@ -841,7 +919,7 @@ function getFieldFromIndex(index: number): TimeSeriesType {
   }
 }
 
-function selectDataByDate(
+function selectTimeVsCountsDataByDate(
   cache: Dictionary<ChartSeries>,
   state: AppState,
   cs: ChartSeries[],

@@ -167,6 +167,7 @@ export class App extends Component<
             strings={this.props.strings}
           ></TimeVsCount>
           <ConfirmedVsRecent
+            currentSeries={this.state.currentSeries}
             key="1"
             menu={this.menu}
             path={this.props.strings.app.menu[1].route}

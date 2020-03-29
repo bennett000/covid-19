@@ -55,6 +55,7 @@ export function saveState(state: AppState) {
       'state',
       JSON.stringify({
         ...state,
+        currentSeries: undefined,
         data: undefined,
         dataPromise: undefined,
       })
@@ -78,6 +79,7 @@ export function loadState(strings: Strings): AppState | null {
         }
         return {
           ...parsed,
+          currentSeries: [],
           dataPromise: fetchData(strings),
           data: TimeSeriesArray.create(),
         };
@@ -96,9 +98,6 @@ function isSavedAppState(thing: any): boolean {
     return false;
   }
   if (Array.isArray(thing.countries) === false) {
-    return false;
-  }
-  if (Array.isArray(thing.currentSeries) === false) {
     return false;
   }
   if (isSavedLineGraphState(thing.lineGraphState) === false) {

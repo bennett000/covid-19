@@ -6,52 +6,32 @@ import { ChartSeries } from '../interfaces';
 import { Strings } from '../i18n';
 
 export class Chart extends Component<{
+  options: { series: ChartSeries[] };
   flexSize: string;
-  series: ChartSeries[];
-  scaleType: number;
   strings: Strings;
-  useDays: boolean;
 }> {
+  chart: any;
   constructor() {
     super();
   }
 
-  componentDidMount() {
-    (this.base as any).id = 'chartDiv';
+  private createChart(props = this.props) {
+    if (!this.chart && props.options.series.length) {
+      this.chart = JSC.Chart('chartDiv', props.options);
+    }
   }
 
-  componentDidUpdate() {
-    JSC.Chart('chartDiv', {
-      xAxis_label_text: this.props.useDays ? 'Day' : undefined,
-      xAxis: {
-        scale: {
-          type: this.props.useDays ? 'auto' : 'time',
-        },
-        customTicks: [
-          {
-            // A tick for every month.
-            value: {
-              month: '*',
-            },
-            label_text: '%min',
-          },
-          {
-            // every month
-            value: { week: '*' },
-            label_text: '%min',
-          },
-        ],
-      },
-      yAxis: {
-        scale: {
-          type: this.props.scaleType === 0 ? 'auto' : 'logarithmic',
-        },
-      },
-      legend: {
-        template: '%icon %name',
-      },
-      series: this.props.series,
-    });
+  componentDidMount() {
+    (this.base as any).id = 'chartDiv';
+    this.createChart();
+  }
+
+  componentWillReceiveProps(props) {
+    if (!this.chart) {
+      this.createChart(props);
+    } else {
+      this.chart.options(props.options);
+    }
   }
 
   render() {

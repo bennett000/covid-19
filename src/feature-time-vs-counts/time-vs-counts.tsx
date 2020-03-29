@@ -65,14 +65,45 @@ export class TimeVsCount extends Component<{
       this.props.countryKeys.length === 0
         ? ['green']
         : [];
+    const customTicks = [
+      {
+        // A tick for every month.
+        value: {
+          month: '*',
+        },
+        label_text: '%min',
+      },
+      {
+        // every month
+        value: { week: '*' },
+        label_text: '%min',
+      },
+    ];
+
+    const options = {
+      xAxis_label_text: this.useDays() ? 'Day' : undefined,
+      xAxis: {
+        scale: {
+          type: this.useDays() ? 'auto' : 'time',
+        },
+        customTicks,
+      },
+      yAxis: {
+        scale: {
+          type: this.props.state.scaleType === 0 ? 'auto' : 'logarithmic',
+        },
+      },
+      legend: {
+        template: '%icon %name',
+      },
+      series: this.props.currentSeries,
+    };
     return (
       <section className={`${fullSize} ${flexCol}`}>
         <Chart
           flexSize={this.props.state.isConfigOpen ? flexItem60 : flexItem95}
-          series={this.props.currentSeries}
-          scaleType={this.props.state.scaleType}
+          options={options}
           strings={this.props.strings}
-          useDays={this.useDays()}
         ></Chart>
         <section className={flex}>
           <ButtonToggle

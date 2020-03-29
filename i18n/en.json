@@ -26,6 +26,10 @@
       }
     ]
   },
+  "confirmedVsRecent": {
+    "confirmedCases": "Total Confirmed Cases",
+    "recentCases": "Confirmed in Last Seven (7) Days"
+  },
   "countries": {
     "total": "Total",
     "world": "World"

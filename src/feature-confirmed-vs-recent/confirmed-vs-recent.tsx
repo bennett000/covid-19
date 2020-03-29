@@ -1,10 +1,12 @@
 import { Component, h } from 'preact';
-import { MenuProp } from '../interfaces';
-import { flexCol, fullSize, flex } from '../constants';
+import { MenuProp, ChartSeries } from '../interfaces';
+import { flexCol, fullSize, flex, flexItem95 } from '../constants';
 import { Menu } from '../components/menu';
 import { Strings } from '../i18n';
+import { Chart } from '../components/chart';
 
 export class ConfirmedVsRecent extends Component<{
+  currentSeries: ChartSeries[];
   menu: MenuProp;
   strings: Strings;
 }> {
@@ -23,13 +25,22 @@ export class ConfirmedVsRecent extends Component<{
   render() {
     return (
       <section className={`${fullSize} ${flexCol}`}>
-        {/* <Chart
-          flexSize={this.props.state.isConfigOpen ? flexItem60 : flexItem95}
-          series={this.props.currentSeries}
-          scaleType={this.props.state.scaleType}
+        <Chart
+          // flexSize={this.props.state.isConfigOpen ? flexItem60 : flexItem95}
+          flexSize={flexItem95}
+          options={
+            {
+              xAxis: { scale: { type: 'logarithmic' } },
+              xAxis_label_text: this.props.strings.confirmedVsRecent
+                .confirmedCases,
+              yAxis: { scale: { type: 'logarithmic' } },
+              yAxis_label_text: this.props.strings.confirmedVsRecent
+                .recentCases,
+              series: this.props.currentSeries,
+            } as any
+          }
           strings={this.props.strings}
-          useDays={this.useDays()}
-        ></Chart> */}
+        ></Chart>
         <section className={flex}>
           {/* <ButtonToggle
             classes={classes}

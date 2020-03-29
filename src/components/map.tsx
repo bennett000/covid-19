@@ -11,27 +11,38 @@ export class ChartMap extends Component<{
   strings: Strings;
   toolTip: string;
 }> {
+  chart: any;
+
   constructor() {
     super();
   }
 
   componentDidMount() {
     (this.base as any).id = 'chartMapDiv';
+    if (!this.chart) {
+      this.chart = JSC.Chart('chartMapDiv', this.getChartOptions());
+    }
   }
 
-  componentDidUpdate() {
-    JSC.Chart('chartMapDiv', {
+  componentWillReceiveProps(props) {
+    if (this.chart) {
+      this.chart.options(this.getChartOptions(props));
+    }
+  }
+
+  getChartOptions(props = this.props) {
+    return {
       type: 'map',
       defaultPoint: {
-        tooltip: this.props.toolTip,
+        tooltip: props.toolTip,
         z: 0,
       },
       palette: {
         pointValue: p => p.options('z'),
-        ranges: this.props.ranges,
+        ranges: props.ranges,
       },
-      series: this.props.series,
-    });
+      series: props.series,
+    };
   }
 
   render() {
