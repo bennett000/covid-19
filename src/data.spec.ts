@@ -1,13 +1,15 @@
 import {
   convertToCountryDictionary,
   csvRowStringToArray,
-  csvRowStringToJhuTimeSeriesHeadaer,
+  csvRowStringToJhuTimeSeriesHeader,
   stateToLocaleState,
   convertRowToTimeSeries,
   getRecoveryDays,
   interpolateRecoveriesAndActiveCases,
   sumAllRegions,
+  nytRowsToDict,
 } from './data';
+import { usaCode } from './constants';
 
 const strings: any = {
   countries: {},
@@ -29,7 +31,7 @@ describe('data functions', () => {
 
   describe('csvRowStringToJhuTimeSeriesHeadaer', () => {
     it('slices from 4 on and converts to dates', () => {
-      const test = csvRowStringToJhuTimeSeriesHeadaer('foo,bar,1,2,2020-06-04');
+      const test = csvRowStringToJhuTimeSeriesHeader('foo,bar,1,2,2020-06-04');
       expect(test[0] instanceof Date).toBe(true);
       expect(test[1]).toBe(undefined);
     });
@@ -727,15 +729,15 @@ describe('data functions', () => {
           ],
         },
         US: {
-          country: 'US',
-          countryCode: 'US',
+          country: usaCode,
+          countryCode: usaCode,
           dates: [],
-          key: 'US',
+          key: usaCode,
           locale: '',
           population: 0,
           populationDensity: 0,
           state: '',
-          stateCode: 'US',
+          stateCode: usaCode,
           counts: [
             {
               active: 0,
@@ -875,6 +877,104 @@ describe('data functions', () => {
       expect(
         outputDict['CA.' + strings.countries.total].counts[0].confirmed
       ).toBe(20);
+    });
+  });
+
+  describe('nytRowsToDict', () => {
+    it('ignores rows that have no date', () => {
+      expect(nytRowsToDict([['', 'Washington']])).toEqual({});
+    });
+
+    it('ignores rows that have invalid US states', () => {
+      expect(nytRowsToDict([['2020-01-01', 'Washingtonia']])).toEqual({});
+    });
+
+    it('gives states zero confirmed if the column is absent', () => {
+      expect(
+        nytRowsToDict([
+          ['2020-01-01', 'Washington'],
+          ['2020-01-01', 'Utah'],
+        ])
+      ).toEqual({
+        '2020-01-01': {
+          [`${usaCode}.UT`]: {
+            active: 0,
+            confirmed: 0,
+            deaths: 0,
+            recoveries: 0,
+            projectionReverseDeath: 0,
+          },
+          [`${usaCode}.WA`]: {
+            active: 0,
+            confirmed: 0,
+            deaths: 0,
+            recoveries: 0,
+            projectionReverseDeath: 0,
+          },
+        },
+      });
+    });
+
+    it('gives states zero deaths if the column is absent', () => {
+      expect(
+        nytRowsToDict([
+          ['2020-01-01', 'Washington', '0', '5'],
+          ['2020-01-01', 'Utah', '0', '25'],
+        ])
+      ).toEqual({
+        '2020-01-01': {
+          [`${usaCode}.UT`]: {
+            active: 0,
+            confirmed: 25,
+            deaths: 0,
+            recoveries: 0,
+            projectionReverseDeath: 0,
+          },
+          [`${usaCode}.WA`]: {
+            active: 0,
+            confirmed: 5,
+            deaths: 0,
+            recoveries: 0,
+            projectionReverseDeath: 0,
+          },
+        },
+      });
+    });
+
+    it("includes deaths and recoveries if they're present", () => {
+      expect(
+        nytRowsToDict([
+          ['2020-01-01', 'Washington', '0', '5', '11'],
+          ['2020-01-01', 'Utah', '0', '25', '3'],
+          ['2020-01-02', 'Washington', '0', '7', '2'],
+        ])
+      ).toEqual({
+        '2020-01-01': {
+          [`${usaCode}.UT`]: {
+            active: 0,
+            confirmed: 25,
+            deaths: 3,
+            recoveries: 0,
+            projectionReverseDeath: 0,
+          },
+          [`${usaCode}.WA`]: {
+            active: 0,
+            confirmed: 5,
+            deaths: 11,
+            recoveries: 0,
+            projectionReverseDeath: 0,
+          },
+        },
+        '2020-01-02': {
+          [`${usaCode}.WA`]: {
+            active: 0,
+            confirmed: 7,
+            deaths: 2,
+            recoveries: 0,
+            projectionReverseDeath: 0,
+          },
+        },
+      });
     });
   });
 });

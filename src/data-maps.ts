@@ -7,6 +7,8 @@
 // Time since first confirmed
 // Time since first 100 confirmed
 
+import { usaCode } from './constants';
+
 export const mapJhuCountryToPop = Object.freeze({
   'Congo (Kinshasa)': 'The Democratic Republic of Congo',
   "Cote d'Ivoire": 'Ivory Coast',
@@ -438,7 +440,7 @@ export const countriesToCodes = Object.freeze({
   Ukraine: 'UA',
   'United Arab Emirates': 'AE',
   'United Kingdom': 'GB',
-  US: 'US',
+  US: usaCode,
   'United States Minor Outlying Islands': 'UM',
   Uruguay: 'UY',
   Uzbekistan: 'UZ',

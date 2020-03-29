@@ -4,11 +4,12 @@ import { isNumber, isString, isBoolean } from '@ch1/utility';
 import { log } from './utility';
 import { TimeSeriesArray } from './time-series';
 import { Strings } from './i18n';
+import { jhuStartDay } from './constants';
 
 const defaultDataset = 0;
 const defaultCountries = [];
 const defaultMode = 2;
-const defaultStart = '2019-12-26';
+const defaultStart = jhuStartDay;
 const defaultScaleType = 0;
 const defaultShowStates = false;
 

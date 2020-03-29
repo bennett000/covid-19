@@ -13,6 +13,7 @@ export const rowOdd = 'row-odd';
 export const rowHighlight = 'row-highlight';
 
 export const recoveryDays = 25;
+export const jhuStartDay = '2020-01-22';
 
 export const reverseDeathProjectionDefaults = Object.freeze({
   daysFromInfectionToDeath: 17.3,
@@ -20,6 +21,8 @@ export const reverseDeathProjectionDefaults = Object.freeze({
   fatalityRate: 0.0087,
   minDeaths: 10,
 });
+
+export const usaCode = 'US';
 
 export const basePalette = [
   '#e01010',
