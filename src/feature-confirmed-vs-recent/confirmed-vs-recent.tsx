@@ -44,8 +44,8 @@ export class ConfirmedVsRecent extends Component<{
         <section className={flex}>
           {/* <ButtonToggle
             classes={classes}
-            labelTrue={this.props.strings.lineGraph.enlarge}
-            labelFalse={this.props.strings.lineGraph.configure}
+            labelTrue={this.props.strings.timeVsCounts.enlarge}
+            labelFalse={this.props.strings.timeVsCounts.configure}
             onClick={this.toggleConfig.bind(this)}
             state={this.props.state.isConfigOpen}
           /> */}

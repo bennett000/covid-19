@@ -6,7 +6,7 @@ import {
   AppState,
   ChartSeries,
   SelectOptionsWithIndex,
-  LineGraphState,
+  TimeVsCountsState,
   MenuProp,
   TableState,
 } from './interfaces';
@@ -89,10 +89,10 @@ export class App extends Component<
       .then(() => saveState(this.state));
   }
 
-  lineGraphState(lgs: LineGraphState) {
+  timeVsCounts(tvc: TimeVsCountsState) {
     this.setState({
       ...this.state,
-      lineGraphState: lgs,
+      timeVsCountsState: tvc,
     });
     this.selectAndUpdate();
   }
@@ -159,12 +159,12 @@ export class App extends Component<
             countryKeys={this.state.countryKeys}
             currentSeries={this.state.currentSeries}
             menu={this.menu}
-            onChange={this.lineGraphState.bind(this)}
+            onChange={this.timeVsCounts.bind(this)}
             key="0"
             reload={this.reload.bind(this)}
             selectCountry={this.selectCountry.bind(this)}
             selectCountries={this.selectCountries.bind(this)}
-            state={this.state.lineGraphState}
+            state={this.state.timeVsCountsState}
             strings={this.props.strings}
           ></TimeVsCount>
           <ConfirmedVsRecent

@@ -1,6 +1,6 @@
 import { Component, h } from 'preact';
 import {
-  LineGraphState,
+  TimeVsCountsState,
   ChartSeries,
   SelectOptionsWithIndex,
   MenuProp,
@@ -18,11 +18,11 @@ export class TimeVsCount extends Component<{
   countryKeys: string[];
   currentSeries: ChartSeries[];
   menu: MenuProp;
-  onChange: (lgs: LineGraphState) => any;
+  onChange: (lgs: TimeVsCountsState) => any;
   reload: () => any;
   selectCountry: (country: string) => any;
   selectCountries: (countries: string[]) => any;
-  state: LineGraphState;
+  state: TimeVsCountsState;
   strings: Strings;
 }> {
   constructor() {
@@ -108,8 +108,8 @@ export class TimeVsCount extends Component<{
         <section className={flex}>
           <ButtonToggle
             classes={classes}
-            labelTrue={this.props.strings.lineGraph.enlarge}
-            labelFalse={this.props.strings.lineGraph.configure}
+            labelTrue={this.props.strings.timeVsCounts.enlarge}
+            labelFalse={this.props.strings.timeVsCounts.configure}
             onClick={this.toggleConfig.bind(this)}
             state={this.props.state.isConfigOpen}
           />

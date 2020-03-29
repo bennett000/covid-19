@@ -127,11 +127,6 @@
       "region": "Region"
     }
   },
-  "lineGraph": {
-    "configure": "⚙️ Configure Chart",
-    "enlarge": "✗ Enlarge Chart",
-    "reload": "Reload"
-  },
   "metrics": {
     "byValue": "By Value",
     "byPercent": "Percent"
@@ -155,5 +150,10 @@
   "state": {
     "parseFail": "Failed to parse saved state, resetting localStorage",
     "wipingOld": "Upgrade: Wiping old state"
+  },
+  "timeVsCounts": {
+    "configure": "⚙️ Configure Chart",
+    "enlarge": "✗ Enlarge Chart",
+    "reload": "Reload"
   }
 }

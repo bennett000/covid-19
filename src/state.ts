@@ -21,7 +21,7 @@ export function createState(strings: Strings): AppState {
     dataPromise: fetchData(strings),
     countryKeys: defaultCountries,
     routePath: '/',
-    lineGraphState: {
+    timeVsCountsState: {
       dataSetIndexes: [defaultDataset],
       byMetric: 0,
       countryFilter: '',
@@ -100,7 +100,7 @@ function isSavedAppState(thing: any): boolean {
   if (Array.isArray(thing.countries) === false) {
     return false;
   }
-  if (isSavedLineGraphState(thing.lineGraphState) === false) {
+  if (isSavedTimeVsCountsState(thing.timeVsCountsState) === false) {
     return false;
   }
 
@@ -111,7 +111,7 @@ function isSavedAppState(thing: any): boolean {
   return isSavedTableState(thing.tableState);
 }
 
-function isSavedLineGraphState(thing: any): boolean {
+function isSavedTimeVsCountsState(thing: any): boolean {
   if (!thing) {
     return false;
   }

@@ -36,12 +36,12 @@ export interface AppState {
   data: ITimeSeriesArray;
   dataPromise: Promise<JhuIntegratedData>;
   countryKeys: string[];
-  lineGraphState: LineGraphState;
+  timeVsCountsState: TimeVsCountsState;
   tableState: TableState;
   routePath: string;
 }
 
-export interface LineGraphState {
+export interface TimeVsCountsState {
   dataSetIndexes: number[];
   byMetric: number;
   countryFilter: string;

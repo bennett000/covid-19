@@ -7,7 +7,7 @@ import { flex, flexCol, flexItem20, highlight } from '../constants';
 import {
   SelectOptionsWithIndex,
   ChartSeries,
-  LineGraphState,
+  TimeVsCountsState,
 } from '../interfaces';
 import { SelectMultipleFilter } from '../components/select-multiple-filter';
 import { Strings } from '../i18n';
@@ -28,12 +28,12 @@ export function TimeVsCountsControls({
   countries: SelectOptionsWithIndex[];
   countryKeys: string[];
   currentSeries: ChartSeries[];
-  onChange: (lgs: LineGraphState) => any;
+  onChange: (lgs: TimeVsCountsState) => any;
   onUpdateCountryFilter: (filter: string) => any;
   reload: () => any;
   selectCountry: (country: string) => any;
   selectCountries: (countries: string[]) => any;
-  state: LineGraphState;
+  state: TimeVsCountsState;
   strings: Strings;
 }) {
   const dataSets = [
@@ -134,7 +134,7 @@ export function TimeVsCountsControls({
           options={metrics}
           selected={state.byMetric}
         />
-        <Button label={strings.lineGraph.reload} onClick={reload}></Button>
+        <Button label={strings.timeVsCounts.reload} onClick={reload}></Button>
       </div>
     </section>
   );

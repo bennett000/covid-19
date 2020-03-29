@@ -838,7 +838,7 @@ function selectTimeVsCountsDataByMode(
   ts: ITimeSeries,
   index: number
 ): ChartSeries[] {
-  switch (state.lineGraphState.mode) {
+  switch (state.timeVsCountsState.mode) {
     case 1:
       return selectTimeVsCountsDataByConfirmed(cache, state, cs, ts, index, 1);
     case 2:
@@ -863,9 +863,9 @@ function selectTimeVsCountsDataByConfirmed(
   index: number,
   count: number
 ) {
-  const startDate = new Date(state.lineGraphState.startDate);
+  const startDate = new Date(state.timeVsCountsState.startDate);
 
-  state.lineGraphState.dataSetIndexes.forEach(dataSetIndex => {
+  state.timeVsCountsState.dataSetIndexes.forEach(dataSetIndex => {
     const field = getFieldFromIndex(dataSetIndex);
     const colour =
       dataSetIndex > 3
@@ -882,7 +882,7 @@ function selectTimeVsCountsDataByConfirmed(
     chart.points = ts.counts().reduce((ps, c, i) => {
       if (ts.dates()[i] && ts.dates()[i] > startDate && c.confirmed >= count) {
         const y = getY(
-          state.lineGraphState.byMetric,
+          state.timeVsCountsState.byMetric,
           c[field],
           ts.population()
         );
@@ -926,9 +926,9 @@ function selectTimeVsCountsDataByDate(
   ts: ITimeSeries,
   index: number
 ) {
-  const startDate = new Date(state.lineGraphState.startDate);
+  const startDate = new Date(state.timeVsCountsState.startDate);
 
-  state.lineGraphState.dataSetIndexes.forEach(dataSetIndex => {
+  state.timeVsCountsState.dataSetIndexes.forEach(dataSetIndex => {
     const colour =
       dataSetIndex > 3
         ? projectionPalette[index % projectionPalette.length]
@@ -944,7 +944,7 @@ function selectTimeVsCountsDataByDate(
     chart.points = ts.counts().reduce((ps, c, i) => {
       if (ts.dates()[i] && ts.dates()[i] > startDate) {
         const y = getY(
-          state.lineGraphState.byMetric,
+          state.timeVsCountsState.byMetric,
           c[field],
           ts.population()
         );
