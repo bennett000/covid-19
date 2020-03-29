@@ -46,6 +46,7 @@ export class App extends Component<
           this.props.strings.app.menu[0].route;
         this.setState({
           ...this.state,
+          currentSeries: [],
           routePath,
         });
         this.menu.selected = selected;
