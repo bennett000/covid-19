@@ -1,28 +1,28 @@
 import { Component, h } from 'preact';
 import {
-  LineGraphState,
+  TimeVsCountsState,
   ChartSeries,
   SelectOptionsWithIndex,
   MenuProp,
 } from '../interfaces';
 import { Chart } from '../components/chart';
 import { flexCol, fullSize, flexItem60, flexItem95, flex } from '../constants';
-import { LineGraphControls } from './line-graph-controls';
+import { TimeVsCountsControls } from './time-vs-counts-controls';
 import { ButtonToggle } from '../components/button-toggle';
 import { Menu } from '../components/menu';
 import { Strings } from '../i18n';
 
-export class LineGraph extends Component<{
+export class TimeVsCount extends Component<{
   clearCountries: () => any;
   countries: SelectOptionsWithIndex[];
   countryKeys: string[];
   currentSeries: ChartSeries[];
   menu: MenuProp;
-  onChange: (lgs: LineGraphState) => any;
+  onChange: (lgs: TimeVsCountsState) => any;
   reload: () => any;
   selectCountry: (country: string) => any;
   selectCountries: (countries: string[]) => any;
-  state: LineGraphState;
+  state: TimeVsCountsState;
   strings: Strings;
 }> {
   constructor() {
@@ -65,27 +65,58 @@ export class LineGraph extends Component<{
       this.props.countryKeys.length === 0
         ? ['green']
         : [];
+    const customTicks = [
+      {
+        // A tick for every month.
+        value: {
+          month: '*',
+        },
+        label_text: '%min',
+      },
+      {
+        // every month
+        value: { week: '*' },
+        label_text: '%min',
+      },
+    ];
+
+    const options = {
+      xAxis_label_text: this.useDays() ? 'Day' : undefined,
+      xAxis: {
+        scale: {
+          type: this.useDays() ? 'auto' : 'time',
+        },
+        customTicks,
+      },
+      yAxis: {
+        scale: {
+          type: this.props.state.scaleType === 0 ? 'auto' : 'logarithmic',
+        },
+      },
+      legend: {
+        template: '%icon %name',
+      },
+      series: this.props.currentSeries,
+    };
     return (
       <section className={`${fullSize} ${flexCol}`}>
         <Chart
           flexSize={this.props.state.isConfigOpen ? flexItem60 : flexItem95}
-          series={this.props.currentSeries}
-          scaleType={this.props.state.scaleType}
+          options={options}
           strings={this.props.strings}
-          useDays={this.useDays()}
         ></Chart>
         <section className={flex}>
           <ButtonToggle
             classes={classes}
-            labelTrue={this.props.strings.lineGraph.enlarge}
-            labelFalse={this.props.strings.lineGraph.configure}
+            labelTrue={this.props.strings.timeVsCounts.enlarge}
+            labelFalse={this.props.strings.timeVsCounts.configure}
             onClick={this.toggleConfig.bind(this)}
             state={this.props.state.isConfigOpen}
           />
           <Menu config={this.props.menu}></Menu>
         </section>
         {this.props.state.isConfigOpen ? (
-          <LineGraphControls
+          <TimeVsCountsControls
             onUpdateCountryFilter={this.setCountryFilter.bind(this)}
             clearCountries={this.props.clearCountries}
             countryKeys={this.props.countryKeys}

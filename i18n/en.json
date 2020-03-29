@@ -6,7 +6,11 @@
     "menu": [
       {
         "route": "/",
-        "name": "Chart"
+        "name": "Time vs Counts"
+      },
+      {
+        "route": "/confirmed-vs-recent",
+        "name": "Confirmed vs Recent"
       },
       {
         "route": "/table",
@@ -21,6 +25,12 @@
         "name": "About"
       }
     ]
+  },
+  "confirmedVsRecent": {
+    "configure": "⚙️ Configure Chart",
+    "confirmedCases": "Total Confirmed Cases",
+    "enlarge": "✗ Enlarge Chart",
+    "recentCases": "Confirmed in Last Seven (7) Days"
   },
   "countries": {
     "total": "Total",
@@ -119,11 +129,6 @@
       "region": "Region"
     }
   },
-  "lineGraph": {
-    "configure": "⚙️ Configure Chart",
-    "enlarge": "✗ Enlarge Chart",
-    "reload": "Reload"
-  },
   "metrics": {
     "byValue": "By Value",
     "byPercent": "Percent"
@@ -147,5 +152,14 @@
   "state": {
     "parseFail": "Failed to parse saved state, resetting localStorage",
     "wipingOld": "Upgrade: Wiping old state"
+  },
+  "states": [
+    "Show States",
+    "Hide States"
+  ],
+  "timeVsCounts": {
+    "configure": "⚙️ Configure Chart",
+    "enlarge": "✗ Enlarge Chart",
+    "reload": "Reload"
   }
 }

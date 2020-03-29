@@ -35,13 +35,20 @@ export interface AppState {
   currentSeries: ChartSeries[];
   data: ITimeSeriesArray;
   dataPromise: Promise<JhuIntegratedData>;
+  confirmedVsRecentState: ConfirmedVsRecentState;
   countryKeys: string[];
-  lineGraphState: LineGraphState;
+  timeVsCountsState: TimeVsCountsState;
   tableState: TableState;
   routePath: string;
 }
 
-export interface LineGraphState {
+export interface ConfirmedVsRecentState {
+  countryFilter: string;
+  isConfigOpen: boolean;
+  showStates: boolean;
+}
+
+export interface TimeVsCountsState {
   dataSetIndexes: number[];
   byMetric: number;
   countryFilter: string;

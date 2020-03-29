@@ -7,12 +7,13 @@ import { flex, flexCol, flexItem20, highlight } from '../constants';
 import {
   SelectOptionsWithIndex,
   ChartSeries,
-  LineGraphState,
+  TimeVsCountsState,
 } from '../interfaces';
 import { SelectMultipleFilter } from '../components/select-multiple-filter';
 import { Strings } from '../i18n';
+import { filterStates } from '../utility';
 
-export function LineGraphControls({
+export function TimeVsCountsControls({
   clearCountries,
   countries,
   countryKeys,
@@ -28,12 +29,12 @@ export function LineGraphControls({
   countries: SelectOptionsWithIndex[];
   countryKeys: string[];
   currentSeries: ChartSeries[];
-  onChange: (lgs: LineGraphState) => any;
+  onChange: (lgs: TimeVsCountsState) => any;
   onUpdateCountryFilter: (filter: string) => any;
   reload: () => any;
   selectCountry: (country: string) => any;
   selectCountries: (countries: string[]) => any;
-  state: LineGraphState;
+  state: TimeVsCountsState;
   strings: Strings;
 }) {
   const dataSets = [
@@ -52,7 +53,7 @@ export function LineGraphControls({
     strings.scaleTypes.linear,
     strings.scaleTypes.logarithmic,
   ];
-  const showStates = ['Show States', 'Hide States'];
+  const showStates = strings.states;
   const metrics = [strings.metrics.byValue, strings.metrics.byPercent];
 
   function selectMode(mode: number | string) {
@@ -134,27 +135,8 @@ export function LineGraphControls({
           options={metrics}
           selected={state.byMetric}
         />
-        <Button label={strings.lineGraph.reload} onClick={reload}></Button>
+        <Button label={strings.timeVsCounts.reload} onClick={reload}></Button>
       </div>
     </section>
   );
-}
-
-function filterStates(doFilter: boolean, strings) {
-  return (item: SelectOptionsWithIndex) => {
-    if (doFilter === false) {
-      return true;
-    }
-    // special case for Korea
-    if (item.name.toLowerCase().indexOf('korea') > -1) {
-      return true;
-    }
-    if (item.name.indexOf(',') > -1) {
-      if (item.name.indexOf(`, ${strings.countries.total}`) > -1) {
-        return true;
-      }
-      return false;
-    }
-    return true;
-  };
 }

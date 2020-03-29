@@ -21,7 +21,7 @@ export function createState(strings: Strings): AppState {
     dataPromise: fetchData(strings),
     countryKeys: defaultCountries,
     routePath: '/',
-    lineGraphState: {
+    timeVsCountsState: {
       dataSetIndexes: [defaultDataset],
       byMetric: 0,
       countryFilter: '',
@@ -46,6 +46,11 @@ export function createState(strings: Strings): AppState {
       sortByPopulation: false,
       sortByPopulationDensity: false,
     },
+    confirmedVsRecentState: {
+      countryFilter: '',
+      isConfigOpen: false,
+      showStates: defaultShowStates,
+    },
   };
 }
 
@@ -55,6 +60,7 @@ export function saveState(state: AppState) {
       'state',
       JSON.stringify({
         ...state,
+        currentSeries: undefined,
         data: undefined,
         dataPromise: undefined,
       })
@@ -78,6 +84,7 @@ export function loadState(strings: Strings): AppState | null {
         }
         return {
           ...parsed,
+          currentSeries: [],
           dataPromise: fetchData(strings),
           data: TimeSeriesArray.create(),
         };
@@ -98,10 +105,7 @@ function isSavedAppState(thing: any): boolean {
   if (Array.isArray(thing.countries) === false) {
     return false;
   }
-  if (Array.isArray(thing.currentSeries) === false) {
-    return false;
-  }
-  if (isSavedLineGraphState(thing.lineGraphState) === false) {
+  if (isSavedTimeVsCountsState(thing.timeVsCountsState) === false) {
     return false;
   }
 
@@ -109,10 +113,14 @@ function isSavedAppState(thing: any): boolean {
     return false;
   }
 
-  return isSavedTableState(thing.tableState);
+  if (isSavedTableState(thing.tableState) === false) {
+    return false;
+  }
+
+  return isConfirmedVsRecentState(thing.confirmedVsRecentState);
 }
 
-function isSavedLineGraphState(thing: any): boolean {
+function isSavedTimeVsCountsState(thing: any): boolean {
   if (!thing) {
     return false;
   }
@@ -204,4 +212,21 @@ export function saveLanguage(language: string) {
   if (window.localStorage) {
     window.localStorage.setItem('language', language);
   }
+}
+
+function isConfirmedVsRecentState(thing: any): boolean {
+  if (!thing) {
+    return false;
+  }
+  if (isString(thing.countryFilter) === false) {
+    return false;
+  }
+  if (isBoolean(thing.isConfigOpen) === false) {
+    return false;
+  }
+  if (isBoolean(thing.showStates) === false) {
+    return false;
+  }
+
+  return true;
 }
