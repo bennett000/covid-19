@@ -129,14 +129,13 @@ export class Geography extends Component<
           map: 'cn',
         });
         break;
-      // us state data is gone in the updated data set
-      // case usaCode.toLowerCase():
-      //   this.getSeries = this.getStateSeries.bind(this, usaCode, usaCode);
-      //   this.setState({
-      //     ...this.state,
-      //     map: usaCode.toLowerCase(),
-      //   });
-      //   break;
+      case usaCode.toLowerCase():
+        this.getSeries = this.getStateSeries.bind(this, usaCode, usaCode);
+        this.setState({
+          ...this.state,
+          map: usaCode.toLowerCase(),
+        });
+        break;
       default:
         this.tryContinent(e);
         break;
@@ -288,6 +287,9 @@ export class Geography extends Component<
         }
       }
       const code = ts.stateCode();
+      if (!code) {
+        return null;
+      }
       if (excludeFromMap[ts.countryCode() + '.' + code]) {
         return null;
       }
