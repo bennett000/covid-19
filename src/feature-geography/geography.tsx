@@ -88,13 +88,6 @@ export class Geography extends Component<
     });
   }
 
-  componentDidMount() {
-    // force chart to redraw
-    this.setState({
-      ...this.state,
-    });
-  }
-
   countryFromClick(e: any): string {
     if (!e) {
       return null;

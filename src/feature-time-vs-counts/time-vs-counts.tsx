@@ -30,13 +30,6 @@ export class TimeVsCount extends Component<{
     this.state = {};
   }
 
-  componentDidMount() {
-    // force chart to redraw
-    this.setState({
-      ...this.state,
-    });
-  }
-
   useDays() {
     if (this.props.state.mode !== 0) {
       return true;
@@ -88,6 +81,10 @@ export class TimeVsCount extends Component<{
         },
         customTicks,
       },
+      yAxis_label_text:
+        this.props.state.byMetric === 0
+          ? this.props.strings.timeVsCounts.people
+          : this.props.strings.timeVsCounts.percent,
       yAxis: {
         scale: {
           type: this.props.state.scaleType === 0 ? 'auto' : 'logarithmic',

@@ -38,13 +38,6 @@ export class ConfirmedVsRecent extends Component<{
     this.state = {};
   }
 
-  componentDidMount() {
-    // force chart to redraw
-    this.setState({
-      ...this.state,
-    });
-  }
-
   selectShowStates(showOrHide: number | string) {
     this.props.onChange({
       ...this.props.state,
