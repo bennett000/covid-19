@@ -250,8 +250,8 @@
         null != r && 'function' != typeof e.type)
       )
         for (p = r.length; p--; ) null != r[p] && h(r[p]);
-      for (p = v; p--; ) null != C[p] && P(C[p], C[p]);
-      if (S) for (p = 0; p < S.length; p++) D(S[p], S[++p], S[++p]);
+      for (p = v; p--; ) null != C[p] && D(C[p], C[p]);
+      if (S) for (p = 0; p < S.length; p++) P(S[p], S[++p], S[++p]);
     }
     function A(t, e, n) {
       if ((null == n && (n = []), null == t || 'boolean' == typeof t))
@@ -518,18 +518,18 @@
       }
       return t;
     }
-    function D(t, e, n) {
+    function P(t, e, n) {
       try {
         'function' == typeof t ? t(e) : (t.current = e);
       } catch (t) {
         i.__e(t, n);
       }
     }
-    function P(t, e, n) {
+    function D(t, e, n) {
       var o, r, a;
       if (
         (i.unmount && i.unmount(t),
-        (o = t.ref) && ((o.current && o.current !== t.__e) || D(o, null, e)),
+        (o = t.ref) && ((o.current && o.current !== t.__e) || P(o, null, e)),
         n || 'function' == typeof t.type || (n = null != (r = t.__e)),
         (t.__e = t.__d = void 0),
         null != (o = t.__c))
@@ -542,7 +542,7 @@
           }
         o.base = o.__P = null;
       }
-      if ((o = t.__k)) for (a = 0; a < o.length; a++) o[a] && P(o[a], e, n);
+      if ((o = t.__k)) for (a = 0; a < o.length; a++) o[a] && D(o[a], e, n);
       null != r && h(r);
     }
     function I(t, e, n) {
@@ -1261,7 +1261,7 @@
         onClick: () => o(!r),
       });
     }
-    function Dt({
+    function Pt({
       config: { disable: t, labels: e, onClick: n, selected: i },
     }) {
       return y(
@@ -1272,7 +1272,7 @@
         )
       );
     }
-    class Pt extends m {
+    class Dt extends m {
       constructor() {
         super(), (this.state = {});
       }
@@ -1339,7 +1339,7 @@
               onClick: this.toggleConfig.bind(this),
               state: this.props.state.isConfigOpen,
             }),
-            y(Dt, { config: this.props.menu })
+            y(Pt, { config: this.props.menu })
           ),
           this.props.state.isConfigOpen
             ? y(Tt, {
@@ -2891,7 +2891,7 @@
                   default:
                     return (function(t, e, n, i, o) {
                       const r = new Date(e.timeVsCountsState.startDate),
-                        a = ve(i, -1);
+                        a = ve(i, -1, e.timeVsCountsState.byMetric);
                       return (
                         e.timeVsCountsState.dataSetIndexes.forEach(t => {
                           const { chart: s, field: u } = be(t, o, i);
@@ -2999,7 +2999,8 @@
               (t, e, n, i) =>
                 -1 !== t ? t : e.confirmed >= r ? i.length - n - 1 : t,
               -1
-            )
+            ),
+          e.timeVsCountsState.byMetric
         );
       return (
         e.timeVsCountsState.dataSetIndexes.forEach(t => {
@@ -3027,8 +3028,8 @@
         n
       );
     }
-    function ve(t, e) {
-      const n = (function(t) {
+    function ve(t, e, n) {
+      const i = (function(t) {
           switch (t) {
             case 'CN':
             case 'KR':
@@ -3037,23 +3038,23 @@
               return 10;
           }
         })(t.countryCode()),
-        i = Wt.create(t.population(), t.lastConfirmed(), n),
-        o = t.dates(),
-        r = o[o.length - 1]
-          ? o[o.length - 1].getTime()
+        o = Wt.create(t.population(), t.lastConfirmed(), i),
+        r = t.dates(),
+        a = r[r.length - 1]
+          ? r[r.length - 1].getTime()
           : new Date('2020-01-22').getTime(),
-        a = i.getSolution(),
-        s = a.P.length < 35 ? a.P.length : 35,
-        u = [],
+        s = o.getSolution(),
+        u = s.P.length < 35 ? s.P.length : 35,
         c = [],
-        l = [];
-      for (let t = 1; t < s; t += 1) {
-        const n = -1 === e ? new Date(r + 864e5 * (t - 1)) : e + t - 1;
-        u.push({ x: n, y: a.P[t][4] }),
-          c.push({ x: n, y: a.P[t][0] }),
-          l.push({ x: n, y: a.P[t][2] });
+        l = [],
+        p = [];
+      for (let i = 1; i < u; i += 1) {
+        const o = -1 === e ? new Date(a + 864e5 * (i - 1)) : e + i - 1;
+        c.push({ x: o, y: 0 === n ? s.P[i][4] : s.P[i][4] / t.population() }),
+          l.push({ x: o, y: 0 === n ? s.P[i][0] : s.P[i][0] / t.population() }),
+          p.push({ x: o, y: 0 === n ? s.P[i][2] : s.P[i][2] / t.population() });
       }
-      return { active: u, deaths: c, recoveries: l };
+      return { active: c, deaths: l, recoveries: p };
     }
     function _e(t, e, n) {
       return 0 === t ? e : n ? e / n : 0;
@@ -3388,7 +3389,7 @@
                 onClick: this.toggleConfig.bind(this),
                 state: this.props.state.isConfigOpen,
               }),
-              y(Dt, { config: this.props.menu })
+              y(Pt, { config: this.props.menu })
             ),
             this.props.state.isConfigOpen
               ? y(
@@ -3530,7 +3531,7 @@
               onClick: this.toggleConfig.bind(this),
               state: this.props.state.isConfigOpen,
             }),
-            y(Dt, { config: this.props.menu })
+            y(Pt, { config: this.props.menu })
           ),
           this.props.state.isConfigOpen
             ? y(
@@ -3584,7 +3585,7 @@
         return y('div', { className: nt });
       }
     }
-    class De extends m {
+    class Pe extends m {
       constructor() {
         super(),
           (this.state = {
@@ -3825,7 +3826,7 @@
         this.setState(
           Object.assign(Object.assign({}, this.state), {
             dataSet: e,
-            toolTip: Pe(e, this.props.strings),
+            toolTip: De(e, this.props.strings),
           })
         );
       }
@@ -3869,12 +3870,12 @@
               onClick: this.togglePlay.bind(this),
               state: this.state.isPlaying,
             }),
-            y(Dt, { config: this.state.menuProp })
+            y(Pt, { config: this.state.menuProp })
           )
         );
       }
     }
-    function Pe(t, e) {
+    function De(t, e) {
       switch (t) {
         case 0:
           return e.geography.toolTip0;
@@ -4074,7 +4075,7 @@
             title: this.props.strings.descriptions.titles.metrics,
             list: e,
           }),
-          y(Dt, { config: this.props.menu })
+          y(Pt, { config: this.props.menu })
         );
       }
     }
@@ -4261,7 +4262,7 @@
           y(
             tt,
             null,
-            y(Pt, {
+            y(Dt, {
               path: this.props.strings.app.menu[0].route,
               clearCountries: this.clearCountries.bind(this),
               countries: this.state.countries,
@@ -4301,7 +4302,7 @@
               strings: this.props.strings,
               timeSeries: this.state.data,
             }),
-            y(De, {
+            y(Pe, {
               path: this.props.strings.app.menu[3].route,
               key: '3',
               menu: this.menu,
