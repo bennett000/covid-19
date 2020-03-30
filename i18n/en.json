@@ -88,6 +88,11 @@
   "geography": {
     "stop": "Stop",
     "play": "Play",
+    "mode0": "Active Cases*",
+    "mode1": "Confirmed Cases",
+    "mode2": "Deaths",
+    "mode3": "Recoveries*",
+    "modeDefault": "Active Cases*",
     "toolTip0": "<b>%name<b/> <br/>Active Cases: %zValue",
     "toolTip1": "<b>%name<b/> <br/>Confirmed Cases: %zValue",
     "toolTip2": "<b>%name<b/> <br/>Deaths: %zValue",

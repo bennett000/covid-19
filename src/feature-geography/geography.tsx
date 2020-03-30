@@ -147,7 +147,26 @@ export class Geography extends Component<
     if (index === undefined) {
       return new Date(this.dates[this.dates.length - 1]).toLocaleDateString();
     }
-    return new Date(this.dates[index]).toLocaleDateString();
+    return (
+      this.getSeriesName() +
+      ' ' +
+      new Date(this.dates[index]).toLocaleDateString()
+    );
+  }
+
+  getSeriesName() {
+    switch (this.state.dataSet) {
+      case 0:
+        return this.props.strings.geography.mode0;
+      case 1:
+        return this.props.strings.geography.mode1;
+      case 2:
+        return this.props.strings.geography.mode2;
+      case 3:
+        return this.props.strings.geography.mode3;
+      default:
+        return this.props.strings.geography.mode0;
+    }
   }
 
   togglePlay() {
