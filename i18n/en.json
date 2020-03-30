@@ -70,6 +70,13 @@
         "link": "based on the spreadsheet created for \"Coronavirus act today...\".",
         "part2": "",
         "url": "https://medium.com/@tomaspueyo/coronavirus-act-today-or-people-will-die-f4d3d9cd99ca"
+      },
+      "projectionSeir": {
+        "title": "SEIR Projection",
+        "part1": "This projection is",
+        "link": "based on Gabriel Goh's Epidemic Calculator",
+        "part2": "",
+        "url": "https://gabgoh.github.io/COVID/index.html"
       }
     },
     "titles": {
@@ -154,6 +161,9 @@
     "confirmedCases": "Confirmed Cases",
     "deaths": "Deaths",
     "estimatedActiveCases": "Estimated Active Cases",
+    "projectionSeirActive": "SEIR Projection (Active)",
+    "projectionSeirDeaths": "SEIR Projection (Deaths)",
+    "projectionSeirRecoveries": "SEIR Projection (Recoveries)",
     "recoveries": "Recoveries*"
   },
   "state": {

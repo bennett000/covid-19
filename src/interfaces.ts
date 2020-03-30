@@ -5,7 +5,7 @@ export interface SelectOptionsWithIndex {
 }
 
 export interface ChartPoint {
-  index: number;
+  index?: number;
   x: Date | number;
   y: number;
 }

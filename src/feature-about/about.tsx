@@ -37,6 +37,7 @@ export class About extends Component<{
         description: () => (
           <span>
             {this.props.strings.descriptions.series.estimatedActiveCases.part1}
+            &nbsp;
             <a
               href={
                 this.props.strings.descriptions.series.estimatedActiveCases.url
@@ -46,6 +47,21 @@ export class About extends Component<{
               {this.props.strings.descriptions.series.estimatedActiveCases.link}
             </a>{' '}
             {this.props.strings.descriptions.series.estimatedActiveCases.part2}
+          </span>
+        ),
+      },
+      {
+        name: this.props.strings.descriptions.series.projectionSeir.title,
+        description: () => (
+          <span>
+            {this.props.strings.descriptions.series.projectionSeir.part1}&nbsp;
+            <a
+              href={this.props.strings.descriptions.series.projectionSeir.url}
+              target="_blank"
+            >
+              {this.props.strings.descriptions.series.projectionSeir.link}
+            </a>{' '}
+            {this.props.strings.descriptions.series.projectionSeir.part2}
           </span>
         ),
       },
