@@ -957,7 +957,8 @@ function selectTimeVsCountsDataByConfirmed(
         return arr.length - i - 1;
       }
       return index;
-    }, -1)
+    }, -1),
+    state.timeVsCountsState.byMetric
   );
 
   state.timeVsCountsState.dataSetIndexes.forEach(dataSetIndex => {
@@ -1040,7 +1041,11 @@ function getIntervention(code: string) {
   }
 }
 
-function createSeirPoints(ts: ITimeSeries, byConfirmedStart: number) {
+function createSeirPoints(
+  ts: ITimeSeries,
+  byConfirmedStart: number,
+  byMetric: number
+) {
   const intervention = getIntervention(ts.countryCode());
   const seir = Seir.create(ts.population(), ts.lastConfirmed(), intervention);
   const dates = ts.dates();
@@ -1060,15 +1065,15 @@ function createSeirPoints(ts: ITimeSeries, byConfirmedStart: number) {
         : byConfirmedStart + i - 1;
     active.push({
       x,
-      y: solution.P[i][4],
+      y: byMetric === 0 ? solution.P[i][4] : solution.P[i][4] / ts.population(),
     });
     deaths.push({
       x,
-      y: solution.P[i][0],
+      y: byMetric === 0 ? solution.P[i][0] : solution.P[i][0] / ts.population(),
     });
     recoveries.push({
       x,
-      y: solution.P[i][2],
+      y: byMetric === 0 ? solution.P[i][2] : solution.P[i][2] / ts.population(),
     });
   }
 
@@ -1084,7 +1089,11 @@ function selectTimeVsCountsDataByDate(
 ) {
   const startDate = new Date(state.timeVsCountsState.startDate);
 
-  const projectionsSeir = createSeirPoints(ts, -1);
+  const projectionsSeir = createSeirPoints(
+    ts,
+    -1,
+    state.timeVsCountsState.byMetric
+  );
 
   state.timeVsCountsState.dataSetIndexes.forEach(dataSetIndex => {
     const { chart, field } = createSelectTimeVsCountsChart(
