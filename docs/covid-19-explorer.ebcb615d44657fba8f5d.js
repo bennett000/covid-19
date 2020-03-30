@@ -3039,7 +3039,9 @@
         })(t.countryCode()),
         i = Wt.create(t.population(), t.lastConfirmed(), n),
         o = t.dates(),
-        r = o[o.length - 1].getTime(),
+        r = o[o.length - 1]
+          ? o[o.length - 1].getTime()
+          : new Date('2020-01-22').getTime(),
         a = i.getSolution(),
         s = a.P.length < 35 ? a.P.length : 35,
         u = [],

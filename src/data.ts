@@ -1044,7 +1044,9 @@ function createSeirPoints(ts: ITimeSeries, byConfirmedStart: number) {
   const intervention = getIntervention(ts.countryCode());
   const seir = Seir.create(ts.population(), ts.lastConfirmed(), intervention);
   const dates = ts.dates();
-  const start = dates[dates.length - 1].getTime();
+  const start = dates[dates.length - 1]
+    ? dates[dates.length - 1].getTime()
+    : new Date(jhuStartDay).getTime();
   const solution = seir.getSolution();
   const max = solution.P.length < 35 ? solution.P.length : 35;
   const active: ChartPoint[] = [];
