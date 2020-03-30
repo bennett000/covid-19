@@ -147,6 +147,7 @@ export type TimeSeriesType =
   | 'projectionReverseDeath';
 
 export interface MenuProp {
+  disable?: boolean;
   labels: string[];
   onClick(selected: number): any;
   selected: number;

@@ -54,7 +54,7 @@
 })([
   function(t) {
     t.exports = JSON.parse(
-      '{"app":{"log":{"noState":"No existing state"},"menu":[{"route":"/","name":"Time vs Counts"},{"route":"/confirmed-vs-recent","name":"Confirmed vs Recent"},{"route":"/table","name":"Table"},{"route":"/geography","name":"Geography"},{"route":"/about","name":"About"}]},"confirmedVsRecent":{"configure":"⚙️ Configure Chart","confirmedCases":"Total Confirmed Cases","enlarge":"✗ Enlarge Chart","recentCases":"Confirmed in Last Seven (7) Days"},"countries":{"total":"Total","world":"World"},"data":{"log":{"countryNotFound":"country not found","deathNoConfirmed":"Warning: data seems odd, there are deaths but no confirmed cases","populationNotFound":"population not found for","recoveryNoConfirmed":"Warning: data seems odd, there are recoveries but no confirmed cases","stateNotFound":"state not found","unexpectedLength":"Warning: unexpected length:"}},"descriptions":{"metrics":{"byPercet":"Uses the percentage of population* note population data is imperfect","byValue":"Uses the raw count"},"modes":{"byDate":"Plots series based on the date the count occured","byFirst":"Plots series starting from the day the first person was confirmed to have covid-19","byFirst100":"Plots series starting from the day the first one hundred (100) people were confirmed to have covid-19"},"scales":{"linear":"scales \\"normally\\" 0, 10, 20, 30, 40, 50...","logarithmic":"scales by a multiplier 0, 10, 100, 1000, 10000... this scale is useful for looking at series that are early in their curve and series that are late in their curve at the same time"},"series":{"activeCases":"Confirmed - Deaths - Recoveries*.  There is an * because this value depends on Recoveries*","confirmedCases":"The number of confirmed cases according to reported data","deaths":"The number of reported deaths, this is the most reliable data point","recoveries":"Roughly how many people have recovered.  There is some actual data but it is not maintained. Recoveries are estimated based on ${recoveryDays} days since the case was reported confirmed","estimatedActiveCases":{"part1":"This estimate is","link":"based on the spreadsheet created for \\"Coronavirus act today...\\".","part2":"","url":"https://medium.com/@tomaspueyo/coronavirus-act-today-or-people-will-die-f4d3d9cd99ca"}},"titles":{"metrics":"Metrics","modes":"Modes","scales":"Scales","series":"Series"}},"errors":{"bootstrap":"Could not bootstrap the application","chart":{"domError":"could not add the chart to the DOM"}},"geography":{"toolTip0":"<b>%name<b/> <br/>Active Cases: %zValue","toolTip1":"<b>%name<b/> <br/>Confirmed Cases: %zValue","toolTip2":"<b>%name<b/> <br/>Deaths: %zValue","toolTip3":"<b>%name<b/> <br/>Recoveries: %zValue","toolTipDefault":"<b>%name<b/> <br/>Active Cases: %zValue"},"header":{"explorer":"Explorer","feedbackLink":"feedback","feedbackTitle":"Provide feedback, suggest features, file issues, etc","jhuGitHubTitle":"GitHub repository of source data maintained by Johns Hopkins University","jhuSourceDataLink":"Johns Hopkins University Source Data","sourceCodeLink":"source code","sourceCodeTitle":"Source code to this website","title":"COVID-19","usData":"US Data","usDataLink":"From NYT","usDataTitle":"New York Times US state and county data"},"i18n":{"part1":"Error loading language","part2":"reverting to English"},"learningTable":{"configure":"⚙️ Configure Table","enlarge":"✗ Enlarge Table","showAll":"Show All","showOnlySelected":"Only Selected","titles":{"active":"Active","activePercent":"Active %","confirmed":"Confirmed","confirmedPercent":"Confirmed %","deaths":"Deaths","deathsPercent":"Deaths %","mortality":"Mortality","population":"Population","populationDensity":"Population Density","recoveries":"Recoveries","recoveriesPercent":"Recoveries %","region":"Region"}},"metrics":{"byValue":"By Value","byPercent":"Percent"},"modes":{"byDate":"By date","byFirst":"By first confirmed","byFirst100":"By first 100 confirmed"},"scaleTypes":{"linear":"Linear","logarithmic":"Logarithmic"},"series":{"activeCases":"Active Cases*","confirmedCases":"Confirmed Cases","deaths":"Deaths","estimatedActiveCases":"Estimated Active Cases","recoveries":"Recoveries*"},"state":{"parseFail":"Failed to parse saved state, resetting localStorage","wipingOld":"Upgrade: Wiping old state"},"states":["Show States","Hide States"],"timeVsCounts":{"configure":"⚙️ Configure Chart","enlarge":"✗ Enlarge Chart","reload":"Reload"}}'
+      '{"app":{"log":{"noState":"No existing state"},"menu":[{"route":"/","name":"Time vs Counts"},{"route":"/confirmed-vs-recent","name":"Confirmed vs Recent"},{"route":"/table","name":"Table"},{"route":"/geography","name":"Geography"},{"route":"/about","name":"About"}]},"confirmedVsRecent":{"configure":"⚙️ Configure Chart","confirmedCases":"Total Confirmed Cases","enlarge":"✗ Enlarge Chart","recentCases":"Confirmed in Last Seven (7) Days"},"countries":{"total":"Total","world":"World"},"data":{"log":{"countryNotFound":"country not found","deathNoConfirmed":"Warning: data seems odd, there are deaths but no confirmed cases","populationNotFound":"population not found for","recoveryNoConfirmed":"Warning: data seems odd, there are recoveries but no confirmed cases","stateNotFound":"state not found","unexpectedLength":"Warning: unexpected length:"}},"descriptions":{"metrics":{"byPercet":"Uses the percentage of population* note population data is imperfect","byValue":"Uses the raw count"},"modes":{"byDate":"Plots series based on the date the count occured","byFirst":"Plots series starting from the day the first person was confirmed to have covid-19","byFirst100":"Plots series starting from the day the first one hundred (100) people were confirmed to have covid-19"},"scales":{"linear":"scales \\"normally\\" 0, 10, 20, 30, 40, 50...","logarithmic":"scales by a multiplier 0, 10, 100, 1000, 10000... this scale is useful for looking at series that are early in their curve and series that are late in their curve at the same time"},"series":{"activeCases":"Confirmed - Deaths - Recoveries*.  There is an * because this value depends on Recoveries*","confirmedCases":"The number of confirmed cases according to reported data","deaths":"The number of reported deaths, this is the most reliable data point","recoveries":"Roughly how many people have recovered.  There is some actual data but it is not maintained. Recoveries are estimated based on ${recoveryDays} days since the case was reported confirmed","estimatedActiveCases":{"part1":"This estimate is","link":"based on the spreadsheet created for \\"Coronavirus act today...\\".","part2":"","url":"https://medium.com/@tomaspueyo/coronavirus-act-today-or-people-will-die-f4d3d9cd99ca"}},"titles":{"metrics":"Metrics","modes":"Modes","scales":"Scales","series":"Series"}},"errors":{"bootstrap":"Could not bootstrap the application","chart":{"domError":"could not add the chart to the DOM"}},"geography":{"stop":"Stop","play":"Play","mode0":"Active Cases*","mode1":"Confirmed Cases","mode2":"Deaths","mode3":"Recoveries*","modeDefault":"Active Cases*","toolTip0":"<b>%name<b/> <br/>Active Cases: %zValue","toolTip1":"<b>%name<b/> <br/>Confirmed Cases: %zValue","toolTip2":"<b>%name<b/> <br/>Deaths: %zValue","toolTip3":"<b>%name<b/> <br/>Recoveries: %zValue","toolTipDefault":"<b>%name<b/> <br/>Active Cases: %zValue"},"header":{"explorer":"Explorer","feedbackLink":"feedback","feedbackTitle":"Provide feedback, suggest features, file issues, etc","jhuGitHubTitle":"GitHub repository of source data maintained by Johns Hopkins University","jhuSourceDataLink":"Johns Hopkins University Source Data","sourceCodeLink":"source code","sourceCodeTitle":"Source code to this website","title":"COVID-19","usData":"US Data","usDataLink":"From NYT","usDataTitle":"New York Times US state and county data"},"i18n":{"part1":"Error loading language","part2":"reverting to English"},"learningTable":{"configure":"⚙️ Configure Table","enlarge":"✗ Enlarge Table","showAll":"Show All","showOnlySelected":"Only Selected","titles":{"active":"Active","activePercent":"Active %","confirmed":"Confirmed","confirmedPercent":"Confirmed %","deaths":"Deaths","deathsPercent":"Deaths %","mortality":"Mortality","population":"Population","populationDensity":"Population Density","recoveries":"Recoveries","recoveriesPercent":"Recoveries %","region":"Region"}},"metrics":{"byValue":"By Value","byPercent":"Percent"},"modes":{"byDate":"By date","byFirst":"By first confirmed","byFirst100":"By first 100 confirmed"},"scaleTypes":{"linear":"Linear","logarithmic":"Logarithmic"},"series":{"activeCases":"Active Cases*","confirmedCases":"Confirmed Cases","deaths":"Deaths","estimatedActiveCases":"Estimated Active Cases","recoveries":"Recoveries*"},"state":{"parseFail":"Failed to parse saved state, resetting localStorage","wipingOld":"Upgrade: Wiping old state"},"states":["Show States","Hide States"],"timeVsCounts":{"configure":"⚙️ Configure Chart","enlarge":"✗ Enlarge Chart","reload":"Reload"}}'
     );
   },
   function(t) {
@@ -135,10 +135,10 @@
       };
       return o.vnode && o.vnode(a), a;
     }
-    function m(t) {
+    function g(t) {
       return t.children;
     }
-    function g(t, e) {
+    function m(t, e) {
       (this.props = t), (this.context = e);
     }
     function b(t, e) {
@@ -194,8 +194,8 @@
         d,
         h,
         f,
-        m,
         g,
+        m,
         C,
         S = (n && n.__k) || l,
         v = S.length;
@@ -228,14 +228,14 @@
               null != f)
             ) {
               var l;
-              if ((null == g && (g = f), void 0 !== n.__d))
+              if ((null == m && (m = f), void 0 !== n.__d))
                 (l = n.__d), (n.__d = void 0);
               else if (a == h || f != s || null == f.parentNode) {
                 t: if (null == s || s.parentNode !== t)
                   t.appendChild(f), (l = null);
                 else {
-                  for (m = s, d = 0; (m = m.nextSibling) && d < v; d += 2)
-                    if (m == f) break t;
+                  for (g = s, d = 0; (g = g.nextSibling) && d < v; d += 2)
+                    if (g == f) break t;
                   t.insertBefore(f, s), (l = s);
                 }
                 'option' == e.type && (t.value = '');
@@ -246,7 +246,7 @@
           }
           return p++, n;
         })),
-        (e.__e = g),
+        (e.__e = m),
         null != a && 'function' != typeof e.type)
       )
         for (p = a.length; p--; ) null != a[p] && y(a[p]);
@@ -357,7 +357,7 @@
               ? (C = (p = e.__c = n.__c).__ = p.__E)
               : ('prototype' in O && O.prototype.render
                   ? (e.__c = p = new O(S, _))
-                  : ((e.__c = p = new g(S, _)),
+                  : ((e.__c = p = new m(S, _)),
                     (p.constructor = O),
                     (p.render = I)),
                 v && v.sub(p),
@@ -419,7 +419,7 @@
             (p.__P = t),
             (l = p.render(p.props, p.state, p.context)),
             (e.__k =
-              null != l && l.type == m && null == l.key
+              null != l && l.type == g && null == l.key
                 ? l.props.children
                 : Array.isArray(l)
                 ? l
@@ -461,7 +461,7 @@
         y,
         h,
         f = n.props,
-        m = e.props;
+        g = e.props;
       if (((i = 'svg' === e.type || i), null != a))
         for (u = 0; u < a.length; u++)
           if (
@@ -473,18 +473,18 @@
             break;
           }
       if (null == t) {
-        if (null === e.type) return document.createTextNode(m);
+        if (null === e.type) return document.createTextNode(g);
         (t = i
           ? document.createElementNS('http://www.w3.org/2000/svg', e.type)
-          : document.createElement(e.type, m.is && { is: m.is })),
+          : document.createElement(e.type, g.is && { is: g.is })),
           (a = null);
       }
-      if (null === e.type) f !== m && t.data != m && (t.data = m);
+      if (null === e.type) f !== g && t.data != g && (t.data = g);
       else if (e !== n) {
         if (
           (null != a && (a = l.slice.call(t.childNodes)),
           (d = (f = n.props || c).dangerouslySetInnerHTML),
-          (y = m.dangerouslySetInnerHTML),
+          (y = g.dangerouslySetInnerHTML),
           !s)
         ) {
           if (f === c)
@@ -503,18 +503,18 @@
               'checked' === a ||
               n[a] === e[a] ||
               k(t, a, e[a], n[a], o);
-        })(t, m, f, i, s),
+        })(t, g, f, i, s),
           (e.__k = e.props.children),
           y || A(t, e, n, o, 'foreignObject' !== e.type && i, a, r, c, s),
           s ||
-            ('value' in m &&
-              void 0 !== m.value &&
-              m.value !== t.value &&
-              (t.value = null == m.value ? '' : m.value),
-            'checked' in m &&
-              void 0 !== m.checked &&
-              m.checked !== t.checked &&
-              (t.checked = m.checked));
+            ('value' in g &&
+              void 0 !== g.value &&
+              g.value !== t.value &&
+              (t.value = null == g.value ? '' : g.value),
+            'checked' in g &&
+              void 0 !== g.checked &&
+              g.checked !== t.checked &&
+              (t.checked = g.checked));
       }
       return t;
     }
@@ -552,7 +552,7 @@
       var i, a, r;
       o.__ && o.__(t, e),
         (a = (i = n === u) ? null : (n && n.__k) || e.__k),
-        (t = h(m, null, [t])),
+        (t = h(g, null, [t])),
         (r = []),
         N(
           e,
@@ -588,7 +588,7 @@
         throw t;
       },
     }),
-      (g.prototype.setState = function(t, e) {
+      (m.prototype.setState = function(t, e) {
         var n;
         (n =
           this.__s !== this.state ? this.__s : (this.__s = d({}, this.state))),
@@ -596,10 +596,10 @@
           t && d(n, t),
           null != t && this.__v && (e && this.__h.push(e), S(this));
       }),
-      (g.prototype.forceUpdate = function(t) {
+      (m.prototype.forceUpdate = function(t) {
         this.__v && ((this.__e = !0), t && this.__h.push(t), S(this));
       }),
-      (g.prototype.render = m),
+      (m.prototype.render = g),
       (i = []),
       (a = 0),
       (r =
@@ -631,12 +631,12 @@
             y = (e[p].match(/[+*?]+$/) || j)[0] || '',
             h = ~y.indexOf('+'),
             f = ~y.indexOf('*'),
-            m = t[p] || '';
-          if (!m && !f && (y.indexOf('?') < 0 || h)) {
+            g = t[p] || '';
+          if (!g && !f && (y.indexOf('?') < 0 || h)) {
             o = !1;
             break;
           }
-          if (((r[d] = decodeURIComponent(m)), h || f)) {
+          if (((r[d] = decodeURIComponent(g)), h || f)) {
             r[d] = t
               .slice(p)
               .map(decodeURIComponent)
@@ -861,7 +861,7 @@
         }),
         e
       );
-    })(g);
+    })(m);
     (X.subscribers = z),
       (X.getCurrentUrl = H),
       (X.route = W),
@@ -874,7 +874,7 @@
       }),
       (X.exec = E);
     var tt = X;
-    class et extends g {
+    class et extends m {
       constructor() {
         super();
       }
@@ -972,12 +972,12 @@
       return 'string' == typeof t;
     }
     function ft() {}
-    function mt(t, e) {
+    function gt(t, e) {
       Object.keys(t).forEach((n, o) => {
         e(t[n], n, o, t);
       });
     }
-    function gt(t, e, n) {
+    function mt(t, e, n) {
       return Object.keys(t).reduce((n, o, i) => e(n, t[o], o, i, t), n);
     }
     function bt({ onChange: t, options: e, selected: n }) {
@@ -1258,16 +1258,18 @@
         onClick: () => i(!a),
       });
     }
-    function Pt({ config: { onClick: t, labels: e, selected: n } }) {
+    function Pt({
+      config: { disable: t, labels: e, onClick: n, selected: o },
+    }) {
       return h(
         'nav',
         { className: ot },
-        e.map((e, o) =>
-          h(vt, { isDisabled: o === n, label: e, onClick: () => t(o) })
+        e.map((e, i) =>
+          h(vt, { isDisabled: i === o || t, label: e, onClick: () => n(i) })
         )
       );
     }
-    class Dt extends g {
+    class Dt extends m {
       constructor() {
         super(), (this.state = {});
       }
@@ -2274,7 +2276,7 @@
         .then(
           (function(t) {
             return e => (
-              mt(e, e => {
+              gt(e, e => {
                 e.counts.forEach((e, n, o) => {
                   (e.recoveries = (function(t) {
                     return (e, n, o, i) => {
@@ -2306,7 +2308,7 @@
         .then(
           (function(t) {
             return e => (
-              mt(e, n => {
+              gt(e, n => {
                 if (n.state !== t.countries.total && n.state) {
                   if (n.locale) return;
                   if (e[n.countryCode]) return;
@@ -2347,7 +2349,7 @@
                 counts: [],
               };
               return (
-                mt(e, e => {
+                gt(e, e => {
                   e.locale ||
                     (e.state && e.state !== t.countries.total) ||
                     ((n.population += e.population),
@@ -2371,7 +2373,7 @@
     }
     function Zt([t, e]) {
       return (
-        mt(e, (e, n) => {
+        gt(e, (e, n) => {
           void 0 === t[n] && (t[n] = e);
         }),
         t
@@ -2379,7 +2381,7 @@
     }
     function qt(t) {
       const e = {},
-        n = gt(
+        n = mt(
           t,
           (t, n, o) => {
             if (n.locale) return t;
@@ -2571,48 +2573,20 @@
     function ue(t) {
       return t < 10 ? '0' + t : t + '';
     }
-    function ce(t) {
-      const e = {},
-        n = Object.keys(Gt.US).filter(t => 'D.C.' !== t),
-        o = (function() {
-          const t = new Date('2020-01-22').getTime(),
-            e = Date.now() - 864e5,
-            n = Math.floor((e - t) / 1e3 / 60 / 60 / 24),
-            o = {};
-          for (let e = 0; e < n; e += 1) {
-            const n = new Date(t + 864e5 * e);
-            o[
-              `${n.getUTCFullYear()}-${ue(n.getUTCMonth() + 1)}-${ue(
-                n.getUTCDate()
-              )}`
-            ] = e;
-          }
-          return o;
-        })(),
-        i = [];
-      return (
-        mt(o, (o, a) => {
-          i.push(new Date(a)),
-            n.forEach(n => {
-              const i = be(n);
-              if ((void 0 === e[i] && (e[i] = []), t[a] && t[a][i]))
-                e[i][o] = t[a][i];
-              else {
-                const t = e[i][o - 1];
-                e[i][o] = t
-                  ? Object.assign({}, t)
-                  : {
-                      active: 0,
-                      confirmed: 0,
-                      deaths: 0,
-                      recoveries: 0,
-                      projectionReverseDeath: 0,
-                    };
-              }
-            });
-        }),
-        [i, e]
-      );
+    function ce() {
+      const t = new Date('2020-01-22').getTime(),
+        e = Date.now() - 864e5,
+        n = Math.floor((e - t) / 1e3 / 60 / 60 / 24),
+        o = {};
+      for (let e = 0; e < n; e += 1) {
+        const n = new Date(t + 864e5 * e);
+        o[
+          `${n.getUTCFullYear()}-${ue(n.getUTCMonth() + 1)}-${ue(
+            n.getUTCDate()
+          )}`
+        ] = e;
+      }
+      return o;
     }
     function le(t) {
       const e = (function(t) {
@@ -2649,10 +2623,38 @@
               .map(ie)
           )
         ),
-        [n, o] = ce(e),
+        [n, o] = (function(t) {
+          const e = {},
+            n = Object.keys(Gt.US).filter(t => 'D.C.' !== t),
+            o = ce(),
+            i = [];
+          return (
+            gt(o, (o, a) => {
+              i.push(new Date(a)),
+                n.forEach(n => {
+                  const i = be(n);
+                  if ((void 0 === e[i] && (e[i] = []), t[a] && t[a][i]))
+                    e[i][o] = t[a][i];
+                  else {
+                    const t = e[i][o - 1];
+                    e[i][o] = t
+                      ? Object.assign({}, t)
+                      : {
+                          active: 0,
+                          confirmed: 0,
+                          deaths: 0,
+                          recoveries: 0,
+                          projectionReverseDeath: 0,
+                        };
+                  }
+                });
+            }),
+            [i, e]
+          );
+        })(e),
         i = {};
       return (
-        mt(o, (t, e) => {
+        gt(o, (t, e) => {
           const o = e.split('.')[1],
             a = Gt.US[o];
           i[e] = {
@@ -2674,7 +2676,7 @@
     function pe({ dictionary: t, timeSeries: e }) {
       var n;
       return {
-        countries: gt(
+        countries: mt(
           t,
           (t, e, n) => {
             if (e.locale()) return t;
@@ -2723,7 +2725,7 @@
                         e.timeVsCountsState.dataSetIndexes.forEach(t => {
                           const r =
                               t > 3 ? st[i % st.length] : rt[i % rt.length],
-                            s = me(t),
+                            s = ge(t),
                             u = {
                               color: r,
                               line: { color: r },
@@ -2732,7 +2734,7 @@
                             };
                           (u.points = o.counts().reduce((t, n, i) => {
                             if (o.dates()[i] && o.dates()[i] > a) {
-                              const a = ge(
+                              const a = me(
                                 e.timeVsCountsState.byMetric,
                                 n[s],
                                 o.population()
@@ -2787,7 +2789,7 @@
       const r = new Date(e.timeVsCountsState.startDate);
       return (
         e.timeVsCountsState.dataSetIndexes.forEach(t => {
-          const s = me(t),
+          const s = ge(t),
             u = t > 3 ? st[i % st.length] : rt[i % rt.length],
             c = {
               color: u,
@@ -2798,7 +2800,7 @@
           let l = 0;
           (c.points = o.counts().reduce((t, n, i) => {
             if (o.dates()[i] && o.dates()[i] > r && n.confirmed >= a) {
-              const i = ge(e.timeVsCountsState.byMetric, n[s], o.population());
+              const i = me(e.timeVsCountsState.byMetric, n[s], o.population());
               i && t.push({ x: l, y: i }), (l += 1);
             }
             return t;
@@ -2808,7 +2810,7 @@
         n
       );
     }
-    function me(t) {
+    function ge(t) {
       switch (t) {
         case 0:
           return 'active';
@@ -2824,7 +2826,7 @@
           return 'recoveries';
       }
     }
-    function ge(t, e, n) {
+    function me(t, e, n) {
       return 0 === t ? e : n ? e / n : 0;
     }
     function be(t) {
@@ -2906,7 +2908,7 @@
       }
       return null;
     }
-    class ve extends g {
+    class ve extends m {
       constructor() {
         super(), (this.state = {});
       }
@@ -3236,7 +3238,7 @@
         ')'
       );
     }
-    class _e extends g {
+    class _e extends m {
       constructor() {
         super(), (this.state = {});
       }
@@ -3328,7 +3330,7 @@
         );
       }
     }
-    class Oe extends g {
+    class Oe extends m {
       constructor() {
         super();
       }
@@ -3342,6 +3344,7 @@
       }
       getChartOptions(t = this.props) {
         return {
+          title_label_text: t.title || '',
           type: 'map',
           defaultPoint: { tooltip: t.toolTip, z: 0 },
           palette: { pointValue: t => t.options('z'), ranges: t.ranges },
@@ -3352,15 +3355,30 @@
         return h('div', { className: nt });
       }
     }
-    class ke extends g {
+    class ke extends m {
       constructor() {
         super(),
           (this.state = {
+            currentSeries: -1,
             dataSet: 0,
+            isPlaying: !1,
             map: 'world',
+            menuProp: { labels: [], onClick: ft, selected: -1 },
+            timer: 0,
+            title: '',
             toolTip: '<b>%name<b/> <br/>Active Cases: %zValue',
           }),
+          (this.dates = mt(ce(), (t, e, n) => ((t[e] = n), t), [])),
           (this.getSeries = this.getCountrySeries);
+      }
+      componentWillReceiveProps(t) {
+        this.setState(
+          Object.assign(Object.assign({}, this.state), {
+            menuProp: Object.assign(Object.assign({}, t.menu), {
+              disabled: this.state.isPlaying,
+            }),
+          })
+        );
       }
       componentDidMount() {
         this.setState(Object.assign({}, this.state));
@@ -3384,6 +3402,54 @@
           t.currentTarget.currentOptions.map.properties.continent
           ? t.currentTarget.currentOptions.map.properties.continent
           : null;
+      }
+      getMapTitle(t) {
+        return void 0 === t
+          ? new Date(this.dates[this.dates.length - 1]).toLocaleDateString()
+          : this.getSeriesName() +
+              ' ' +
+              new Date(this.dates[t]).toLocaleDateString();
+      }
+      getSeriesName() {
+        switch (this.state.dataSet) {
+          case 0:
+            return this.props.strings.geography.mode0;
+          case 1:
+            return this.props.strings.geography.mode1;
+          case 2:
+            return this.props.strings.geography.mode2;
+          case 3:
+            return this.props.strings.geography.mode3;
+          default:
+            return this.props.strings.geography.mode0;
+        }
+      }
+      togglePlay() {
+        const t = !this.state.isPlaying,
+          e = new Date('2020-01-22').getTime(),
+          n = Math.floor((Date.now() - 864e5 - e) / 1e3 / 60 / 60 / 24);
+        this.setState(
+          Object.assign(Object.assign({}, this.state), {
+            isPlaying: t,
+            currentSeries: t ? 0 : -1,
+            menuProp: Object.assign(Object.assign({}, this.state.menuProp), {
+              disable: t,
+            }),
+            title: this.getMapTitle(),
+            timer: t
+              ? setInterval(() => {
+                  this.state.currentSeries >= n
+                    ? this.togglePlay()
+                    : this.setState(
+                        Object.assign(Object.assign({}, this.state), {
+                          currentSeries: this.state.currentSeries + 1,
+                          title: this.getMapTitle(this.state.currentSeries + 1),
+                        })
+                      );
+                }, 500)
+              : clearInterval(this.state.timer),
+          })
+        );
       }
       onMapClick(t) {
         switch (this.countryFromClick(t).toLowerCase()) {
@@ -3431,55 +3497,21 @@
             Object.assign(Object.assign({}, this.state), { map: n })
           );
       }
-      getCountrySeries() {
-        let t = 0;
-        const e = [];
-        return (
-          this.props.timeSeries.forEach(n => {
-            const o = n.countryCode();
-            if (o === this.props.strings.countries.world) return null;
-            if (Lt[o]) return null;
-            if (n.state() && n.state() !== this.props.strings.countries.total)
-              return null;
-            if (n.locale()) return null;
-            if (!n.population()) return null;
-            const i = Ne(this.state.dataSet, n);
-            if (i < 1) return null;
-            i > t && (t = i), e.push({ map: 'WORLD.' + o.toLowerCase(), z: i });
-          }),
-          {
-            ranges: Me(this.state.dataSet),
-            series: [
-              {
-                defaultPoint_events_click: this.onMapClick.bind(this),
-                map: this.state.map,
-                points: e,
-              },
-            ],
-          }
-        );
-      }
-      getContinentSeries(t) {
+      getCountrySeries(t = -1) {
         let e = 0;
         const n = [];
         return (
           this.props.timeSeries.forEach(o => {
-            const i = Rt[o.country()];
-            if (!i) return null;
-            if (
-              i !== t &&
-              !(i.indexOf('America') > -1 && t.indexOf('America') > -1)
-            )
+            const i = o.countryCode();
+            if (i === this.props.strings.countries.world) return null;
+            if (Lt[i]) return null;
+            if (o.state() && o.state() !== this.props.strings.countries.total)
               return null;
-            if (o.state()) {
-              if (o.state() !== this.props.strings.countries.total) return null;
-              if (o.locale()) return null;
-            }
-            const a = o.countryCode();
-            if (Lt[a]) return null;
-            const r = Ne(this.state.dataSet, o);
-            if (r < 1) return null;
-            r > e && (e = r), n.push({ map: a.toLowerCase(), z: r });
+            if (o.locale()) return null;
+            if (!o.population()) return null;
+            const a = Ne(this.state.dataSet, o, t);
+            if (a < 1) return null;
+            a > e && (e = a), n.push({ map: 'WORLD.' + i.toLowerCase(), z: a });
           }),
           {
             ranges: Me(this.state.dataSet),
@@ -3493,25 +3525,27 @@
           }
         );
       }
-      getStateSeries(t, e) {
+      getContinentSeries(t, e = -1) {
         let n = 0;
         const o = [];
         return (
           this.props.timeSeries.forEach(i => {
-            if (i.country() !== t) return null;
-            if (i.state() === this.props.strings.countries.total) return null;
-            if (i.locale()) return null;
-            let a = Gt[t];
-            if (!a) {
-              if ('US' !== e) return null;
-              a = Ut;
+            const a = Rt[i.country()];
+            if (!a) return null;
+            if (
+              a !== t &&
+              !(a.indexOf('America') > -1 && t.indexOf('America') > -1)
+            )
+              return null;
+            if (i.state()) {
+              if (i.state() !== this.props.strings.countries.total) return null;
+              if (i.locale()) return null;
             }
-            const r = i.stateCode();
-            if (!r) return null;
-            if (Lt[i.countryCode() + '.' + r]) return null;
-            const s = Ne(this.state.dataSet, i);
+            const r = i.countryCode();
+            if (Lt[r]) return null;
+            const s = Ne(this.state.dataSet, i, e);
             if (s < 1) return null;
-            s > n && (n = s), o.push({ map: e + '.' + r, z: s });
+            s > n && (n = s), o.push({ map: r.toLowerCase(), z: s });
           }),
           {
             ranges: Me(this.state.dataSet),
@@ -3520,6 +3554,38 @@
                 defaultPoint_events_click: this.onMapClick.bind(this),
                 map: this.state.map,
                 points: o,
+              },
+            ],
+          }
+        );
+      }
+      getStateSeries(t, e, n = -1) {
+        let o = 0;
+        const i = [];
+        return (
+          this.props.timeSeries.forEach(a => {
+            if (a.country() !== t) return null;
+            if (a.state() === this.props.strings.countries.total) return null;
+            if (a.locale()) return null;
+            let r = Gt[t];
+            if (!r) {
+              if ('US' !== e) return null;
+              r = Ut;
+            }
+            const s = a.stateCode();
+            if (!s) return null;
+            if (Lt[a.countryCode() + '.' + s]) return null;
+            const u = Ne(this.state.dataSet, a, n);
+            if (u < 1) return null;
+            u > o && (o = u), i.push({ map: e + '.' + s, z: u });
+          }),
+          {
+            ranges: Me(this.state.dataSet),
+            series: [
+              {
+                defaultPoint_events_click: this.onMapClick.bind(this),
+                map: this.state.map,
+                points: i,
               },
             ],
           }
@@ -3542,7 +3608,9 @@
             );
       }
       render() {
-        const { ranges: t, series: e } = this.getSeries();
+        const { ranges: t, series: e } = this.getSeries(
+          this.state.currentSeries
+        );
         return h(
           'section',
           { onClick: this.zoomOut.bind(this), className: `full-size ${it}` },
@@ -3550,6 +3618,7 @@
             ranges: t,
             series: e,
             strings: this.props.strings,
+            title: this.state.title,
             toolTip: this.state.toolTip,
           }),
           h(
@@ -3565,7 +3634,13 @@
               ],
               selected: this.state.dataSet,
             }),
-            h(Pt, { config: this.props.menu })
+            h(Tt, {
+              labelFalse: this.props.strings.geography.play,
+              labelTrue: this.props.strings.geography.stop,
+              onClick: this.togglePlay.bind(this),
+              state: this.state.isPlaying,
+            }),
+            h(Pt, { config: this.state.menuProp })
           )
         );
       }
@@ -3584,19 +3659,33 @@
           return e.geography.toolTipDefault;
       }
     }
-    function Ne(t, e) {
-      switch (t) {
-        case 0:
-          return e.lastActive();
-        case 1:
-          return e.lastConfirmed();
-        case 2:
-          return e.lastDeaths();
-        case 3:
-          return e.lastRecoveries();
-        default:
-          return e.lastActive();
-      }
+    function Ne(t, e, n = -1) {
+      if (n < 0)
+        switch (t) {
+          case 0:
+            return e.lastActive();
+          case 1:
+            return e.lastConfirmed();
+          case 2:
+            return e.lastDeaths();
+          case 3:
+            return e.lastRecoveries();
+          default:
+            return e.lastActive();
+        }
+      else
+        switch (t) {
+          case 0:
+            return e.counts()[n].active || 0;
+          case 1:
+            return e.counts()[n].confirmed || 0;
+          case 2:
+            return e.counts()[n].deaths || 0;
+          case 3:
+            return e.counts()[n].recoveries || 0;
+          default:
+            return e.counts()[n].active || 0;
+        }
     }
     function Me(t) {
       switch (t) {
@@ -3634,7 +3723,7 @@
         )
       );
     }
-    class Pe extends g {
+    class Pe extends m {
       constructor() {
         super(), (this.state = {});
       }
@@ -3738,7 +3827,7 @@
         );
       }
     }
-    class De extends g {
+    class De extends m {
       constructor(t) {
         super();
         let e = Se(t.strings);
@@ -3980,7 +4069,7 @@
     }
     const Ie = Be(n(0));
     function Be(t) {
-      return gt(
+      return mt(
         t,
         (t, e, n) => (
           ht(e)

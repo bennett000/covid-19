@@ -9,6 +9,7 @@ export class ChartMap extends Component<{
   ranges: { color: string; value: number[] }[];
   series: any;
   strings: Strings;
+  title?: string;
   toolTip: string;
 }> {
   chart: any;
@@ -32,6 +33,7 @@ export class ChartMap extends Component<{
 
   getChartOptions(props = this.props) {
     return {
+      title_label_text: props.title || '',
       type: 'map',
       defaultPoint: {
         tooltip: props.toolTip,

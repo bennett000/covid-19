@@ -4,7 +4,7 @@ import { Button } from './button';
 import { MenuProp } from '../interfaces';
 
 export function Menu({
-  config: { onClick, labels, selected },
+  config: { disable, labels, onClick, selected },
 }: {
   config: MenuProp;
 }) {
@@ -13,7 +13,7 @@ export function Menu({
       {labels.map((label, i) => {
         return (
           <Button
-            isDisabled={i === selected}
+            isDisabled={i === selected || disable}
             label={label}
             onClick={() => onClick(i)}
           ></Button>
