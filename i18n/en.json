@@ -177,6 +177,8 @@
   "timeVsCounts": {
     "configure": "⚙️ Configure Chart",
     "enlarge": "✗ Enlarge Chart",
+    "people": "Number of People",
+    "percent": "Percentage of Population",
     "reload": "Reload"
   }
 }

@@ -1065,15 +1065,24 @@ function createSeirPoints(
         : byConfirmedStart + i - 1;
     active.push({
       x,
-      y: byMetric === 0 ? solution.P[i][4] : solution.P[i][4] / ts.population(),
+      y:
+        byMetric === 0
+          ? solution.P[i][4]
+          : (solution.P[i][4] / ts.population()) * 100,
     });
     deaths.push({
       x,
-      y: byMetric === 0 ? solution.P[i][0] : solution.P[i][0] / ts.population(),
+      y:
+        byMetric === 0
+          ? solution.P[i][0]
+          : (solution.P[i][0] / ts.population()) * 100,
     });
     recoveries.push({
       x,
-      y: byMetric === 0 ? solution.P[i][2] : solution.P[i][2] / ts.population(),
+      y:
+        byMetric === 0
+          ? solution.P[i][2]
+          : (solution.P[i][2] / ts.population()) * 100,
     });
   }
 
@@ -1122,7 +1131,7 @@ function getY(byMetric: number, value: number, population: number): number {
     return value;
   } else {
     if (population) {
-      return value / population;
+      return (value / population) * 100;
     } else {
       return 0;
     }
