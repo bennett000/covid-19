@@ -568,7 +568,7 @@ function simplePad(number: number): string {
   return number + '';
 }
 
-function generateDateDictionary(): Dictionary<number> {
+export function generateDateDictionary(): Dictionary<number> {
   const day0 = new Date(jhuStartDay).getTime();
   const now = Date.now() - twentyFourSeven;
   const days = Math.floor((now - day0) / 1000 / 60 / 60 / 24);
