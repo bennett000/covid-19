@@ -93,6 +93,8 @@ export interface TimeSeriesCount {
   active: number;
   confirmed: number;
   deaths: number;
+  newConfirmed: number;
+  newDeaths: number;
   recoveries: number;
   projectionReverseDeath: number;
 }
@@ -143,6 +145,8 @@ export type TimeSeriesType =
   | 'active'
   | 'confirmed'
   | 'deaths'
+  | 'newConfirmed'
+  | 'newDeaths'
   | 'recoveries'
   | 'projectionReverseDeath';
 

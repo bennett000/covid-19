@@ -202,6 +202,8 @@ export function createTimeSeriesCount(): TimeSeriesCount {
     active: 0,
     confirmed: 0,
     deaths: 0,
+    newConfirmed: 0,
+    newDeaths: 0,
     recoveries: 0,
     projectionReverseDeath: 0,
   };

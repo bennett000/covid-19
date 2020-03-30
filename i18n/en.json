@@ -161,6 +161,8 @@
     "confirmedCases": "Confirmed Cases",
     "deaths": "Deaths",
     "estimatedActiveCases": "Estimated Active Cases",
+    "newConfirmed": "New Cases",
+    "newDeaths": "New Deaths",
     "projectionSeirActive": "SEIR Projection (Active)",
     "projectionSeirDeaths": "SEIR Projection (Deaths)",
     "projectionSeirRecoveries": "SEIR Projection (Recoveries)",

@@ -42,6 +42,8 @@ export function TimeVsCountsControls({
     strings.series.confirmedCases,
     strings.series.deaths,
     strings.series.recoveries,
+    strings.series.newConfirmed,
+    strings.series.newDeaths,
     strings.series.estimatedActiveCases,
     strings.series.projectionSeirActive,
     strings.series.projectionSeirDeaths,

@@ -83,7 +83,7 @@ export function fetchData(
       .then(convertNytCsvToStructured),
   ])
     .then(mergeNytIntoJhu)
-    .then(interpolateRecoveriesAndActiveCases(strings))
+    .then(interpolateRecoveriesActiveCasesAndNewProps(strings))
     .then(sumAllRegions(strings))
     .then(sumWorld(strings))
     .then(toITimeSeries)
@@ -226,7 +226,7 @@ export function getRecoveryDays(strings: Strings) {
   };
 }
 
-export function interpolateRecoveriesAndActiveCases(
+export function interpolateRecoveriesActiveCasesAndNewProps(
   strings: Strings
 ): (d: Dictionary<LocationSeries>) => Dictionary<LocationSeries> {
   return (dict: Dictionary<LocationSeries>) => {
@@ -240,6 +240,10 @@ export function interpolateRecoveriesAndActiveCases(
         );
         count.active = count.confirmed - count.deaths - count.recoveries;
         count.projectionReverseDeath = reverseDeathProjection(count);
+        count.newConfirmed =
+          count.confirmed - (arr[i - 1] ? arr[i - 1].confirmed || 0 : 0);
+        count.newDeaths =
+          count.deaths - (arr[i - 1] ? arr[i - 1].deaths || 0 : 0);
       });
     });
     return dict;
@@ -259,11 +263,16 @@ export function reverseDeathProjection(day: TimeSeriesCount) {
   return numberOfCasesCausingDeath * Math.pow(2, numberOfDoubles);
 }
 
-export function addCounts(a: TimeSeriesCount, b: TimeSeriesCount) {
+export function addCounts(
+  a: TimeSeriesCount,
+  b: TimeSeriesCount
+): TimeSeriesCount {
   return {
     active: a.active + b.active,
     confirmed: a.confirmed + b.confirmed,
     deaths: a.deaths + b.deaths,
+    newConfirmed: a.newConfirmed + b.newConfirmed,
+    newDeaths: a.newDeaths + b.newDeaths,
     recoveries: a.recoveries + b.recoveries,
     projectionReverseDeath: a.projectionReverseDeath + b.projectionReverseDeath,
   };
@@ -741,14 +750,16 @@ function getChartTypeFromIndex(index: number) {
     case 3:
       return '😊 (Recoveries)';
     case 4:
-      return '🤔 (Estimate)';
+      return '😷 (New Active)';
     case 5:
-      return '😷 (SEIR Active)';
+      return '☠ (New Deaths)';
     case 6:
-      return '✔ (SEIR Confirmed)';
+      return '🤔 (Estimate)';
     case 7:
-      return '☠ (SEIR Deaths)';
+      return '😷 (SEIR Active)';
     case 8:
+      return '☠ (SEIR Deaths)';
+    case 9:
       return '😊 (SEIR Recoveries)';
     default:
       return '😊 (Recovery)';
@@ -872,15 +883,17 @@ function createSelectTimeVsCountsChart(
 ) {
   const field = getFieldFromIndex(dataSetIndex);
   const colour =
-    dataSetIndex > 3
+    dataSetIndex > 5
       ? projectionPalette[index % projectionPalette.length]
       : basePalette[index % basePalette.length];
   const line = { color: colour };
+  const type = dataSetIndex === 4 || dataSetIndex === 5 ? 'column' : undefined;
   const chart = {
     color: colour,
     line,
     name: getChartTypeFromIndex(dataSetIndex) + ' ' + ts.countryName(),
     points: [],
+    type,
   };
 
   return { chart, field };
@@ -922,15 +935,15 @@ function projectPoints(
   dataSetIndex: number,
   chart: any
 ): boolean {
-  if (dataSetIndex === 5) {
+  if (dataSetIndex === 7) {
     chart.points = projections.active;
     return true;
   }
-  if (dataSetIndex === 6) {
+  if (dataSetIndex === 8) {
     chart.points = projections.deaths;
     return true;
   }
-  if (dataSetIndex === 7) {
+  if (dataSetIndex === 9) {
     chart.points = projections.recoveries;
     return true;
   }
@@ -1000,6 +1013,10 @@ function getFieldFromIndex(index: number): TimeSeriesType {
     case 3:
       return 'recoveries';
     case 4:
+      return 'newConfirmed';
+    case 5:
+      return 'newDeaths';
+    case 6:
       return 'projectionReverseDeath';
     default:
       return 'recoveries';
