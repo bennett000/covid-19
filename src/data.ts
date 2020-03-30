@@ -276,7 +276,7 @@ export function sumWorld(
     const world = {
       country: strings.countries.world,
       countryCode: strings.countries.world,
-      dates: [],
+      dates: Object.keys(generateDateDictionary()).map(ds => new Date(ds)),
       key: strings.countries.world,
       locale: '',
       population: 0,
