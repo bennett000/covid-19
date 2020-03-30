@@ -10,6 +10,7 @@ import {
   ITimeSeriesArray,
   LocationSeries,
   TimeSeriesCount,
+  ChartPoint,
 } from './interfaces';
 import {
   reverseDeathProjectionDefaults,
@@ -17,6 +18,7 @@ import {
   basePalette,
   recoveryDays,
   jhuStartDay,
+  twentyFourSeven,
   usaCode,
 } from './constants';
 import rawPopulationData from 'country-json/src/country-by-population.json';
@@ -37,6 +39,7 @@ import {
   TimeSeriesArray,
 } from './time-series';
 import { Strings } from './i18n';
+import { Seir } from './seir';
 
 const populationDictionary: {
   [key: string]: number;
@@ -61,7 +64,6 @@ const jhuUrls = [
 
 const nytUrl =
   'https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-states.csv';
-const twentyFourSeven = 24 * 60 * 60 * 1000;
 
 export function fetchData(
   strings: Strings
@@ -740,6 +742,14 @@ function getChartTypeFromIndex(index: number) {
       return '😊 (Recoveries)';
     case 4:
       return '🤔 (Estimate)';
+    case 5:
+      return '😷 (SEIR Active)';
+    case 6:
+      return '✔ (SEIR Confirmed)';
+    case 7:
+      return '☠ (SEIR Deaths)';
+    case 8:
+      return '😊 (SEIR Recoveries)';
     default:
       return '😊 (Recovery)';
   }
@@ -855,6 +865,78 @@ function selectTimeVsCountsDataByMode(
   }
 }
 
+function createSelectTimeVsCountsChart(
+  dataSetIndex: number,
+  index: number,
+  ts: ITimeSeries
+) {
+  const field = getFieldFromIndex(dataSetIndex);
+  const colour =
+    dataSetIndex > 3
+      ? projectionPalette[index % projectionPalette.length]
+      : basePalette[index % basePalette.length];
+  const line = { color: colour };
+  const chart = {
+    color: colour,
+    line,
+    name: getChartTypeFromIndex(dataSetIndex) + ' ' + ts.countryName(),
+    points: [],
+  };
+
+  return { chart, field };
+}
+
+function createSelectTimeVsCountsByConfirmedReducer(
+  ts: ITimeSeries,
+  state: AppState,
+  field: string,
+  startDate: Date,
+  count: number
+) {
+  let fromDay0 = 0;
+  return (ps, c, i) => {
+    if (ts.dates()[i] && ts.dates()[i] > startDate && c.confirmed >= count) {
+      const y = getY(
+        state.timeVsCountsState.byMetric,
+        c[field],
+        ts.population()
+      );
+      if (y) {
+        ps.push({
+          x: fromDay0,
+          y,
+        });
+      }
+      fromDay0 += 1;
+    }
+    return ps;
+  };
+}
+
+function projectPoints(
+  projections: {
+    active: ChartPoint[];
+    deaths: ChartPoint[];
+    recoveries: ChartPoint[];
+  },
+  dataSetIndex: number,
+  chart: any
+): boolean {
+  if (dataSetIndex === 5) {
+    chart.points = projections.active;
+    return true;
+  }
+  if (dataSetIndex === 6) {
+    chart.points = projections.deaths;
+    return true;
+  }
+  if (dataSetIndex === 7) {
+    chart.points = projections.recoveries;
+    return true;
+  }
+  return false;
+}
+
 function selectTimeVsCountsDataByConfirmed(
   cache: Dictionary<ChartSeries>,
   state: AppState,
@@ -865,37 +947,41 @@ function selectTimeVsCountsDataByConfirmed(
 ) {
   const startDate = new Date(state.timeVsCountsState.startDate);
 
-  state.timeVsCountsState.dataSetIndexes.forEach(dataSetIndex => {
-    const field = getFieldFromIndex(dataSetIndex);
-    const colour =
-      dataSetIndex > 3
-        ? projectionPalette[index % projectionPalette.length]
-        : basePalette[index % basePalette.length];
-    const line = { color: colour };
-    const chart = {
-      color: colour,
-      line,
-      name: getChartTypeFromIndex(dataSetIndex) + ' ' + ts.countryName(),
-      points: [],
-    };
-    let fromDay0 = 0;
-    chart.points = ts.counts().reduce((ps, c, i) => {
-      if (ts.dates()[i] && ts.dates()[i] > startDate && c.confirmed >= count) {
-        const y = getY(
-          state.timeVsCountsState.byMetric,
-          c[field],
-          ts.population()
-        );
-        if (y) {
-          ps.push({
-            x: fromDay0,
-            y,
-          });
-        }
-        fromDay0 += 1;
+  const projectionsSeir = createSeirPoints(
+    ts,
+    ts.counts().reduce((index, el, i, arr) => {
+      if (index !== -1) {
+        return index;
       }
-      return ps;
-    }, []);
+      if (el.confirmed >= count) {
+        return arr.length - i - 1;
+      }
+      return index;
+    }, -1)
+  );
+
+  state.timeVsCountsState.dataSetIndexes.forEach(dataSetIndex => {
+    const { chart, field } = createSelectTimeVsCountsChart(
+      dataSetIndex,
+      index,
+      ts
+    );
+    if (projectPoints(projectionsSeir, dataSetIndex, chart)) {
+      cs.push(chart);
+      return;
+    }
+    chart.points = ts
+      .counts()
+      .reduce(
+        createSelectTimeVsCountsByConfirmedReducer(
+          ts,
+          state,
+          field,
+          startDate,
+          count
+        ),
+        []
+      );
     cs.push(chart);
   });
 
@@ -919,6 +1005,74 @@ function getFieldFromIndex(index: number): TimeSeriesType {
   }
 }
 
+function createSelectTimeVsCountsByDateReducer(
+  ts: ITimeSeries,
+  state: AppState,
+  field: string,
+  startDate: Date
+) {
+  return (ps, c, i) => {
+    if (ts.dates()[i] && ts.dates()[i] > startDate) {
+      const y = getY(
+        state.timeVsCountsState.byMetric,
+        c[field],
+        ts.population()
+      );
+      if (y) {
+        ps.push({
+          x: ts.dates()[i],
+          y,
+        });
+      }
+    }
+    return ps;
+  };
+}
+
+function getIntervention(code: string) {
+  switch (code) {
+    case 'CN':
+      return 0;
+    case 'KR':
+      return 0;
+    default:
+      return 10;
+  }
+}
+
+function createSeirPoints(ts: ITimeSeries, byConfirmedStart: number) {
+  const intervention = getIntervention(ts.countryCode());
+  const seir = Seir.create(ts.population(), ts.lastConfirmed(), intervention);
+  const dates = ts.dates();
+  const start = dates[dates.length - 1].getTime();
+  const solution = seir.getSolution();
+  const max = solution.P.length < 35 ? solution.P.length : 35;
+  const active: ChartPoint[] = [];
+  const deaths: ChartPoint[] = [];
+  const recoveries: ChartPoint[] = [];
+
+  for (let i = 1; i < max; i += 1) {
+    const x =
+      byConfirmedStart === -1
+        ? new Date(start + (i - 1) * twentyFourSeven)
+        : byConfirmedStart + i - 1;
+    active.push({
+      x,
+      y: solution.P[i][4],
+    });
+    deaths.push({
+      x,
+      y: solution.P[i][0],
+    });
+    recoveries.push({
+      x,
+      y: solution.P[i][2],
+    });
+  }
+
+  return { active, deaths, recoveries };
+}
+
 function selectTimeVsCountsDataByDate(
   cache: Dictionary<ChartSeries>,
   state: AppState,
@@ -928,35 +1082,24 @@ function selectTimeVsCountsDataByDate(
 ) {
   const startDate = new Date(state.timeVsCountsState.startDate);
 
-  state.timeVsCountsState.dataSetIndexes.forEach(dataSetIndex => {
-    const colour =
-      dataSetIndex > 3
-        ? projectionPalette[index % projectionPalette.length]
-        : basePalette[index % basePalette.length];
+  const projectionsSeir = createSeirPoints(ts, -1);
 
-    const field = getFieldFromIndex(dataSetIndex);
-    const chart = {
-      color: colour,
-      line: { color: colour },
-      name: getChartTypeFromIndex(dataSetIndex) + ' ' + ts.countryName(),
-      points: [],
-    };
-    chart.points = ts.counts().reduce((ps, c, i) => {
-      if (ts.dates()[i] && ts.dates()[i] > startDate) {
-        const y = getY(
-          state.timeVsCountsState.byMetric,
-          c[field],
-          ts.population()
-        );
-        if (y) {
-          ps.push({
-            x: ts.dates()[i],
-            y,
-          });
-        }
-      }
-      return ps;
-    }, []);
+  state.timeVsCountsState.dataSetIndexes.forEach(dataSetIndex => {
+    const { chart, field } = createSelectTimeVsCountsChart(
+      dataSetIndex,
+      index,
+      ts
+    );
+    if (projectPoints(projectionsSeir, dataSetIndex, chart)) {
+      cs.push(chart);
+      return;
+    }
+    chart.points = ts
+      .counts()
+      .reduce(
+        createSelectTimeVsCountsByDateReducer(ts, state, field, startDate),
+        []
+      );
     cs.push(chart);
   });
 

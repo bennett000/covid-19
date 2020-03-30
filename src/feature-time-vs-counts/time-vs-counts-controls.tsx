@@ -43,6 +43,9 @@ export function TimeVsCountsControls({
     strings.series.deaths,
     strings.series.recoveries,
     strings.series.estimatedActiveCases,
+    strings.series.projectionSeirActive,
+    strings.series.projectionSeirDeaths,
+    strings.series.projectionSeirRecoveries,
   ];
   const modes = [
     strings.modes.byDate,

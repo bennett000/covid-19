@@ -12,6 +12,7 @@ export const rowEven = 'row-even';
 export const rowOdd = 'row-odd';
 export const rowHighlight = 'row-highlight';
 
+export const twentyFourSeven = 24 * 60 * 60 * 1000;
 export const recoveryDays = 25;
 export const jhuStartDay = '2020-01-22';
 

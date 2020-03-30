@@ -6,6 +6,8 @@ US state data is from [The New York Times](https://github.com/nytimes/covid-19-d
 
 Population data is from [samayo/country-json](https://github.com/samayo/country-json/blob/master/src/country-by-population.json 'Country population and other data in json form') with a few exceptions for disputed territories (see `data.ts`)
 
+SEIR projections are entirely based on [Gabriel Goh's work](https://gabgoh.github.io/COVID/index.html "Gabriel Goh's Epidemic Calculator") and [source](https://github.com/gabgoh/epcalc "Source Code For Gabriel Goh's Epidemic Calulator")
+
 See it live at [https://covid-19.michaeljbennett.info](https://covid-19.michaeljbennett.info 'Tool that provides charting of Johns Hopkins University COVID-19 Data')
 
 Copyright (c) 2020 Michael Bennett,
