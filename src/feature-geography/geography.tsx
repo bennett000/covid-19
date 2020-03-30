@@ -176,7 +176,7 @@ export class Geography extends Component<
               currentSeries: this.state.currentSeries + 1,
               title: this.getMapTitle(this.state.currentSeries + 1),
             });
-          }, 750)
+          }, 500)
         : clearInterval(this.state.timer),
     });
   }
