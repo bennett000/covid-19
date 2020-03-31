@@ -1128,29 +1128,25 @@ function createSelectTimeVsCountsByDateReducer(
   };
 }
 
-function getIntervention(code: string) {
-  switch (code) {
-    case 'CN':
-      return 0;
-    case 'KR':
-      return 0;
-    default:
-      return 10;
-  }
-}
-
 function createSeirPoints(
   ts: ITimeSeries,
   byConfirmedStart: number,
   byMetric: number
 ) {
-  const intervention = getIntervention(ts.countryCode());
-  const seir = Seir.create(ts.population(), ts.lastConfirmed(), intervention);
+  const seir = Seir.create(
+    ts.population(),
+    ts.lastConfirmed(),
+    ts.lastDeaths()
+  );
   const dates = ts.dates();
   const start = dates[dates.length - 1]
     ? dates[dates.length - 1].getTime()
     : new Date(jhuStartDay).getTime();
-  const solution = seir.getSolution();
+  const solution = seir.getSolution(20, (s, r, i) => {
+    if (i > 0) {
+      s.R0 = 1.6;
+    }
+  });
   const max = solution.P.length < 35 ? solution.P.length : 35;
   const active: ChartPoint[] = [];
   const deaths: ChartPoint[] = [];
