@@ -69,10 +69,22 @@ export interface TableState {
   sortByConfirmedPercent: boolean;
   sortByDeaths: boolean;
   sortByDeathsPercent: boolean;
+  sortByNewConfirmed: boolean;
+  sortByNewDeaths: boolean;
   sortByRecoveries: boolean;
   sortByRecoveriesPercent: boolean;
   sortByPopulation: boolean;
   sortByPopulationDensity: boolean;
+  sortByPeakActive: boolean;
+  sortByPeakActivePercent: boolean;
+  sortByPeakConfirmed: boolean;
+  sortByPeakConfirmedPercent: boolean;
+  sortByPeakDeaths: boolean;
+  sortByPeakDeathsPercent: boolean;
+  sortByPeakRecoveries: boolean;
+  sortByPeakRecoveriesPercent: boolean;
+  sortByPeakNewConfirmed: boolean;
+  sortByPeakNewDeaths: boolean;
 }
 
 export interface Location {
@@ -93,6 +105,8 @@ export interface TimeSeriesCount {
   active: number;
   confirmed: number;
   deaths: number;
+  newConfirmed: number;
+  newDeaths: number;
   recoveries: number;
   projectionReverseDeath: number;
 }
@@ -114,6 +128,20 @@ export interface ITimeSeries {
   lastRecoveries(): number;
   lastRecoveriesPercent(): number;
   lastMortality(): number;
+  lastNewConfirmed(): number;
+  lastNewDeaths(): number;
+
+  peakActive(): number;
+  peakActivePercent(): number;
+  peakConfirmed(): number;
+  peakConfirmedPercent(): number;
+  peakDeaths(): number;
+  peakDeathsPercent(): number;
+  peakRecoveries(): number;
+  peakRecoveriesPercent(): number;
+  peakMortality(): number;
+  peakNewConfirmed(): number;
+  peakNewDeaths(): number;
 
   country(): string;
   countryCode(): string;
@@ -126,12 +154,6 @@ export interface ITimeSeries {
   populationDensity(): null | number;
   state(): string;
   stateCode(): string;
-
-  // peakActive(): number;
-  // peakConfirmed(): number;
-  // peakDeaths(): number;
-  // peakMortality(): number;
-  // peakRecoveries(): number;
 }
 
 export interface JhuIntegratedData {
@@ -143,6 +165,8 @@ export type TimeSeriesType =
   | 'active'
   | 'confirmed'
   | 'deaths'
+  | 'newConfirmed'
+  | 'newDeaths'
   | 'recoveries'
   | 'projectionReverseDeath';
 

@@ -1,5 +1,10 @@
 import { Component, h } from 'preact';
-import { ITimeSeriesArray, TableState, MenuProp } from '../interfaces';
+import {
+  ITimeSeriesArray,
+  TableState,
+  MenuProp,
+  ITimeSeries,
+} from '../interfaces';
 import {
   rowEven,
   rowOdd,
@@ -67,7 +72,7 @@ export class LearningTable extends Component<{
 
   onChangeColumns(column: number) {
     if (this.props.state.columns.indexOf(column) === -1) {
-      if (this.props.state.columns.length < 7) {
+      if (this.props.state.columns.length < 6) {
         this.props.onChange({
           ...this.props.state,
           columns: this.props.state.columns.concat([column]),
@@ -91,52 +96,174 @@ export class LearningTable extends Component<{
       {
         label: this.props.strings.learningTable.titles.region,
         sort: 'sortByCountry',
+        value: (ts: ITimeSeries) =>
+          ts.country() + (ts.state() ? ', ' + ts.state() : ''),
       },
-      {
-        label: this.props.strings.learningTable.titles.active,
-        sort: 'sortByActive',
-      },
-      {
-        label: this.props.strings.learningTable.titles.activePercent,
-        sort: 'sortByActivePercent',
-      },
-      {
-        label: this.props.strings.learningTable.titles.confirmed,
-        sort: 'sortByConfirmed',
-      },
-      {
-        label: this.props.strings.learningTable.titles.confirmedPercent,
-        sort: 'sortByConfirmedPercent',
-      },
-      {
-        label: this.props.strings.learningTable.titles.deaths,
-        sort: 'sortByDeaths',
-      },
-      {
-        label: this.props.strings.learningTable.titles.deathsPercent,
-        sort: 'sortByDeathsPercent',
-      },
-      {
-        label: this.props.strings.learningTable.titles.recoveries,
-        sort: 'sortByRecoveries',
-      },
-      {
-        label: this.props.strings.learningTable.titles.recoveriesPercent,
-        sort: 'sortByRecoveriesPercent',
-      },
-      {
-        label: this.props.strings.learningTable.titles.mortality,
-        sort: 'sortByMortality',
-      },
-      {
-        label: this.props.strings.learningTable.titles.population,
-        sort: 'sortByPopulation',
-      },
-      {
-        label: this.props.strings.learningTable.titles.populationDensity,
-        sort: 'sortByPopulationDensity',
-      },
-    ];
+    ].concat(
+      [
+        {
+          label: this.props.strings.learningTable.titles.active,
+          sort: 'sortByActive',
+          value: (ts: ITimeSeries) => ts.lastActive().toLocaleString(),
+        },
+        {
+          label: this.props.strings.learningTable.titles.activePercent,
+          sort: 'sortByActivePercent',
+          value: (ts: ITimeSeries) =>
+            ts
+              .lastActivePercent()
+              .toFixed(3)
+              .toLocaleString() + '%',
+        },
+        {
+          label: this.props.strings.learningTable.titles.confirmed,
+          sort: 'sortByConfirmed',
+          value: (ts: ITimeSeries) => ts.lastConfirmed().toLocaleString(),
+        },
+        {
+          label: this.props.strings.learningTable.titles.confirmedPercent,
+          sort: 'sortByConfirmedPercent',
+          value: (ts: ITimeSeries) =>
+            ts
+              .lastConfirmedPercent()
+              .toFixed(3)
+              .toLocaleString() + '%',
+        },
+        {
+          label: this.props.strings.learningTable.titles.deaths,
+          sort: 'sortByDeaths',
+          value: (ts: ITimeSeries) => ts.lastDeaths().toLocaleString(),
+        },
+        {
+          label: this.props.strings.learningTable.titles.deathsPercent,
+          sort: 'sortByDeathsPercent',
+          value: (ts: ITimeSeries) =>
+            ts
+              .lastDeathsPercent()
+              .toFixed(6)
+              .toLocaleString() + '%',
+        },
+        {
+          label: this.props.strings.learningTable.titles.recoveries,
+          sort: 'sortByRecoveries',
+          value: (ts: ITimeSeries) => ts.lastRecoveries().toLocaleString(),
+        },
+        {
+          label: this.props.strings.learningTable.titles.recoveriesPercent,
+          sort: 'sortByRecoveriesPercent',
+          value: (ts: ITimeSeries) =>
+            ts
+              .lastRecoveriesPercent()
+              .toFixed(3)
+              .toLocaleString() + '%',
+        },
+        {
+          label: this.props.strings.learningTable.titles.mortality,
+          sort: 'sortByMortality',
+          value: (ts: ITimeSeries) => ts.lastMortality().toLocaleString() + '%',
+        },
+        {
+          label: this.props.strings.learningTable.titles.newConfirmed,
+          sort: 'sortByNewConfirmed',
+          value: (ts: ITimeSeries) => ts.lastNewConfirmed().toLocaleString(),
+        },
+        {
+          label: this.props.strings.learningTable.titles.newDeaths,
+          sort: 'sortByNewDeaths',
+          value: (ts: ITimeSeries) => ts.lastNewDeaths().toLocaleString(),
+        },
+        {
+          label: this.props.strings.learningTable.titles.peakActive,
+          sort: 'sortByPeakActive',
+          value: (ts: ITimeSeries) => ts.peakActive().toLocaleString(),
+        },
+        {
+          label: this.props.strings.learningTable.titles.peakActivePercent,
+          sort: 'sortByPeakActivePercent',
+          value: (ts: ITimeSeries) =>
+            ts
+              .peakActivePercent()
+              .toFixed(3)
+              .toLocaleString() + '%',
+        },
+        {
+          label: this.props.strings.learningTable.titles.peakConfirmed,
+          sort: 'sortByPeakConfirmed',
+          value: (ts: ITimeSeries) => ts.peakConfirmed().toLocaleString(),
+        },
+        {
+          label: this.props.strings.learningTable.titles.peakConfirmedPercent,
+          sort: 'sortByPeakConfirmedPercent',
+          value: (ts: ITimeSeries) =>
+            ts
+              .peakConfirmedPercent()
+              .toFixed(3)
+              .toLocaleString() + '%',
+        },
+        {
+          label: this.props.strings.learningTable.titles.peakDeaths,
+          sort: 'sortByPeakDeaths',
+          value: (ts: ITimeSeries) => ts.peakDeaths().toLocaleString(),
+        },
+        {
+          label: this.props.strings.learningTable.titles.peakDeathsPercent,
+          sort: 'sortByPeakDeathsPercent',
+          value: (ts: ITimeSeries) =>
+            ts
+              .peakDeathsPercent()
+              .toFixed(6)
+              .toLocaleString() + '%',
+        },
+        {
+          label: this.props.strings.learningTable.titles.peakRecoveries,
+          sort: 'sortByPeakRecoveries',
+          value: (ts: ITimeSeries) => ts.peakRecoveries().toLocaleString(),
+        },
+        {
+          label: this.props.strings.learningTable.titles.peakRecoveriesPercent,
+          sort: 'sortByPeakRecoveriesPercent',
+          value: (ts: ITimeSeries) =>
+            ts
+              .peakDeathsPercent()
+              .toFixed(3)
+              .toLocaleString() + '%',
+        },
+        {
+          label: this.props.strings.learningTable.titles.peakMortality,
+          sort: 'sortByPeakMortality',
+          value: (ts: ITimeSeries) => ts.peakMortality().toLocaleString() + '%',
+        },
+        {
+          label: this.props.strings.learningTable.titles.peakNewConfirmed,
+          sort: 'sortByPeakNewConfirmed',
+          value: (ts: ITimeSeries) => ts.peakNewConfirmed().toLocaleString(),
+        },
+        {
+          label: this.props.strings.learningTable.titles.peakNewDeaths,
+          sort: 'sortByPeakNewDeaths',
+          value: (ts: ITimeSeries) => ts.peakNewDeaths().toLocaleString(),
+        },
+        {
+          label: this.props.strings.learningTable.titles.population,
+          sort: 'sortByPopulation',
+          value: (ts: ITimeSeries) => ts.population().toLocaleString(),
+        },
+        {
+          label: this.props.strings.learningTable.titles.populationDensity,
+          sort: 'sortByPopulationDensity',
+          value: (ts: ITimeSeries) => ts.populationDensity().toLocaleString(),
+        },
+      ].sort((a, b) => {
+        if (a.label < b.label) {
+          return -1;
+        }
+        if (a.label > b.label) {
+          return 1;
+        }
+        return 0;
+      })
+    );
+
     const tbody =
       window.document.body.clientHeight *
       (this.props.state.isConfigOpen ? 0.6 : 0.82);
@@ -165,7 +292,7 @@ export class LearningTable extends Component<{
               </tr>
             </thead>
             <tbody style={`overflow: auto; max-height: ${tbody}px;`}>
-              {this.props.timeSeries.map((ts, i) => {
+              {this.props.timeSeries.map((ts, tsIndex) => {
                 if (ts.counts().length < 1) {
                   return '';
                 }
@@ -176,7 +303,7 @@ export class LearningTable extends Component<{
                 }
                 const name =
                   ts.country() + (ts.state() ? ', ' + ts.state() : '');
-                const rowParity = i % 2 === 0 ? rowEven : rowOdd;
+                const rowParity = tsIndex % 2 === 0 ? rowEven : rowOdd;
                 const rowClass =
                   this.props.countryKeys.indexOf(ts.key()) > -1
                     ? rowHighlight + ' ' + rowParity
@@ -186,87 +313,12 @@ export class LearningTable extends Component<{
                     className={rowClass}
                     onClick={() => this.props.selectCountry(ts.key())}
                   >
-                    <td style={width}>{name}</td>
-                    {this.props.state.columns.indexOf(1) > -1 ? (
-                      <td style={width}>
-                        {this.formatNumber(ts.lastActive())}
-                      </td>
-                    ) : (
-                      ''
-                    )}
-                    {this.props.state.columns.indexOf(2) > -1 ? (
-                      <td style={width}>
-                        {this.formatDecimal(ts.lastActivePercent(), 3)}
-                      </td>
-                    ) : (
-                      ''
-                    )}
-                    {this.props.state.columns.indexOf(3) > -1 ? (
-                      <td style={width}>
-                        {this.formatNumber(ts.lastConfirmed())}
-                      </td>
-                    ) : (
-                      ''
-                    )}
-                    {this.props.state.columns.indexOf(4) > -1 ? (
-                      <td style={width}>
-                        {this.formatDecimal(ts.lastConfirmedPercent(), 3)}
-                      </td>
-                    ) : (
-                      ''
-                    )}
-                    {this.props.state.columns.indexOf(5) > -1 ? (
-                      <td style={width}>
-                        {this.formatNumber(ts.lastDeaths())}
-                      </td>
-                    ) : (
-                      ''
-                    )}
-                    {this.props.state.columns.indexOf(6) > -1 ? (
-                      <td style={width}>
-                        {this.formatDecimal(ts.lastDeathsPercent(), 4)}
-                      </td>
-                    ) : (
-                      ''
-                    )}
-                    {this.props.state.columns.indexOf(7) > -1 ? (
-                      <td style={width}>
-                        {this.formatNumber(ts.lastRecoveries())}
-                      </td>
-                    ) : (
-                      ''
-                    )}
-                    {this.props.state.columns.indexOf(8) > -1 ? (
-                      <td style={width}>
-                        {this.formatDecimal(ts.lastRecoveriesPercent(), 3)}
-                      </td>
-                    ) : (
-                      ''
-                    )}
-                    {this.props.state.columns.indexOf(9) > -1 ? (
-                      <td style={width}>
-                        {this.formatDecimal(ts.lastMortality(), 2)}
-                      </td>
-                    ) : (
-                      ''
-                    )}
-                    {this.props.state.columns.indexOf(10) > -1 ? (
-                      <td style={width}>
-                        {this.formatNumber(ts.population())}
-                      </td>
-                    ) : (
-                      ''
-                    )}
-                    {this.props.state.columns.indexOf(11) > -1 ? (
-                      <td style={width}>
-                        {this.formatNumber(
-                          ts.populationDensity() === null
-                            ? 0
-                            : ts.populationDensity()
-                        ) + '/km2'}
-                      </td>
-                    ) : (
-                      ''
+                    {header.map((t, i) =>
+                      i === 0 || this.props.state.columns.indexOf(i) > -1 ? (
+                        <td style={width}>{t.value(ts)}</td>
+                      ) : (
+                        ''
+                      )
                     )}
                   </tr>
                 );
