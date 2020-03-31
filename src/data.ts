@@ -1128,15 +1128,45 @@ function createSelectTimeVsCountsByDateReducer(
   };
 }
 
-function getIntervention(code: string) {
-  switch (code) {
-    case 'CN':
-      return 0;
-    case 'KR':
-      return 0;
-    default:
-      return 10;
+function deduceLastR0(timeSeries: ITimeSeries, depth = 3) {
+  const activeTolerance = 50;
+  if (timeSeries.counts().length < 2 + depth) {
+    return Seir.create().R0;
   }
+  const last = timeSeries.counts()[timeSeries.counts().length - 1 - depth];
+  const secondLast = timeSeries.counts()[
+    timeSeries.counts().length - 2 - depth
+  ];
+  const seir = Seir.create(
+    timeSeries.population(),
+    secondLast.active,
+    secondLast.deaths
+  );
+
+  const step = 0.1;
+  let delta = Infinity;
+  seir.R0 = 3.5;
+
+  while (Math.abs(delta) > activeTolerance) {
+    const [_, __, ___, ____, active] = seir.getSolution(3).P[2];
+    if (active > last.active + activeTolerance) {
+      seir.R0 -= step;
+      continue;
+    }
+    if (active < last.active - activeTolerance) {
+      break;
+    }
+    if (active < last.active) {
+      break;
+    }
+    seir.R0 -= step;
+  }
+
+  if (depth <= 1) {
+    return seir.R0;
+  }
+
+  return (seir.R0 + deduceLastR0(timeSeries, depth - 1)) / 2;
 }
 
 function createSeirPoints(
@@ -1144,13 +1174,32 @@ function createSeirPoints(
   byConfirmedStart: number,
   byMetric: number
 ) {
-  const intervention = getIntervention(ts.countryCode());
-  const seir = Seir.create(ts.population(), ts.lastConfirmed(), intervention);
+  const seir = Seir.create(ts.population(), ts.lastActive(), ts.lastDeaths());
   const dates = ts.dates();
   const start = dates[dates.length - 1]
     ? dates[dates.length - 1].getTime()
     : new Date(jhuStartDay).getTime();
-  const solution = seir.getSolution();
+
+  const solution = seir.getSolution(30, (s, r, i) => {
+    if (i > 0 && i < 2) {
+      const lastR0 = deduceLastR0(ts);
+      if (lastR0 > 1.6) {
+        s.R0 = lastR0 - 0.01;
+      } else {
+        s.R0 = lastR0 - 0.55;
+      }
+    }
+    if (i > 1 && i < 15) {
+      if (s.R0 > 0.5) {
+        if (s.R0 > 1.6) {
+          s.R0 -= 0.3;
+        } else {
+          s.R0 -= 0.01;
+        }
+      }
+    }
+    console.log(s.R0);
+  });
   const max = solution.P.length < 35 ? solution.P.length : 35;
   const active: ChartPoint[] = [];
   const deaths: ChartPoint[] = [];
