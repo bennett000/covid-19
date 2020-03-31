@@ -16,10 +16,10 @@ import {
 import { Menu } from '../components/menu';
 import { Strings } from '../i18n';
 import { Chart } from '../components/chart';
-import { ButtonToggle } from '../components/button-toggle';
-import { SelectMultipleFilter } from '../components/select-multiple-filter';
+import { ButtonToggle } from '../components/input/button-toggle';
+import { SelectMultipleFilter } from '../components/input/select-multiple-filter';
 import { filterStates } from '../utility';
-import { Select } from '../components/select';
+import { Select } from '../components/input/select';
 
 export class ConfirmedVsRecent extends Component<{
   clearCountries: () => any;

@@ -8,7 +8,7 @@ import {
 import { Chart } from '../components/chart';
 import { flexCol, fullSize, flexItem60, flexItem95, flex } from '../constants';
 import { TimeVsCountsControls } from './time-vs-counts-controls';
-import { ButtonToggle } from '../components/button-toggle';
+import { ButtonToggle } from '../components/input/button-toggle';
 import { Menu } from '../components/menu';
 import { Strings } from '../i18n';
 

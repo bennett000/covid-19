@@ -15,10 +15,10 @@ import {
   flex,
   flexItem60,
 } from '../constants';
-import { ButtonToggle } from '../components/button-toggle';
-import { SelectMultiple } from '../components/select-multiple';
+import { ButtonToggle } from '../components/input/button-toggle';
+import { SelectMultiple } from '../components/input/select-multiple';
 import { noop } from '@ch1/utility';
-import { Select } from '../components/select';
+import { Select } from '../components/input/select';
 import { Menu } from '../components/menu';
 import { Strings } from '../i18n';
 

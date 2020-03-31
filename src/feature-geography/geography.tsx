@@ -19,10 +19,10 @@ import {
   countriesToContinents,
   excludeFromMap,
 } from '../data-maps';
-import { Select } from '../components/select';
+import { Select } from '../components/input/select';
 import { Strings } from '../i18n';
 import { noop, objReduce } from '@ch1/utility';
-import { ButtonToggle } from '../components/button-toggle';
+import { ButtonToggle } from '../components/input/button-toggle';
 import { generateDateDictionary, createToolTip } from '../data';
 
 export class Geography extends Component<

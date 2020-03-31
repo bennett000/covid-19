@@ -1,6 +1,6 @@
 import { h } from 'preact';
 import { flex } from '../constants';
-import { Button } from './button';
+import { Button } from './input/button';
 import { MenuProp } from '../interfaces';
 
 export function Menu({

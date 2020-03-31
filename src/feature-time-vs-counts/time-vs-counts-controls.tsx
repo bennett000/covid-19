@@ -1,15 +1,15 @@
 import { h } from 'preact';
-import { Select } from '../components/select';
-import { SelectMultiple } from '../components/select-multiple';
-import { InputDate } from '../components/date';
-import { Button } from '../components/button';
+import { Select } from '../components/input/select';
+import { SelectMultiple } from '../components/input/select-multiple';
+import { InputDate } from '../components/input/date';
+import { Button } from '../components/input/button';
 import { flex, flexCol, flexItem20, highlight } from '../constants';
 import {
   SelectOptionsWithIndex,
   ChartSeries,
   TimeVsCountsState,
 } from '../interfaces';
-import { SelectMultipleFilter } from '../components/select-multiple-filter';
+import { SelectMultipleFilter } from '../components/input/select-multiple-filter';
 import { Strings } from '../i18n';
 import { filterStates } from '../utility';
 
