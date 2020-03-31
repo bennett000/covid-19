@@ -186,48 +186,6 @@ export class LearningTable extends Component<{
               .toLocaleString() + '%',
         },
         {
-          label: this.props.strings.learningTable.titles.peakConfirmed,
-          sort: 'sortByPeakConfirmed',
-          value: (ts: ITimeSeries) => ts.peakConfirmed().toLocaleString(),
-        },
-        {
-          label: this.props.strings.learningTable.titles.peakConfirmedPercent,
-          sort: 'sortByPeakConfirmedPercent',
-          value: (ts: ITimeSeries) =>
-            ts
-              .peakConfirmedPercent()
-              .toFixed(3)
-              .toLocaleString() + '%',
-        },
-        {
-          label: this.props.strings.learningTable.titles.peakDeaths,
-          sort: 'sortByPeakDeaths',
-          value: (ts: ITimeSeries) => ts.peakDeaths().toLocaleString(),
-        },
-        {
-          label: this.props.strings.learningTable.titles.peakDeathsPercent,
-          sort: 'sortByPeakDeathsPercent',
-          value: (ts: ITimeSeries) =>
-            ts
-              .peakDeathsPercent()
-              .toFixed(6)
-              .toLocaleString() + '%',
-        },
-        {
-          label: this.props.strings.learningTable.titles.peakRecoveries,
-          sort: 'sortByPeakRecoveries',
-          value: (ts: ITimeSeries) => ts.peakRecoveries().toLocaleString(),
-        },
-        {
-          label: this.props.strings.learningTable.titles.peakRecoveriesPercent,
-          sort: 'sortByPeakRecoveriesPercent',
-          value: (ts: ITimeSeries) =>
-            ts
-              .peakDeathsPercent()
-              .toFixed(3)
-              .toLocaleString() + '%',
-        },
-        {
           label: this.props.strings.learningTable.titles.peakMortality,
           sort: 'sortByPeakMortality',
           value: (ts: ITimeSeries) => ts.peakMortality().toLocaleString() + '%',
