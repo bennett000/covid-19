@@ -899,12 +899,89 @@ function createSelectTimeVsCountsChart(
   return { chart, field };
 }
 
+export function createToolTip(
+  ts: ITimeSeries,
+  dataSetIndex: number,
+  day: number,
+  fromDay0 = -1
+) {
+  const fp = (num: number) =>
+    (num < 0.01 ? num.toFixed(6) : num.toFixed(2)).toLocaleString();
+  const header =
+    (fromDay0 < 0
+      ? `<b>${ts.formatName()}</b> ` + ts.dates()[day].toLocaleDateString()
+      : `<b>${ts.formatName()} Day ` +
+        fromDay0 +
+        '</b> (' +
+        ts.dates()[day].toLocaleDateString() +
+        ')') +
+    '<br/> Population ' +
+    ts.population().toLocaleString() +
+    (ts.populationDensity() ? ` (${ts.populationDensity()}/km2)` : '');
+
+  return (
+    header +
+    '<br/><br/>' +
+    [
+      {
+        index: 0,
+        label: `Active ${ts.counts()[day].active.toLocaleString()} (${fp(
+          (ts.counts()[day].active / ts.population()) * 100
+        )} %)`,
+      },
+      {
+        index: 1,
+        label: `Confirmed ${ts.counts()[day].confirmed.toLocaleString()} (${fp(
+          (ts.counts()[day].confirmed / ts.population()) * 100
+        )} %)`,
+      },
+      {
+        index: 2,
+        label: `Deaths ${ts.counts()[day].deaths.toLocaleString()} (${fp(
+          (ts.counts()[day].deaths / ts.population()) * 100
+        )} %)`,
+      },
+      {
+        index: 3,
+        label: `Recoveries ${ts
+          .counts()
+          [day].recoveries.toLocaleString()} (${fp(
+          (ts.counts()[day].recoveries / ts.population()) * 100
+        )} %)`,
+      },
+    ]
+      .sort((a, b) => {
+        if (a.index === dataSetIndex) {
+          return -1;
+        }
+        if (b.index === dataSetIndex) {
+          return 1;
+        }
+        if (a.label < b.label) {
+          return -1;
+        }
+        if (a.label > b.label) {
+          return 1;
+        }
+        return 0;
+      })
+      .map(({ label }, i) => (i === 0 ? `<b>${label}</b>` : label))
+      .join('<br/>') +
+    '<br/><br/>' +
+    [
+      `New Cases: ${ts.counts()[day].newConfirmed.toLocaleString()}`,
+      `New Deaths: ${ts.counts()[day].newDeaths.toLocaleString()}`,
+    ].join('<br/>')
+  );
+}
+
 function createSelectTimeVsCountsByConfirmedReducer(
   ts: ITimeSeries,
   state: AppState,
   field: string,
   startDate: Date,
-  count: number
+  count: number,
+  dataSetIndex: number
 ) {
   let fromDay0 = 0;
   return (ps, c, i) => {
@@ -916,6 +993,7 @@ function createSelectTimeVsCountsByConfirmedReducer(
       );
       if (y) {
         ps.push({
+          tooltip: createToolTip(ts, dataSetIndex, i, fromDay0),
           x: fromDay0,
           y,
         });
@@ -992,7 +1070,8 @@ function selectTimeVsCountsDataByConfirmed(
           state,
           field,
           startDate,
-          count
+          count,
+          dataSetIndex
         ),
         []
       );
@@ -1027,7 +1106,8 @@ function createSelectTimeVsCountsByDateReducer(
   ts: ITimeSeries,
   state: AppState,
   field: string,
-  startDate: Date
+  startDate: Date,
+  dataSetIndex: number
 ) {
   return (ps, c, i) => {
     if (ts.dates()[i] && ts.dates()[i] > startDate) {
@@ -1038,6 +1118,7 @@ function createSelectTimeVsCountsByDateReducer(
       );
       if (y) {
         ps.push({
+          tooltip: createToolTip(ts, dataSetIndex, i),
           x: ts.dates()[i],
           y,
         });
@@ -1134,7 +1215,13 @@ function selectTimeVsCountsDataByDate(
     chart.points = ts
       .counts()
       .reduce(
-        createSelectTimeVsCountsByDateReducer(ts, state, field, startDate),
+        createSelectTimeVsCountsByDateReducer(
+          ts,
+          state,
+          field,
+          startDate,
+          dataSetIndex
+        ),
         []
       );
     cs.push(chart);

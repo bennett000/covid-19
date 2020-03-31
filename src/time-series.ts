@@ -171,6 +171,9 @@ export class TimeSeries implements ITimeSeries {
   stateCode() {
     return this.data.stateCode;
   }
+  formatName() {
+    return this.country() + (this.state() ? ', ' + this.state() : '');
+  }
 }
 
 export class TimeSeriesArray extends Array implements ITimeSeriesArray {

@@ -96,8 +96,7 @@ export class LearningTable extends Component<{
       {
         label: this.props.strings.learningTable.titles.region,
         sort: 'sortByCountry',
-        value: (ts: ITimeSeries) =>
-          ts.country() + (ts.state() ? ', ' + ts.state() : ''),
+        value: (ts: ITimeSeries) => ts.formatName(),
       },
     ].concat(
       [
@@ -301,8 +300,6 @@ export class LearningTable extends Component<{
                     return '';
                   }
                 }
-                const name =
-                  ts.country() + (ts.state() ? ', ' + ts.state() : '');
                 const rowParity = tsIndex % 2 === 0 ? rowEven : rowOdd;
                 const rowClass =
                   this.props.countryKeys.indexOf(ts.key()) > -1

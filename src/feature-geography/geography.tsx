@@ -21,7 +21,7 @@ import {
 } from '../data-maps';
 import { Select } from '../components/select';
 import { Strings } from '../i18n';
-import { noop, Dictionary, objReduce } from '@ch1/utility';
+import { noop, objReduce } from '@ch1/utility';
 import { ButtonToggle } from '../components/button-toggle';
 import { generateDateDictionary } from '../data';
 
