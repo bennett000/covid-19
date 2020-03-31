@@ -1198,7 +1198,6 @@ function createSeirPoints(
         }
       }
     }
-    console.log(s.R0);
   });
   const max = solution.P.length < 35 ? solution.P.length : 35;
   const active: ChartPoint[] = [];

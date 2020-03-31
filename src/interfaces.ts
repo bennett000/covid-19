@@ -77,12 +77,6 @@ export interface TableState {
   sortByPopulationDensity: boolean;
   sortByPeakActive: boolean;
   sortByPeakActivePercent: boolean;
-  sortByPeakConfirmed: boolean;
-  sortByPeakConfirmedPercent: boolean;
-  sortByPeakDeaths: boolean;
-  sortByPeakDeathsPercent: boolean;
-  sortByPeakRecoveries: boolean;
-  sortByPeakRecoveriesPercent: boolean;
   sortByPeakNewConfirmed: boolean;
   sortByPeakNewDeaths: boolean;
 }
@@ -133,12 +127,6 @@ export interface ITimeSeries {
 
   peakActive(): number;
   peakActivePercent(): number;
-  peakConfirmed(): number;
-  peakConfirmedPercent(): number;
-  peakDeaths(): number;
-  peakDeathsPercent(): number;
-  peakRecoveries(): number;
-  peakRecoveriesPercent(): number;
   peakMortality(): number;
   peakNewConfirmed(): number;
   peakNewDeaths(): number;
