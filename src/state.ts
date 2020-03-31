@@ -41,8 +41,20 @@ export function createState(strings: Strings): AppState {
       sortByConfirmedPercent: false,
       sortByDeaths: false,
       sortByDeathsPercent: false,
+      sortByNewConfirmed: false,
+      sortByNewDeaths: false,
       sortByRecoveries: false,
       sortByRecoveriesPercent: false,
+      sortByPeakActive: false,
+      sortByPeakActivePercent: false,
+      sortByPeakConfirmed: false,
+      sortByPeakConfirmedPercent: false,
+      sortByPeakDeaths: false,
+      sortByPeakDeathsPercent: false,
+      sortByPeakNewConfirmed: false,
+      sortByPeakNewDeaths: false,
+      sortByPeakRecoveries: false,
+      sortByPeakRecoveriesPercent: false,
       sortByPopulation: false,
       sortByPopulationDensity: false,
     },
@@ -98,108 +110,76 @@ export function loadState(strings: Strings): AppState | null {
   return null;
 }
 
-function isSavedAppState(thing: any): boolean {
+interface DataType {
+  prop: string;
+  is: (thing: any) => boolean;
+}
+
+const dataTypeAppState: DataType[] = [
+  { prop: 'countries', is: Array.isArray },
+  { prop: 'timeVsCountsState', is: isSavedTimeVsCountsState },
+  { prop: 'countryKeys', is: Array.isArray },
+  { prop: 'tableState', is: isSavedTableState },
+  { prop: 'confirmedVsRecentState', is: isConfirmedVsRecentState },
+];
+
+const dataTypeSavedTimeVsCountsState: DataType[] = [
+  { prop: 'isConfigOpen', is: isBoolean },
+  { prop: 'byMetric', is: isNumber },
+  { prop: 'countryFilter', is: isString },
+  { prop: 'dataSetIndexes', is: Array.isArray },
+  { prop: 'mode', is: isNumber },
+  { prop: 'showStates', is: isBoolean },
+  { prop: 'startDate', is: isString },
+];
+
+function isDataType(dt: DataType[], thing: any): boolean {
   if (!thing) {
     return false;
   }
-  if (Array.isArray(thing.countries) === false) {
-    return false;
-  }
-  if (isSavedTimeVsCountsState(thing.timeVsCountsState) === false) {
-    return false;
-  }
 
-  if (Array.isArray(thing.countryKeys) === false) {
-    return false;
-  }
+  return dt.reduce((r: boolean, pi) => {
+    if (r === false) {
+      return r;
+    }
+    return pi.is(thing[pi.prop]);
+  }, true);
+}
 
-  if (isSavedTableState(thing.tableState) === false) {
-    return false;
-  }
+const dataTypeSavedTableState: DataType[] = [
+  { prop: 'columns', is: Array.isArray },
+  { prop: 'isConfigOpen', is: isBoolean },
+  { prop: 'showAll', is: isBoolean },
+  { prop: 'sortByActive', is: isBoolean },
+  { prop: 'sortByActivePercent', is: isBoolean },
+  { prop: 'sortByConfirmed', is: isBoolean },
+  { prop: 'sortByConfirmedPercent', is: isBoolean },
+  { prop: 'sortByDeaths', is: isBoolean },
+  { prop: 'sortByDeathsPercent', is: isBoolean },
+  { prop: 'sortByRecoveries', is: isBoolean },
+  { prop: 'sortByRecoveriesPercent', is: isBoolean },
+  { prop: 'sortByPeakActive', is: isBoolean },
+  { prop: 'sortByPeakActivePercent', is: isBoolean },
+  { prop: 'sortByPeakConfirmed', is: isBoolean },
+  { prop: 'sortByPeakConfirmedPercent', is: isBoolean },
+  { prop: 'sortByPeakDeaths', is: isBoolean },
+  { prop: 'sortByPeakDeathsPercent', is: isBoolean },
+  { prop: 'sortByPeakRecoveries', is: isBoolean },
+  { prop: 'sortByPeakRecoveriesPercent', is: isBoolean },
+  { prop: 'sortByPopulation', is: isBoolean },
+  { prop: 'sortByPopulationDensity', is: isBoolean },
+];
 
-  return isConfirmedVsRecentState(thing.confirmedVsRecentState);
+function isSavedAppState(thing: any): boolean {
+  return isDataType(dataTypeAppState, thing);
 }
 
 function isSavedTimeVsCountsState(thing: any): boolean {
-  if (!thing) {
-    return false;
-  }
-
-  if (isBoolean(thing.isConfigOpen) === false) {
-    return false;
-  }
-
-  if (isNumber(thing.byMetric) === false) {
-    return false;
-  }
-
-  if (isString(thing.countryFilter) === false) {
-    return false;
-  }
-
-  if (Array.isArray(thing.dataSetIndexes) === false) {
-    return false;
-  }
-
-  if (isNumber(thing.mode) === false) {
-    return false;
-  }
-
-  if (typeof thing.showStates !== 'boolean') {
-    return false;
-  }
-
-  if (isString(thing.startDate) === false) {
-    return false;
-  }
-
-  return true;
+  return isDataType(dataTypeSavedTimeVsCountsState, thing);
 }
 
 function isSavedTableState(thing: any): boolean {
-  if (!thing) {
-    return false;
-  }
-  if (Array.isArray(thing.columns) === false) {
-    return false;
-  }
-  if (isBoolean(thing.isConfigOpen) === false) {
-    return false;
-  }
-  if (isBoolean(thing.showAll) === false) {
-    return false;
-  }
-  if (isBoolean(thing.sortByActive) === false) {
-    return false;
-  }
-  if (isBoolean(thing.sortByActivePercent) === false) {
-    return false;
-  }
-  if (isBoolean(thing.sortByConfirmed) === false) {
-    return false;
-  }
-  if (isBoolean(thing.sortByConfirmedPercent) === false) {
-    return false;
-  }
-  if (isBoolean(thing.sortByDeaths) === false) {
-    return false;
-  }
-  if (isBoolean(thing.sortByDeathsPercent) === false) {
-    return false;
-  }
-  if (isBoolean(thing.sortByRecoveries) === false) {
-    return false;
-  }
-  if (isBoolean(thing.sortByRecoveriesPercent) === false) {
-    return false;
-  }
-  if (isBoolean(thing.sortByPopulation) === false) {
-    return false;
-  }
-  if (isBoolean(thing.sortByPopulationDensity) === false) {
-    return false;
-  }
-  return true;
+  return isDataType(dataTypeSavedTableState, thing);
 }
 
 export function getSavedLanguage() {

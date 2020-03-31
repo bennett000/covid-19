@@ -34,6 +34,36 @@ export class TimeSeries implements ITimeSeries {
     );
   }
 
+  private peakValue(prop: TimeSeriesType) {
+    if (this.data.counts.length < 1) {
+      return 0;
+    }
+    return this.data.counts.reduce((max, next) => {
+      if (next[prop] && next[prop] > max) {
+        return next[prop];
+      }
+      return max;
+    }, 0);
+  }
+
+  private peakPercent(prop: TimeSeriesType) {
+    if (this.data.counts.length < 1) {
+      return 0;
+    }
+    if (this.data.population < 1) {
+      return 0;
+    }
+    return this.data.counts.reduce((max, next) => {
+      if (next[prop]) {
+        const div = (next[prop] / this.data.population) * 100;
+        if (div > max) {
+          return div;
+        }
+      }
+      return max;
+    }, 0);
+  }
+
   lastActive() {
     return this.lastValue('active');
   }
@@ -63,6 +93,49 @@ export class TimeSeries implements ITimeSeries {
       return 0;
     }
     return (this.lastValue('deaths') / this.lastValue('confirmed')) * 100;
+  }
+  lastNewConfirmed() {
+    return this.lastValue('newConfirmed');
+  }
+  lastNewDeaths() {
+    return this.lastValue('newDeaths');
+  }
+
+  peakActive() {
+    return this.peakValue('active');
+  }
+  peakActivePercent() {
+    return this.peakPercent('active');
+  }
+  peakConfirmed() {
+    return this.peakValue('confirmed');
+  }
+  peakConfirmedPercent() {
+    return this.peakPercent('confirmed');
+  }
+  peakDeaths() {
+    return this.peakValue('deaths');
+  }
+  peakDeathsPercent() {
+    return this.peakPercent('deaths');
+  }
+  peakRecoveries() {
+    return this.peakValue('recoveries');
+  }
+  peakRecoveriesPercent() {
+    return this.peakPercent('recoveries');
+  }
+  peakMortality() {
+    if (this.peakValue('confirmed') < 1) {
+      return 0;
+    }
+    return (this.peakValue('deaths') / this.peakValue('confirmed')) * 100;
+  }
+  peakNewConfirmed() {
+    return this.peakValue('newConfirmed');
+  }
+  peakNewDeaths() {
+    return this.peakValue('newDeaths');
   }
 
   counts() {
@@ -140,8 +213,32 @@ export class TimeSeriesArray extends Array implements ITimeSeriesArray {
     this.sortByProp('lastConfirmed', asc);
   }
 
+  sortByNewConfirmed(asc = true) {
+    this.sortByProp('lastNewConfirmed', asc);
+  }
+
+  sortByPeakNewConfirmed(asc = true) {
+    this.sortByProp('peakNewConfirmed', asc);
+  }
+
   sortByConfirmedPercent(asc = true) {
     this.sortByProp('lastConfirmedPercent', asc);
+  }
+
+  sortByPeakActive(asc = true) {
+    this.sortByProp('peakActive', asc);
+  }
+
+  sortByPeakActivePercent(asc = true) {
+    this.sortByProp('peakActivePercent', asc);
+  }
+
+  sortByPeakConfirmed(asc = true) {
+    this.sortByProp('peakConfirmed', asc);
+  }
+
+  sortByPeakConfirmedPercent(asc = true) {
+    this.sortByProp('peakConfirmedPercent', asc);
   }
 
   sortByCountry(asc = true) {
@@ -172,6 +269,14 @@ export class TimeSeriesArray extends Array implements ITimeSeriesArray {
     this.sortByProp('lastDeaths', asc);
   }
 
+  sortByNewDeaths(asc = true) {
+    this.sortByProp('lastNewDeaths', asc);
+  }
+
+  sortByPeakNewDeaths(asc = true) {
+    this.sortByProp('peakNewDeaths', asc);
+  }
+
   sortByMortality(asc = true) {
     this.sortByProp('lastMortality', asc);
   }
@@ -194,6 +299,30 @@ export class TimeSeriesArray extends Array implements ITimeSeriesArray {
 
   sortByRecoveriesPercent(asc = true) {
     this.sortByProp('lastRecoveriesPercent', asc);
+  }
+
+  sortByPeakDeaths(asc = true) {
+    this.sortByProp('peakDeaths', asc);
+  }
+
+  sortByPeakMortality(asc = true) {
+    this.sortByProp('peakMortality', asc);
+  }
+
+  sortByPeakDeathsPercent(asc = true) {
+    this.sortByProp('peakDeathsPercent', asc);
+  }
+
+  sortByPeakPopulation(asc = true) {
+    this.sortByProp('population', asc);
+  }
+
+  sortByPeakRecoveries(asc = true) {
+    this.sortByProp('peakRecoveries', asc);
+  }
+
+  sortByPeakRecoveriesPercent(asc = true) {
+    this.sortByProp('peakRecoveriesPercent', asc);
   }
 }
 
