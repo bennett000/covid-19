@@ -154,6 +154,8 @@ export interface ITimeSeries {
   populationDensity(): null | number;
   state(): string;
   stateCode(): string;
+
+  formatName(): string;
 }
 
 export interface JhuIntegratedData {
