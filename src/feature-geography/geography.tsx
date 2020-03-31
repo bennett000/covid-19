@@ -23,7 +23,7 @@ import { Select } from '../components/select';
 import { Strings } from '../i18n';
 import { noop, objReduce } from '@ch1/utility';
 import { ButtonToggle } from '../components/button-toggle';
-import { generateDateDictionary } from '../data';
+import { generateDateDictionary, createToolTip } from '../data';
 
 export class Geography extends Component<
   {
@@ -39,7 +39,6 @@ export class Geography extends Component<
     menuProp: MenuProp;
     timer: any;
     title: string;
-    toolTip: string;
   }
 > {
   dates: Date[];
@@ -64,7 +63,6 @@ export class Geography extends Component<
       },
       timer: 0,
       title: '',
-      toolTip: '<b>%name<b/> <br/>Active Cases: %zValue',
     };
 
     this.dates = objReduce(
@@ -281,6 +279,13 @@ export class Geography extends Component<
       }
 
       s.push({
+        attributes: {
+          toolTip: createToolTip(
+            ts,
+            this.state.dataSet,
+            ts.counts().length - 1
+          ),
+        },
         map: 'WORLD.' + code.toLowerCase(),
         z: value,
       });
@@ -336,6 +341,13 @@ export class Geography extends Component<
       }
 
       s.push({
+        attributes: {
+          toolTip: createToolTip(
+            ts,
+            this.state.dataSet,
+            ts.counts().length - 1
+          ),
+        },
         map: code.toLowerCase(),
         z: value,
       });
@@ -392,6 +404,13 @@ export class Geography extends Component<
       }
 
       s.push({
+        attributes: {
+          toolTip: createToolTip(
+            ts,
+            this.state.dataSet,
+            ts.counts().length - 1
+          ),
+        },
         map: countryCode + '.' + code,
         z: value,
       });
@@ -414,7 +433,6 @@ export class Geography extends Component<
     this.setState({
       ...this.state,
       dataSet: int,
-      toolTip: getToolTip(int, this.props.strings),
     });
   }
 
@@ -440,7 +458,6 @@ export class Geography extends Component<
           series={series}
           strings={this.props.strings}
           title={this.state.title}
-          toolTip={this.state.toolTip}
         />
         <section className={flex}>
           <Select
@@ -463,21 +480,6 @@ export class Geography extends Component<
         </section>
       </section>
     );
-  }
-}
-
-function getToolTip(index: number, strings: Strings) {
-  switch (index) {
-    case 0:
-      return strings.geography.toolTip0;
-    case 1:
-      return strings.geography.toolTip1;
-    case 2:
-      return strings.geography.toolTip2;
-    case 3:
-      return strings.geography.toolTip3;
-    default:
-      return strings.geography.toolTipDefault;
   }
 }
 

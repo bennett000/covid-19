@@ -969,8 +969,8 @@ export function createToolTip(
       .join('<br/>') +
     '<br/><br/>' +
     [
-      `New Cases: ${ts.counts()[day].newConfirmed.toLocaleString()}`,
-      `New Deaths: ${ts.counts()[day].newDeaths.toLocaleString()}`,
+      `New Cases: <b>${ts.counts()[day].newConfirmed.toLocaleString()}</b>`,
+      `New Deaths: <b>${ts.counts()[day].newDeaths.toLocaleString()}</b>`,
     ].join('<br/>')
   );
 }

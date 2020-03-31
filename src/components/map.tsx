@@ -10,7 +10,6 @@ export class ChartMap extends Component<{
   series: any;
   strings: Strings;
   title?: string;
-  toolTip: string;
 }> {
   chart: any;
 
@@ -36,7 +35,10 @@ export class ChartMap extends Component<{
       title_label_text: props.title || '',
       type: 'map',
       defaultPoint: {
-        tooltip: props.toolTip,
+        attributes: {
+          toolTip: '<b>%name</b>',
+        },
+        tooltip: '%toolTip',
         z: 0,
       },
       palette: {
