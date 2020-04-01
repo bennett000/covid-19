@@ -40,6 +40,7 @@ export interface AppState {
   timeVsCountsState: TimeVsCountsState;
   tableState: TableState;
   routePath: string;
+  seirState: InputSeirState;
 }
 
 export interface ConfirmedVsRecentState {
@@ -56,6 +57,7 @@ export interface TimeVsCountsState {
   mode: number;
   scaleType: number;
   showStates: boolean;
+  showSeirState: boolean;
   startDate: string;
 }
 
@@ -80,7 +82,17 @@ export interface TableState {
   sortByPeakNewConfirmed: boolean;
   sortByPeakNewDeaths: boolean;
 }
-
+export interface InputSeirState {
+  r0: number;
+  incubationPeriod: number;
+  durationOfInfection: number;
+  fatalityRate: number;
+  timeFromIncubationToDeath: number;
+  lengthOfSevereHospitalStay: number;
+  recoveryTimeForMildCases: number;
+  hospitalizationRate: number;
+  timeFromIncubationToHospital: number;
+}
 export interface Location {
   country: string;
   locale: string;

@@ -3,17 +3,20 @@ import { SelectOptions } from '../../interfaces';
 import { isString } from '@ch1/utility';
 
 export function Select({
+  classes,
   onChange,
   options,
   selected,
 }: {
+  classes?: string[];
   onChange: (selected: number | string) => any;
   options: SelectOptions;
   selected: number | string;
 }) {
   const change = e => onChange(e.target.value);
+  const className = classes ? classes.join(' ') : '';
   return (
-    <select onChange={change}>
+    <select className={className} onChange={change}>
       {options.map((option, index) => {
         if (isString(option)) {
           if (selected === index) {

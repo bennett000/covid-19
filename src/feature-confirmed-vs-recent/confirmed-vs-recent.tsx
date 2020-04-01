@@ -12,7 +12,10 @@ import {
   flexItem95,
   flexItem60,
   highlight,
-} from '../constants';
+  borderCurved,
+  styles,
+  green,
+} from '../style';
 import { Menu } from '../components/menu';
 import { Strings } from '../i18n';
 import { Chart } from '../components/chart';
@@ -63,7 +66,7 @@ export class ConfirmedVsRecent extends Component<{
     const classes =
       this.props.state.isConfigOpen === false &&
       this.props.countryKeys.length === 0
-        ? ['green']
+        ? [green]
         : [];
     return (
       <section className={`${fullSize} ${flexCol}`}>
@@ -87,7 +90,7 @@ export class ConfirmedVsRecent extends Component<{
         ></Chart>
         <section className={flex}>
           <ButtonToggle
-            classes={classes}
+            classes={styles.button.concat(classes)}
             labelTrue={this.props.strings.confirmedVsRecent.enlarge}
             labelFalse={this.props.strings.confirmedVsRecent.configure}
             onClick={this.toggleConfig.bind(this)}
@@ -99,6 +102,9 @@ export class ConfirmedVsRecent extends Component<{
           <section className={`${flex}`}>
             <SelectMultipleFilter
               classes={this.props.countryKeys.length === 0 ? [highlight] : []}
+              inputButtonClasses={styles.button}
+              inputSelectClasses={styles.selectBox}
+              inputStringClasses={styles.input}
               filter={this.props.state.countryFilter}
               onUpdateFilter={this.setCountryFilter.bind(this)}
               onChange={this.props.selectCountries}
@@ -110,6 +116,7 @@ export class ConfirmedVsRecent extends Component<{
               selected={this.props.countryKeys}
             />
             <Select
+              classes={styles.selectBox}
               onChange={this.selectShowStates.bind(this)}
               options={this.props.strings.states}
               selected={this.props.state.showStates ? 1 : 0}

@@ -2,7 +2,7 @@
 // MIT licensed as `JSC` is proprietary
 declare const JSC: any;
 import { Component, h } from 'preact';
-import { fullSize } from '../constants';
+import { fullSize } from '../style';
 import { Strings } from '../i18n';
 
 export class ChartMap extends Component<{

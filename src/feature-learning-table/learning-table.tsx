@@ -14,7 +14,13 @@ import {
   flexItem95,
   flex,
   flexItem60,
-} from '../constants';
+  styles,
+  borderCurved,
+  padding,
+  tableBorderCollapse,
+  displayBlock,
+  textAlignLeft,
+} from '../style';
 import { ButtonToggle } from '../components/input/button-toggle';
 import { SelectMultiple } from '../components/input/select-multiple';
 import { noop } from '@ch1/utility';
@@ -22,6 +28,10 @@ import { Select } from '../components/input/select';
 import { Menu } from '../components/menu';
 import { Strings } from '../i18n';
 
+const thClasses = [borderCurved, padding, displayBlock, textAlignLeft].join(
+  ' '
+);
+const tdClasses = [padding, displayBlock, textAlignLeft].join(' ');
 export class LearningTable extends Component<{
   countryKeys: string[];
   menu: MenuProp;
@@ -234,12 +244,17 @@ export class LearningTable extends Component<{
             style={`height: ${
               this.props.state.isConfigOpen ? 83 : 90
             }%; width: 100%;`}
+            className={tableBorderCollapse}
           >
-            <thead>
-              <tr>
+            <thead className={displayBlock}>
+              <tr className={flex}>
                 {header.map((t, i) =>
                   i === 0 || this.props.state.columns.indexOf(i) > -1 ? (
-                    <th style={width} onClick={() => this.clickHeader(t)}>
+                    <th
+                      className={thClasses}
+                      style={width}
+                      onClick={() => this.clickHeader(t)}
+                    >
                       {t.label}
                     </th>
                   ) : (
@@ -248,7 +263,10 @@ export class LearningTable extends Component<{
                 )}
               </tr>
             </thead>
-            <tbody style={`overflow: auto; max-height: ${tbody}px;`}>
+            <tbody
+              className={displayBlock}
+              style={`overflow: auto; max-height: ${tbody}px;`}
+            >
               {this.props.timeSeries.map((ts, tsIndex) => {
                 if (ts.counts().length < 1) {
                   return '';
@@ -265,12 +283,14 @@ export class LearningTable extends Component<{
                     : rowParity;
                 return (
                   <tr
-                    className={rowClass}
+                    className={[rowClass, flex].join(' ')}
                     onClick={() => this.props.selectCountry(ts.key())}
                   >
                     {header.map((t, i) =>
                       i === 0 || this.props.state.columns.indexOf(i) > -1 ? (
-                        <td style={width}>{t.value(ts)}</td>
+                        <td className={tdClasses} style={width}>
+                          {t.value(ts)}
+                        </td>
                       ) : (
                         ''
                       )
@@ -284,6 +304,7 @@ export class LearningTable extends Component<{
         <section>
           <section className={flex}>
             <ButtonToggle
+              classes={styles.button}
               labelTrue={this.props.strings.learningTable.enlarge}
               labelFalse={this.props.strings.learningTable.configure}
               onClick={this.toggleConfig.bind(this)}
@@ -294,12 +315,14 @@ export class LearningTable extends Component<{
           {this.props.state.isConfigOpen ? (
             <section className={flex}>
               <SelectMultiple
+                classes={styles.selectBox}
                 onChange={noop as any}
                 onClick={v => this.onChangeColumns(parseInt(v + '', 10) + 1)}
                 options={header.map(item => item.label).slice(1)}
                 selected={this.props.state.columns.map(c => c - 1)}
               ></SelectMultiple>
               <Select
+                classes={styles.selectBox}
                 onChange={this.toggleShowAll.bind(this)}
                 options={[
                   this.props.strings.learningTable.showAll,

@@ -4,13 +4,25 @@ import {
   ChartSeries,
   SelectOptionsWithIndex,
   MenuProp,
+  InputSeirState,
 } from '../interfaces';
 import { Chart } from '../components/chart';
-import { flexCol, fullSize, flexItem60, flexItem95, flex } from '../constants';
+import {
+  flexCol,
+  fullSize,
+  flexItem60,
+  flexItem95,
+  flex,
+  styles,
+  green,
+} from '../style';
 import { TimeVsCountsControls } from './time-vs-counts-controls';
 import { ButtonToggle } from '../components/input/button-toggle';
 import { Menu } from '../components/menu';
 import { Strings } from '../i18n';
+import { InputSeir } from '../components/seir';
+import { Button } from '../components/input/button';
+import { Seir } from '../seir';
 
 export class TimeVsCount extends Component<{
   clearCountries: () => any;
@@ -19,6 +31,8 @@ export class TimeVsCount extends Component<{
   currentSeries: ChartSeries[];
   menu: MenuProp;
   onChange: (lgs: TimeVsCountsState) => any;
+  onSeirStateChange: (v: InputSeirState) => any;
+  seirState: InputSeirState;
   reload: () => any;
   selectCountry: (country: string) => any;
   selectCountries: (countries: string[]) => any;
@@ -28,6 +42,13 @@ export class TimeVsCount extends Component<{
   constructor() {
     super();
     this.state = {};
+  }
+
+  onConfigureSeir() {
+    this.props.onChange({
+      ...this.props.state,
+      showSeirState: this.props.state.showSeirState ? false : true,
+    });
   }
 
   useDays() {
@@ -45,6 +66,10 @@ export class TimeVsCount extends Component<{
     });
   }
 
+  onChangeSeir(v: InputSeirState) {
+    this.props.onSeirStateChange(v);
+  }
+
   setCountryFilter(filter: string) {
     this.props.onChange({
       ...this.props.state,
@@ -56,7 +81,7 @@ export class TimeVsCount extends Component<{
     const classes =
       this.props.state.isConfigOpen === false &&
       this.props.countryKeys.length === 0
-        ? ['green']
+        ? [green]
         : [];
     const customTicks = [
       {
@@ -104,7 +129,7 @@ export class TimeVsCount extends Component<{
         ></Chart>
         <section className={flex}>
           <ButtonToggle
-            classes={classes}
+            classes={styles.button.concat(classes)}
             labelTrue={this.props.strings.timeVsCounts.enlarge}
             labelFalse={this.props.strings.timeVsCounts.configure}
             onClick={this.toggleConfig.bind(this)}
@@ -113,19 +138,46 @@ export class TimeVsCount extends Component<{
           <Menu config={this.props.menu}></Menu>
         </section>
         {this.props.state.isConfigOpen ? (
-          <TimeVsCountsControls
-            onUpdateCountryFilter={this.setCountryFilter.bind(this)}
-            clearCountries={this.props.clearCountries}
-            countryKeys={this.props.countryKeys}
-            countries={this.props.countries}
-            currentSeries={this.props.currentSeries}
-            onChange={this.props.onChange}
-            reload={this.props.reload}
-            selectCountry={this.props.selectCountry}
-            selectCountries={this.props.selectCountries}
-            state={this.props.state}
-            strings={this.props.strings}
-          />
+          this.props.state.showSeirState ? (
+            <div className={flex}>
+              <div className={flexCol}>
+                <Button
+                  classes={
+                    this.props.countryKeys.length === 0
+                      ? styles.button.concat([green])
+                      : styles.button
+                  }
+                  label={this.props.strings.timeVsCounts.configureChart}
+                  onClick={this.onConfigureSeir.bind(this)}
+                />
+                <Button
+                  classes={styles.button}
+                  label={this.props.strings.timeVsCounts.resetSeir}
+                  onClick={() => this.onChangeSeir(Seir)}
+                />
+              </div>
+              <InputSeir
+                onChange={this.onChangeSeir.bind(this)}
+                state={this.props.seirState}
+                strings={this.props.strings}
+              />
+            </div>
+          ) : (
+            <TimeVsCountsControls
+              onConfigureSeir={this.onConfigureSeir.bind(this)}
+              onUpdateCountryFilter={this.setCountryFilter.bind(this)}
+              clearCountries={this.props.clearCountries}
+              countryKeys={this.props.countryKeys}
+              countries={this.props.countries}
+              currentSeries={this.props.currentSeries}
+              onChange={this.props.onChange}
+              reload={this.props.reload}
+              selectCountry={this.props.selectCountry}
+              selectCountries={this.props.selectCountries}
+              state={this.props.state}
+              strings={this.props.strings}
+            />
+          )
         ) : (
           ''
         )}

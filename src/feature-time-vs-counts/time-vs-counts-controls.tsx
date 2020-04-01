@@ -3,7 +3,7 @@ import { Select } from '../components/input/select';
 import { SelectMultiple } from '../components/input/select-multiple';
 import { InputDate } from '../components/input/date';
 import { Button } from '../components/input/button';
-import { flex, flexCol, flexItem20, highlight } from '../constants';
+import { flex, flexCol, flexItem20, highlight, styles } from '../style';
 import {
   SelectOptionsWithIndex,
   ChartSeries,
@@ -18,6 +18,7 @@ export function TimeVsCountsControls({
   countries,
   countryKeys,
   onChange,
+  onConfigureSeir,
   onUpdateCountryFilter,
   reload,
   selectCountry,
@@ -30,6 +31,7 @@ export function TimeVsCountsControls({
   countryKeys: string[];
   currentSeries: ChartSeries[];
   onChange: (lgs: TimeVsCountsState) => any;
+  onConfigureSeir: () => any;
   onUpdateCountryFilter: (filter: string) => any;
   reload: () => any;
   selectCountry: (country: string) => any;
@@ -106,21 +108,40 @@ export function TimeVsCountsControls({
   return (
     <section className={`${flex} ${flexItem20}`}>
       <section className={flexCol}>
-        <Select onChange={selectMode} options={modes} selected={state.mode} />
         <Select
+          classes={styles.selectBox}
+          onChange={selectMode}
+          options={modes}
+          selected={state.mode}
+        />
+        <Select
+          classes={styles.selectBox}
           onChange={selectScaleType}
           options={scaleTypes}
           selected={state.scaleType}
         />
-        <InputDate onChange={selectDate} ymdString={state.startDate} />
+        <InputDate
+          classes={styles.input}
+          onChange={selectDate}
+          ymdString={state.startDate}
+        />
+        <Button
+          classes={styles.button}
+          label={strings.timeVsCounts.configureSeir}
+          onClick={onConfigureSeir}
+        />
       </section>
       <SelectMultiple
+        classes={styles.selectBox}
         onChange={selectDataSets}
         options={dataSets}
         selected={state.dataSetIndexes}
       />
       <SelectMultipleFilter
         classes={countryKeys.length === 0 ? [highlight] : []}
+        inputButtonClasses={styles.button}
+        inputSelectClasses={styles.selectBox}
+        inputStringClasses={styles.input}
         filter={state.countryFilter}
         onUpdateFilter={onUpdateCountryFilter}
         onChange={selectCountries}
@@ -131,16 +152,22 @@ export function TimeVsCountsControls({
       />
       <div className={flexCol}>
         <Select
+          classes={styles.selectBox}
           onChange={selectShowStates}
           options={showStates}
           selected={state.showStates ? 1 : 0}
         />
         <Select
+          classes={styles.selectBox}
           onChange={selectMetric}
           options={metrics}
           selected={state.byMetric}
         />
-        <Button label={strings.timeVsCounts.reload} onClick={reload}></Button>
+        <Button
+          classes={styles.button}
+          label={strings.timeVsCounts.reload}
+          onClick={reload}
+        ></Button>
       </div>
     </section>
   );

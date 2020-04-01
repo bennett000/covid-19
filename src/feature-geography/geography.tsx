@@ -3,9 +3,6 @@ import { ChartMap } from '../components/map';
 import { Menu } from '../components/menu';
 import { MenuProp, ITimeSeriesArray, ITimeSeries } from '../interfaces';
 import {
-  flexCol,
-  fullSize,
-  flex,
   activeRanges,
   confirmedRanges,
   deathRanges,
@@ -13,6 +10,7 @@ import {
   usaCode,
   jhuStartDay,
 } from '../constants';
+import { flexCol, fullSize, flex, borderCurved, styles } from '../style';
 import {
   statesToCodes,
   usStateCodeByName,
@@ -461,6 +459,7 @@ export class Geography extends Component<
         />
         <section className={flex}>
           <Select
+            classes={styles.selectBox}
             onChange={this.onChangeDataSet.bind(this)}
             options={[
               this.props.strings.series.activeCases,
@@ -471,6 +470,7 @@ export class Geography extends Component<
             selected={this.state.dataSet}
           ></Select>
           <ButtonToggle
+            classes={styles.button}
             labelFalse={this.props.strings.geography.play}
             labelTrue={this.props.strings.geography.stop}
             onClick={this.togglePlay.bind(this)}

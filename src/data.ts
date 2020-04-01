@@ -11,6 +11,7 @@ import {
   LocationSeries,
   TimeSeriesCount,
   ChartPoint,
+  InputSeirState,
 } from './interfaces';
 import {
   reverseDeathProjectionDefaults,
@@ -1039,6 +1040,7 @@ function selectTimeVsCountsDataByConfirmed(
   const startDate = new Date(state.timeVsCountsState.startDate);
 
   const projectionsSeir = createSeirPoints(
+    state.seirState,
     ts,
     ts.counts().reduce((index, el, i, arr) => {
       if (index !== -1) {
@@ -1170,11 +1172,23 @@ function deduceLastR0(timeSeries: ITimeSeries, depth = 3) {
 }
 
 function createSeirPoints(
+  state: InputSeirState,
   ts: ITimeSeries,
   byConfirmedStart: number,
   byMetric: number
 ) {
   const seir = Seir.create(ts.population(), ts.lastActive(), ts.lastDeaths());
+
+  seir.R0 = state.r0;
+  seir.incubationPeriod = state.incubationPeriod;
+  seir.durationOfInfection = state.durationOfInfection;
+  seir.fatalityRate = state.fatalityRate;
+  seir.timeFromIncubationToDeath = state.timeFromIncubationToDeath;
+  seir.lengthOfSevereHospitalStay = state.lengthOfSevereHospitalStay;
+  seir.recoveryTimeForMildCases = state.recoveryTimeForMildCases;
+  seir.hospitalizationRate = state.hospitalizationRate;
+  seir.timeFromIncubationToHospital = state.timeFromIncubationToHospital;
+
   const dates = ts.dates();
   const start = dates[dates.length - 1]
     ? dates[dates.length - 1].getTime()
@@ -1245,6 +1259,7 @@ function selectTimeVsCountsDataByDate(
   const startDate = new Date(state.timeVsCountsState.startDate);
 
   const projectionsSeir = createSeirPoints(
+    state.seirState,
     ts,
     -1,
     state.timeVsCountsState.byMetric

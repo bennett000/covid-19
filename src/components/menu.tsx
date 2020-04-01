@@ -1,5 +1,5 @@
 import { h } from 'preact';
-import { flex } from '../constants';
+import { flex, styles } from '../style';
 import { Button } from './input/button';
 import { MenuProp } from '../interfaces';
 
@@ -13,6 +13,7 @@ export function Menu({
       {labels.map((label, i) => {
         return (
           <Button
+            classes={styles.button}
             isDisabled={i === selected || disable}
             label={label}
             onClick={() => onClick(i)}

@@ -1,5 +1,5 @@
 import { render } from './app';
-import { fullSize } from './constants';
+import { fullSize } from './style';
 import { getSavedLanguage, saveLanguage } from './state';
 import { log } from './utility';
 import { defaultLanguage, getLanguage } from './i18n';
