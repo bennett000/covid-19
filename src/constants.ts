@@ -76,3 +76,11 @@ export const recoveryRanges = [
   { value: [1000000, 5000000], color: '#41ff41' },
   { value: [5000000, 5000000000], color: '#009900' },
 ];
+
+export const defaultDataset = 0;
+export const defaultCountries = [];
+export const defaultMode = 2;
+export const defaultStart = jhuStartDay;
+export const defaultScaleType = 0;
+export const defaultShowStates = false;
+export const defaultDaysToProject = 18;

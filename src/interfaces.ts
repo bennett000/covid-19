@@ -87,6 +87,7 @@ export interface TableState {
   sortByPeakNewDeaths: boolean;
 }
 export interface InputSeirState {
+  daysToProject: number;
   r0: number;
   incubationPeriod: number;
   durationOfInfection: number;

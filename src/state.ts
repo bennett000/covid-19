@@ -4,15 +4,16 @@ import { isNumber, isString, isBoolean } from '@ch1/utility';
 import { log } from './utility';
 import { TimeSeriesArray } from './time-series';
 import { Strings } from './i18n';
-import { jhuStartDay } from './constants';
 import { Seir } from './seir';
-
-const defaultDataset = 0;
-const defaultCountries = [];
-const defaultMode = 2;
-const defaultStart = jhuStartDay;
-const defaultScaleType = 0;
-const defaultShowStates = false;
+import {
+  defaultCountries,
+  defaultDaysToProject,
+  defaultDataset,
+  defaultMode,
+  defaultScaleType,
+  defaultShowStates,
+  defaultStart,
+} from './constants';
 
 export function createState(strings: Strings): AppState {
   return {
@@ -23,6 +24,7 @@ export function createState(strings: Strings): AppState {
     countryKeys: defaultCountries,
     routePath: '/',
     seirState: {
+      daysToProject: defaultDaysToProject,
       r0: Seir.r0,
       incubationPeriod: Seir.incubationPeriod,
       durationOfInfection: Seir.durationOfInfection,
@@ -161,6 +163,7 @@ const dataTypeSavedTableState: DataType[] = [
 ];
 
 const dataTypeInputSeirSavedState: DataType[] = [
+  { prop: 'daysToProject', is: isNumber },
   { prop: 'r0', is: isNumber },
   { prop: 'incubationPeriod', is: isNumber },
   { prop: 'durationOfInfection', is: isNumber },

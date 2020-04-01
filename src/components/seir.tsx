@@ -52,7 +52,7 @@ export function InputSeir({ onChange, state, strings }: InputSeirProps) {
       },
     ],
     [
-      { prop: '', filter: noop, unit: '', decimals: false },
+      { prop: 'daysToProject', filter: gt0, unit: '', decimals: false },
       {
         prop: 'durationOfInfection',
         filter: gt0,
