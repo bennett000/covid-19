@@ -1,6 +1,6 @@
 import { Component, h } from 'preact';
 import { MenuProp } from '../interfaces';
-import { fullSize } from '../constants';
+import { fullSize } from '../style';
 import { Menu } from '../components/menu';
 import { AboutList } from '../components/about-list';
 import { Strings } from '../i18n';

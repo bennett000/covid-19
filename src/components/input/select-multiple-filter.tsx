@@ -1,15 +1,18 @@
-import { Component, h } from 'preact';
-import { SelectOptions } from '../interfaces';
+import { h } from 'preact';
+import { SelectOptions } from '../../interfaces';
 import { InputString } from './string';
 import { SelectMultiple } from './select-multiple';
-import { flexCol, flex } from '../constants';
+import { flexCol, flex } from '../../style';
 import { isString, noop } from '@ch1/utility';
 import { Button } from './button';
-import { isMobile } from '../utility';
+import { isMobile } from '../../utility';
 
 type SelectMultipleFilterProps = {
   classes?: string[];
   filter: string;
+  inputSelectClasses?: string[];
+  inputStringClasses?: string[];
+  inputButtonClasses?: string[];
   onChange: (selected: any[]) => any;
   onClear: () => any;
   onDeselect: (index: number | string) => any;
@@ -61,22 +64,29 @@ export function SelectMultipleFilter(props: SelectMultipleFilterProps) {
           ''
         ) : (
           <InputString
+            classes={props.inputStringClasses}
             listenKeyUp={true}
             onChange={props.onUpdateFilter}
             placeholder="filter"
             value={props.filter}
           />
         )}
-        <Button label="✗" onClick={props.onClear}></Button>
+        <Button
+          classes={props.inputButtonClasses}
+          label="✗"
+          onClick={props.onClear}
+        ></Button>
       </div>
       {isMobile() ? (
         <SelectMultiple
+          classes={props.inputSelectClasses}
           onChange={onChange}
           options={getOptions(props)}
           selected={props.selected}
         />
       ) : (
         <SelectMultiple
+          classes={props.inputSelectClasses}
           onChange={noop}
           onClick={onDeselect}
           options={getOptions(props)}

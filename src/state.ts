@@ -5,6 +5,7 @@ import { log } from './utility';
 import { TimeSeriesArray } from './time-series';
 import { Strings } from './i18n';
 import { jhuStartDay } from './constants';
+import { Seir } from './seir';
 
 const defaultDataset = 0;
 const defaultCountries = [];
@@ -21,6 +22,17 @@ export function createState(strings: Strings): AppState {
     dataPromise: fetchData(strings),
     countryKeys: defaultCountries,
     routePath: '/',
+    seirState: {
+      r0: Seir.r0,
+      incubationPeriod: Seir.incubationPeriod,
+      durationOfInfection: Seir.durationOfInfection,
+      recoveryTimeForMildCases: Seir.recoveryTimeForMildCases,
+      timeFromIncubationToHospital: Seir.timeFromIncubationToDeath,
+      lengthOfSevereHospitalStay: Seir.lengthOfSevereHospitalStay,
+      timeFromIncubationToDeath: Seir.timeFromIncubationToDeath,
+      hospitalizationRate: Seir.hospitalizationRate,
+      fatalityRate: Seir.fatalityRate,
+    },
     timeVsCountsState: {
       dataSetIndexes: [defaultDataset],
       byMetric: 0,
@@ -28,6 +40,7 @@ export function createState(strings: Strings): AppState {
       isConfigOpen: false,
       mode: defaultMode,
       scaleType: defaultScaleType,
+      showSeirState: false,
       showStates: defaultShowStates,
       startDate: defaultStart,
     },
@@ -115,6 +128,7 @@ const dataTypeAppState: DataType[] = [
   { prop: 'countryKeys', is: Array.isArray },
   { prop: 'tableState', is: isSavedTableState },
   { prop: 'confirmedVsRecentState', is: isConfirmedVsRecentState },
+  { prop: 'seirState', is: isSeirState },
 ];
 
 const dataTypeSavedTimeVsCountsState: DataType[] = [
@@ -124,21 +138,9 @@ const dataTypeSavedTimeVsCountsState: DataType[] = [
   { prop: 'dataSetIndexes', is: Array.isArray },
   { prop: 'mode', is: isNumber },
   { prop: 'showStates', is: isBoolean },
+  { prop: 'showSeirState', is: isBoolean },
   { prop: 'startDate', is: isString },
 ];
-
-function isDataType(dt: DataType[], thing: any): boolean {
-  if (!thing) {
-    return false;
-  }
-
-  return dt.reduce((r: boolean, pi) => {
-    if (r === false) {
-      return r;
-    }
-    return pi.is(thing[pi.prop]);
-  }, true);
-}
 
 const dataTypeSavedTableState: DataType[] = [
   { prop: 'columns', is: Array.isArray },
@@ -158,6 +160,31 @@ const dataTypeSavedTableState: DataType[] = [
   { prop: 'sortByPopulationDensity', is: isBoolean },
 ];
 
+const dataTypeInputSeirSavedState: DataType[] = [
+  { prop: 'r0', is: isNumber },
+  { prop: 'incubationPeriod', is: isNumber },
+  { prop: 'durationOfInfection', is: isNumber },
+  { prop: 'fatalityRate', is: isNumber },
+  { prop: 'timeFromIncubationToDeath', is: isNumber },
+  { prop: 'lengthOfSevereHospitalStay', is: isNumber },
+  { prop: 'recoveryTimeForMildCases', is: isNumber },
+  { prop: 'hospitalizationRate', is: isNumber },
+  { prop: 'timeFromIncubationToHospital', is: isNumber },
+];
+
+function isDataType(dt: DataType[], thing: any): boolean {
+  if (!thing) {
+    return false;
+  }
+
+  return dt.reduce((r: boolean, pi) => {
+    if (r === false) {
+      return r;
+    }
+    return pi.is(thing[pi.prop]);
+  }, true);
+}
+
 function isSavedAppState(thing: any): boolean {
   return isDataType(dataTypeAppState, thing);
 }
@@ -168,6 +195,10 @@ function isSavedTimeVsCountsState(thing: any): boolean {
 
 function isSavedTableState(thing: any): boolean {
   return isDataType(dataTypeSavedTableState, thing);
+}
+
+function isSeirState(thing: any): boolean {
+  return isDataType(dataTypeInputSeirSavedState, thing);
 }
 
 export function getSavedLanguage() {

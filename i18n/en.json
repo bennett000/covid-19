@@ -163,6 +163,18 @@
     "linear": "Linear",
     "logarithmic": "Logarithmic"
   },
+  "seirInput": {
+    "durationOfInfection": "Duration of Infection",
+    "fatalityRate": "Fatality Rate",
+    "incubationPeriod": "Incubation Period",
+    "hospitalizationRate": "Hospitalization Rate",
+    "lengthOfSevereHospitalStay": "Length of Severe Hospital Stay",
+    "recoveryTimeForMildCases": "Recovery Time for Mild Cases",
+    "timeFromIncubationToDeath": "Time From Incubation to Death",
+    "timeFromIncubationToHospital": "Time From Incubation to Hospital",
+    "r0": "R0",
+    "unitDays": "days"
+  },
   "series": {
     "activeCases": "Active Cases*",
     "confirmedCases": "Confirmed Cases",
@@ -184,10 +196,13 @@
     "Hide States"
   ],
   "timeVsCounts": {
+    "configureChart": "Chart Settings",
+    "configureSeir": "Configure SEIR",
     "configure": "⚙️ Configure Chart",
     "enlarge": "✗ Enlarge Chart",
     "people": "Number of People",
     "percent": "Percentage of Population",
-    "reload": "Reload"
+    "reload": "Reload",
+    "resetSeir": "Reset SEIR"
   }
 }

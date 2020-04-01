@@ -10,17 +10,19 @@ import {
   MenuProp,
   TableState,
   ConfirmedVsRecentState,
+  InputSeirState,
 } from './interfaces';
 import { selectData, fetchData } from './data';
 import { log } from './utility';
 import { Dictionary } from '@ch1/utility';
 import { LearningTable } from './feature-learning-table/learning-table';
 import { Header } from './components/header';
-import { fullSize, flexCol } from './constants';
+import { fullSize, flexCol } from './style';
 import { ConfirmedVsRecent } from './feature-confirmed-vs-recent/confirmed-vs-recent';
 import { Geography } from './feature-geography/geography';
 import { About } from './feature-about/about';
 import { Strings } from './i18n';
+import './global.css';
 
 export class App extends Component<
   { cache: Dictionary<ChartSeries>; reset: () => any; strings: Strings },
@@ -133,6 +135,14 @@ export class App extends Component<
     this.selectAndUpdate();
   }
 
+  onSeirStateChange(seirState: InputSeirState) {
+    this.setState({
+      ...this.state,
+      seirState,
+    });
+    this.selectAndUpdate();
+  }
+
   selectCountry(countryKey: string) {
     if (this.state.countryKeys.indexOf(countryKey) > -1) {
       this.setState({
@@ -169,8 +179,10 @@ export class App extends Component<
             currentSeries={this.state.currentSeries}
             menu={this.menu}
             onChange={this.timeVsCounts.bind(this)}
+            onSeirStateChange={this.onSeirStateChange.bind(this)}
             key="0"
             reload={this.reload.bind(this)}
+            seirState={this.state.seirState}
             selectCountry={this.selectCountry.bind(this)}
             selectCountries={this.selectCountries.bind(this)}
             state={this.state.timeVsCountsState}

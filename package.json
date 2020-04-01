@@ -20,12 +20,14 @@
     "babel-loader": "^8.0.6",
     "copy-webpack-plugin": "^5.1.1",
     "cross-env": "^7.0.2",
+    "css-loader": "^3.4.2",
     "html-webpack-plugin": "^3.2.0",
     "husky": ">=4",
     "jest": "^25.1.0",
     "lint-staged": ">=10",
     "prettier": "^1.19.1",
     "rimraf": "^3.0.2",
+    "style-loader": "^1.1.3",
     "ts-jest": "^25.2.1",
     "ts-loader": "^6.2.1",
     "typescript": "^3.8.2",
@@ -39,7 +41,7 @@
     }
   },
   "lint-staged": {
-    "*.{js,css,md,ts,tsx}": "prettier --write --single-quote --trailing-comma es5 ./src"
+    "*.{js,css,md,ts,tsx}": "prettier --write --single-quote --trailing-comma es5 ./src/**/* && prettier --write --single-quote --trailing-comma es5 ./src/**"
   },
   "scripts": {
     "prebuild": "rimraf ./docs",

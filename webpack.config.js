@@ -23,7 +23,10 @@ module.exports = {
   },
   mode: production ? 'production' : 'development',
   module: {
-    rules: [{ test: /\.tsx?$/, use: 'ts-loader' }],
+    rules: [
+      { test: /\.tsx?$/, use: 'ts-loader' },
+      { test: /\.css$/, use: ['style-loader', 'css-loader'] },
+    ],
   },
   plugins: [
     new HtmlWebpackPlugin({

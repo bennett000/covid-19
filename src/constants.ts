@@ -1,17 +1,3 @@
-export const border = 'border';
-export const fullSize = 'full-size';
-export const flex = 'flex';
-export const flexCol = 'flex flex-col';
-export const flexItem5 = 'flex-item-5';
-export const flexItem20 = 'flex-item-20';
-export const flexItem60 = 'flex-item-60';
-export const flexItem95 = 'flex-item-95';
-export const highlight = 'highlight';
-export const padding = 'padding';
-export const rowEven = 'row-even';
-export const rowOdd = 'row-odd';
-export const rowHighlight = 'row-highlight';
-
 export const twentyFourSeven = 24 * 60 * 60 * 1000;
 export const recoveryDays = 25;
 export const jhuStartDay = '2020-01-22';

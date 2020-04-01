@@ -2,7 +2,7 @@ import { h } from 'preact';
 import { action } from '@storybook/addon-actions';
 import { AboutList } from './about-list';
 
-export default { component: AboutList, title: 'ButtonToggle' };
+export default { component: AboutList, title: 'AboutList' };
 
 export const simpleList = () => (
   <AboutList

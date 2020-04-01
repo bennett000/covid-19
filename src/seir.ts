@@ -96,21 +96,34 @@ function integrate(
 }
 
 export class Seir {
+  static r0 = 2.2;
+  static incubationPeriod = 5.2;
+  static durationOfInfection = 2.9;
+  static fatalityRate = 0.02;
+  static timeFromIncubationToDeath = 32;
+  static lengthOfSevereHospitalStay = 31.5 - Seir.durationOfInfection;
+  static recoveryTimeForMildCases = 14 - Seir.durationOfInfection;
+  static hospitalizationRate = 0.2;
+  static timeFromIncubationToHospital = 5;
+
   static create(population = 7000000, I0 = 1, initialDeaths = 0) {
     return new Seir(population, I0, initialDeaths);
   }
 
   dt = 2;
-  R0 = 2.2;
-  D_incbation = 5.2;
-  D_infectious = 2.9;
-  D_recovery_mild = 14 - 2.9;
-  D_hospital_lag = 5;
-  D_recovery_severe = 31.5 - 2.9;
-  Time_to_death = 32;
-  D_death = this.Time_to_death - this.D_infectious;
-  P_SEVERE = 0.2;
-  CFR = 0.02;
+  R0 = Seir.r0;
+  incubationPeriod = Seir.incubationPeriod;
+  durationOfInfection = Seir.durationOfInfection;
+  recoveryTimeForMildCases = Seir.recoveryTimeForMildCases;
+  timeFromIncubationToHospital = Seir.timeFromIncubationToDeath;
+  lengthOfSevereHospitalStay = Seir.lengthOfSevereHospitalStay;
+  timeFromIncubationToDeath = Seir.timeFromIncubationToDeath;
+  hospitalizationRate = Seir.hospitalizationRate;
+  fatalityRate = Seir.fatalityRate;
+
+  get D_death() {
+    return this.timeFromIncubationToDeath - this.durationOfInfection;
+  }
 
   private constructor(
     public N = 7000000,
@@ -119,9 +132,9 @@ export class Seir {
   ) {}
 
   private f(t: number, x: SierState): SierState {
-    const beta = this.R0 / this.D_infectious;
-    const a = 1 / this.D_incbation;
-    const gamma = 1 / this.D_infectious;
+    const beta = this.R0 / this.durationOfInfection;
+    const a = 1 / this.incubationPeriod;
+    const gamma = 1 / this.durationOfInfection;
 
     const S = x[0]; // Susectable
     const E = x[1]; // Exposed
@@ -130,20 +143,21 @@ export class Seir {
     const Severe = x[4]; // Recovering (Severe at home)
     const Severe_H = x[5]; // Recovering (Severe in hospital)
     const Fatal = x[6]; // Recovering (Fatal)
-    const p_severe = this.P_SEVERE;
-    const p_fatal = this.CFR;
-    const p_mild = 1 - this.P_SEVERE - this.CFR;
+    const p_mild = 1 - this.hospitalizationRate - this.fatalityRate;
     const dS = -beta * I * S;
     const dE = beta * I * S - a * E;
     const dI = a * E - gamma * I;
-    const dMild = p_mild * gamma * I - (1 / this.D_recovery_mild) * Mild;
-    const dSevere = p_severe * gamma * I - (1 / this.D_hospital_lag) * Severe;
+    const dMild =
+      p_mild * gamma * I - (1 / this.recoveryTimeForMildCases) * Mild;
+    const dSevere =
+      this.hospitalizationRate * gamma * I -
+      (1 / this.timeFromIncubationToHospital) * Severe;
     const dSevere_H =
-      (1 / this.D_hospital_lag) * Severe -
-      (1 / this.D_recovery_severe) * Severe_H;
-    const dFatal = p_fatal * gamma * I - (1 / this.D_death) * Fatal;
-    const dR_Mild = (1 / this.D_recovery_mild) * Mild;
-    const dR_Severe = (1 / this.D_recovery_severe) * Severe_H;
+      (1 / this.timeFromIncubationToHospital) * Severe -
+      (1 / this.lengthOfSevereHospitalStay) * Severe_H;
+    const dFatal = this.fatalityRate * gamma * I - (1 / this.D_death) * Fatal;
+    const dR_Mild = (1 / this.recoveryTimeForMildCases) * Mild;
+    const dR_Severe = (1 / this.lengthOfSevereHospitalStay) * Severe_H;
     const dR_Fatal = (1 / this.D_death) * Fatal;
     return [
       dS,

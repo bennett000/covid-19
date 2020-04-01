@@ -1,23 +1,26 @@
 import { h } from 'preact';
-import { SelectOptions } from '../interfaces';
+import { SelectOptions } from '../../interfaces';
 import { isString, noop } from '@ch1/utility';
 
 export function SelectMultiple({
+  classes,
   onChange,
   onClick,
   options,
   selected,
 }: {
+  classes?: string[];
   onChange: (selected: any[]) => any;
   onClick?: (value: number | string) => any;
   options: SelectOptions;
   selected: any[];
 }) {
+  const className = classes ? classes.join(' ') : '';
   const change = e => onChange(selectedOptionsToArray(e.target.options));
   onClick = onClick || (noop as any);
   const optClick = (e: any) => onClick(e.target.value);
   return (
-    <select onChange={change} multiple={true}>
+    <select className={className} onChange={change} multiple={true}>
       {options.map((option, index) => {
         const key = 'option-' + option;
         if (isString(option)) {
