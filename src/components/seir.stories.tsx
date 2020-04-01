@@ -9,6 +9,7 @@ export const withData = () => (
   <InputSeir
     onChange={action('change')}
     state={{
+      daysToProject: 5,
       r0: 2.2,
       incubationPeriod: 1,
       durationOfInfection: 1,

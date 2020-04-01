@@ -1135,7 +1135,7 @@ function createSelectTimeVsCountsByDateReducer(
 function deduceLastR0(timeSeries: ITimeSeries, depth = 3) {
   const activeTolerance = 50;
   if (timeSeries.counts().length < 2 + depth) {
-    return Seir.create().R0;
+    return Seir.r0;
   }
   const last = timeSeries.counts()[timeSeries.counts().length - 1 - depth];
   const secondLast = timeSeries.counts()[
@@ -1196,7 +1196,7 @@ function createSeirPoints(
     ? dates[dates.length - 1].getTime()
     : new Date(jhuStartDay).getTime();
 
-  const solution = seir.getSolution(18, (s, r, i) => {
+  const solution = seir.getSolution(state.daysToProject, (s, r, i) => {
     if (i > 0 && i < 2) {
       const lastR0 = deduceLastR0(ts);
       if (lastR0 > 1.6) {
@@ -1205,7 +1205,7 @@ function createSeirPoints(
         s.R0 = lastR0 - 0.55;
       }
     }
-    if (i > 1 && i < 15) {
+    if (i > 1) {
       if (s.R0 > 0.5) {
         if (s.R0 > 1.6) {
           s.R0 -= 0.3;
@@ -1239,7 +1239,7 @@ function createSeirPoints(
 
     const lastDate =
       newDates[newDates.length - 1] || dates[dates.length - 1] || new Date();
-    newDates.push(new Date(lastDate.getTime() + twentyFourSeven * (i - 1)));
+    newDates.push(new Date(lastDate.getTime() + (i > 1 ? twentyFourSeven : 0)));
 
     const projectionTs = ts.cloneAndAdd(newCounts, newDates);
     const x =

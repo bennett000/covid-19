@@ -164,6 +164,7 @@
     "logarithmic": "Logarithmic"
   },
   "seirInput": {
+    "daysToProject": "Days to Project",
     "durationOfInfection": "Duration of Infection",
     "fatalityRate": "Fatality Rate",
     "incubationPeriod": "Incubation Period",

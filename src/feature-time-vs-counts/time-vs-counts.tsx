@@ -1,4 +1,5 @@
 import { Component, h } from 'preact';
+import { defaultDaysToProject } from '../constants';
 import {
   TimeVsCountsState,
   ChartSeries,
@@ -153,7 +154,12 @@ export class TimeVsCount extends Component<{
                 <Button
                   classes={styles.button}
                   label={this.props.strings.timeVsCounts.resetSeir}
-                  onClick={() => this.onChangeSeir(Seir)}
+                  onClick={() =>
+                    this.onChangeSeir({
+                      ...Seir,
+                      daysToProject: defaultDaysToProject,
+                    })
+                  }
                 />
               </div>
               <InputSeir
