@@ -904,21 +904,24 @@ export function createToolTip(
   ts: ITimeSeries,
   dataSetIndex: number,
   day: number,
-  fromDay0 = -1
+  fromDay0 = -1,
+  isProjection = false
 ) {
   const fp = (num: number) =>
     (num < 0.01 ? num.toFixed(6) : num.toFixed(2)).toLocaleString();
-  const header =
-    (fromDay0 < 0
-      ? `<b>${ts.formatName()}</b> ` + ts.dates()[day].toLocaleDateString()
-      : `<b>${ts.formatName()} Day ` +
-        fromDay0 +
-        '</b> (' +
-        ts.dates()[day].toLocaleDateString() +
-        ')') +
-    '<br/> Population ' +
-    ts.population().toLocaleString() +
-    (ts.populationDensity() ? ` (${ts.populationDensity()}/km2)` : '');
+  const header = isProjection
+    ? '<b><i>*** PROJECTION ***</i></b>'
+    : '' +
+      (fromDay0 < 0
+        ? `<b>${ts.formatName()}</b> ` + ts.dates()[day].toLocaleDateString()
+        : `<b>${ts.formatName()} Day ` +
+          fromDay0 +
+          '</b> (' +
+          ts.dates()[day].toLocaleDateString() +
+          ')') +
+      '<br/> Population ' +
+      ts.population().toLocaleString() +
+      (ts.populationDensity() ? ` (${ts.populationDensity()}/km2)` : '');
 
   return (
     header +
@@ -1194,7 +1197,7 @@ function createSeirPoints(
     ? dates[dates.length - 1].getTime()
     : new Date(jhuStartDay).getTime();
 
-  const solution = seir.getSolution(30, (s, r, i) => {
+  const solution = seir.getSolution(18, (s, r, i) => {
     if (i > 0 && i < 2) {
       const lastR0 = deduceLastR0(ts);
       if (lastR0 > 1.6) {
@@ -1217,32 +1220,81 @@ function createSeirPoints(
   const active: ChartPoint[] = [];
   const deaths: ChartPoint[] = [];
   const recoveries: ChartPoint[] = [];
+  const newCounts: TimeSeriesCount[] = [];
+  const newDates: Date[] = [];
+  const fromDay0 =
+    byConfirmedStart === -1
+      ? -1
+      : ts.counts().reduce((found, next, i) => {
+          if (found !== -1) {
+            return found;
+          }
+          if (next.confirmed >= byConfirmedStart) {
+            return i;
+          }
+          return found;
+        }, -1);
 
+  // here
   for (let i = 1; i < max; i += 1) {
+    const lastCount =
+      newCounts[newCounts.length - 1] ||
+      ts.counts()[ts.counts().length - 1] ||
+      createTimeSeriesCount();
+    const count = createTimeSeriesCount();
+
+    count.active = solution.P[i][4];
+    count.newConfirmed = count.active - lastCount.active;
+    count.confirmed = lastCount.confirmed + count.active - lastCount.active;
+    count.deaths = solution.P[i][0];
+    count.newDeaths = count.deaths - lastCount.deaths;
+    count.recoveries = solution.P[i][2];
+    newCounts.push(count);
+
+    const lastDate =
+      newDates[newDates.length - 1] || dates[dates.length - 1] || new Date();
+    newDates.push(new Date(lastDate.getTime() + twentyFourSeven * i));
+
+    const projectionTs = ts.cloneAndAdd(newCounts, newDates);
     const x =
       byConfirmedStart === -1
         ? new Date(start + (i - 1) * twentyFourSeven)
         : byConfirmedStart + i - 1;
     active.push({
+      tooltip: createToolTip(
+        projectionTs,
+        0,
+        projectionTs.counts().length - 1,
+        fromDay0,
+        true
+      ),
       x,
-      y:
-        byMetric === 0
-          ? solution.P[i][4]
-          : (solution.P[i][4] / ts.population()) * 100,
+      y: byMetric === 0 ? count.active : (count.active / ts.population()) * 100,
     });
     deaths.push({
+      tooltip: createToolTip(
+        projectionTs,
+        2,
+        projectionTs.counts().length - 1,
+        fromDay0,
+        true
+      ),
       x,
-      y:
-        byMetric === 0
-          ? solution.P[i][0]
-          : (solution.P[i][0] / ts.population()) * 100,
+      y: byMetric === 0 ? count.deaths : (count.deaths / ts.population()) * 100,
     });
     recoveries.push({
+      tooltip: createToolTip(
+        projectionTs,
+        3,
+        projectionTs.counts().length - 1,
+        fromDay0,
+        true
+      ),
       x,
       y:
         byMetric === 0
-          ? solution.P[i][2]
-          : (solution.P[i][2] / ts.population()) * 100,
+          ? count.recoveries
+          : (count.recoveries / ts.population()) * 100,
     });
   }
 

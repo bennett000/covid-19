@@ -1,3 +1,6 @@
+import { TimeSeries } from './time-series';
+import { Dictionary } from '@ch1/utility';
+
 export type SelectOptions = (SelectOptionsWithIndex | string)[];
 export interface SelectOptionsWithIndex {
   index: number | string;
@@ -5,6 +8,7 @@ export interface SelectOptionsWithIndex {
 }
 
 export interface ChartPoint {
+  tooltip?: any;
   index?: number;
   x: Date | number;
   y: number;
@@ -156,6 +160,7 @@ export interface ITimeSeries {
   stateCode(): string;
 
   formatName(): string;
+  cloneAndAdd(counts?: TimeSeriesCount[], dates?: Date[]): TimeSeries;
 }
 
 export interface JhuIntegratedData {

@@ -64,6 +64,14 @@ export class TimeSeries implements ITimeSeries {
     }, 0);
   }
 
+  cloneAndAdd(moreCounts: TimeSeriesCount[] = [], moreDates: Date[] = []) {
+    return TimeSeries.create({
+      ...this.data,
+      counts: this.data.counts.map(c => ({ ...c })).concat(moreCounts),
+      dates: this.data.dates.concat(moreDates),
+    });
+  }
+
   lastActive() {
     return this.lastValue('active');
   }
