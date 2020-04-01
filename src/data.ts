@@ -909,19 +909,18 @@ export function createToolTip(
 ) {
   const fp = (num: number) =>
     (num < 0.01 ? num.toFixed(6) : num.toFixed(2)).toLocaleString();
-  const header = isProjection
-    ? '<b><i>*** PROJECTION ***</i></b>'
-    : '' +
-      (fromDay0 < 0
-        ? `<b>${ts.formatName()}</b> ` + ts.dates()[day].toLocaleDateString()
-        : `<b>${ts.formatName()} Day ` +
-          fromDay0 +
-          '</b> (' +
-          ts.dates()[day].toLocaleDateString() +
-          ')') +
-      '<br/> Population ' +
-      ts.population().toLocaleString() +
-      (ts.populationDensity() ? ` (${ts.populationDensity()}/km2)` : '');
+  const header =
+    (isProjection ? '<b><i>*** PROJECTION ***</i><br/>' : '') +
+    (fromDay0 < 0
+      ? `<b>${ts.formatName()}</b> ` + ts.dates()[day].toLocaleDateString()
+      : `<b>${ts.formatName()} Day ` +
+        fromDay0 +
+        '</b> (' +
+        ts.dates()[day].toLocaleDateString() +
+        ')') +
+    '<br/> Population ' +
+    ts.population().toLocaleString() +
+    (ts.populationDensity() ? ` (${ts.populationDensity()}/km2)` : '');
 
   return (
     header +
@@ -1177,7 +1176,7 @@ function deduceLastR0(timeSeries: ITimeSeries, depth = 3) {
 function createSeirPoints(
   state: InputSeirState,
   ts: ITimeSeries,
-  byConfirmedStart: number,
+  fromDay0: number,
   byMetric: number
 ) {
   const seir = Seir.create(ts.population(), ts.lastActive(), ts.lastDeaths());
@@ -1222,20 +1221,7 @@ function createSeirPoints(
   const recoveries: ChartPoint[] = [];
   const newCounts: TimeSeriesCount[] = [];
   const newDates: Date[] = [];
-  const fromDay0 =
-    byConfirmedStart === -1
-      ? -1
-      : ts.counts().reduce((found, next, i) => {
-          if (found !== -1) {
-            return found;
-          }
-          if (next.confirmed >= byConfirmedStart) {
-            return i;
-          }
-          return found;
-        }, -1);
 
-  // here
   for (let i = 1; i < max; i += 1) {
     const lastCount =
       newCounts[newCounts.length - 1] ||
@@ -1253,19 +1239,19 @@ function createSeirPoints(
 
     const lastDate =
       newDates[newDates.length - 1] || dates[dates.length - 1] || new Date();
-    newDates.push(new Date(lastDate.getTime() + twentyFourSeven * i));
+    newDates.push(new Date(lastDate.getTime() + twentyFourSeven * (i - 1)));
 
     const projectionTs = ts.cloneAndAdd(newCounts, newDates);
     const x =
-      byConfirmedStart === -1
+      fromDay0 === -1
         ? new Date(start + (i - 1) * twentyFourSeven)
-        : byConfirmedStart + i - 1;
+        : fromDay0 + i - 1;
     active.push({
       tooltip: createToolTip(
         projectionTs,
         0,
         projectionTs.counts().length - 1,
-        fromDay0,
+        fromDay0 === -1 ? -1 : fromDay0 + i - 1,
         true
       ),
       x,

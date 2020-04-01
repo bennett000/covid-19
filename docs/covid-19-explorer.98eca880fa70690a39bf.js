@@ -3608,18 +3608,17 @@
     function _e(t, e, n, i = -1, o = !1) {
       const a = t => (t < 0.01 ? t.toFixed(6) : t.toFixed(2)).toLocaleString();
       return (
-        (o
-          ? '<b><i>*** PROJECTION ***</i></b>'
-          : (i < 0
-              ? `<b>${t.formatName()}</b> ` + t.dates()[n].toLocaleDateString()
-              : `<b>${t.formatName()} Day ` +
-                i +
-                '</b> (' +
-                t.dates()[n].toLocaleDateString() +
-                ')') +
-            '<br/> Population ' +
-            t.population().toLocaleString() +
-            (t.populationDensity() ? ` (${t.populationDensity()}/km2)` : '')) +
+        (o ? '<b><i>*** PROJECTION ***</i><br/>' : '') +
+        (i < 0
+          ? `<b>${t.formatName()}</b> ` + t.dates()[n].toLocaleDateString()
+          : `<b>${t.formatName()} Day ` +
+            i +
+            '</b> (' +
+            t.dates()[n].toLocaleDateString() +
+            ')') +
+        '<br/> Population ' +
+        t.population().toLocaleString() +
+        (t.populationDensity() ? ` (${t.populationDensity()}/km2)` : '') +
         '<br/><br/>' +
         [
           {
@@ -3762,16 +3761,7 @@
         l = [],
         p = [],
         d = [],
-        h = [],
-        y =
-          -1 === n
-            ? -1
-            : e
-                .counts()
-                .reduce(
-                  (t, e, i) => (-1 !== t ? t : e.confirmed >= n ? i : t),
-                  -1
-                );
+        h = [];
       for (let t = 1; t < c; t += 1) {
         const o = d[d.length - 1] ||
             e.counts()[e.counts().length - 1] || {
@@ -3799,23 +3789,29 @@
           (c.newDeaths = c.deaths - o.deaths),
           (c.recoveries = s.P[t][2]),
           d.push(c);
-        const f = h[h.length - 1] || a[a.length - 1] || new Date();
-        h.push(new Date(f.getTime() + 864e5 * t));
-        const m = e.cloneAndAdd(d, h),
-          g = -1 === n ? new Date(r + 864e5 * (t - 1)) : n + t - 1;
+        const y = h[h.length - 1] || a[a.length - 1] || new Date();
+        h.push(new Date(y.getTime() + 864e5 * (t - 1)));
+        const f = e.cloneAndAdd(d, h),
+          m = -1 === n ? new Date(r + 864e5 * (t - 1)) : n + t - 1;
         u.push({
-          tooltip: _e(m, 0, m.counts().length - 1, y, !0),
-          x: g,
+          tooltip: _e(
+            f,
+            0,
+            f.counts().length - 1,
+            -1 === n ? -1 : n + t - 1,
+            !0
+          ),
+          x: m,
           y: 0 === i ? c.active : (c.active / e.population()) * 100,
         }),
           l.push({
-            tooltip: _e(m, 2, m.counts().length - 1, y, !0),
-            x: g,
+            tooltip: _e(f, 2, f.counts().length - 1, n, !0),
+            x: m,
             y: 0 === i ? c.deaths : (c.deaths / e.population()) * 100,
           }),
           p.push({
-            tooltip: _e(m, 3, m.counts().length - 1, y, !0),
-            x: g,
+            tooltip: _e(f, 3, f.counts().length - 1, n, !0),
+            x: m,
             y: 0 === i ? c.recoveries : (c.recoveries / e.population()) * 100,
           });
       }
