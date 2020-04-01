@@ -1,0 +1,44 @@
+{
+  "CA": {
+    "2020-03-21": {
+      "colour": "#000000",
+      "size": 25,
+      "description": "nonEssentialLockdown",
+      "npi": [],
+      "state": ["ON", "QC"],
+      "urls": [
+        "https://nationalpost.com/news/covid-19-ontario-and-quebec-order-non-essential-businesses-closed-after-spike-in-coronavirus-totals"
+      ]
+    }
+  },
+  "CN": {
+    "2020-01-19": {
+      "description": "lockdown",
+      "npi": [],
+      "state": "HU",
+      "urls": [
+        "https://www.bbc.com/news/world-asia-china-51217455",
+        "https://nationalpost.com/news/coronavirus-wuhan-virus-china-sars-canada-snakes"
+      ]
+    }
+  },
+  "ES": {
+    "2020-03-14": {
+      "description": "lockdown",
+      "npi": [],
+      "urls": [
+        "https://www.ctvnews.ca/health/coronavirus/spain-announces-national-lockdown-of-46-million-citizens-1.4853141"
+      ]
+    }
+  },
+  "IT": {
+    "2020-03-09": {
+      "description": "lockdown",
+      "npi": [],
+      "urls": [
+        "https://www.theverge.com/2020/3/9/21172390/italy-lockdown-coronavirus-expansion-lombardy",
+        "https://www.aljazeera.com/news/2020/03/italy-coronavirus-lockdown-restrictions-200310050125680.html"
+      ]
+    }
+  }
+}

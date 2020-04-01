@@ -1,0 +1,64 @@
+{
+  "government": {
+    "centralAuthority": 0.0,
+    "stateOfEmergency": 0.0,
+    "informationSharing": 0.0
+  },
+  "education": {
+    "npi": 0.0
+  },
+  "detectionAndIsolation": {
+    "intensiveTesting": 0.0,
+    "complimentaryDetectionMethods": 0.0,
+    "suspiciousDeathAndInfectionTracking": 0.0,
+    "driveThroughTesting": 0.0,
+    "mobileAppTrackers": 0.0,
+    "contactTracingStrict": 0.0,
+    "temperatureAndHealthScreening": 0.0,
+    "massFeverScreening": 0.0,
+    "caseIsolation": 0.0,
+    "householdQuarantine": 0.0,
+    "homeIsolationOfSuspectCases": 0.0,
+    "homeQuarantimeOfThoseLivingWithSuspectCases": 0.0
+  },
+  "publicDecontamination": {
+    "disinfection": 0.0,
+    "hazardousWasteManagement": 0.0
+  },
+  "healthCareResources": {
+    "surgeCriticalCareBedCapacity": 0.0,
+    "providingExtraSupplies": 0.0,
+    "additionalFundingForMedicalProfessionals": 0.0,
+    "medStudentVoluneers": 0.0
+  },
+  "socialDistancingAndIsolation": {
+    "elderly": 0.0,
+    "voluntaryQuarantine": 0.0,
+    "highRiskQuarantine": 0.0,
+    "streetSecurityChecks": 0.0,
+    "travelReturnQuarantine": 0.0
+  },
+  "economics": {
+    "somePaymentDefer": 0.0,
+    "quarantineOrderAllowance": 0.0,
+    "extendedMedicalLeave": 0.0
+  },
+  "travelBans": {
+    "nonEssential": 0.0,
+    "entryRestrictions": 0.0,
+    "closingBorders": 0.0,
+    "closingCities": 0.0
+  },
+  "closure": {
+    "allPublicSchools": 0.0,
+    "privateSchools": 0.0,
+    "postSecondarySchools": 0.0,
+    "placesOfWorship": 0.0,
+    "barsAndSocialVenues": 0.0,
+    "gatherings250": 0.0,
+    "gatherings50": 0.0,
+    "gatherings10": 0.0,
+    "gatherings5": 0.0,
+    "nonEssentialBusiness": 0.0
+  }
+}

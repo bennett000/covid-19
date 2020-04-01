@@ -184,3 +184,23 @@ export interface MenuProp {
   onClick(selected: number): any;
   selected: number;
 }
+
+export interface TimelineEvent {
+  history?: TimelineEventHistory;
+  seir?: TimelineEventSeir;
+  ymdString: string;
+}
+
+export interface TimelineEventSeir {
+  r0: number;
+  fatalityRate: number;
+}
+
+export interface TimelineEventHistory {
+  colour?: string;
+  description: string;
+  npi: string[];
+  size?: number;
+  state?: string | string[];
+  urls: string[];
+}

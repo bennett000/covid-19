@@ -41,6 +41,7 @@ import {
 } from './time-series';
 import { Strings } from './i18n';
 import { Seir } from './seir';
+import historicalEventsByCountry from '../data/timeline-historical-events.json';
 
 const populationDictionary: {
   [key: string]: number;
@@ -580,6 +581,13 @@ function simplePad(number: number): string {
   return number + '';
 }
 
+function createYmdString(date: Date) {
+  const year = date.getUTCFullYear();
+  const month = simplePad(date.getUTCMonth() + 1);
+  const day = simplePad(date.getUTCDate());
+  return `${year}-${month}-${day}`;
+}
+
 export function generateDateDictionary(): Dictionary<number> {
   const day0 = new Date(jhuStartDay).getTime();
   const now = Date.now() - twentyFourSeven;
@@ -588,11 +596,7 @@ export function generateDateDictionary(): Dictionary<number> {
 
   for (let i = 0; i < days; i += 1) {
     const today = new Date(day0 + i * twentyFourSeven);
-    const year = today.getUTCFullYear();
-    const month = simplePad(today.getUTCMonth() + 1);
-    const date = simplePad(today.getUTCDate());
-    const todayString = `${year}-${month}-${date}`;
-    dict[todayString] = i;
+    dict[createYmdString(today)] = i;
   }
 
   return dict;
@@ -816,6 +820,40 @@ export function selectData(cache: Dictionary<ChartSeries>, state: AppState) {
   });
 }
 
+function getEventFrom(ts: ITimeSeries, day: number) {
+  const historicalEvents =
+    historicalEventsByCountry[ts.countryCode().toUpperCase()];
+  if (historicalEvents === undefined) {
+    return;
+  }
+  const ymdString = createYmdString(ts.dates()[day]);
+  const event = historicalEvents[ymdString];
+  ``;
+  if (event === undefined) {
+    return;
+  }
+  return event;
+}
+
+function getEventTooltip(ts: ITimeSeries, day: number): string {
+  const event = getEventFrom(ts, day);
+  if (event === undefined) {
+    return '';
+  }
+  return `<br/><br/>Event: ${event.description}`;
+}
+
+function getEventMarker(ts: ITimeSeries, day: number) {
+  const event = getEventFrom(ts, day);
+  if (event === undefined) {
+    return event;
+  }
+  return {
+    color: event.colour,
+    marker: event.size ? { size: event.size } : undefined,
+  };
+}
+
 function selectConfirmedVsRecentData(
   cache: Dictionary<ChartSeries>,
   state: AppState,
@@ -841,7 +879,9 @@ function selectConfirmedVsRecentData(
     if (count.confirmed < xMin) {
       continue;
     }
+    const events = getEventMarker(ts, i) || {};
     chart.points.push({
+      ...events,
       x: count.confirmed,
       y,
     });
@@ -922,6 +962,8 @@ export function createToolTip(
     ts.population().toLocaleString() +
     (ts.populationDensity() ? ` (${ts.populationDensity()}/km2)` : '');
 
+  const footer = getEventTooltip(ts, day);
+
   return (
     header +
     '<br/><br/>' +
@@ -974,7 +1016,8 @@ export function createToolTip(
     [
       `New Cases: <b>${ts.counts()[day].newConfirmed.toLocaleString()}</b>`,
       `New Deaths: <b>${ts.counts()[day].newDeaths.toLocaleString()}</b>`,
-    ].join('<br/>')
+    ].join('<br/>') +
+    footer
   );
 }
 
@@ -995,7 +1038,9 @@ function createSelectTimeVsCountsByConfirmedReducer(
         ts.population()
       );
       if (y) {
+        const events = getEventMarker(ts, i) || {};
         ps.push({
+          ...events,
           tooltip: createToolTip(ts, dataSetIndex, i, fromDay0),
           x: fromDay0,
           y,
@@ -1121,7 +1166,9 @@ function createSelectTimeVsCountsByDateReducer(
         ts.population()
       );
       if (y) {
+        const events = getEventMarker(ts, i) || {};
         ps.push({
+          ...events,
           tooltip: createToolTip(ts, dataSetIndex, i),
           x: ts.dates()[i],
           y,
