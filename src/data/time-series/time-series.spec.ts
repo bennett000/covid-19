@@ -1,5 +1,4 @@
 import { TimeSeries, createTimeSeriesCount } from './time-series';
-import { projectionPalette, recoveryDays } from '../constants';
 
 describe('time series', () => {
   describe('lastValue', () => {

@@ -4,9 +4,9 @@ import {
   getRecoveryDays,
   TimeSeriesCollection,
 } from './time-series-collection';
-import { CsvJhuTimeSeries } from './csv/jhu-time-series';
-import { usaCode } from '../constants';
-import { CsvNytTimeSeries } from './csv/nyt-time-series';
+import { CsvJhuTimeSeries } from '../csv/jhu-time-series';
+import { usaCode } from '../../constants';
+import { CsvNytTimeSeries } from '../csv/nyt-time-series';
 
 describe('time series collection', () => {
   describe('from', () => {

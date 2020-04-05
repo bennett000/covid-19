@@ -1,4 +1,4 @@
-import { TimeSeriesCount } from './data.interfaces';
+import { TimeSeriesCount } from './time-series.interfaces';
 
 export interface Location {
   country: string;

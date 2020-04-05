@@ -2,7 +2,7 @@ import { fetchData } from './data';
 import { AppState } from './interfaces';
 import { isNumber, isString, isBoolean } from '@ch1/utility';
 import { log } from './utility';
-import { TimeSeriesArray } from './data/time-series-array';
+import { TimeSeriesArray } from './data/time-series/time-series-array';
 import { Strings } from './i18n';
 import { Seir } from './seir';
 import {

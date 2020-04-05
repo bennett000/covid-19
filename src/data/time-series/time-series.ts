@@ -2,9 +2,9 @@ import {
   ITimeSeries,
   TimeSeriesCount,
   TimeSeriesType,
-} from './data.interfaces';
-import { LocationSeries } from './data.interfaces.local';
-import { cloneFlat } from '../utility';
+} from './time-series.interfaces';
+import { LocationSeries } from './time-series.interfaces.local';
+import { cloneFlat } from '../../utility';
 
 export function createTimeSeriesCount(): TimeSeriesCount {
   return {

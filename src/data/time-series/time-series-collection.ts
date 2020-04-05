@@ -3,23 +3,27 @@ import {
   getPopulation,
   getPopulationDensity,
   getStatePopulation,
-} from './country-data';
+} from '../country-data';
 import {
   ITimeSeries,
   TimeSeriesCount,
   TimeSeriesType,
-} from './data.interfaces';
+} from './time-series.interfaces';
 import { createTimeSeriesCount, TimeSeries } from './time-series';
-import { generateDateDictionary } from '../utility';
-import { CsvNytTimeSeries } from './csv/nyt-time-series';
-import { LocationSeries } from './data.interfaces.local';
-import { CsvJhuTimeSeries } from './csv/jhu-time-series';
+import { generateDateDictionary } from '../../utility';
+import { CsvNytTimeSeries } from '../csv/nyt-time-series';
+import { LocationSeries } from './time-series.interfaces.local';
+import { CsvJhuTimeSeries } from '../csv/jhu-time-series';
 import {
   usaCode,
   recoveryDays,
   reverseDeathProjectionDefaults,
-} from '../constants';
-import { statesToCodes, codesToStates, countriesToCodes } from './country-data';
+} from '../../constants';
+import {
+  statesToCodes,
+  codesToStates,
+  countriesToCodes,
+} from '../country-data';
 
 function manuallyAdjustJhu(dict: Dictionary<LocationSeries>) {
   // there will be some initial data that needs correction to keep things organized

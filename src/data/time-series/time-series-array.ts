@@ -1,4 +1,4 @@
-import { ITimeSeries, ITimeSeriesArray } from './data.interfaces';
+import { ITimeSeries, ITimeSeriesArray } from './time-series.interfaces';
 export class TimeSeriesArray extends Array implements ITimeSeriesArray {
   static create() {
     return new TimeSeriesArray();

@@ -16,14 +16,14 @@ import {
 } from './constants';
 import { Dictionary } from '@ch1/utility';
 import { createYmdString } from './utility';
-import { createTimeSeriesCount } from './data/time-series';
+import { createTimeSeriesCount } from './data/time-series/time-series';
 import { Strings } from './i18n';
 import { Seir } from './seir';
 import historicalEventsByCountry from '../data/timeline-historical-events.json';
 import { CsvNytTimeSeries } from './data/csv/nyt-time-series';
-import { TimeSeriesCollection } from './data/time-series-collection';
+import { TimeSeriesCollection } from './data/time-series/time-series-collection';
 import { CsvJhuTimeSeries } from './data/csv/jhu-time-series';
-import { TimeSeriesArray } from './data/time-series-array';
+import { TimeSeriesArray } from './data/time-series/time-series-array';
 import {
   ITimeSeriesArray,
   TimeSeriesCount,
