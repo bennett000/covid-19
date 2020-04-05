@@ -52,8 +52,19 @@
     "test:w": "jest --watch"
   },
   "jest": {
+    "globals": {
+      "ts-jest": {
+        "tsConfig": {
+          "esModuleInterop": true,
+          "resolveJsonModule": true
+        }
+      }
+    },
     "preset": "ts-jest",
     "collectCoverage": true,
+    "collectCoverageFrom": [
+      "src/**/*.ts"
+    ],
     "coverageReporters": [
       "html",
       "text"

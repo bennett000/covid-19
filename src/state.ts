@@ -2,7 +2,7 @@ import { fetchData } from './data';
 import { AppState } from './interfaces';
 import { isNumber, isString, isBoolean } from '@ch1/utility';
 import { log } from './utility';
-import { TimeSeriesArray } from './time-series';
+import { TimeSeriesArray } from './data/time-series-array';
 import { Strings } from './i18n';
 import { Seir } from './seir';
 import {
@@ -175,7 +175,7 @@ const dataTypeInputSeirSavedState: DataType[] = [
   { prop: 'timeFromIncubationToHospital', is: isNumber },
 ];
 
-function isDataType(dt: DataType[], thing: any): boolean {
+function isDataType<T>(dt: DataType[], thing: any): thing is T {
   if (!thing) {
     return false;
   }

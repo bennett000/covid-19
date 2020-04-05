@@ -2,14 +2,7 @@ import {
   SelectOptionsWithIndex,
   ChartSeries,
   AppState,
-  JhuTimeSeries,
-  JhuTimeSeriesHeader,
-  JhuSet,
-  ITimeSeries,
   TimeSeriesType,
-  ITimeSeriesArray,
-  LocationSeries,
-  TimeSeriesCount,
   ChartPoint,
   InputSeirState,
 } from './interfaces';
@@ -17,45 +10,25 @@ import {
   reverseDeathProjectionDefaults,
   projectionPalette,
   basePalette,
-  recoveryDays,
   jhuStartDay,
   twentyFourSeven,
   usaCode,
 } from './constants';
-import rawPopulationData from 'country-json/src/country-by-population.json';
-import rawPopulationDensityData from 'country-json/src/country-by-population-density.json';
-import { Dictionary, objReduce, objEach } from '@ch1/utility';
-import {
-  mapJhuCountryToPop,
-  manuallySourcePop,
-  usStateCodeByName,
-  manuallySourceStatePop,
-  countriesToCodes,
-  statesToCodes,
-} from './data-maps';
-import { log } from './utility';
-import {
-  createTimeSeriesCount,
-  TimeSeries,
-  TimeSeriesArray,
-} from './time-series';
+import { Dictionary } from '@ch1/utility';
+import { createYmdString } from './utility';
+import { createTimeSeriesCount } from './data/time-series';
 import { Strings } from './i18n';
 import { Seir } from './seir';
 import historicalEventsByCountry from '../data/timeline-historical-events.json';
-
-const populationDictionary: {
-  [key: string]: number;
-} = (rawPopulationData || []).reduce((p, node) => {
-  p[node.country] = parseInt(node.population, 10);
-  return p;
-}, {});
-
-const populationDensityDictionary: {
-  [key: string]: number;
-} = (rawPopulationDensityData || []).reduce((p, node) => {
-  p[node.country] = node.density === null ? null : parseInt(node.density, 10);
-  return p;
-}, {});
+import { CsvNytTimeSeries } from './data/csv/nyt-time-series';
+import { TimeSeriesCollection } from './data/time-series-collection';
+import { CsvJhuTimeSeries } from './data/csv/jhu-time-series';
+import { TimeSeriesArray } from './data/time-series-array';
+import {
+  ITimeSeriesArray,
+  TimeSeriesCount,
+  ITimeSeries,
+} from './data/data.interfaces';
 
 const jhuUrls = [
   // updated from previous deprecated files (https://github.com/CSSEGISandData/COVID-19/commit/203881b83c3820521f5af7cafb0d15367e415652)
@@ -71,185 +44,28 @@ export function fetchData(
   strings: Strings
 ): Promise<{
   countries: SelectOptionsWithIndex[];
-  dictionary: Dictionary<ITimeSeries>;
+  dictionary: TimeSeriesCollection;
   timeSeries: ITimeSeriesArray;
 }> {
   return Promise.all([
     Promise.all(jhuUrls.map(url => fetch(url)))
       .then(unwrapResponses)
-      .then(convertAllJhuCsvToStructured(strings))
-      .then(convertToCountryDictionary(strings))
-      .then(manuallyAdjust),
+      .then(jhuStringsToCsvs)
+      .then(TimeSeriesCollection.from),
     fetch(nytUrl)
       .then(unwrapResponse)
-      .then(convertNytCsvToStructured),
+      .then(CsvNytTimeSeries.create)
+      .then(TimeSeriesCollection.from),
   ])
-    .then(mergeNytIntoJhu)
-    .then(interpolateRecoveriesActiveCasesAndNewProps(strings))
-    .then(sumAllRegions(strings))
-    .then(sumWorld(strings))
-    .then(toITimeSeries)
+    .then(TimeSeriesCollection.merge)
+    .then(value => value.interpolateRecoveriesActiveCasesAndNewProps())
+    .then(value => value.sumRegions())
+    .then(value => value.sumWorld())
     .then(extractCountries);
 }
 
-function manuallyAdjust(dict: Dictionary<LocationSeries>) {
-  // there will be some initial data that needs correction to keep things organized
-
-  // there is no top level entry for Canadian confirmed cases or deaths, this minimal recovery data
-  delete dict.CA;
-
-  return dict;
-}
-
-function mergeNytIntoJhu([jhu, nyt]: [
-  Dictionary<LocationSeries>,
-  Dictionary<LocationSeries>
-]): Dictionary<LocationSeries> {
-  objEach(nyt, (el, key) => {
-    if (jhu[key] === undefined) {
-      jhu[key] = el;
-    }
-  });
-  return jhu;
-}
-
-export function toITimeSeries(dict: Dictionary<LocationSeries>) {
-  const dictionary: Dictionary<ITimeSeries> = {};
-  const timeSeries = objReduce(
-    dict,
-    (arr, location, key) => {
-      if (location.locale) {
-        return arr;
-      }
-      const ts = TimeSeries.create(location);
-      arr.push(ts);
-      dictionary[key] = ts;
-      return arr;
-    },
-    TimeSeriesArray.create()
-  );
-  return { dictionary, timeSeries };
-}
-
-export function convertToCountryDictionary(
-  strings: Strings
-): (dataSets: JhuSet[]) => Dictionary<LocationSeries> {
-  return (dataSets: JhuSet[]) => {
-    const dict: Dictionary<LocationSeries> = {};
-    const createOnEach = (prop: TimeSeriesType) => c => {
-      const countryCode = countriesToCodes[c.country];
-      if (!countryCode) {
-        log(strings.data.log.countryNotFound, c.country);
-        return;
-      }
-      let code = countryCode;
-      let stateCode = '';
-      if (c.state) {
-        const states = statesToCodes[c.country];
-        if (!states) {
-          // don't bother logging these
-          return;
-        }
-        stateCode = states[c.state];
-        if (!stateCode) {
-          log(strings.data.log.stateNotFound, c.country + ',', c.state);
-          return;
-        }
-        code = code + '.' + stateCode;
-      }
-      if (c.locale) {
-        code = code + '.' + c.locale;
-      }
-      if (dict[code]) {
-        c.timeSeries.map((value, i) => {
-          if (dict[code].counts[i] === undefined) {
-            log(strings.data.log.unexpectedLength, prop);
-            dict[code].counts[i] = createTimeSeriesCount();
-          }
-          dict[code].counts[i][prop] = value;
-        });
-      } else {
-        dict[code] = {
-          country: c.country,
-          countryCode,
-          counts: c.timeSeries.map(value => {
-            const tsc = createTimeSeriesCount();
-            tsc[prop] = value;
-            return tsc;
-          }),
-          dates: dataSets[0][0],
-          key: code,
-          locale: c.locale,
-          population: c.population,
-          populationDensity: c.populationDensity,
-          state: c.state,
-          stateCode,
-        };
-      }
-    };
-
-    dataSets[0][1].forEach(createOnEach('confirmed'));
-    dataSets[1][1].forEach(createOnEach('deaths'));
-    dataSets[2][1].forEach(createOnEach('recoveries'));
-
-    return dict;
-  };
-}
-
-export function getRecoveryDays(strings: Strings) {
-  return (count: TimeSeriesCount, i: number, arr: TimeSeriesCount[], rdays) => {
-    if (count.confirmed) {
-      if (count.recoveries < 1) {
-        if (arr[i - rdays]) {
-          if (arr[i - rdays - 1]) {
-            const rprev = arr[i - rdays - 1].confirmed;
-            const rcurr = arr[i - rdays].confirmed;
-            const diff = rcurr - rprev;
-
-            if (arr[i - 1]) {
-              return diff + arr[i - 1].recoveries;
-            } else {
-              return diff;
-            }
-          }
-        }
-      } else {
-        return count.recoveries;
-      }
-    } else {
-      if (count.deaths) {
-        log(strings.data.log.deathNoConfirmed);
-      }
-      if (count.recoveries) {
-        log(strings.data.log.recoveryNoConfirmed);
-      }
-    }
-    return 0;
-  };
-}
-
-export function interpolateRecoveriesActiveCasesAndNewProps(
-  strings: Strings
-): (d: Dictionary<LocationSeries>) => Dictionary<LocationSeries> {
-  return (dict: Dictionary<LocationSeries>) => {
-    objEach(dict, c => {
-      c.counts.forEach((count, i, arr) => {
-        count.recoveries = getRecoveryDays(strings)(
-          count,
-          i,
-          arr,
-          recoveryDays
-        );
-        count.active = count.confirmed - count.deaths - count.recoveries;
-        count.projectionReverseDeath = reverseDeathProjection(count);
-        count.newConfirmed =
-          count.confirmed - (arr[i - 1] ? arr[i - 1].confirmed || 0 : 0);
-        count.newDeaths =
-          count.deaths - (arr[i - 1] ? arr[i - 1].deaths || 0 : 0);
-      });
-    });
-    return dict;
-  };
+function jhuStringsToCsvs(strings: string[]) {
+  return strings.map(string => CsvJhuTimeSeries.create(string));
 }
 
 export function reverseDeathProjection(day: TimeSeriesCount) {
@@ -278,159 +94,6 @@ export function addCounts(
     recoveries: a.recoveries + b.recoveries,
     projectionReverseDeath: a.projectionReverseDeath + b.projectionReverseDeath,
   };
-}
-
-export function sumWorld(
-  strings: Strings
-): (d: Dictionary<LocationSeries>) => Dictionary<LocationSeries> {
-  return (dict: Dictionary<LocationSeries>) => {
-    const world = {
-      country: strings.countries.world,
-      countryCode: strings.countries.world,
-      dates: Object.keys(generateDateDictionary()).map(ds => new Date(ds)),
-      key: strings.countries.world,
-      locale: '',
-      population: 0,
-      populationDensity: 0,
-      state: '',
-      stateCode: '',
-      counts: [],
-    };
-    objEach(dict, location => {
-      if (location.locale) {
-        return;
-      }
-      if (location.state && location.state !== strings.countries.total) {
-        return;
-      }
-      world.population += location.population;
-      location.counts.forEach((count, i) => {
-        if (world.counts[i]) {
-          world.counts[i] = addCounts(world.counts[i], count);
-        } else {
-          world.counts[i] = {
-            ...count,
-          };
-        }
-      });
-    });
-    dict[strings.countries.world] = world;
-    return dict;
-  };
-}
-
-export function sumAllRegions(
-  strings: Strings
-): (d: Dictionary<LocationSeries>) => Dictionary<LocationSeries> {
-  return (dict: Dictionary<LocationSeries>) => {
-    objEach(dict, location => {
-      if (location.state === strings.countries.total) {
-        // skip totals
-        return;
-      }
-      if (location.state) {
-        if (location.locale) {
-          // re-implement US addition?
-          return;
-        }
-        if (dict[location.countryCode]) {
-          // skip if there's already a total like in UK's case
-          return;
-        }
-        const totalKey = location.countryCode + '.' + strings.countries.total;
-        if (dict[totalKey] === undefined) {
-          dict[totalKey] = {
-            ...location,
-            key: totalKey,
-            locale: '',
-            population: getPopulation(strings)(location.country),
-            populationDensity: getPopulationDensity(location.country),
-            state: strings.countries.total,
-            counts: [],
-          };
-        }
-        location.counts.forEach((count, i) => {
-          if (dict[totalKey].counts[i]) {
-            dict[totalKey].counts[i] = addCounts(
-              dict[totalKey].counts[i],
-              count
-            );
-          } else {
-            dict[totalKey].counts[i] = count;
-          }
-        });
-      }
-    });
-    return dict;
-  };
-}
-
-function getPopulation(
-  strings: Strings
-): (country: string, state?: string, locale?: string) => number {
-  return (country: string, state?: string, locale?: string) => {
-    if (locale) {
-      return 0;
-    }
-    if (state) {
-      return getStatePopulation(country, state, locale);
-    }
-    let population = populationDictionary[country];
-    if (population) {
-      return population;
-    }
-    population = populationDictionary[mapJhuCountryToPop[country]];
-    if (population) {
-      return population;
-    }
-    population = manuallySourcePop[country];
-    if (population) {
-      return population;
-    }
-    log(strings.data.log.populationNotFound, country, state, locale);
-    return 0;
-  };
-}
-
-function getStatePopulation(country: string, state?: string, locale?: string) {
-  if (locale) {
-    return 0;
-  }
-  if (manuallySourceStatePop[country]) {
-    if (country === usaCode) {
-      const rawStateCode = usStateCodeByName[state];
-      if (rawStateCode) {
-        const stateCode = rawStateCode === 'D.C.' ? 'DC' : rawStateCode;
-        if (manuallySourceStatePop[country][stateCode]) {
-          return manuallySourceStatePop[country][stateCode];
-        }
-      }
-    } else {
-      if (manuallySourceStatePop[country][state]) {
-        return manuallySourceStatePop[country][state];
-      }
-    }
-  }
-  return 0;
-}
-
-function getPopulationDensity(
-  country: string,
-  state?: string,
-  locale?: string
-): number {
-  if (state || locale) {
-    return 0;
-  }
-  let populationDensity = populationDensityDictionary[country];
-  if (populationDensity) {
-    return populationDensity;
-  }
-  populationDensity = populationDensityDictionary[mapJhuCountryToPop[country]];
-  if (populationDensity) {
-    return populationDensity;
-  }
-  return 0;
 }
 
 function unwrapResponse(response: Response) {
@@ -512,223 +175,19 @@ export function stateToLocaleState(string: string) {
   }
 }
 
-export function csvRowStringToJhuTimeSeriesHeader(
-  rowString: string
-): JhuTimeSeriesHeader {
-  const cells = rowString.split(',');
-  return cells.slice(4).map(item => new Date(item));
-}
-
-export function convertRowToTimeSeries(
-  strings: Strings
-): (row: string[]) => JhuTimeSeries {
-  return (row: string[]) => {
-    const country = row[1];
-    const [locale, state] = stateToLocaleState(row[0]);
-    const population = getPopulation(strings)(country, state, locale);
-    const populationDensity = getPopulationDensity(country, state, locale);
-    return {
-      country,
-      locale,
-      population,
-      populationDensity,
-      state,
-      timeSeries: row.slice(4).map(item => parseInt(item, 10)),
-    };
-  };
-}
-
-export function convertStringArrayToStructured(
-  strings: Strings
-): (rowString: string) => JhuSet {
-  return (rowString: string) => {
-    const rows = rowString.split('\n');
-    const header = csvRowStringToJhuTimeSeriesHeader(rows[0]);
-    return [
-      header,
-      rows
-        .slice(1)
-        .map(csvRowStringToArray)
-        .filter(row => row.length)
-        .map(convertRowToTimeSeries(strings)),
-    ];
-  };
-}
-
-function convertAllJhuCsvToStructured(strings: Strings) {
-  return (csvStrings: string[]) => {
-    return csvStrings.map(convertStringArrayToStructured(strings));
-  };
-}
-
-function sortNytRows(rows: string[][]) {
-  rows.sort((a, b) => {
-    if (a[0] < b[0]) {
-      return -1;
-    }
-    if (a[0] > b[0]) {
-      return 1;
-    }
-    return 0;
-  });
-  return rows;
-}
-
-function simplePad(number: number): string {
-  if (number < 10) {
-    return '0' + number;
-  }
-  return number + '';
-}
-
-function createYmdString(date: Date) {
-  const year = date.getUTCFullYear();
-  const month = simplePad(date.getUTCMonth() + 1);
-  const day = simplePad(date.getUTCDate());
-  return `${year}-${month}-${day}`;
-}
-
-export function generateDateDictionary(): Dictionary<number> {
-  const day0 = new Date(jhuStartDay).getTime();
-  const now = Date.now() - twentyFourSeven;
-  const days = Math.floor((now - day0) / 1000 / 60 / 60 / 24);
-  const dict: Dictionary<number> = {};
-
-  for (let i = 0; i < days; i += 1) {
-    const today = new Date(day0 + i * twentyFourSeven);
-    dict[createYmdString(today)] = i;
-  }
-
-  return dict;
-}
-
-export function nytRowsToDict(
-  rows: string[][]
-): Dictionary<Dictionary<TimeSeriesCount>> {
-  const dict: Dictionary<Dictionary<TimeSeriesCount>> = {};
-  rows.forEach(row => {
-    if (!row[0] || !row[1]) {
-      return;
-    }
-
-    const stateCode = usStateCodeByName[row[1]];
-    if (!stateCode) {
-      return;
-    }
-    const key = keyFromUsState(stateCode);
-
-    if (dict[row[0]] === undefined) {
-      dict[row[0]] = {};
-    }
-
-    if (dict[row[0]][key] === undefined) {
-      dict[row[0]][key] = createTimeSeriesCount();
-    }
-
-    if (row[3]) {
-      dict[row[0]][key].confirmed = parseInt(row[3], 10);
-    }
-
-    if (row[4]) {
-      dict[row[0]][key].deaths = parseInt(row[4], 10);
-    }
-  });
-  return dict;
-}
-
-function convertNytTimeSeriesDictToStateDict(
-  byTime: Dictionary<Dictionary<TimeSeriesCount>>
-): [Date[], Dictionary<TimeSeriesCount[]>] {
-  const byState: Dictionary<TimeSeriesCount[]> = {};
-
-  // account for JHU D.C. code
-  const states = Object.keys(statesToCodes.US).filter(code => {
-    if (code === 'D.C.') {
-      return false;
-    }
-    return true;
-  });
-  const dateDict = generateDateDictionary();
-  const dates: Date[] = [];
-  objEach(dateDict, (timeSeriesIndex, dateString) => {
-    dates.push(new Date(dateString));
-    states.forEach(stateCode => {
-      const key = keyFromUsState(stateCode);
-
-      if (byState[key] === undefined) {
-        byState[key] = [];
-      }
-
-      if (byTime[dateString] && byTime[dateString][key]) {
-        byState[key][timeSeriesIndex] = byTime[dateString][key];
-      } else {
-        const last = byState[key][timeSeriesIndex - 1];
-        if (last) {
-          byState[key][timeSeriesIndex] = {
-            ...last,
-          };
-        } else {
-          byState[key][timeSeriesIndex] = createTimeSeriesCount();
-        }
-      }
-    });
-  });
-  return [dates, byState];
-}
-
-function convertNytCsvToStructured(string: string): Dictionary<LocationSeries> {
-  const rows = sortNytRows(
-    string
-      .split('\n')
-      .slice(1)
-      .map(csvRowStringToArray)
-  );
-
-  const timeSeriesDict = nytRowsToDict(rows);
-  const [dates, byState] = convertNytTimeSeriesDictToStateDict(timeSeriesDict);
-  const dict: Dictionary<LocationSeries> = {};
-
-  objEach(byState, (counts, key) => {
-    const stateCode = key.split('.')[1];
-    const state = statesToCodes.US[stateCode];
-    dict[key] = {
-      country: usaCode,
-      countryCode: usaCode,
-      dates,
-      key,
-      locale: '',
-      population: getStatePopulation(usaCode, state),
-      populationDensity: getPopulationDensity(usaCode, state),
-      state,
-      stateCode,
-      counts,
-    };
-  });
-
-  return dict;
-}
-
-function extractCountries({
-  dictionary,
-  timeSeries,
-}: {
-  dictionary: Dictionary<ITimeSeries>;
-  timeSeries: ITimeSeriesArray;
-}) {
-  const countries = objReduce(
-    dictionary,
-    (arr, location, key) => {
-      if (location.locale()) {
-        return arr;
-      }
-      const name = location.countryName();
-      arr.push({ index: key, name });
+function extractCountries(collection: TimeSeriesCollection) {
+  const countries: SelectOptionsWithIndex[] = collection
+    .reduce((arr, location) => {
+      const name = location.formatName();
+      arr.push({ index: location.key(), name });
       return arr;
-    },
-    []
-  ).sort(sortByProp('name'));
+    }, [])
+    .sort(sortByProp('name'));
 
-  return { countries, dictionary, timeSeries };
+  const tsa = TimeSeriesArray.create();
+  collection.forEach(tsc => tsa.push(tsc));
+
+  return { countries, dictionary: collection, timeSeries: tsa };
 }
 
 function sortByProp(prop: string) {
@@ -866,7 +325,7 @@ function selectConfirmedVsRecentData(
   const chart = {
     color: colour,
     line: { color: colour },
-    name: ts.countryName(),
+    name: ts.formatName(),
     points: [],
   };
   const yMin = 1;
@@ -932,7 +391,7 @@ function createSelectTimeVsCountsChart(
   const chart = {
     color: colour,
     line,
-    name: getChartTypeFromIndex(dataSetIndex) + ' ' + ts.countryName(),
+    name: getChartTypeFromIndex(dataSetIndex) + ' ' + ts.formatName(),
     points: [],
     type,
   };
@@ -1288,7 +747,7 @@ function createSeirPoints(
       newDates[newDates.length - 1] || dates[dates.length - 1] || new Date();
     newDates.push(new Date(lastDate.getTime() + (i > 1 ? twentyFourSeven : 0)));
 
-    const projectionTs = ts.cloneAndAdd(newCounts, newDates);
+    const projectionTs = ts.cloneAndAppend(newCounts, newDates);
     const x =
       fromDay0 === -1
         ? new Date(start + (i - 1) * twentyFourSeven)
@@ -1393,3 +852,29 @@ function getY(byMetric: number, value: number, population: number): number {
 function keyFromUsState(code: string) {
   return usaCode + '.' + code;
 }
+
+/**
+ * "Data"
+ *
+ * Types of Data
+ *   ACDR time series
+ *   population json
+ *   population density json
+ *   country and sub jurisdiction codes
+ *   ?testing data?
+ *   ?hospital bed and icu data?
+ *
+ * RemoteData
+ *   Functions
+ *     fetch JHU data
+ *       parse JHU data
+ *     fetch NYT data
+ *       parse NYT data
+ *
+ * Data Formats
+ *   JHU CSV
+ *   NYT CSV
+ *   Key Value JSON
+ *   JSCharting Series
+ *   ITimeSeries (this software)
+ */

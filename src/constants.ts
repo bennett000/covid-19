@@ -84,3 +84,7 @@ export const defaultStart = jhuStartDay;
 export const defaultScaleType = 0;
 export const defaultShowStates = false;
 export const defaultDaysToProject = 18;
+export const backslash = '\\';
+export const comma = ',';
+export const doubleQuote = '"';
+export const newLine = '\n';

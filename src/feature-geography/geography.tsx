@@ -11,17 +11,38 @@ import {
   jhuStartDay,
 } from '../constants';
 import { flexCol, fullSize, flex, borderCurved, styles } from '../style';
-import {
-  statesToCodes,
-  usStateCodeByName,
-  countriesToContinents,
-  excludeFromMap,
-} from '../data-maps';
+import { countriesToContinents, statesToCodes } from '../data/country-data';
 import { Select } from '../components/input/select';
 import { Strings } from '../i18n';
 import { noop, objReduce } from '@ch1/utility';
 import { ButtonToggle } from '../components/input/button-toggle';
-import { generateDateDictionary, createToolTip } from '../data';
+import { createToolTip } from '../data';
+import { generateDateDictionary } from '../utility';
+
+const excludeFromMap = {
+  '': true,
+  AG: true, // but it exists in the docs
+  BB: true, // but it exists in the docs
+  BH: true, // but it exists in the docs
+  'CN.HK': 'HK',
+  'CN.MO': 'MO',
+  CV: true, // but it exists in the docs
+  DM: true, // but it exists in the docs
+  GD: true, // but it exists in the docs
+  KN: true,
+  LC: true, // but it exists in the docs
+  MT: true, // but it exists in the docs
+  MU: true,
+  MV: true,
+  PO: true,
+  TL: 'TP',
+  SC: true,
+  SG: true, // but it exists in the docs
+  'US.GU': true,
+  'US.PR': true,
+  'US.VI': true,
+  VC: true,
+};
 
 export class Geography extends Component<
   {
@@ -260,9 +281,6 @@ export class Geography extends Component<
           return null;
         }
       }
-      if (ts.locale()) {
-        return null;
-      }
       if (!ts.population()) {
         return null;
       }
@@ -319,9 +337,6 @@ export class Geography extends Component<
         if (ts.state() !== this.props.strings.countries.total) {
           return null;
         }
-        if (ts.locale()) {
-          return null;
-        }
       }
 
       const code = ts.countryCode();
@@ -373,16 +388,9 @@ export class Geography extends Component<
       if (ts.state() === this.props.strings.countries.total) {
         return null;
       }
-      if (ts.locale()) {
-        return null;
-      }
       let stc = statesToCodes[country];
       if (!stc) {
-        if (countryCode === usaCode) {
-          stc = usStateCodeByName;
-        } else {
-          return null;
-        }
+        return null;
       }
       const code = ts.stateCode();
       if (!code) {

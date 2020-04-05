@@ -1,4 +1,6 @@
 import { SelectOptionsWithIndex } from './interfaces';
+import { Dictionary } from '@ch1/utility';
+import { jhuStartDay, twentyFourSeven } from './constants';
 
 export function isMobile() {
   let check = false;
@@ -36,5 +38,43 @@ export function filterStates(doFilter: boolean, strings) {
       return false;
     }
     return true;
+  };
+}
+
+export function createDate(value?: number | string) {
+  return new Date(value);
+}
+
+export function generateDateDictionary(): Dictionary<number> {
+  const day0 = createDate(jhuStartDay).getTime();
+  const now = Date.now() - twentyFourSeven;
+  const days = Math.floor((now - day0) / 1000 / 60 / 60 / 24);
+  const dict: Dictionary<number> = {};
+
+  for (let i = 0; i < days; i += 1) {
+    const today = createDate(day0 + i * twentyFourSeven);
+    dict[createYmdString(today)] = i;
+  }
+
+  return dict;
+}
+
+function simplePad(number: number): string {
+  if (number < 10) {
+    return '0' + number;
+  }
+  return number + '';
+}
+
+export function createYmdString(date: Date) {
+  const year = date.getUTCFullYear();
+  const month = simplePad(date.getUTCMonth() + 1);
+  const day = simplePad(date.getUTCDate());
+  return `${year}-${month}-${day}`;
+}
+
+export function cloneFlat(c) {
+  return {
+    ...c,
   };
 }
