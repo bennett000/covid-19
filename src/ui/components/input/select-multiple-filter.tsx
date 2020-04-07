@@ -1,11 +1,11 @@
 import { h } from 'preact';
-import { SelectOptions } from '../../interfaces';
+import { SelectOptions } from '../../../interfaces';
 import { InputString } from './string';
 import { SelectMultiple } from './select-multiple';
 import { flexCol, flex } from '../../style';
 import { isString, noop } from '@ch1/utility';
 import { Button } from './button';
-import { isMobile } from '../../utility';
+import { isMobile } from '../../../utility';
 
 type SelectMultipleFilterProps = {
   classes?: string[];

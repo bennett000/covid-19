@@ -1,6 +1,6 @@
-import { render } from './app-ui';
-import { fullSize } from './style';
-import { getSavedLanguage, saveLanguage } from './state';
+import { render } from './ui/app-ui';
+import { fullSize } from './ui/style';
+import { getSavedLanguage, saveLanguage } from './ui/state';
 import { log } from './utility';
 import { defaultLanguage, getLanguage } from './i18n';
 

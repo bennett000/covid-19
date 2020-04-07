@@ -1,9 +1,9 @@
 import { Component, h } from 'preact';
-import { MenuProp } from '../interfaces';
+import { MenuProp } from '../../interfaces';
 import { fullSize } from '../style';
 import { Menu } from '../components/menu';
 import { AboutList } from '../components/about-list';
-import { Strings } from '../i18n';
+import { Strings } from '../../i18n';
 
 export class About extends Component<{
   menu: MenuProp;

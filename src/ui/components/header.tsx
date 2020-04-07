@@ -1,5 +1,5 @@
 import { h } from 'preact';
-import { Strings } from '../i18n';
+import { Strings } from '../../i18n';
 
 export function Header({ strings }: { strings: Strings }) {
   return (

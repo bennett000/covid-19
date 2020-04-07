@@ -1,17 +1,17 @@
 import { h } from 'preact';
-import { Select } from '../components/input/select';
-import { SelectMultiple } from '../components/input/select-multiple';
-import { InputDate } from '../components/input/date';
-import { Button } from '../components/input/button';
-import { flex, flexCol, flexItem20, highlight, styles } from '../style';
+import { Select } from '../../components/input/select';
+import { SelectMultiple } from '../../components/input/select-multiple';
+import { InputDate } from '../../components/input/date';
+import { Button } from '../../components/input/button';
+import { flex, flexCol, flexItem20, highlight, styles } from '../../style';
 import {
   SelectOptionsWithIndex,
   ChartSeries,
   TimeVsCountsState,
-} from '../interfaces';
-import { SelectMultipleFilter } from '../components/input/select-multiple-filter';
-import { Strings } from '../i18n';
-import { filterStates } from '../utility';
+} from '../../../interfaces';
+import { SelectMultipleFilter } from '../../components/input/select-multiple-filter';
+import { Strings } from '../../../i18n';
+import { filterStates } from '../../../utility';
 
 export function TimeVsCountsControls({
   clearCountries,

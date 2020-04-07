@@ -1,6 +1,6 @@
 import Router, { route } from 'preact-router';
 import { Component, h, render as preactRender } from 'preact';
-import { TimeVsCount } from './feature-time-vs-counts/time-vs-counts';
+import { TimeVsCount } from './features/feature-time-vs-counts/time-vs-counts';
 import { createState, loadState, saveState } from './state';
 import {
   AppState,
@@ -11,17 +11,17 @@ import {
   TableState,
   ConfirmedVsRecentState,
   InputSeirState,
-} from './interfaces';
-import { selectData, fetchData } from './data';
-import { log } from './utility';
+} from '../interfaces';
+import { selectData, fetchData } from '../data';
+import { log } from '../utility';
 import { Dictionary } from '@ch1/utility';
-import { LearningTable } from './feature-learning-table/learning-table';
+import { LearningTable } from './features/learning-table';
 import { Header } from './components/header';
 import { fullSize, flexCol } from './style';
-import { ConfirmedVsRecent } from './feature-confirmed-vs-recent/confirmed-vs-recent';
-import { Geography } from './feature-geography/geography';
-import { About } from './feature-about/about';
-import { Strings } from './i18n';
+import { ConfirmedVsRecent } from './features/confirmed-vs-recent';
+import { Geography } from './features/geography';
+import { About } from './features/about';
+import { Strings } from '../i18n';
 import './global.css';
 
 class AppUi extends Component<

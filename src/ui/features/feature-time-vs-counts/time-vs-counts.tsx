@@ -1,13 +1,13 @@
 import { Component, h } from 'preact';
-import { defaultDaysToProject } from '../constants';
+import { defaultDaysToProject } from '../../../constants';
 import {
   TimeVsCountsState,
   ChartSeries,
   SelectOptionsWithIndex,
   MenuProp,
   InputSeirState,
-} from '../interfaces';
-import { Chart } from '../components/chart';
+} from '../../../interfaces';
+import { Chart } from '../../components/chart';
 import {
   flexCol,
   fullSize,
@@ -16,14 +16,14 @@ import {
   flex,
   styles,
   green,
-} from '../style';
+} from '../../style';
 import { TimeVsCountsControls } from './time-vs-counts-controls';
-import { ButtonToggle } from '../components/input/button-toggle';
-import { Menu } from '../components/menu';
-import { Strings } from '../i18n';
-import { InputSeir } from '../components/seir';
-import { Button } from '../components/input/button';
-import { Seir } from '../seir';
+import { ButtonToggle } from '../../components/input/button-toggle';
+import { Menu } from '../../components/menu';
+import { Strings } from '../../../i18n';
+import { InputSeir } from '../../components/seir';
+import { Button } from '../../components/input/button';
+import { Seir } from '../../../seir';
 
 export class TimeVsCount extends Component<{
   clearCountries: () => any;

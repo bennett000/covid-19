@@ -1,7 +1,7 @@
 import { h } from 'preact';
 import { InputNumber } from './input/number';
-import { InputSeirState } from '../interfaces';
-import { Strings } from '../i18n';
+import { InputSeirState } from '../../interfaces';
+import { Strings } from '../../i18n';
 import {
   width2em,
   padding,

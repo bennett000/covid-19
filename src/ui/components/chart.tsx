@@ -2,9 +2,9 @@
 // MIT licensed as `JSC` is proprietary
 declare const JSC: any;
 import { Component, h } from 'preact';
-import { ChartSeries } from '../interfaces';
-import { Strings } from '../i18n';
-import { log } from '../utility';
+import { ChartSeries } from '../../interfaces';
+import { Strings } from '../../i18n';
+import { log } from '../../utility';
 
 export class Chart extends Component<{
   options: { series: ChartSeries[] };

@@ -31,11 +31,11 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       filename: 'index.html',
-      template: './src/index.html',
+      template: './src/ui/index.html',
     }),
     new HtmlWebpackPlugin({
       filename: '404.html',
-      template: './src/index.html',
+      template: './src/ui/index.html',
     }),
     new CopyPlugin([{ from: 'assets', to: '' }]),
   ],

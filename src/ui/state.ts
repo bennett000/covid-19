@@ -1,10 +1,10 @@
-import { fetchData } from './data';
-import { AppState } from './interfaces';
+import { fetchData } from '../data';
+import { AppState } from '../interfaces';
 import { isNumber, isString, isBoolean } from '@ch1/utility';
-import { log } from './utility';
-import { TimeSeriesArray } from './data/time-series/time-series-array';
-import { Strings } from './i18n';
-import { Seir } from './seir';
+import { log } from '../utility';
+import { TimeSeriesArray } from '../data/time-series/time-series-array';
+import { Strings } from '../i18n';
+import { Seir } from '../seir';
 import {
   defaultCountries,
   defaultDaysToProject,
@@ -13,7 +13,7 @@ import {
   defaultScaleType,
   defaultShowStates,
   defaultStart,
-} from './constants';
+} from '../constants';
 
 export function createState(strings: Strings): AppState {
   return {

@@ -4,7 +4,7 @@ import {
   ChartSeries,
   ConfirmedVsRecentState,
   SelectOptionsWithIndex,
-} from '../interfaces';
+} from '../../interfaces';
 import {
   flexCol,
   fullSize,
@@ -17,11 +17,11 @@ import {
   green,
 } from '../style';
 import { Menu } from '../components/menu';
-import { Strings } from '../i18n';
+import { Strings } from '../../i18n';
 import { Chart } from '../components/chart';
 import { ButtonToggle } from '../components/input/button-toggle';
 import { SelectMultipleFilter } from '../components/input/select-multiple-filter';
-import { filterStates } from '../utility';
+import { filterStates } from '../../utility';
 import { Select } from '../components/input/select';
 
 export class ConfirmedVsRecent extends Component<{

@@ -3,7 +3,7 @@
 declare const JSC: any;
 import { Component, h } from 'preact';
 import { fullSize } from '../style';
-import { Strings } from '../i18n';
+import { Strings } from '../../i18n';
 
 export class ChartMap extends Component<{
   ranges: { color: string; value: number[] }[];

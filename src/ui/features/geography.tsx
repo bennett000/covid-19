@@ -1,7 +1,7 @@
 import { Component, h } from 'preact';
 import { ChartMap } from '../components/map';
 import { Menu } from '../components/menu';
-import { MenuProp, ITimeSeriesArray, ITimeSeries } from '../interfaces';
+import { MenuProp, ITimeSeriesArray, ITimeSeries } from '../../interfaces';
 import {
   activeRanges,
   confirmedRanges,
@@ -9,15 +9,15 @@ import {
   recoveryRanges,
   usaCode,
   jhuStartDay,
-} from '../constants';
-import { flexCol, fullSize, flex, borderCurved, styles } from '../style';
-import { countriesToContinents, statesToCodes } from '../data/country-data';
+} from '../../constants';
+import { flexCol, fullSize, flex, styles } from '../style';
+import { countriesToContinents, statesToCodes } from '../../data/country-data';
 import { Select } from '../components/input/select';
-import { Strings } from '../i18n';
+import { Strings } from '../../i18n';
 import { noop, objReduce } from '@ch1/utility';
 import { ButtonToggle } from '../components/input/button-toggle';
-import { createToolTip } from '../data/js-charting/tooltip';
-import { generateDateDictionary } from '../utility';
+import { createToolTip } from '../../data/js-charting/tooltip';
+import { generateDateDictionary } from '../../utility';
 
 const excludeFromMap = {
   '': true,

@@ -1,5 +1,5 @@
 import { h } from 'preact';
-import { SelectOptions } from '../../interfaces';
+import { SelectOptions } from '../../../interfaces';
 import { isString } from '@ch1/utility';
 
 export function Select({

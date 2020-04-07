@@ -1,7 +1,7 @@
 import { h } from 'preact';
 import { action } from '@storybook/addon-actions';
 import { InputSeir } from './seir';
-import { defaultLanguage as strings } from '../i18n';
+import { defaultLanguage as strings } from '../../i18n';
 
 export default { component: InputSeir, title: 'InputSeir' };
 

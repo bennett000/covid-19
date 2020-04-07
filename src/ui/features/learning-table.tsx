@@ -4,7 +4,7 @@ import {
   TableState,
   MenuProp,
   ITimeSeries,
-} from '../interfaces';
+} from '../../interfaces';
 import {
   rowEven,
   rowOdd,
@@ -26,7 +26,7 @@ import { SelectMultiple } from '../components/input/select-multiple';
 import { noop } from '@ch1/utility';
 import { Select } from '../components/input/select';
 import { Menu } from '../components/menu';
-import { Strings } from '../i18n';
+import { Strings } from '../../i18n';
 
 const thClasses = [borderCurved, padding, displayBlock, textAlignLeft].join(
   ' '

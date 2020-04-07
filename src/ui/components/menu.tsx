@@ -1,7 +1,7 @@
 import { h } from 'preact';
 import { flex, styles } from '../style';
 import { Button } from './input/button';
-import { MenuProp } from '../interfaces';
+import { MenuProp } from '../../interfaces';
 
 export function Menu({
   config: { disable, labels, onClick, selected },
