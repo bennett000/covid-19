@@ -3,14 +3,16 @@ import rawPopulationDensityData from 'country-json/src/country-by-population-den
 import codesToStatesJson from '../../data/codes-to-states.json';
 import countriesToCodesJson from '../../data/countries-to-codes.json';
 import countriesToContinentsJson from '../../data/countries-to-continents.json';
-import statesToCodesJson from '../../data/states-to-codes.json';
+import historicalEventsByCountryJson from '../../data/timeline-historical-events.json';
 import mapJhuCountryToPopJson from '../../data/map-jhu-country-to-prop.json';
 import manuallySourcePop from '../../data/manually-sourced-population.json';
 import manuallySourceStatePop from '../../data/manually-sourced-population-state.json';
+import statesToCodesJson from '../../data/states-to-codes.json';
 
 export const codesToStates = codesToStatesJson;
 export const countriesToCodes = countriesToCodesJson;
 export const countriesToContinents = countriesToContinentsJson;
+export const historicalEventsByCountry = historicalEventsByCountryJson;
 export const mapJhuCountryToPop = mapJhuCountryToPopJson;
 export const statesToCodes = statesToCodesJson;
 

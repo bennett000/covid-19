@@ -1,4 +1,4 @@
-import { Dictionary, objEach, objReduce } from '@ch1/utility';
+import { Dictionary, objEach, objReduce, isString } from '@ch1/utility';
 import {
   getPopulation,
   getPopulationDensity,
@@ -24,6 +24,7 @@ import {
   codesToStates,
   countriesToCodes,
 } from '../country-data';
+import { ReadOnlyAble } from '../read-only';
 
 function manuallyAdjustJhu(dict: Dictionary<LocationSeries>) {
   // there will be some initial data that needs correction to keep things organized
@@ -34,7 +35,8 @@ function manuallyAdjustJhu(dict: Dictionary<LocationSeries>) {
   return dict;
 }
 
-export class TimeSeriesCollection {
+export type ITimeSeriesCollection = TimeSeriesCollection;
+export class TimeSeriesCollection extends ReadOnlyAble {
   static create(data: Dictionary<ITimeSeries> = {}) {
     return new TimeSeriesCollection(data);
   }
@@ -78,14 +80,16 @@ export class TimeSeriesCollection {
     return TimeSeriesCollection.create(newData);
   }
 
-  private static totalsString = 'Total';
-  private static worldString = 'World';
+  private static readonly totalsString = 'Total';
+  private static readonly worldString = 'World';
 
   private hasInterpolated = false;
   private hasSummedRegions = false;
   private hasSummedWorld = false;
 
-  private constructor(private dictionary: Dictionary<ITimeSeries> = {}) {}
+  private constructor(private dictionary: Dictionary<ITimeSeries> = {}) {
+    super();
+  }
 
   private sumAllWorld() {
     const world = {
@@ -177,9 +181,14 @@ export class TimeSeriesCollection {
     });
   }
 
-  country(code: string) {
-    if (this.dictionary[code]) {
+  select(code: string): ITimeSeries;
+  select(code: string[]): ITimeSeries[];
+  select(code): any {
+    if (isString(code)) {
       return this.dictionary[code];
+    }
+    if (Array.isArray(code)) {
+      return code.map(c => this.dictionary[c]);
     }
   }
 

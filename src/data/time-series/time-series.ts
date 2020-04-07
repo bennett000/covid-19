@@ -1,29 +1,34 @@
-import {
-  ITimeSeries,
-  TimeSeriesCount,
-  TimeSeriesType,
-} from './time-series.interfaces';
+import { TimeSeriesCount, TimeSeriesType } from './time-series.interfaces';
 import { LocationSeries } from './time-series.interfaces.local';
-import { cloneFlat } from '../../utility';
+import { cloneShallow } from '../../utility';
+import { deepFreeze } from '@ch1/utility';
+import { ReadOnlyAble } from '../read-only';
 
-export function createTimeSeriesCount(): TimeSeriesCount {
+export function createTimeSeriesCount(
+  confirmed = 0,
+  deaths = 0,
+  recoveries = 0
+): TimeSeriesCount {
   return {
     active: 0,
-    confirmed: 0,
-    deaths: 0,
+    confirmed,
+    deaths,
     newConfirmed: 0,
     newDeaths: 0,
-    recoveries: 0,
+    recoveries,
     projectionReverseDeath: 0,
   };
 }
 
-export class TimeSeries implements ITimeSeries {
+export type ITimeSeries = TimeSeries;
+export class TimeSeries extends ReadOnlyAble {
   static create(locationSeries: LocationSeries): TimeSeries {
     return new TimeSeries(locationSeries);
   }
 
-  private constructor(private lsData: LocationSeries) {}
+  private constructor(private lsData: LocationSeries) {
+    super();
+  }
 
   private lastValue(prop: TimeSeriesType) {
     if (this.lsData.counts.length < 1) {
@@ -84,7 +89,7 @@ export class TimeSeries implements ITimeSeries {
   clone() {
     return TimeSeries.create({
       ...this.lsData,
-      counts: this.lsData.counts.map(cloneFlat),
+      counts: this.lsData.counts.map(cloneShallow),
       dates: this.lsData.dates.slice(0),
     });
   }
@@ -92,7 +97,7 @@ export class TimeSeries implements ITimeSeries {
   cloneAndAppend(counts: TimeSeriesCount[], dates: Date[]) {
     return TimeSeries.create({
       ...this.lsData,
-      counts: this.lsData.counts.map(cloneFlat).concat(counts),
+      counts: this.lsData.counts.map(cloneShallow).concat(counts),
       dates: this.lsData.dates.concat(dates),
     });
   }
@@ -163,6 +168,25 @@ export class TimeSeries implements ITimeSeries {
   ) {
     this.counts().forEach((tsc, i) => {
       callback(tsc, this.dates()[i], i);
+    });
+  }
+
+  forEachDayWhere(
+    predicate: (
+      timeSeriesCount: TimeSeriesCount,
+      date: Date,
+      index: number
+    ) => boolean,
+    callback: (
+      timeSeriesCount: TimeSeriesCount,
+      date: Date,
+      index: number
+    ) => any
+  ) {
+    this.forEachDay((t, d, i) => {
+      if (predicate(t, d, i)) {
+        callback(t, d, i);
+      }
     });
   }
 }

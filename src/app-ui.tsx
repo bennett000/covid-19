@@ -24,7 +24,7 @@ import { About } from './feature-about/about';
 import { Strings } from './i18n';
 import './global.css';
 
-export class App extends Component<
+class AppUi extends Component<
   { cache: Dictionary<ChartSeries>; reset: () => any; strings: Strings },
   AppState
 > {
@@ -235,7 +235,7 @@ export class App extends Component<
 export function render(root: HTMLElement, strings: Strings) {
   let cache: Dictionary<ChartSeries> = {};
   preactRender(
-    <App cache={cache} reset={() => (cache = {})} strings={strings} />,
+    <AppUi cache={cache} reset={() => (cache = {})} strings={strings} />,
     root
   );
 }

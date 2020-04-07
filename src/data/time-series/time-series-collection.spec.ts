@@ -30,9 +30,9 @@ describe('time series collection', () => {
 `),
       ]);
       const ts = TimeSeriesCollection.merge([ts1, ts2]);
-      expect(ts.country('CN').counts()[0].confirmed).toBe(25);
-      expect(ts.country('US').counts()[0].confirmed).toBe(10);
-      expect(ts.country('IT').counts()[0].confirmed).toBe(30);
+      expect(ts.select('CN').counts()[0].confirmed).toBe(25);
+      expect(ts.select('US').counts()[0].confirmed).toBe(10);
+      expect(ts.select('IT').counts()[0].confirmed).toBe(30);
     });
   });
 
@@ -62,10 +62,10 @@ describe('time series collection', () => {
       const tsc = TimeSeriesCollection.from([CsvJhuTimeSeries.create(csv)]);
       tsc.sumWorld();
       expect(
-        tsc.country((TimeSeriesCollection as any).worldString)
+        tsc.select((TimeSeriesCollection as any).worldString)
       ).toBeTruthy();
       expect(
-        tsc.country((TimeSeriesCollection as any).worldString).counts()[0]
+        tsc.select((TimeSeriesCollection as any).worldString).counts()[0]
           .confirmed
       ).toBe(50);
     });
@@ -79,7 +79,7 @@ Ontario,Canada,0,0,10,11
       const tsc = TimeSeriesCollection.from([CsvJhuTimeSeries.create(csv)]);
       tsc.sumRegions();
       expect(Object.keys((tsc as any).dictionary).length).toBe(2);
-      expect(tsc.country('CA.ON').counts()[0].confirmed).toBe(10);
+      expect(tsc.select('CA.ON').counts()[0].confirmed).toBe(10);
     });
 
     it('augments regions that have in progress sums', () => {
@@ -89,7 +89,7 @@ Ontario,Canada,0,0,20,11
 Alberta,Canada,0,0,10,21`;
       const tsc = TimeSeriesCollection.from([CsvJhuTimeSeries.create(csv)]);
       tsc.sumRegions();
-      expect(tsc.country(`CA.${totalsString}`).counts()[0].confirmed).toBe(30);
+      expect(tsc.select(`CA.${totalsString}`).counts()[0].confirmed).toBe(30);
     });
 
     describe('getRecoveryDays', () => {
@@ -292,10 +292,10 @@ Alberta,Canada,0,0,10,21`;
 
       tsc.interpolateRecoveriesActiveCasesAndNewProps();
 
-      expect(tsc.country('CN').counts()[0].active).toBe(6);
-      expect(tsc.country('CN').counts()[1].active).toBe(5);
-      expect(tsc.country('US').counts()[0].active).toBe(0);
-      expect(tsc.country('US').counts()[1].active).toBe(0);
+      expect(tsc.select('CN').counts()[0].active).toBe(6);
+      expect(tsc.select('CN').counts()[1].active).toBe(5);
+      expect(tsc.select('US').counts()[0].active).toBe(0);
+      expect(tsc.select('US').counts()[1].active).toBe(0);
     });
 
     it('diffs confirmed and deaths into newConfirmed and newDeaths', () => {
@@ -317,10 +317,10 @@ Alberta,Canada,0,0,10,21`;
 
       tsc.interpolateRecoveriesActiveCasesAndNewProps();
 
-      expect(tsc.country('CN').counts()[0].newConfirmed).toBe(10);
-      expect(tsc.country('CN').counts()[1].newConfirmed).toBe(3);
-      expect(tsc.country('CN').counts()[0].newDeaths).toBe(1);
-      expect(tsc.country('CN').counts()[1].newDeaths).toBe(2);
+      expect(tsc.select('CN').counts()[0].newConfirmed).toBe(10);
+      expect(tsc.select('CN').counts()[1].newConfirmed).toBe(3);
+      expect(tsc.select('CN').counts()[0].newDeaths).toBe(1);
+      expect(tsc.select('CN').counts()[1].newDeaths).toBe(2);
     });
   });
 });
@@ -448,10 +448,10 @@ describe('from CsvNytTimeSeries to TimeSeries', () => {
 2020-01-24,California,0,6,5
 `);
     const tsc = TimeSeriesCollection.from(csv);
-    expect(tsc.country('US.WA')).toBeTruthy();
-    expect(tsc.country('US.CA')).toBeTruthy();
-    expect(tsc.country('US.WA').counts()[0].confirmed).toBe(1);
-    expect(tsc.country('US.CA').counts()[0].confirmed).toBe(4);
+    expect(tsc.select('US.WA')).toBeTruthy();
+    expect(tsc.select('US.CA')).toBeTruthy();
+    expect(tsc.select('US.WA').counts()[0].confirmed).toBe(1);
+    expect(tsc.select('US.CA').counts()[0].confirmed).toBe(4);
   });
 });
 

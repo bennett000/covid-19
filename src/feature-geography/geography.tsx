@@ -16,7 +16,7 @@ import { Select } from '../components/input/select';
 import { Strings } from '../i18n';
 import { noop, objReduce } from '@ch1/utility';
 import { ButtonToggle } from '../components/input/button-toggle';
-import { createToolTip } from '../data';
+import { createToolTip } from '../data/js-charting/tooltip';
 import { generateDateDictionary } from '../utility';
 
 const excludeFromMap = {

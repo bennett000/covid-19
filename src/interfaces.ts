@@ -1,4 +1,7 @@
-import { ITimeSeriesArray } from './data/data.interfaces';
+import {
+  ITimeSeriesArray,
+  ITimeSeriesCollection,
+} from './data/data.interfaces';
 export * from './data/data.interfaces';
 
 export type SelectOptions = (SelectOptionsWithIndex | string)[];
@@ -92,17 +95,9 @@ export type JhuSet = [JhuTimeSeriesHeader, JhuTimeSeries[]];
 
 export interface JhuIntegratedData {
   countries: SelectOptionsWithIndex[];
+  dictionary: ITimeSeriesCollection;
   timeSeries: ITimeSeriesArray;
 }
-
-export type TimeSeriesType =
-  | 'active'
-  | 'confirmed'
-  | 'deaths'
-  | 'newConfirmed'
-  | 'newDeaths'
-  | 'recoveries'
-  | 'projectionReverseDeath';
 
 export interface MenuProp {
   disable?: boolean;

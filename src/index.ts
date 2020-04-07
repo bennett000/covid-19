@@ -1,4 +1,4 @@
-import { render } from './app';
+import { render } from './app-ui';
 import { fullSize } from './style';
 import { getSavedLanguage, saveLanguage } from './state';
 import { log } from './utility';

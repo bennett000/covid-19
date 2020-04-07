@@ -73,7 +73,7 @@ export function createYmdString(date: Date) {
   return `${year}-${month}-${day}`;
 }
 
-export function cloneFlat(c) {
+export function cloneShallow(c) {
   return {
     ...c,
   };

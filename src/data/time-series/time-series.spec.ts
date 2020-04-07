@@ -480,4 +480,32 @@ describe('time series', () => {
       expect(ts.formatName()).toBe('Canada, Ontario');
     });
   });
+
+  describe('forEachDayWhere', () => {
+    it('iterates through the time series calling back when a count matches the predicate', () => {
+      const ts = TimeSeries.create({
+        country: 'Canada',
+        countryCode: 'CA',
+        counts: [
+          createTimeSeriesCount(1),
+          createTimeSeriesCount(2),
+          createTimeSeriesCount(3),
+          createTimeSeriesCount(4),
+          createTimeSeriesCount(5),
+        ],
+        dates: [],
+        key: 'CA',
+        population: 0,
+        populationDensity: 0,
+        state: 'Ontario',
+        stateCode: 'ON',
+      });
+      let count = 0;
+      ts.forEachDayWhere(
+        tsc => tsc.confirmed > 2,
+        () => (count += 1)
+      );
+      expect(count).toBe(3);
+    });
+  });
 });
