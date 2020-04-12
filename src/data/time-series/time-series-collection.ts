@@ -10,7 +10,7 @@ import {
   TimeSeriesType,
 } from './time-series.interfaces';
 import { createTimeSeriesCount, TimeSeries } from './time-series';
-import { generateDateDictionary } from '../../utility';
+import { generateDateDictionary, sortByProp } from '../../utility';
 import { CsvNytTimeSeries } from '../csv/nyt-time-series';
 import { LocationSeries } from './time-series.interfaces.local';
 import { CsvJhuTimeSeries } from '../csv/jhu-time-series';
@@ -25,6 +25,7 @@ import {
   countriesToCodes,
 } from '../country-data';
 import { ReadOnlyAble } from '../read-only';
+import { SelectOptionsWithIndex } from '../../interfaces';
 
 function manuallyAdjustJhu(dict: Dictionary<LocationSeries>) {
   // there will be some initial data that needs correction to keep things organized
@@ -179,6 +180,18 @@ export class TimeSeriesCollection extends ReadOnlyAble {
         tcs.newDeaths = tcs.deaths - (arr[i - 1] ? arr[i - 1].deaths || 0 : 0);
       });
     });
+  }
+
+  countries(): SelectOptionsWithIndex[] {
+    return objReduce(
+      this.dictionary,
+      (arr, location) => {
+        const name = location.formatName();
+        arr.push({ index: location.key(), name });
+        return arr;
+      },
+      [] as SelectOptionsWithIndex[]
+    ).sort(sortByProp('name'));
   }
 
   select(code: string): ITimeSeries;

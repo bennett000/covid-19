@@ -1,7 +1,6 @@
 import { TimeSeriesCount, TimeSeriesType } from './time-series.interfaces';
 import { LocationSeries } from './time-series.interfaces.local';
 import { cloneShallow } from '../../utility';
-import { deepFreeze } from '@ch1/utility';
 import { ReadOnlyAble } from '../read-only';
 
 export function createTimeSeriesCount(

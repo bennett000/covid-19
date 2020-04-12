@@ -1,9 +1,15 @@
-import { ITimeSeries } from './time-series.interfaces';
+import { ITimeSeriesCollection, ITimeSeries } from './time-series.interfaces';
 
 export type ITimeSeriesArray = TimeSeriesArray;
 export class TimeSeriesArray extends Array {
   static create() {
     return new TimeSeriesArray();
+  }
+
+  static fromCollection(collection: ITimeSeriesCollection) {
+    const arr = TimeSeriesArray.create();
+    collection.forEach(ts => arr.push(ts));
+    return arr;
   }
 
   private constructor() {

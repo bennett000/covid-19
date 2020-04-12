@@ -1,38 +1,43 @@
 import { render } from './ui/app-ui';
-import { fullSize } from './ui/style';
-import { getSavedLanguage, saveLanguage } from './ui/state';
-import { log } from './utility';
+import { getSavedLanguage } from './ui/state';
 import { defaultLanguage, getLanguage } from './i18n';
+import { fetchData } from './data';
+import { fullSize } from './ui/style';
 
-main().catch(e => log(e.message));
+main();
 
 function main() {
   const lang = getSavedLanguage() || 'en';
 
-  return getLanguage(lang)
-    .then(strings => {
-      const element = window.document.createElement('section');
-      element.className = `${fullSize}`;
-      if (!element) {
-        throw new Error(strings.errors.bootstrap);
+  return Promise.all([fetchData(defaultLanguage), getLanguage(lang)])
+    .then(([{ dictionary }, strings]) => {
+      const section = window.document.createElement('section');
+      if (!section) {
+        throw new Error('could not create element');
       }
-      window.document.body.appendChild(element);
-      render(element, strings);
+      section.className = fullSize;
+      hideSpinner();
+      window.document.body.appendChild(section);
+      return render(section, dictionary, strings);
     })
-    .catch(e => {
-      log(
-        defaultLanguage.i18n.part1,
-        lang,
-        defaultLanguage.i18n.part2,
-        `(${e.message})`
-      );
-      saveLanguage('');
-      return new Promise((resolve, reject) => {
-        setTimeout(() => {
-          main()
-            .then(resolve)
-            .catch(reject);
-        }, 100);
-      });
-    });
+    .catch(fail);
+}
+
+function fail(err: Error) {
+  const section = window.document.createElement('section');
+  const h2 = window.document.createElement('h2');
+  const p = window.document.createElement('p');
+
+  section.appendChild(h2);
+  section.appendChild(p);
+  p.innerHTML = `Critical Error fetching data: ${err.message}`;
+  console.error(err);
+  window.document.body.appendChild(section);
+}
+
+function hideSpinner() {
+  const s1 = window.document.getElementById('spinner1');
+  const s2 = window.document.getElementById('spinner2');
+  window.document.body.removeChild(s1);
+  window.document.body.removeChild(s2);
 }

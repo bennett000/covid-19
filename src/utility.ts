@@ -22,7 +22,7 @@ export function log(...args: any[]) {
   console.log('COVID-19', ...args);
 }
 
-export function filterStates(doFilter: boolean, strings) {
+export function filterStates(doFilter: boolean, totalString: string) {
   return (item: SelectOptionsWithIndex) => {
     if (doFilter === false) {
       return true;
@@ -32,7 +32,7 @@ export function filterStates(doFilter: boolean, strings) {
       return true;
     }
     if (item.name.indexOf(',') > -1) {
-      if (item.name.indexOf(`, ${strings.countries.total}`) > -1) {
+      if (item.name.indexOf(`, ${totalString}`) > -1) {
         return true;
       }
       return false;
@@ -59,7 +59,7 @@ export function generateDateDictionary(): Dictionary<number> {
   return dict;
 }
 
-function simplePad(number: number): string {
+export function simplePad(number: number): string {
   if (number < 10) {
     return '0' + number;
   }
@@ -77,4 +77,69 @@ export function cloneShallow(c) {
   return {
     ...c,
   };
+}
+
+export function arity(f: Function): number {
+  return f.length;
+}
+
+export function sortByProp(prop: string) {
+  return (a: any, b: any) => {
+    if (a[prop] < b[prop]) {
+      return -1;
+    }
+    if (a[prop] > b[prop]) {
+      return 1;
+    }
+    return 0;
+  };
+}
+
+export function debounce(fn: Function, limit = 50) {
+  let isRunning: any = 0;
+  let lastArgs: any[] = [];
+
+  const run = () => {
+    try {
+      fn(...lastArgs);
+    } catch (e) {
+      log('Warning debounced function failed: ' + e.message);
+    } finally {
+      isRunning = 0;
+      lastArgs = [];
+    }
+  };
+
+  return (...args: any[]) => {
+    lastArgs = args;
+
+    if (isRunning) {
+      clearTimeout(isRunning);
+      isRunning = setTimeout(run, limit);
+    } else {
+      isRunning = setTimeout(run, limit);
+    }
+  };
+}
+
+export function camelToSnake(s: string) {
+  return s
+    .replace(/(?:^|\.?)([A-Z])/g, (x, y) => '_' + y.toLowerCase())
+    .replace(/^_/, '');
+}
+
+export function mutateFirst(s: string, mutator: (s: string) => string) {
+  const split = s.split('');
+  if (split[0]) {
+    split[0] = mutator(split[0]);
+  }
+  return split.join('');
+}
+
+export function capitalizeFirst(s: string) {
+  return mutateFirst(s, str => str.toUpperCase());
+}
+
+export function lowercaseFirst(s: string) {
+  return mutateFirst(s, str => str.toLowerCase());
 }

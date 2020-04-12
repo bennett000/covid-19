@@ -1,7 +1,4 @@
-import {
-  JsChartingSeriesPoint,
-  buildJsChartingSeries,
-} from './js-charting-series';
+import { JsChartingSeriesPoint } from './js-charting-series';
 import { createToolTip } from './tooltip';
 import { ITimeSeries, TimeSeriesCount } from '../data.interfaces';
 import { InputSeirState } from '../../interfaces';
@@ -34,7 +31,7 @@ export function createSeirPoints(
   state: InputSeirState,
   ts: ITimeSeries,
   fromDay0: number,
-  byMetric: number
+  usePerCapita: boolean
 ) {
   const seir = Seir.create(ts.population(), ts.lastActive(), ts.lastDeaths());
 
@@ -112,7 +109,10 @@ export function createSeirPoints(
         true
       ),
       x,
-      y: byMetric === 0 ? count.active : (count.active / ts.population()) * 100,
+      y:
+        usePerCapita === false
+          ? count.active
+          : (count.active / ts.population()) * 100,
     });
     deaths.push({
       tooltip: createToolTip(
@@ -123,7 +123,10 @@ export function createSeirPoints(
         true
       ),
       x,
-      y: byMetric === 0 ? count.deaths : (count.deaths / ts.population()) * 100,
+      y:
+        usePerCapita === false
+          ? count.deaths
+          : (count.deaths / ts.population()) * 100,
     });
     recoveries.push({
       tooltip: createToolTip(
@@ -135,7 +138,7 @@ export function createSeirPoints(
       ),
       x,
       y:
-        byMetric === 0
+        usePerCapita === false
           ? count.recoveries
           : (count.recoveries / ts.population()) * 100,
     });

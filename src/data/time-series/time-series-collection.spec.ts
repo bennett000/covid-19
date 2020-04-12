@@ -70,6 +70,25 @@ describe('time series collection', () => {
       ).toBe(50);
     });
   });
+  describe('countries', () => {
+    it('produces a list of countries', () => {
+      const csv = `s,c,l1,l2,2020-01-01,2020-01-02
+Alberta,Canada,0,0,10,11
+Ontario,Canada,0,0,10,11
+,China,0,0,20,21
+,France,0,0,20,21
+,US,0,0,20,21
+`;
+      const tsc = TimeSeriesCollection.from([CsvJhuTimeSeries.create(csv)]);
+      expect(tsc.countries()).toEqual([
+        { index: 'CA.AB', name: 'Canada, Alberta' },
+        { index: 'CA.ON', name: 'Canada, Ontario' },
+        { index: 'CN', name: 'China' },
+        { index: 'FR', name: 'France' },
+        { index: 'US', name: 'US' },
+      ]);
+    });
+  });
 
   describe('sumAllRegions', () => {
     it('ignores regions that have an existing total case', () => {

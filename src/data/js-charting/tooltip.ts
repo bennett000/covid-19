@@ -13,12 +13,15 @@ export function createToolTip(
   const header =
     (isProjection ? '<b><i>*** PROJECTION ***</i><br/>' : '') +
     (fromDay0 < 0
-      ? `<b>${ts.formatName()}</b> ` + ts.dates()[day].toLocaleDateString()
+      ? `<b>${ts.formatName()}</b> ` +
+        ts.dates()[day].toLocaleDateString() +
+        `(${ts.dates()[day].getUTCDay()})`
       : `<b>${ts.formatName()} Day ` +
         fromDay0 +
         '</b> (' +
         ts.dates()[day].toLocaleDateString() +
         ')') +
+    `(${ts.dates()[day].getUTCDay()})` +
     '<br/> Population ' +
     ts.population().toLocaleString() +
     (ts.populationDensity() ? ` (${ts.populationDensity()}/km2)` : '');

@@ -1,38 +1,37 @@
 import Router, { route } from 'preact-router';
 import { Component, h, render as preactRender } from 'preact';
-import { TimeVsCount } from './features/feature-time-vs-counts/time-vs-counts';
+import { Provider } from 'react-redux';
+import { TimeVsCount } from './features/time-vs-counts/time-vs-counts';
 import { createState, loadState, saveState } from './state';
 import {
   AppState,
-  ChartSeries,
-  SelectOptionsWithIndex,
   TimeVsCountsState,
   MenuProp,
   TableState,
   ConfirmedVsRecentState,
-  InputSeirState,
 } from '../interfaces';
-import { selectData, fetchData } from '../data';
+import { fetchData } from '../data';
 import { log } from '../utility';
-import { Dictionary } from '@ch1/utility';
-import { LearningTable } from './features/learning-table';
+import { DataTable } from './features/data-table/data-table';
 import { Header } from './components/header';
 import { fullSize, flexCol } from './style';
-import { ConfirmedVsRecent } from './features/confirmed-vs-recent';
-import { Geography } from './features/geography';
+import { ConfirmedVsRecent } from './features/confirmed-vs-recent/confirmed-vs-recent';
+import { Geography } from './features/geography/geography';
 import { About } from './features/about';
 import { Strings } from '../i18n';
 import './global.css';
+import { createStore } from './store/store';
+import { ITimeSeriesCollection } from '../data/data.interfaces';
 
 class AppUi extends Component<
-  { cache: Dictionary<ChartSeries>; reset: () => any; strings: Strings },
+  { reset: () => any; strings: Strings },
   AppState
 > {
   menu: MenuProp;
+  store: any;
 
   constructor(props) {
     super();
-
     let state = loadState(props.strings);
     if (!state) {
       log(props.strings.app.log.noState);
@@ -65,20 +64,6 @@ class AppUi extends Component<
     };
   }
 
-  updateSelectState({
-    countries,
-    series,
-  }: {
-    countries: SelectOptionsWithIndex[];
-    series: ChartSeries[];
-  }) {
-    this.setState({
-      ...this.state,
-      countries,
-      currentSeries: series,
-    });
-  }
-
   selectAndUpdate() {
     this.state.dataPromise
       .then(({ timeSeries }) => {
@@ -86,9 +71,7 @@ class AppUi extends Component<
           ...this.state,
           data: timeSeries,
         });
-        return selectData(this.props.cache, this.state);
       })
-      .then(this.updateSelectState.bind(this))
       .then(() => saveState(this.state));
   }
 
@@ -135,14 +118,6 @@ class AppUi extends Component<
     this.selectAndUpdate();
   }
 
-  onSeirStateChange(seirState: InputSeirState) {
-    this.setState({
-      ...this.state,
-      seirState,
-    });
-    this.selectAndUpdate();
-  }
-
   selectCountry(countryKey: string) {
     if (this.state.countryKeys.indexOf(countryKey) > -1) {
       this.setState({
@@ -173,52 +148,24 @@ class AppUi extends Component<
         <Router>
           <TimeVsCount
             path={this.props.strings.app.menu[0].route}
-            clearCountries={this.clearCountries.bind(this)}
-            countries={this.state.countries}
-            countryKeys={this.state.countryKeys}
-            currentSeries={this.state.currentSeries}
             menu={this.menu}
-            onChange={this.timeVsCounts.bind(this)}
-            onSeirStateChange={this.onSeirStateChange.bind(this)}
             key="0"
             reload={this.reload.bind(this)}
-            seirState={this.state.seirState}
-            selectCountry={this.selectCountry.bind(this)}
-            selectCountries={this.selectCountries.bind(this)}
-            state={this.state.timeVsCountsState}
-            strings={this.props.strings}
           ></TimeVsCount>
           <ConfirmedVsRecent
             path={this.props.strings.app.menu[1].route}
-            clearCountries={this.clearCountries.bind(this)}
-            countries={this.state.countries}
-            countryKeys={this.state.countryKeys}
-            currentSeries={this.state.currentSeries}
             key="1"
             menu={this.menu}
-            onChange={this.confirmedVsRecent.bind(this)}
-            selectCountry={this.selectCountry.bind(this)}
-            selectCountries={this.selectCountries.bind(this)}
-            state={this.state.confirmedVsRecentState}
-            strings={this.props.strings}
           ></ConfirmedVsRecent>
-          <LearningTable
+          <DataTable
             path={this.props.strings.app.menu[2].route}
-            countryKeys={this.state.countryKeys}
             key="2"
-            onChange={this.tableState.bind(this)}
             menu={this.menu}
-            state={this.state.tableState}
-            selectCountry={this.selectCountry.bind(this)}
-            strings={this.props.strings}
-            timeSeries={this.state.data}
-          ></LearningTable>
+          ></DataTable>
           <Geography
             path={this.props.strings.app.menu[3].route}
             key="3"
             menu={this.menu}
-            strings={this.props.strings}
-            timeSeries={this.state.data}
           ></Geography>
           <About
             path={this.props.strings.app.menu[4].route}
@@ -232,10 +179,16 @@ class AppUi extends Component<
   }
 }
 
-export function render(root: HTMLElement, strings: Strings) {
-  let cache: Dictionary<ChartSeries> = {};
+export function render(
+  root: HTMLElement,
+  timeSeriesCollection: ITimeSeriesCollection,
+  strings: Strings
+) {
+  const store = createStore({ strings, timeSeriesCollection });
   preactRender(
-    <AppUi cache={cache} reset={() => (cache = {})} strings={strings} />,
+    <Provider store={store}>
+      <AppUi reset={() => undefined} strings={strings} />
+    </Provider>,
     root
   );
 }

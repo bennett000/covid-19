@@ -10,7 +10,10 @@
     "@ch1/utility": "^0.8.0",
     "country-json": "^1.1.0",
     "preact": "^10.3.4",
-    "preact-router": "^3.2.1"
+    "preact-router": "^3.2.1",
+    "react-redux": "^7.2.0",
+    "redux": "^4.0.5",
+    "reselect": "^4.0.0"
   },
   "devDependencies": {
     "@storybook/addon-actions": "^5.3.17",
@@ -41,7 +44,7 @@
     }
   },
   "lint-staged": {
-    "*.{js,css,md,ts,tsx}": "prettier --write --single-quote --trailing-comma es5 ./src/**/* && prettier --write --single-quote --trailing-comma es5 ./src/**"
+    "*.{js,css,md,ts,tsx}": "prettier --write --single-quote --trailing-comma es5 ./src/**/* && prettier --write --single-quote --trailing-comma es5 ./src/** && prettier --write --single-quote --trailing-comma es5 ./webpack.config.js"
   },
   "scripts": {
     "prebuild": "rimraf ./docs",

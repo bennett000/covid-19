@@ -1,3 +1,4 @@
+const { DefinePlugin } = require('webpack');
 const CopyPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
@@ -38,8 +39,16 @@ module.exports = {
       template: './src/ui/index.html',
     }),
     new CopyPlugin([{ from: 'assets', to: '' }]),
+    new DefinePlugin({
+      PRODUCTION: JSON.stringify(production),
+    }),
   ],
   resolve: {
+    alias: {
+      react: 'preact/compat',
+      'react-dom/test-utils': 'preact/test-utils',
+      'react-dom': 'preact/compat',
+    },
     extensions: ['.webpack.js', '.web.js', '.ts', '.tsx', '.js'],
   },
 };

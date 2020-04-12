@@ -1,26 +1,10 @@
 import { h } from 'preact';
 import { InputNumber } from './input/number';
-import { InputSeirState } from '../../interfaces';
-import { Strings } from '../../i18n';
-import {
-  width2em,
-  padding,
-  styles,
-  tableBorderCollapse,
-  displayBlock,
-  flex,
-  textAlignLeft,
-} from '../style';
-import { noop } from '@ch1/utility';
+import { width2em, styles } from '../style';
+import { camelProp, SeirProps } from '../containers/seir/seir.state';
 
-export interface InputSeirProps {
-  onChange: (state: InputSeirState) => any;
-  state: InputSeirState;
-  strings: Strings;
-}
-
-export function InputSeir({ onChange, state, strings }: InputSeirProps) {
-  const { seirInput } = strings;
+export function InputSeir(props: SeirProps) {
+  const { seirInput } = props.strings;
   const gt0 = (n: number) => (n < 0 ? 0 : n);
   const percent = (n: number) => (n < 0 ? 0 : n > 1 ? 1 : n);
   const data = [
@@ -95,13 +79,10 @@ export function InputSeir({ onChange, state, strings }: InputSeirProps) {
                   <td style="text-align: center">
                     <InputNumber
                       classes={styles.input.concat([width2em])}
-                      value={state[cell.prop]}
-                      onChange={(n: number) => {
-                        onChange({
-                          ...state,
-                          [cell.prop]: cell.filter(n),
-                        });
-                      }}
+                      value={props[cell.prop]}
+                      onChange={(n: number) =>
+                        props[camelProp(cell.prop)](cell.filter(n))
+                      }
                       placeholder={seirInput[cell.prop]}
                       useDecimals={cell.decimals}
                     ></InputNumber>

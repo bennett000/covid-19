@@ -4,40 +4,56 @@ import { SelectMultiple } from '../../components/input/select-multiple';
 import { InputDate } from '../../components/input/date';
 import { Button } from '../../components/input/button';
 import { flex, flexCol, flexItem20, highlight, styles } from '../../style';
-import {
-  SelectOptionsWithIndex,
-  ChartSeries,
-  TimeVsCountsState,
-} from '../../../interfaces';
+import { SelectOptionsWithIndex } from '../../../interfaces';
 import { SelectMultipleFilter } from '../../components/input/select-multiple-filter';
 import { Strings } from '../../../i18n';
-import { filterStates } from '../../../utility';
+import { JsChartingSeries } from '../../../data/data.interfaces';
 
 export function TimeVsCountsControls({
   clearCountries,
   countries,
+  countryFilter,
   countryKeys,
-  onChange,
-  onConfigureSeir,
-  onUpdateCountryFilter,
+  dataSetIndexes,
+  mode,
   reload,
-  selectCountry,
-  selectCountries,
-  state,
+  scaleType,
+  selectedCountry,
+  selectedDataSets,
+  selectedDate,
+  selectedMode,
+  selectedScaleType,
+  showStates,
   strings,
+  toggledPerCapita,
+  toggledShowSeirState,
+  toggledShowStates,
+  updatedCountryFilter,
+  usePerCapita,
+  ymdStartDate,
 }: {
   clearCountries: () => any;
   countries: SelectOptionsWithIndex[];
+  countryFilter: string;
   countryKeys: string[];
-  currentSeries: ChartSeries[];
-  onChange: (lgs: TimeVsCountsState) => any;
-  onConfigureSeir: () => any;
-  onUpdateCountryFilter: (filter: string) => any;
+  currentSeries: JsChartingSeries[];
+  dataSetIndexes: number[];
+  mode: number;
   reload: () => any;
-  selectCountry: (country: string) => any;
-  selectCountries: (countries: string[]) => any;
-  state: TimeVsCountsState;
+  scaleType: number;
+  selectedCountry: (country: string) => any;
+  selectedDataSets: (dataSetIndexes: any[]) => any;
+  selectedDate: (date: string) => any;
+  selectedMode: (mode: number) => any;
+  selectedScaleType: (mode: number) => any;
+  showStates: boolean;
   strings: Strings;
+  toggledPerCapita: () => any;
+  toggledShowSeirState: () => any;
+  toggledShowStates: () => any;
+  updatedCountryFilter: (filter: string) => any;
+  usePerCapita: boolean;
+  ymdStartDate: string;
 }) {
   const dataSets = [
     strings.series.activeCases,
@@ -60,108 +76,66 @@ export function TimeVsCountsControls({
     strings.scaleTypes.linear,
     strings.scaleTypes.logarithmic,
   ];
-  const showStates = strings.states;
+  const showStatesString = strings.states;
   const metrics = [strings.metrics.byValue, strings.metrics.byPercent];
-
-  function selectMode(mode: number | string) {
-    onChange({
-      ...state,
-      mode: parseInt(mode + '', 10),
-    });
-  }
-
-  function selectDate(ymdString: string) {
-    onChange({
-      ...state,
-      startDate: ymdString,
-    });
-  }
-
-  function selectDataSets(dataSetIndexes: any[]) {
-    onChange({
-      ...state,
-      dataSetIndexes: dataSetIndexes.map(d => parseInt(d + '', 10)),
-    });
-  }
-
-  function selectScaleType(scaleType: number | string) {
-    onChange({
-      ...state,
-      scaleType: parseInt(scaleType + '', 10),
-    });
-  }
-
-  function selectShowStates(showOrHide: number | string) {
-    onChange({
-      ...state,
-      showStates: parseInt(showOrHide + '', 10) === 0 ? false : true,
-    });
-  }
-
-  function selectMetric(metric: number | string) {
-    onChange({
-      ...state,
-      byMetric: parseInt(metric + '', 10),
-    });
-  }
 
   return (
     <section className={`${flex} ${flexItem20}`}>
       <section className={flexCol}>
         <Select
           classes={styles.selectBox}
-          onChange={selectMode}
+          onChange={selectedMode}
           options={modes}
-          selected={state.mode}
+          selected={mode}
         />
         <Select
           classes={styles.selectBox}
-          onChange={selectScaleType}
+          onChange={selectedScaleType}
           options={scaleTypes}
-          selected={state.scaleType}
+          selected={scaleType}
         />
         <InputDate
           classes={styles.input}
-          onChange={selectDate}
-          ymdString={state.startDate}
+          onChange={selectedDate}
+          ymdString={ymdStartDate}
         />
         <Button
           classes={styles.button}
           label={strings.timeVsCounts.configureSeir}
-          onClick={onConfigureSeir}
+          onClick={toggledShowSeirState}
         />
       </section>
       <SelectMultiple
         classes={styles.selectBox}
-        onChange={selectDataSets}
+        onChange={selectedDataSets}
         options={dataSets}
-        selected={state.dataSetIndexes}
+        selected={dataSetIndexes}
       />
       <SelectMultipleFilter
         classes={countryKeys.length === 0 ? [highlight] : []}
         inputButtonClasses={styles.button}
         inputSelectClasses={styles.selectBox}
         inputStringClasses={styles.input}
-        filter={state.countryFilter}
-        onUpdateFilter={onUpdateCountryFilter}
-        onChange={selectCountries}
+        filter={countryFilter}
+        onUpdateFilter={updatedCountryFilter}
+        onChange={selectedCountry as any}
         onClear={clearCountries}
-        onDeselect={selectCountry}
-        options={countries.filter(filterStates(state.showStates, strings))}
+        onDeselect={selectedCountry}
+        options={countries}
         selected={countryKeys}
       />
       <div className={flexCol}>
         <Select
           classes={styles.selectBox}
-          onChange={selectShowStates}
-          options={showStates}
-          selected={state.showStates ? 1 : 0}
+          onChange={toggledShowStates}
+          options={showStatesString}
+          selected={showStates ? 1 : 0}
         />
         <Select
           classes={styles.selectBox}
-          onChange={selectMetric}
+          onChange={toggledPerCapita}
           options={metrics}
-          selected={state.byMetric}
+          selected={usePerCapita ? 1 : 0}
         />
         <Button
           classes={styles.button}

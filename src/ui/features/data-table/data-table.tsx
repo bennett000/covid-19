@@ -1,10 +1,6 @@
 import { Component, h } from 'preact';
-import {
-  ITimeSeriesArray,
-  TableState,
-  MenuProp,
-  ITimeSeries,
-} from '../../interfaces';
+import { connect } from 'react-redux';
+import { MenuProp, ITimeSeries } from '../../../interfaces';
 import {
   rowEven,
   rowOdd,
@@ -20,26 +16,34 @@ import {
   tableBorderCollapse,
   displayBlock,
   textAlignLeft,
-} from '../style';
-import { ButtonToggle } from '../components/input/button-toggle';
-import { SelectMultiple } from '../components/input/select-multiple';
+} from '../../style';
+import { ButtonToggle } from '../../components/input/button-toggle';
+import { SelectMultiple } from '../../components/input/select-multiple';
 import { noop } from '@ch1/utility';
-import { Select } from '../components/input/select';
-import { Menu } from '../components/menu';
-import { Strings } from '../../i18n';
+import { Select } from '../../components/input/select';
+import { Menu } from '../../components/menu';
+import { Strings } from '../../../i18n';
+import { ITimeSeriesArray } from '../../../data/data.interfaces';
+import * as dataTableState from './data-table.state';
+import * as countriesState from '../../store/countries';
 
 const thClasses = [borderCurved, padding, displayBlock, textAlignLeft].join(
   ' '
 );
 const tdClasses = [padding, displayBlock, textAlignLeft].join(' ');
-export class LearningTable extends Component<{
-  countryKeys: string[];
+class BaseDataTable extends Component<{
+  clickedSortField: (field: string) => any;
+  columns: number[];
+  isConfigOpen: boolean;
+  list: ITimeSeriesArray;
   menu: MenuProp;
-  onChange: (lgs: TableState) => any;
-  selectCountry: (countryIndex: string) => any;
-  state: TableState;
+  selectedColumn: (column: number | number[]) => any;
+  selectedCountry: (country: string) => any;
+  selectedCountries: string[];
+  showAll: boolean;
   strings: Strings;
-  timeSeries: ITimeSeriesArray;
+  toggledConfig: () => any;
+  toggledShowAll: () => any;
 }> {
   constructor() {
     super();
@@ -56,49 +60,6 @@ export class LearningTable extends Component<{
 
   formatPercent(value: number, decimals = 2) {
     return this.formatDecimal(value, decimals) + '%';
-  }
-
-  clickHeader(t: { label: string; sort: string }) {
-    this.props.timeSeries[t.sort](this.props.state[t.sort]);
-    this.props.onChange({
-      ...this.props.state,
-      [t.sort]: this.props.state[t.sort] ? false : true,
-    });
-  }
-
-  toggleConfig(v: boolean) {
-    this.props.onChange({
-      ...this.props.state,
-      isConfigOpen: v,
-    });
-  }
-
-  toggleShowAll() {
-    this.props.onChange({
-      ...this.props.state,
-      showAll: this.props.state.showAll ? false : true,
-    });
-  }
-
-  onChangeColumns(column: number) {
-    if (this.props.state.columns.indexOf(column) === -1) {
-      if (this.props.state.columns.length < 6) {
-        this.props.onChange({
-          ...this.props.state,
-          columns: this.props.state.columns.concat([column]),
-        });
-      } else {
-        this.props.onChange({
-          ...this.props.state,
-          columns: this.props.state.columns.slice(0),
-        });
-      }
-    } else {
-      this.props.onChange({
-        ...this.props.state,
-        columns: this.props.state.columns.filter(i => i !== column),
-      });
-    }
   }
 
   render() {
@@ -233,27 +194,25 @@ export class LearningTable extends Component<{
 
     const tbody =
       window.document.body.clientHeight *
-      (this.props.state.isConfigOpen ? 0.6 : 0.82);
-    const width = `width: ${100 / (this.props.state.columns.length || 1)}%;`;
+      (this.props.isConfigOpen ? 0.6 : 0.82);
+    const width = `width: ${100 / (this.props.columns.length || 1)}%;`;
     return (
       <section className={`${fullSize} ${flexCol}`}>
-        <section
-          className={this.props.state.isConfigOpen ? flexItem60 : flexItem95}
-        >
+        <section className={this.props.isConfigOpen ? flexItem60 : flexItem95}>
           <table
             style={`height: ${
-              this.props.state.isConfigOpen ? 83 : 90
+              this.props.isConfigOpen ? 83 : 90
             }%; width: 100%;`}
             className={tableBorderCollapse}
           >
             <thead className={displayBlock}>
               <tr className={flex}>
                 {header.map((t, i) =>
-                  i === 0 || this.props.state.columns.indexOf(i) > -1 ? (
+                  i === 0 || this.props.columns.indexOf(i) > -1 ? (
                     <th
                       className={thClasses}
                       style={width}
-                      onClick={() => this.clickHeader(t)}
+                      onClick={() => this.props.clickedSortField(t.sort)}
                     >
                       {t.label}
                     </th>
@@ -267,27 +226,22 @@ export class LearningTable extends Component<{
               className={displayBlock}
               style={`overflow: auto; max-height: ${tbody}px;`}
             >
-              {this.props.timeSeries.map((ts, tsIndex) => {
+              {this.props.list.map((ts, tsIndex) => {
                 if (ts.counts().length < 1) {
                   return '';
                 }
-                if (this.props.state.showAll === false) {
-                  if (this.props.countryKeys.indexOf(ts.key()) === -1) {
-                    return '';
-                  }
-                }
                 const rowParity = tsIndex % 2 === 0 ? rowEven : rowOdd;
                 const rowClass =
-                  this.props.countryKeys.indexOf(ts.key()) > -1
+                  this.props.selectedCountries.indexOf(ts.key()) > -1
                     ? rowHighlight + ' ' + rowParity
                     : rowParity;
                 return (
                   <tr
                     className={[rowClass, flex].join(' ')}
-                    onClick={() => this.props.selectCountry(ts.key())}
+                    onClick={() => this.props.selectedCountry(ts.key())}
                   >
                     {header.map((t, i) =>
-                      i === 0 || this.props.state.columns.indexOf(i) > -1 ? (
+                      i === 0 || this.props.columns.indexOf(i) > -1 ? (
                         <td className={tdClasses} style={width}>
                           {t.value(ts)}
                         </td>
@@ -307,28 +261,30 @@ export class LearningTable extends Component<{
               classes={styles.button}
               labelTrue={this.props.strings.learningTable.enlarge}
               labelFalse={this.props.strings.learningTable.configure}
-              onClick={this.toggleConfig.bind(this)}
-              state={this.props.state.isConfigOpen}
+              onClick={this.props.toggledConfig}
+              state={this.props.isConfigOpen}
             />
             <Menu config={this.props.menu}></Menu>
           </section>
-          {this.props.state.isConfigOpen ? (
+          {this.props.isConfigOpen ? (
             <section className={flex}>
               <SelectMultiple
                 classes={styles.selectBox}
                 onChange={noop as any}
-                onClick={v => this.onChangeColumns(parseInt(v + '', 10) + 1)}
+                onClick={v =>
+                  this.props.selectedColumn(parseInt(v + '', 10) + 1)
+                }
                 options={header.map(item => item.label).slice(1)}
-                selected={this.props.state.columns.map(c => c - 1)}
+                selected={this.props.columns.map(c => c - 1)}
               ></SelectMultiple>
               <Select
                 classes={styles.selectBox}
-                onChange={this.toggleShowAll.bind(this)}
+                onChange={this.props.toggledShowAll}
                 options={[
                   this.props.strings.learningTable.showAll,
                   this.props.strings.learningTable.showOnlySelected,
                 ]}
-                selected={this.props.state.showAll ? 0 : 1}
+                selected={this.props.showAll ? 0 : 1}
               ></Select>
             </section>
           ) : (
@@ -339,3 +295,21 @@ export class LearningTable extends Component<{
     );
   }
 }
+
+export const DataTable = connect(
+  state => ({
+    columns: dataTableState.select.columns(state),
+    isConfigOpen: dataTableState.select.isConfigOpen(state),
+    list: dataTableState.select.list(state),
+    selectedCountries: countriesState.select.selected(state),
+    showAll: dataTableState.select.showAll(state),
+    strings: state.strings,
+  }),
+  {
+    clickedSortField: dataTableState.actions.clickedSortField,
+    selectedColumn: dataTableState.actions.selectedColumn,
+    selectedCountry: countriesState.actions.selected,
+    toggledConfig: dataTableState.actions.toggledConfig,
+    toggledShowAll: dataTableState.actions.toggledShowAll,
+  }
+)(BaseDataTable);

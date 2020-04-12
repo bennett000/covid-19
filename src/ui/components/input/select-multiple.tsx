@@ -27,7 +27,7 @@ export function SelectMultiple({
           if (selected.indexOf(index) > -1) {
             return (
               <option
-                key={key}
+                key={key + '-selected'}
                 onClick={optClick}
                 value={index}
                 selected={true}
@@ -45,7 +45,7 @@ export function SelectMultiple({
         if (selected.indexOf(option.index) > -1) {
           return (
             <option
-              key={key}
+              key={key + '-selected'}
               onClick={optClick}
               value={option.index}
               selected={true}

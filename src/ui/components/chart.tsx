@@ -2,12 +2,12 @@
 // MIT licensed as `JSC` is proprietary
 declare const JSC: any;
 import { Component, h } from 'preact';
-import { ChartSeries } from '../../interfaces';
 import { Strings } from '../../i18n';
-import { log } from '../../utility';
+import { debounce } from '../../utility';
+import { JsChartingSeries } from '../../data/data.interfaces';
 
 export class Chart extends Component<{
-  options: { series: ChartSeries[] };
+  options: { series: JsChartingSeries[] };
   flexSize: string;
   strings: Strings;
 }> {
@@ -35,31 +35,4 @@ export class Chart extends Component<{
   render() {
     return <div className={this.props.flexSize}></div>;
   }
-}
-
-function debounce(fn: Function, limit = 50) {
-  let isRunning: any = 0;
-  let lastArgs: any[] = [];
-
-  const run = () => {
-    try {
-      fn(...lastArgs);
-    } catch (e) {
-      log('Warning debounced function failed: ' + e.message);
-    } finally {
-      isRunning = 0;
-      lastArgs = [];
-    }
-  };
-
-  return (...args: any[]) => {
-    lastArgs = args;
-
-    if (isRunning) {
-      clearTimeout(isRunning);
-      isRunning = setTimeout(run, limit);
-    } else {
-      isRunning = setTimeout(run, limit);
-    }
-  };
 }

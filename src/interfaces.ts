@@ -23,7 +23,7 @@ export interface ChartSeries {
 }
 
 export interface AppState {
-  countries: SelectOptionsWithIndex[];
+  countries: any; // SelectOptionsWithIndex[];
   currentSeries: ChartSeries[];
   data: ITimeSeriesArray;
   dataPromise: Promise<JhuIntegratedData>;

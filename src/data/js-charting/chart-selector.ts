@@ -7,9 +7,9 @@ import {
   ITimeSeriesCollection,
   TimeSeriesType,
 } from '../data.interfaces';
-import { AppState } from '../../interfaces';
 import { basePalette, projectionPalette } from '../../constants';
 import { createTimeSeriesCount } from '../time-series/time-series';
+import { AppState } from '../../ui/store/store';
 
 export type IChartSelector = ChartSelector;
 export class ChartSelector {
@@ -35,17 +35,17 @@ export class ChartSelector {
     };
 
     let count =
-      state.timeVsCountsState.mode === 0
+      state.timeVsCounts.mode === 0
         ? -1
-        : state.timeVsCountsState.mode === 1
+        : state.timeVsCounts.mode === 1
         ? ts.counts().reduce(findStart(1), -1)
         : ts.counts().reduce(findStart(100), -1);
 
     return createSeirPoints(
-      state.seirState,
+      state.seir as any,
       ts,
       count,
-      state.timeVsCountsState.byMetric
+      state.timeVsCounts.usePerCapita
     );
   }
 
@@ -74,15 +74,15 @@ export class ChartSelector {
   private createSelectTimeVsCountsCountryMapper(state: AppState) {
     let count = 0;
     const modeCount =
-      state.timeVsCountsState.mode === 0
+      state.timeVsCounts.mode === 0
         ? -1
-        : state.timeVsCountsState.mode === 1
+        : state.timeVsCounts.mode === 1
         ? 1
         : 100;
     return (ts: ITimeSeries) => {
       const seirPoints = this.createSeirPoints(state, ts);
 
-      return state.timeVsCountsState.dataSetIndexes.map(dataSetIndex => {
+      return state.timeVsCounts.dataSetIndexes.map(dataSetIndex => {
         const seirSeries = getSeirSeries(seirPoints, dataSetIndex);
         const { chartBuilder, field } = this.createSelectTimeVsCountsChart(
           ts,
@@ -99,11 +99,7 @@ export class ChartSelector {
           ts.forEachDay((tsc, date) => {
             chartBuilder.addPoint(
               date,
-              getY(
-                state.timeVsCountsState.byMetric,
-                tsc[field],
-                ts.population()
-              )
+              getY(state.timeVsCounts.usePerCapita, tsc[field], ts.population())
             );
           });
         } else {
@@ -114,7 +110,7 @@ export class ChartSelector {
               chartBuilder.addPoint(
                 dayCount++,
                 getY(
-                  state.timeVsCountsState.byMetric,
+                  state.timeVsCounts.usePerCapita,
                   tsc[field],
                   ts.population()
                 )
@@ -130,17 +126,17 @@ export class ChartSelector {
 
   private selectTimeVsCounts(state: AppState) {
     return this.tsc
-      .select(state.countryKeys)
+      .select(state.countries.selected)
       .map(this.createSelectTimeVsCountsCountryMapper(state))
-      .reduce(flatten);
+      .reduce(flatten, []);
   }
 
   select(state: AppState): JsChartingSeries[] {
-    if (state.routePath === '/') {
+    if (state.router.path === '/') {
       return this.selectTimeVsCounts(state);
     } else {
       // confirmed vs recent
-      return this.selectConfirmedVsRecent(state.countryKeys);
+      return this.selectConfirmedVsRecent(state.countries.selected);
     }
   }
 }
@@ -221,8 +217,12 @@ function getChartTypeFromIndex(index: number) {
   }
 }
 
-function getY(byMetric: number, value: number, population: number): number {
-  if (byMetric === 0) {
+function getY(
+  usePerCapita: boolean,
+  value: number,
+  population: number
+): number {
+  if (usePerCapita === false) {
     return value;
   } else {
     if (population) {

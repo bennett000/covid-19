@@ -6,7 +6,10 @@ import { basePalette } from '../../constants';
 describe('chart selector', () => {
   it('converts a simplified state and time series to a chart series (confirmed vs recent)', () => {
     const state: any = {
-      countryKeys: ['CA.ON'],
+      countries: {
+        selected: ['CA.ON'],
+      },
+      router: { path: '/foo' },
       timeVsCountsState: {},
     };
 
@@ -28,13 +31,15 @@ Ontario,Canada,0,0,5,10,15,20,25,30,35,40,45
 
   it('converts a simplified state and time series to a chart series (time vs count)', () => {
     const state: any = {
-      countryKeys: ['CA.ON'],
-      seirState: {},
-      timeVsCountsState: {
+      countries: {
+        selected: ['CA.ON'],
+      },
+      seir: {},
+      timeVsCounts: {
         mode: 0,
         dataSetIndexes: [1],
       },
-      routePath: '/',
+      router: { path: '/' },
     };
 
     const csv = CsvJhuTimeSeries.create(`s,c,l1,l2,2020-01-01,2020-01-02

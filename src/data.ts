@@ -1,5 +1,4 @@
-import { SelectOptionsWithIndex, ChartSeries, AppState } from './interfaces';
-import { Dictionary } from '@ch1/utility';
+import { SelectOptionsWithIndex } from './interfaces';
 import { Strings } from './i18n';
 import { CsvNytTimeSeries } from './data/csv/nyt-time-series';
 import { TimeSeriesCollection } from './data/time-series/time-series-collection';
@@ -7,6 +6,7 @@ import { CsvJhuTimeSeries } from './data/csv/jhu-time-series';
 import { TimeSeriesArray } from './data/time-series/time-series-array';
 import { ITimeSeriesArray } from './data/data.interfaces';
 import { ChartSelector } from './data/js-charting/chart-selector';
+import { AppState } from './ui/store/store';
 
 const jhuUrls = [
   // updated from previous deprecated files (https://github.com/CSSEGISandData/COVID-19/commit/203881b83c3820521f5af7cafb0d15367e415652)
@@ -56,13 +56,7 @@ function unwrapResponses(responses: Response[]) {
 }
 
 function extractCountries(collection: TimeSeriesCollection) {
-  const countries: SelectOptionsWithIndex[] = collection
-    .reduce((arr, location) => {
-      const name = location.formatName();
-      arr.push({ index: location.key(), name });
-      return arr;
-    }, [])
-    .sort(sortByProp('name'));
+  const countries = collection.countries();
 
   const tsa = TimeSeriesArray.create();
   collection.forEach(tsc => tsa.push(tsc));
@@ -70,27 +64,7 @@ function extractCountries(collection: TimeSeriesCollection) {
   return { countries, dictionary: collection, timeSeries: tsa };
 }
 
-function sortByProp(prop: string) {
-  return (a: any, b: any) => {
-    if (a[prop] < b[prop]) {
-      return -1;
-    }
-    if (a[prop] > b[prop]) {
-      return 1;
-    }
-    return 0;
-  };
-}
-
-export function selectData(cache: Dictionary<ChartSeries>, state: AppState) {
-  /** @todo move away from dataPromise model */
-  return state.dataPromise.then(({ countries, dictionary }) => {
-    const cs = ChartSelector.create(dictionary);
-    const series = cs.select(state);
-
-    return {
-      countries,
-      series,
-    };
-  });
+export function selectData(state: AppState) {
+  const cs = ChartSelector.create(state.timeSeriesCollection);
+  return cs.select(state);
 }
