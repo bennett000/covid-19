@@ -1,6 +1,5 @@
 import { Component, h } from 'preact';
 import { connect } from 'react-redux';
-import { MenuProp, ITimeSeries } from '../../../interfaces';
 import {
   rowEven,
   rowOdd,
@@ -21,11 +20,11 @@ import { ButtonToggle } from '../../components/input/button-toggle';
 import { SelectMultiple } from '../../components/input/select-multiple';
 import { noop } from '@ch1/utility';
 import { Select } from '../../components/input/select';
-import { Menu } from '../../components/menu';
 import { Strings } from '../../../i18n';
-import { ITimeSeriesArray } from '../../../data/data.interfaces';
+import { ITimeSeriesArray, ITimeSeries } from '../../../data/data.interfaces';
 import * as dataTableState from './data-table.state';
-import * as countriesState from '../../store/countries';
+import * as countriesState from '../../containers/countries/countries.state';
+import { MenuContainer } from '../../containers/menu/menu-container';
 
 const thClasses = [borderCurved, padding, displayBlock, textAlignLeft].join(
   ' '
@@ -36,7 +35,6 @@ class BaseDataTable extends Component<{
   columns: number[];
   isConfigOpen: boolean;
   list: ITimeSeriesArray;
-  menu: MenuProp;
   selectedColumn: (column: number | number[]) => any;
   selectedCountry: (country: string) => any;
   selectedCountries: string[];
@@ -264,7 +262,7 @@ class BaseDataTable extends Component<{
               onClick={this.props.toggledConfig}
               state={this.props.isConfigOpen}
             />
-            <Menu config={this.props.menu}></Menu>
+            <MenuContainer />
           </section>
           {this.props.isConfigOpen ? (
             <section className={flex}>
@@ -308,7 +306,7 @@ export const DataTable = connect(
   {
     clickedSortField: dataTableState.actions.clickedSortField,
     selectedColumn: dataTableState.actions.selectedColumn,
-    selectedCountry: countriesState.actions.selected,
+    selectedCountry: countriesState.actions.selectedCountry,
     toggledConfig: dataTableState.actions.toggledConfig,
     toggledShowAll: dataTableState.actions.toggledShowAll,
   }

@@ -20,6 +20,7 @@ import {
   countriesToContinents,
 } from '../../../data/country-data';
 import { generateDateDictionary } from '../../../utility';
+import { forceObject, forceNumber, forceString } from '../../state';
 
 /** @todo come up with a more robust solution */
 const startDate = new Date(jhuStartDay).getTime();
@@ -79,6 +80,26 @@ export const defaultGeographyState = deepFreeze({
   map: worldMapString,
   title: '',
 });
+
+export const forceDefaults = (value: any): GeographyState =>
+  forceObject(
+    [
+      {
+        prop: 'dataSetIndex',
+        force: forceNumber.bind(null, defaultGeographyState.dataSetIndex),
+      },
+      {
+        prop: 'playRecord',
+        force: forceNumber.bind(null, defaultGeographyState.playRecord),
+      },
+      { prop: 'map', force: forceString.bind(null, defaultGeographyState.map) },
+      {
+        prop: 'title',
+        force: forceString.bind(null, defaultGeographyState.title),
+      },
+    ],
+    value
+  );
 
 const selectDataSetIndex = (state: { geography: GeographyState }) =>
   state.geography.dataSetIndex;

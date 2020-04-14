@@ -1,7 +1,8 @@
-import { deepFreeze, noop } from '@ch1/utility';
+import { deepFreeze } from '@ch1/utility';
 import { Action } from 'redux';
 import { createReducer, toggleProp } from '../../store/redux-utility';
 import { ChartSelector } from '../../../data/js-charting/chart-selector';
+import { forceBoolean, forceObject } from '../../state';
 
 export interface ActionConfirmedVsRecentToggledConfig extends Action<string> {}
 
@@ -9,6 +10,20 @@ export type ConfirmedVsRecentState = typeof defaultConfirmedVsRecentState;
 export const defaultConfirmedVsRecentState = deepFreeze({
   isConfigOpen: false,
 });
+
+export const forceDefaults = (value: any): ConfirmedVsRecentState =>
+  forceObject(
+    [
+      {
+        prop: 'isConfigOpen',
+        force: forceBoolean.bind(
+          null,
+          defaultConfirmedVsRecentState.isConfigOpen
+        ),
+      },
+    ],
+    value
+  );
 
 export const select = {
   currentSeries: state => {

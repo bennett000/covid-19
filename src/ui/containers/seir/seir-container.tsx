@@ -10,13 +10,15 @@ class BaseSeirContainer extends Component<SeirProps> {
   }
 }
 
-export const SeirContainer = connect(state =>
-  objReduce(
-    select,
-    (newStateProps: any, selector: (state: any) => number, prop) => {
-      newStateProps[prop] = selector(state);
-      return newStateProps;
-    },
-    actions
-  )
+export const SeirContainer = connect(
+  state =>
+    objReduce(
+      select,
+      (newStateProps: any, selector: (state: any) => number, prop) => {
+        newStateProps[prop] = selector(state);
+        return newStateProps;
+      },
+      {}
+    ),
+  actions
 )(BaseSeirContainer);

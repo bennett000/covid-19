@@ -8,6 +8,13 @@ import {
 import { Action } from 'redux';
 import { ITimeSeriesCollection } from '../../../data/data.interfaces';
 import { TimeSeriesArray } from '../../../data/time-series/time-series-array';
+import {
+  forceBoolean,
+  forceObject,
+  forceArrayOf,
+  forceNumber,
+  forceString,
+} from '../../state';
 
 export type DataTableState = typeof defaultDataTableState;
 export const defaultDataTableState = deepFreeze({
@@ -16,6 +23,42 @@ export const defaultDataTableState = deepFreeze({
   showAll: true,
   sortField: { prop: 'sortByCountry', asc: true },
 });
+
+export const forceDefaults = (value: any): DataTableState =>
+  forceObject(
+    [
+      {
+        prop: 'columns',
+        force: forceArrayOf.bind(
+          null,
+          forceNumber.bind(null, -1),
+          defaultDataTableState.columns
+        ),
+      },
+      {
+        prop: 'isConfigOpen',
+        force: forceBoolean.bind(null, defaultDataTableState.isConfigOpen),
+      },
+      {
+        prop: 'showAll',
+        force: forceBoolean.bind(null, defaultDataTableState.showAll),
+      },
+      {
+        prop: 'sortField',
+        force: forceObject.bind(null, [
+          {
+            prop: 'prop',
+            force: forceString.bind(null, defaultDataTableState.sortField.prop),
+          },
+          {
+            prop: 'asc',
+            force: forceBoolean.bind(null, defaultDataTableState.sortField.asc),
+          },
+        ]),
+      },
+    ],
+    value
+  );
 
 type StoreSlice = {
   dataTable: DataTableState;

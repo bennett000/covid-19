@@ -1,12 +1,12 @@
 import { JsChartingSeriesPoint } from './js-charting-series';
 import { createToolTip } from './tooltip';
 import { ITimeSeries, TimeSeriesCount } from '../data.interfaces';
-import { InputSeirState } from '../../interfaces';
 import { Seir } from '../../seir';
 import { jhuStartDay, twentyFourSeven } from '../../constants';
 import { historicalEventsByCountry } from '../country-data';
 import { createTimeSeriesCount } from '../time-series/time-series';
 import { createYmdString } from '../../utility';
+import { SeirState } from '../../ui/containers/seir/seir.state';
 
 export function getSeirSeries(
   projections: {
@@ -28,7 +28,7 @@ export function getSeirSeries(
 }
 
 export function createSeirPoints(
-  state: InputSeirState,
+  state: SeirState,
   ts: ITimeSeries,
   fromDay0: number,
   usePerCapita: boolean

@@ -1,12 +1,10 @@
 import { Component, h } from 'preact';
-import { MenuProp } from '../../interfaces';
 import { fullSize } from '../style';
-import { Menu } from '../components/menu';
 import { AboutList } from '../components/about-list';
 import { Strings } from '../../i18n';
+import { MenuContainer } from '../containers/menu/menu-container';
 
 export class About extends Component<{
-  menu: MenuProp;
   strings: Strings;
 }> {
   constructor() {
@@ -122,7 +120,7 @@ export class About extends Component<{
           title={this.props.strings.descriptions.titles.metrics}
           list={definitionsMetrics}
         ></AboutList>
-        <Menu config={this.props.menu}></Menu>
+        <MenuContainer />
       </section>
     );
   }

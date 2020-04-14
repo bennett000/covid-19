@@ -1,4 +1,10 @@
-import { actions, events, reducers } from './confirmed-vs-recent.state';
+import {
+  actions,
+  events,
+  reducers,
+  defaultConfirmedVsRecentState,
+  forceDefaults,
+} from './confirmed-vs-recent.state';
 
 describe('confirmed vs recent', () => {
   describe('toggledConfig', () => {
@@ -12,6 +18,12 @@ describe('confirmed vs recent', () => {
       expect(
         reducer({ isConfigOpen: true } as any, action()).isConfigOpen
       ).toBe(false);
+    });
+  });
+
+  describe('forceDefaults', () => {
+    it('forces an empty object to match the defaults', () => {
+      expect(forceDefaults(undefined)).toEqual(defaultConfirmedVsRecentState);
     });
   });
 });

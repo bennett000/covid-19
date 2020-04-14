@@ -1,36 +1,26 @@
 import { Component, h } from 'preact';
 import { connect } from 'react-redux';
-import { MenuProp, SelectOptionsWithIndex } from '../../../interfaces';
 import {
   flexCol,
   fullSize,
   flex,
   flexItem95,
   flexItem60,
-  highlight,
   styles,
   green,
 } from '../../style';
-import { Menu } from '../../components/menu';
 import { Strings } from '../../../i18n';
 import { Chart } from '../../components/chart';
 import { ButtonToggle } from '../../components/input/button-toggle';
-import { SelectMultipleFilter } from '../../components/input/select-multiple-filter';
-import { Select } from '../../components/input/select';
-import * as countriesState from '../../store/countries';
+import * as countriesState from '../../containers/countries/countries.state';
 import * as confirmedVsRecentState from './confirmed-vs-recent.state';
-import { debounce } from '../../../utility';
 import { JsChartingSeries } from '../../../data/data.interfaces';
+import { CountriesContainer } from '../../containers/countries/countries-container';
+import { MenuContainer } from '../../containers/menu/menu-container';
 
 class BaseConfirmedVsRecent extends Component<{
-  clearCountries: () => any;
-  countries: SelectOptionsWithIndex[];
-  countryFilter: string;
-  countryKeys: string[];
   currentSeries: JsChartingSeries[];
   isConfigOpen: boolean;
-  menu: MenuProp;
-  selectedCountry: (country: string) => any;
   showStates: boolean;
   strings: Strings;
   toggledConfig: () => any;
@@ -43,10 +33,7 @@ class BaseConfirmedVsRecent extends Component<{
   }
 
   render() {
-    const classes =
-      this.props.isConfigOpen === false && this.props.countryKeys.length === 0
-        ? [green]
-        : [];
+    const classes = this.props.isConfigOpen === false ? [green] : [];
     return (
       <section className={`${fullSize} ${flexCol}`}>
         <Chart
@@ -75,29 +62,11 @@ class BaseConfirmedVsRecent extends Component<{
             onClick={this.props.toggledConfig}
             state={this.props.isConfigOpen}
           />
-          <Menu config={this.props.menu}></Menu>
+          <MenuContainer />
         </section>
         {this.props.isConfigOpen ? (
           <section className={`${flex}`}>
-            <SelectMultipleFilter
-              classes={this.props.countryKeys.length === 0 ? [highlight] : []}
-              inputButtonClasses={styles.button}
-              inputSelectClasses={styles.selectBox}
-              inputStringClasses={styles.input}
-              filter={this.props.countryFilter}
-              onUpdateFilter={debounce(this.props.updatedFilter, 100)}
-              onChange={this.props.selectedCountry as any}
-              onClear={this.props.clearCountries}
-              onDeselect={this.props.selectedCountry}
-              options={this.props.countries}
-              selected={this.props.countryKeys}
-            />
-            <Select
-              classes={styles.selectBox}
-              onChange={this.props.toggledShowStates}
-              options={this.props.strings.states}
-              selected={this.props.showStates ? 1 : 0}
-            />
+            <CountriesContainer />
           </section>
         ) : (
           ''
@@ -109,19 +78,12 @@ class BaseConfirmedVsRecent extends Component<{
 
 export const ConfirmedVsRecent = connect(
   state => ({
-    countries: countriesState.select.list(state),
-    countryFilter: countriesState.select.filter(state),
-    countryKeys: countriesState.select.selected(state),
     currentSeries: confirmedVsRecentState.select.currentSeries(state),
     isConfigOpen: confirmedVsRecentState.select.isConfigOpen(state),
     showStates: countriesState.select.showStates(state),
     strings: state.strings,
   }),
   {
-    clearCountries: countriesState.actions.clickedClear,
-    selectedCountry: countriesState.actions.selected,
     toggledConfig: confirmedVsRecentState.actions.toggledConfig,
-    toggledShowStates: countriesState.actions.toggledShowStates,
-    updatedFilter: countriesState.actions.updatedFilter,
   }
 )(BaseConfirmedVsRecent);

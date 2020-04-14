@@ -1,4 +1,10 @@
-import { actions, events, reducers } from './geography.state';
+import {
+  actions,
+  events,
+  reducers,
+  forceDefaults,
+  defaultGeographyState,
+} from './geography.state';
 
 describe('geography', () => {
   describe('updated data set index', () => {
@@ -63,6 +69,12 @@ describe('geography', () => {
 
     it('starts the record at 0 if state is given', () => {
       expect(reducer(inj)(undefined, action()).playRecord).toBe(0);
+    });
+  });
+
+  describe('forceDefaults', () => {
+    it('forces an empty object to match the defaults', () => {
+      expect(forceDefaults(undefined)).toEqual(defaultGeographyState);
     });
   });
 });

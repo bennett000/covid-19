@@ -3,13 +3,11 @@ import { objReduce, isString, noop } from '@ch1/utility';
 
 export type Strings = typeof dl;
 
-export const defaultLanguage = convertJsonToInjectedJson(dl);
-
 export function getLanguage(lang: string) {
   return import(`../i18n/${lang}.json`).then(s => convertJsonToInjectedJson(s));
 }
 
-function convertJsonToInjectedJson(strings: any): Strings {
+export function convertJsonToInjectedJson(strings: any): Strings {
   return objReduce(
     strings,
     (s, node, key) => {

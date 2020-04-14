@@ -1,9 +1,21 @@
 import { deepFreeze, isString, noop } from '@ch1/utility';
 import { Action } from 'redux';
-import { createReducer, spreadPayloadIfNew, toggleProp } from './redux-utility';
+import {
+  createReducer,
+  spreadPayloadIfNew,
+  toggleProp,
+} from '../../store/redux-utility';
 import { createSelector } from 'reselect';
-import { ITimeSeriesCollection } from '../../data/data.interfaces';
-import { filterStates } from '../../utility';
+import { ITimeSeriesCollection } from '../../../data/data.interfaces';
+import { filterStates } from '../../../utility';
+import { SelectOptionsWithIndex } from '../../../interfaces';
+import { Strings } from '../../../i18n';
+import {
+  forceObject,
+  forceString,
+  forceArrayOf,
+  forceBoolean,
+} from '../../state';
 
 export interface ActionCountriesSelected extends Action<string> {
   payload: string | string[];
@@ -16,12 +28,38 @@ export interface ActionCountriesUpdatedFilter extends Action<string> {
 export interface ActionCountriesClickedClear extends Action<string> {}
 export interface ActionCountriesToggledShowStates extends Action<string> {}
 
+export type CountriesProps = CountriesState &
+  CountriesActions & { countries: SelectOptionsWithIndex[]; strings: Strings };
+
 export type CountriesState = typeof defaultCountriesState;
 export const defaultCountriesState = deepFreeze({
   filter: '',
   selected: [] as string[],
   showStates: true,
 });
+
+export const forceDefaults = (value: any): CountriesState =>
+  forceObject(
+    [
+      {
+        prop: 'filter',
+        force: forceString.bind(null, defaultCountriesState.filter),
+      },
+      {
+        prop: 'selected',
+        force: forceArrayOf.bind(
+          null,
+          forceString.bind(null, ''),
+          defaultCountriesState.selected
+        ),
+      },
+      {
+        prop: 'showStates',
+        force: forceBoolean.bind(null, defaultCountriesState.showStates),
+      },
+    ],
+    value
+  );
 
 const selectCountries = (state: {
   timeSeriesCollection: ITimeSeriesCollection;
@@ -65,11 +103,12 @@ export const events = deepFreeze({
   updatedFilter: 'countries/updated_filter',
 });
 
+export type CountriesActions = typeof actions;
 export const actions = {
   clickedClear: () => ({
     type: events.clickedClear,
   }),
-  selected: (payload: string | string[]) => ({
+  selectedCountry: (payload: string | string[]) => ({
     type: events.selected,
     payload,
   }),

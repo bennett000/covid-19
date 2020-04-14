@@ -12,6 +12,13 @@ import {
   defaultStart,
 } from '../../../constants';
 import { selectData } from '../../../data';
+import {
+  forceObject,
+  forceNumber,
+  forceArrayOf,
+  forceBoolean,
+  forceString,
+} from '../../state';
 
 export interface TimeVsCountsAction extends Action<string> {}
 
@@ -25,6 +32,45 @@ export const defaultTimeVsCountsState = deepFreeze({
   startDate: defaultStart,
   usePerCapita: false,
 });
+
+export const forceDefaults = (value: any): TimeVsCountsState =>
+  forceObject(
+    [
+      {
+        prop: 'dataSetIndexes',
+        force: forceArrayOf.bind(
+          null,
+          forceNumber.bind(null, -1),
+          defaultTimeVsCountsState.dataSetIndexes
+        ),
+      },
+      {
+        prop: 'isConfigOpen',
+        force: forceBoolean.bind(null, defaultTimeVsCountsState.isConfigOpen),
+      },
+      {
+        prop: 'mode',
+        force: forceNumber.bind(null, defaultTimeVsCountsState.mode),
+      },
+      {
+        prop: 'scaleType',
+        force: forceNumber.bind(null, defaultTimeVsCountsState.scaleType),
+      },
+      {
+        prop: 'showSeirState',
+        force: forceBoolean.bind(null, defaultTimeVsCountsState.showSeirState),
+      },
+      {
+        prop: 'startDate',
+        force: forceString.bind(null, defaultTimeVsCountsState.startDate),
+      },
+      {
+        prop: 'usePerCapita',
+        force: forceBoolean.bind(null, defaultTimeVsCountsState.usePerCapita),
+      },
+    ],
+    value
+  );
 
 type StoreSlice = { timeVsCounts: TimeVsCountsState };
 

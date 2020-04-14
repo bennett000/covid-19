@@ -46,4 +46,12 @@ describe('data table state', () => {
       });
     });
   });
+
+  describe('forceDefaults', () => {
+    it('forces an empty object to match the defaults', () => {
+      expect(dataTableState.forceDefaults(undefined)).toEqual(
+        dataTableState.defaultDataTableState
+      );
+    });
+  });
 });

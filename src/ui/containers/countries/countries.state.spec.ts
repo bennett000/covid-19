@@ -1,9 +1,15 @@
-import { reducers, events, actions } from './countries';
+import {
+  reducers,
+  events,
+  actions,
+  forceDefaults,
+  defaultCountriesState,
+} from './countries.state';
 
 describe('countries state reducers', () => {
   describe('selected', () => {
     const reducer = reducers[events.selected];
-    const selected = actions.selected;
+    const selected = actions.selectedCountry;
     it('defaults to an empty array', () => {
       expect(reducer(undefined, selected('p')).selected).toEqual(['p']);
     });
@@ -74,6 +80,12 @@ describe('countries state reducers', () => {
     it('returns the same state object if the value has not changed', () => {
       const state: any = { filter: 'foo' };
       expect(reducer(state, updatedFilter('foo'))).toBe(state);
+    });
+  });
+
+  describe('forceDefaults', () => {
+    it('forces an empty object to match the defaults', () => {
+      expect(forceDefaults(undefined)).toEqual(defaultCountriesState);
     });
   });
 });

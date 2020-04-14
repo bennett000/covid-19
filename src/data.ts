@@ -1,7 +1,10 @@
 import { SelectOptionsWithIndex } from './interfaces';
 import { Strings } from './i18n';
 import { CsvNytTimeSeries } from './data/csv/nyt-time-series';
-import { TimeSeriesCollection } from './data/time-series/time-series-collection';
+import {
+  TimeSeriesCollection,
+  ITimeSeriesCollection,
+} from './data/time-series/time-series-collection';
 import { CsvJhuTimeSeries } from './data/csv/jhu-time-series';
 import { TimeSeriesArray } from './data/time-series/time-series-array';
 import { ITimeSeriesArray } from './data/data.interfaces';
@@ -18,13 +21,7 @@ const jhuUrls = [
 const nytUrl =
   'https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-states.csv';
 
-export function fetchData(
-  strings: Strings
-): Promise<{
-  countries: SelectOptionsWithIndex[];
-  dictionary: TimeSeriesCollection;
-  timeSeries: ITimeSeriesArray;
-}> {
+export function fetchData(): Promise<ITimeSeriesCollection> {
   return Promise.all([
     Promise.all(jhuUrls.map(url => fetch(url)))
       .then(unwrapResponses)
@@ -39,8 +36,7 @@ export function fetchData(
     .then(ts => ts.interpolateRecoveriesActiveCasesAndNewProps())
     .then(ts => ts.sumRegions())
     .then(ts => ts.sumWorld())
-    .then(ts => ts.freeze())
-    .then(extractCountries);
+    .then(ts => ts.freeze());
 }
 
 function jhuStringsToCsvs(strings: string[]) {
@@ -53,15 +49,6 @@ function unwrapResponse(response: Response) {
 
 function unwrapResponses(responses: Response[]) {
   return Promise.all(responses.map(unwrapResponse));
-}
-
-function extractCountries(collection: TimeSeriesCollection) {
-  const countries = collection.countries();
-
-  const tsa = TimeSeriesArray.create();
-  collection.forEach(tsc => tsa.push(tsc));
-
-  return { countries, dictionary: collection, timeSeries: tsa };
 }
 
 export function selectData(state: AppState) {

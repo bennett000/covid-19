@@ -6,8 +6,9 @@ export default { component: Menu, title: 'Menu' };
 
 const config = {
   labels: ['One', 'Two', 'Three'],
-  onClick: action('click'),
+  clicked: action('click'),
+  disable: false,
   selected: 1,
 };
 
-export const withSelected = () => <Menu config={config}></Menu>;
+export const withSelected = () => <Menu {...config}></Menu>;

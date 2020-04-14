@@ -1,14 +1,13 @@
 import { Component, h } from 'preact';
 import { connect } from 'react-redux';
 import { ChartMap } from '../../components/map';
-import { Menu } from '../../components/menu';
-import { MenuProp, ITimeSeriesArray } from '../../../interfaces';
-import { usaCode } from '../../../constants';
 import { flexCol, fullSize, flex, styles } from '../../style';
 import { Select } from '../../components/input/select';
 import { Strings } from '../../../i18n';
 import { ButtonToggle } from '../../components/input/button-toggle';
 import * as geographyState from './geography.state';
+import { ITimeSeriesArray } from '../../../data/data.interfaces';
+import { MenuContainer } from '../../containers/menu/menu-container';
 
 type GeographySeries = {
   ranges: { color: string; value: number[] }[];
@@ -20,7 +19,6 @@ type GeographySeries = {
 };
 
 class BaseGeography extends Component<{
-  menu: MenuProp;
   dataSetIndex: number;
   incrementedPlayRecord: () => any;
   isPlaying: boolean;
@@ -172,7 +170,7 @@ class BaseGeography extends Component<{
             onClick={this.togglePlay.bind(this)}
             state={this.props.isPlaying}
           ></ButtonToggle>
-          <Menu config={this.props.menu}></Menu>
+          <MenuContainer />
         </section>
       </section>
     );

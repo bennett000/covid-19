@@ -1,7 +1,10 @@
 import { h } from 'preact';
 import { action } from '@storybook/addon-actions';
 import { InputSeir } from './seir';
-import { defaultLanguage as strings } from '../../i18n';
+import { convertJsonToInjectedJson } from '../../i18n';
+import dl from '../../../i18n/en.json';
+
+const strings = convertJsonToInjectedJson(dl);
 
 export default { component: InputSeir, title: 'InputSeir' };
 

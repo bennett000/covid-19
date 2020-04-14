@@ -1,10 +1,6 @@
 import { Component, h } from 'preact';
 import { connect } from 'react-redux';
-import {
-  TimeVsCountsState,
-  SelectOptionsWithIndex,
-  MenuProp,
-} from '../../../interfaces';
+import { TimeVsCountsState, SelectOptionsWithIndex } from '../../../interfaces';
 import { Chart } from '../../components/chart';
 import {
   flexCol,
@@ -17,14 +13,14 @@ import {
 } from '../../style';
 import { TimeVsCountsControls } from './time-vs-counts-controls';
 import { ButtonToggle } from '../../components/input/button-toggle';
-import { Menu } from '../../components/menu';
 import { Strings } from '../../../i18n';
 import { Button } from '../../components/input/button';
 import { JsChartingSeries } from '../../../data/data.interfaces';
-import * as countriesState from '../../store/countries';
+import * as countriesState from '../../containers/countries/countries.state';
 import * as timeVsCountsState from './time-vs-counts.state';
 import * as seirState from '../../containers/seir/seir.state';
 import { SeirContainer } from '../../containers/seir/seir-container';
+import { MenuContainer } from '../../containers/menu/menu-container';
 
 class BaseTimeVsCount extends Component<{
   clearCountries: () => any;
@@ -34,7 +30,6 @@ class BaseTimeVsCount extends Component<{
   currentSeries: JsChartingSeries[];
   dataSetIndexes: number[];
   isConfigOpen: boolean;
-  menu: MenuProp;
   mode: number;
   reload: () => any;
   scaleType: number;
@@ -124,7 +119,7 @@ class BaseTimeVsCount extends Component<{
             onClick={this.props.toggledConfig}
             state={this.props.isConfigOpen}
           />
-          <Menu config={this.props.menu}></Menu>
+          <MenuContainer />
         </section>
         {this.props.isConfigOpen ? (
           this.props.showSeirState ? (
@@ -149,25 +144,18 @@ class BaseTimeVsCount extends Component<{
             </div>
           ) : (
             <TimeVsCountsControls
-              clearCountries={this.props.clearCountries}
-              countries={this.props.countries}
-              countryFilter={this.props.countryFilter}
-              countryKeys={this.props.countryKeys}
               currentSeries={this.props.currentSeries}
               dataSetIndexes={this.props.dataSetIndexes}
               mode={this.props.mode}
               reload={this.props.reload}
               scaleType={this.props.scaleType}
-              selectedCountry={this.props.selectedCountry}
               selectedDataSets={this.props.selectedDataSets}
               selectedDate={this.props.selectedStartDate}
               selectedMode={this.props.selectedMode}
               selectedScaleType={this.props.selectedScaleType}
-              showStates={this.props.showStates}
               strings={this.props.strings}
               toggledPerCapita={this.props.toggledPerCapita}
               toggledShowSeirState={this.props.toggledShowSeirState}
-              toggledShowStates={this.props.toggledShowStates}
               updatedCountryFilter={this.props.updatedCountryFilter}
               usePerCapita={this.props.usePerCapita}
               ymdStartDate={this.props.ymdStartDate}
@@ -199,7 +187,7 @@ export const TimeVsCount = connect(
   }),
   {
     clearCountries: countriesState.actions.clickedClear,
-    selectedCountry: countriesState.actions.selected,
+    selectedCountry: countriesState.actions.selectedCountry,
     selectedDataSets: timeVsCountsState.actions.selectedDataSets,
     selectedStartDate: timeVsCountsState.actions.selectedStartDate,
     selectedMode: timeVsCountsState.actions.selectedMode,

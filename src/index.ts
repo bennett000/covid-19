@@ -1,6 +1,6 @@
 import { render } from './ui/app-ui';
 import { getSavedLanguage } from './ui/state';
-import { defaultLanguage, getLanguage } from './i18n';
+import { getLanguage } from './i18n';
 import { fetchData } from './data';
 import { fullSize } from './ui/style';
 
@@ -9,8 +9,8 @@ main();
 function main() {
   const lang = getSavedLanguage() || 'en';
 
-  return Promise.all([fetchData(defaultLanguage), getLanguage(lang)])
-    .then(([{ dictionary }, strings]) => {
+  return Promise.all([fetchData(), getLanguage(lang)])
+    .then(([collection, strings]) => {
       const section = window.document.createElement('section');
       if (!section) {
         throw new Error('could not create element');
@@ -18,7 +18,7 @@ function main() {
       section.className = fullSize;
       hideSpinner();
       window.document.body.appendChild(section);
-      return render(section, dictionary, strings);
+      return render(section, collection, strings);
     })
     .catch(fail);
 }

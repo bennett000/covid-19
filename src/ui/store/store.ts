@@ -4,32 +4,19 @@ import {
   createStore as createReduxStore,
   combineReducers,
 } from 'redux';
-import { createReducerCountry, CountriesState } from './countries';
 import { deepFreeze, objEach, isFunction } from '@ch1/utility';
 import { ITimeSeriesCollection } from '../../data/data.interfaces';
 import { Strings } from '../../i18n';
-import { createReducerRouter, routerMiddleware, RouterState } from './router';
+// container slices
+import * as countries from '../containers/countries/countries.state';
+import * as router from './router';
+import * as seir from '../containers/seir/seir.state';
 // features
-import {
-  createReducerConfirmedVsRecent,
-  ConfirmedVsRecentState,
-} from '../features/confirmed-vs-recent/confirmed-vs-recent.state';
-import {
-  createReducerGeography,
-  GeographyState,
-} from '../features/geography/geography.state';
-import {
-  createReducerTimeVsCounts,
-  TimeVsCountsState,
-} from '../features/time-vs-counts/time-vs-counts.state';
-import {
-  SeirState,
-  createReducerSeirState,
-} from '../containers/seir/seir.state';
-import {
-  DataTableState,
-  createReducerDataTable,
-} from '../features/data-table/data-table.state';
+import * as confirmedVsRecent from '../features/confirmed-vs-recent/confirmed-vs-recent.state';
+import * as geography from '../features/geography/geography.state';
+import * as timeVsCounts from '../features/time-vs-counts/time-vs-counts.state';
+import * as dataTable from '../features/data-table/data-table.state';
+import { loadState, saveState, forceObject } from '../state';
 
 declare var PRODUCTION: boolean;
 if (!PRODUCTION) {
@@ -43,15 +30,15 @@ const composeEnhancers = PRODUCTION
     compose;
 
 export interface AppState {
-  confirmedVsRecent: ConfirmedVsRecentState;
-  countries: CountriesState;
-  dataTable: DataTableState;
-  geography: GeographyState;
-  router: RouterState;
-  seir: SeirState;
+  confirmedVsRecent: confirmedVsRecent.ConfirmedVsRecentState;
+  countries: countries.CountriesState;
+  dataTable: dataTable.DataTableState;
+  geography: geography.GeographyState;
+  router: router.RouterState;
+  seir: seir.SeirState;
   strings: Strings;
   timeSeriesCollection: ITimeSeriesCollection;
-  timeVsCounts: TimeVsCountsState;
+  timeVsCounts: timeVsCounts.TimeVsCountsState;
 }
 
 export function createStore(injectable: {
@@ -59,24 +46,50 @@ export function createStore(injectable: {
   timeSeriesCollection: ITimeSeriesCollection;
 }) {
   const rootReducer = combineReducers({
-    confirmedVsRecent: createReducerConfirmedVsRecent(injectable),
-    countries: createReducerCountry(injectable),
-    dataTable: createReducerDataTable(injectable),
-    geography: createReducerGeography(injectable),
-    router: createReducerRouter(injectable),
-    seir: createReducerSeirState(injectable),
+    confirmedVsRecent: confirmedVsRecent.createReducerConfirmedVsRecent(
+      injectable
+    ),
+    countries: countries.createReducerCountry(injectable),
+    dataTable: dataTable.createReducerDataTable(injectable),
+    geography: geography.createReducerGeography(injectable),
+    router: router.createReducerRouter(injectable),
+    seir: seir.createReducerSeirState(injectable),
     strings: () => injectable.strings, // frozen object with all strings
     timeSeriesCollection: () => injectable.timeSeriesCollection, // frozen object from which much state is derived
-    timeVsCounts: createReducerTimeVsCounts(injectable),
+    timeVsCounts: timeVsCounts.createReducerTimeVsCounts(injectable),
   });
+
+  const forceState = (value: any) =>
+    forceObject(
+      [
+        { prop: 'confirmedVsRecent', force: confirmedVsRecent.forceDefaults },
+        { prop: 'countries', force: countries.forceDefaults },
+        { prop: 'dataTable', force: dataTable.forceDefaults },
+        { prop: 'geography', force: geography.forceDefaults },
+        { prop: 'router', force: router.forceDefaults },
+        { prop: 'seir', force: seir.forceDefaults },
+        { prop: 'timeVsCounts', force: timeVsCounts.forceDefaults },
+      ],
+      value
+    );
+
+  const loadedState: AppState = {
+    ...loadState(forceState),
+    strings: injectable.strings,
+    timeSeriesCollection: injectable.timeSeriesCollection,
+  };
 
   return createReduxStore(
     rootReducer,
-    undefined,
+    loadedState,
     composeEnhancers(
       PRODUCTION
-        ? applyMiddleware(routerMiddleware)
-        : applyMiddleware(freezer, routerMiddleware)
+        ? applyMiddleware(localStorageMiddleware, router.routerMiddleware)
+        : applyMiddleware(
+            freezer,
+            localStorageMiddleware,
+            router.routerMiddleware
+          )
     )
   );
 }
@@ -102,4 +115,12 @@ export function freezeProps(state) {
   objEach(state, (value, prop) => {
     state[prop] = deepFreeze(value);
   });
+}
+
+export function localStorageMiddleware(store) {
+  return next => action => {
+    const result = next(action);
+    saveState(store.getState());
+    return result;
+  };
 }

@@ -5,10 +5,11 @@ import { Seir } from '../../../seir';
 import { defaultDaysToProject } from '../../../constants';
 import { camelToSnake, capitalizeFirst } from '../../../utility';
 import { Strings } from '../../../i18n';
+import { forceObject, forceNumber } from '../../state';
 
 export type SeirProps = SeirActions & SeirSelectors;
 
-export interface SeirSelectors {
+export interface SeirState {
   daysToProject: number;
   r0: number;
   incubationPeriod: number;
@@ -19,6 +20,8 @@ export interface SeirSelectors {
   recoveryTimeForMildCases: number;
   hospitalizationRate: number;
   timeFromIncubationToHospital: number;
+}
+export interface SeirSelectors extends SeirState {
   strings: Strings;
 }
 
@@ -49,6 +52,7 @@ const floatGt0 = (value: number | string, min = 0.1) => {
   }
   return min;
 };
+
 const reducerDesc = deepFreeze({
   daysToProject: {
     defaultValue: defaultDaysToProject,
@@ -94,23 +98,37 @@ const reducerDesc = deepFreeze({
 
 export const camelProp = (prop: string) => 'updated' + capitalizeFirst(prop);
 
-export type SeirState = typeof defaultSeirState;
 export const defaultSeirState = deepFreeze(
   objReduce(
     reducerDesc,
-    (state, value, prop) => {
-      state[prop] = value;
+    (state, value, prop: keyof SeirState) => {
+      state[prop] = value.defaultValue;
       return state;
     },
     {}
   )
 );
+export const forceDefaults = (value: any): SeirState =>
+  forceObject(
+    objReduce(
+      reducerDesc,
+      (arr, _, prop) => {
+        arr.push({
+          prop,
+          force: forceNumber.bind(null, defaultSeirState[prop]),
+        });
+        return arr;
+      },
+      []
+    ),
+    value
+  );
 
 type StoreSlice = { timeVsCounts: SeirState };
 
 const numericSelectors = objReduce(
   defaultSeirState,
-  (dict, _, prop) => {
+  (dict, _, prop: keyof SeirState) => {
     dict[prop] = (state: StoreSlice) => state[prop];
     return dict;
   },
@@ -159,7 +177,7 @@ const numericreducers = objReduce(
   defaultSeirState,
   (dict, _, prop: keyof SeirState) => {
     const event = events[camelProp(prop)];
-    dict[event] = spreadPayloadIfNew(defaultSeirState, prop);
+    dict[event] = spreadPayloadIfNew(defaultSeirState as SeirState, prop);
     return dict;
   },
   {}

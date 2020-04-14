@@ -1,13 +1,15 @@
 import { h } from 'preact';
 import { flex, styles } from '../style';
 import { Button } from './input/button';
-import { MenuProp } from '../../interfaces';
 
-export function Menu({
-  config: { disable, labels, onClick, selected },
-}: {
-  config: MenuProp;
-}) {
+export interface MenuProps {
+  disable: boolean;
+  labels: string[];
+  clicked: (value: number) => any;
+  selected: number;
+}
+
+export function Menu({ disable, labels, clicked, selected }: MenuProps) {
   return (
     <nav className={flex}>
       {labels.map((label, i) => {
@@ -16,7 +18,7 @@ export function Menu({
             classes={styles.button}
             isDisabled={i === selected || disable}
             label={label}
-            onClick={() => onClick(i)}
+            onClick={() => clicked(i)}
           ></Button>
         );
       })}

@@ -3,54 +3,39 @@ import { Select } from '../../components/input/select';
 import { SelectMultiple } from '../../components/input/select-multiple';
 import { InputDate } from '../../components/input/date';
 import { Button } from '../../components/input/button';
-import { flex, flexCol, flexItem20, highlight, styles } from '../../style';
-import { SelectOptionsWithIndex } from '../../../interfaces';
-import { SelectMultipleFilter } from '../../components/input/select-multiple-filter';
+import { flex, flexCol, flexItem20, styles } from '../../style';
 import { Strings } from '../../../i18n';
 import { JsChartingSeries } from '../../../data/data.interfaces';
+import { CountriesContainer } from '../../containers/countries/countries-container';
 
 export function TimeVsCountsControls({
-  clearCountries,
-  countries,
-  countryFilter,
-  countryKeys,
   dataSetIndexes,
   mode,
   reload,
   scaleType,
-  selectedCountry,
   selectedDataSets,
   selectedDate,
   selectedMode,
   selectedScaleType,
-  showStates,
   strings,
   toggledPerCapita,
   toggledShowSeirState,
-  toggledShowStates,
   updatedCountryFilter,
   usePerCapita,
   ymdStartDate,
 }: {
-  clearCountries: () => any;
-  countries: SelectOptionsWithIndex[];
-  countryFilter: string;
-  countryKeys: string[];
   currentSeries: JsChartingSeries[];
   dataSetIndexes: number[];
   mode: number;
   reload: () => any;
   scaleType: number;
-  selectedCountry: (country: string) => any;
   selectedDataSets: (dataSetIndexes: any[]) => any;
   selectedDate: (date: string) => any;
   selectedMode: (mode: number) => any;
   selectedScaleType: (mode: number) => any;
-  showStates: boolean;
   strings: Strings;
   toggledPerCapita: () => any;
   toggledShowSeirState: () => any;
-  toggledShowStates: () => any;
   updatedCountryFilter: (filter: string) => any;
   usePerCapita: boolean;
   ymdStartDate: string;
@@ -111,26 +96,8 @@ export function TimeVsCountsControls({
         options={dataSets}
         selected={dataSetIndexes}
       />
-      <SelectMultipleFilter
-        classes={countryKeys.length === 0 ? [highlight] : []}
-        inputButtonClasses={styles.button}
-        inputSelectClasses={styles.selectBox}
-        inputStringClasses={styles.input}
-        filter={countryFilter}
-        onUpdateFilter={updatedCountryFilter}
-        onChange={selectedCountry as any}
-        onClear={clearCountries}
-        onDeselect={selectedCountry}
-        options={countries}
-        selected={countryKeys}
-      />
+      <CountriesContainer />
       <div className={flexCol}>
-        <Select
-          classes={styles.selectBox}
-          onChange={toggledShowStates}
-          options={showStatesString}
-          selected={showStates ? 1 : 0}
-        />
         <Select
           classes={styles.selectBox}
           onChange={toggledPerCapita}
